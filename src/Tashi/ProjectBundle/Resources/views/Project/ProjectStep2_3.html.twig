@@ -1,0 +1,36 @@
+<input type="button" class="button" value="Back" onclick="stepper('Select Project Items','2');"/><br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <td class="td-label-title" colspan="3">Select Site Co-ordinator<span class="mandatoryField">*</span>
+            <select name="selCoordinator" id="selCoordinator">
+                <option value="">--select--</option>
+                {%for emp in empArr%}
+                    <option value="{{emp.employeePk}}">{{emp.personFk.personName|upper}} ({{emp.empJobTitleFk.jobTitleName}})</option>
+                {%endfor%}
+            </select></td>
+    </tr>
+</table>
+            <br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <td colspan="3" class="td-label-title">
+            Select Project Category
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg" width="200px"> Project Area</td>
+        <td class="td-white-bg" width="210px">
+            <select name="selProjectCat" id="selProjectCat" class="cmnWidth">
+                <option value="">--select</option>
+                {%for area in areaArr%}
+                    <option value="{{path("_projectitems",{'areaid':area.pkid})}}&{{area.pkid}}">{{area.area}}</option>
+                {%endfor%}
+            </select>
+        </td>
+        <td class="td-white-bg" align="left">
+            <input type="button" class="button" value="Load Items" onclick="LoadProjItems();"/>
+        </td>
+    </tr>
+</table>
+            
+<div id="divItemList"></div>

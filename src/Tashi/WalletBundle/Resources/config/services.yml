@@ -1,0 +1,7 @@
+parameters:
+   
+    tashi.service.wallet.class: Tashi\WalletBundle\Service\WalletService
+services:
+    tashi.wallet.service:
+        class:     "%tashi.service.wallet.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"] 

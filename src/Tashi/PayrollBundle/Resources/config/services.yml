@@ -1,0 +1,11 @@
+parameters:
+    tashi.service.payroll.class : Tashi\PayrollBundle\Service\PayrollService
+
+services:
+    tashi.payroll.service:
+        class:     "%tashi.service.payroll.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service","@mailer","@knp_snappy.pdf",@twig]
+    swiftmailer.command.spool_send:
+        class: Symfony\Bundle\SwiftmailerBundle\Command\SendEmailCommand
+        calls:
+            - [ setContainer, ["@service_container"] ]

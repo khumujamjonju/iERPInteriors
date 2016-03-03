@@ -1,0 +1,6 @@
+{# hidden value to store just now created employee ID #}
+    <input type="hidden" id="empID" value="{{empID | default('')}}" />  
+    <div id="employee_office">
+        <script type="text/javascript"> loadEmpDetails('{{path('_new_employee_detail')}}', '#employee_office', 2); </script>
+    </div>
+   

@@ -1,0 +1,68 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >  
+    <tr>
+        <td class="td-label-title">Purchase Order Detail</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="td-gray-bg">PO Number:</td>
+                    <td class="td-white-bg">{{po.uiOrderId}}
+                        <input type="hidden" name="inputPoNumer" id="inputPoNumer" value="{{po.uiOrderId}}">
+                         <input type="hidden" name="inputPoid" value="{{po.poPk}}">
+                    </td>
+                    <td class="td-gray-bg">Supplier</td>
+                        {%set supplier=po.vendorMasterFk%}
+                    <td class="td-white-bg" align="left">{{supplier.companyName}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Order Date</td>
+                    <td class="td-white-bg">{{po.orderDate|date('d M,Y')}}</td>
+                    <td class="td-gray-bg">Expected Delivery Date</td>
+                    <td class="td-white-bg">{{po.expectedDelivery|date('d M,Y')}}</td>
+                </tr>                
+            </table>
+        </td>
+    </tr>
+</table>
+    <br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('PrdList');" style="cursor:pointer;">Product(s)   
+            <input id="spanCloseOpenHandlerPrdList" value="0" type="hidden"/>
+                        <span style="float: right;" onclick="lmsShowHideAddressResult('PrdList');" id="spanIdPrdList" class="span_open" >&nbsp;</span>
+        </td>
+    </tr>
+    <tr id="trAddressPrdList">
+        <td style="padding:5px;">
+            <table width="100%" align="center" id="example" cellspacing="0">  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg">PRODUCT CODE</th>
+                        <th class="tbl-th-grid-view-row-no-bg">PRODUCT NAME</th>
+                        <th class="tbl-th-grid-view-row-no-bg">PRODUCT DESCRIPTION</th> 
+                        <th class="tbl-th-grid-view-row-no-bg" align="right">QUOTED PRICE</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">QUANTITY</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">ACTION</th> 
+                    </tr>
+                </thead>
+                <tbody>  
+                    {%for prd in productArr%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{prd.productFk.productCode|default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{prd.productFk.productName|default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{prd.productFk.productDesc|default('')}}</td>  
+                            <td class="tbl-grid-view-row-no-bg" align="right">{{prd.quotedPrice|number_format('2','.')}}</td>   
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{prd.quantity|default('')}}</td>  
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <input type="button" class="button" value="ADD" onclick="setProductCode('{{prd.productFk.productCode}}');">
+                            </td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+                            <br/>
+    

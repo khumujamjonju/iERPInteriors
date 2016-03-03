@@ -1,0 +1,46 @@
+<p>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Create New Fields Of Emolument Or Deduction</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmEmolumentDeduction" style="margin: 0px;">
+                        <table id="emolumentDeductionTbl" width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg">Name(Emolument Or Deduction) <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="emolument_or_deduction_name" name="txt_emolument_or_deduction_name"/>                                     
+                                </td>
+                            </tr>   
+                            <tr>
+                                <td class="td-gray-bg">Select Type <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <select class="select-width" id="field_type" name="txt_field_type">   
+                                        <option value="">--select--</option>
+                                        <option value="Emolument">Emolument</option>
+                                        <option value="Deduction">Deduction</option>
+                                    </select>                                     
+                                </td>                                                                                        
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Description</td>
+                                <td class="td-white-bg">
+                                    <textarea id="description" name="txt_description" cols="50" rows="4"></textarea>                                     
+                                </td>                                                                                        
+                            </tr>
+                            <tr>
+                                <td class="td-separator td-white-bg" colspan="2" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveEmolumentDeductionMaster(this, 'popUpForm','{{ path('_save_emolument_deduction_master')}}');"/>                                                          
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>  
+                            </tr>
+                        </table>
+                             <input type="hidden" id="emolument_or_deduction_id"  name="txt_emolument_or_deduction_id" value=""/>
+                    </form>                               
+                </td>
+            </tr> 
+        </table>
+</p>
+
+<div id="popup_form_message"></div>

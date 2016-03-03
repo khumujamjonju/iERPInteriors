@@ -1,0 +1,131 @@
+ 
+<div class="bank_detials"> 
+    <div id="emp_bank_details_list" style=" margin-bottom: 10px;">
+          {#this hidden input is hide/show key#}
+         <input type="hidden" value="0" class="emp_bank_detail_hide_show_key"/>
+        <table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">            
+            <tr onclick="fnHideShow('emp_bank_detail');">
+                <td class="td-label-title">
+                      {# div is hide/show icon#}
+                    Address Details: <div class="emp_bank_detail_hide_show_icon floatRight plus"></div>
+                </td>
+            </tr>
+            <tr class="emp_bank_detail displayNone">
+                <td>                    
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                        <thead class="">
+                            <tr>
+                                <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Bank Name</th> 
+                                <th class="tbl-th-grid-view-row-no-bg">Branch Name</th> 
+                                <th class="tbl-th-grid-view-row-no-bg">Account Type</th> 
+                                <th class="tbl-th-grid-view-row-no-bg">Account Number</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Location</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for a in empBankDetail %}
+                                <tr>                                   
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ a.bankMasterFk.bankName|default('') }} </td> 
+                                    <td class="tbl-grid-view-row-no-bg" align="center"> {{ a.bankMasterFk.branchName|default('') }} </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center"> {{ a.bankMasterFk.accountTypeMasterFk.accTypeName|default('') }} </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ a.bankMasterFk.accountNumber|default('') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ a.bankMasterFk.location|default('') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                        <a href="javascript:void();" onclick="retriveBankDetails('{{ path('_retrive_employee_bank_details', {'bankMasterID': a.bankMasterFk.bankPk|default('')}) }}', this);">Edit</a> | 
+                                        <a href="javascript:void();"  style="color:#ff0000;" onclick="deleteBankDetails('{{ path('_delete_employee_bank_details', {'bankMasterID': a.bankMasterFk.bankPk|default('')}) }}', this);">Delete</a>
+                                    </td>                                                 
+                                </tr>                    
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>                                 
+        </table>
+    </div>
+    <div id="add_bank_btn_div" style="margin-left: 5px;"> 
+        <input type="button" class="button blue" id="add_contact_btn" value="Add Bank Details" onclick="showHideBtnOrForm(this,'bank_detail_from_div');"/> 
+    </div>
+    <div id="bank_detail_from_div" style="display: none; ">
+       <form id="emp_bank_details_frm">
+        <input type="hidden" value="0" class="emp_bank_detail_form_hide_show_key"/>
+        <table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">               
+            <tr onclick="fnHideShow('emp_bank_detail_form');">
+                <td class="td-label-title">                      
+                     Address Details: <div class="emp_bank_detail_form_hide_show_icon floatRight plus"></div>
+                </td>
+            </tr>
+            <tr class="emp_bank_detail_form displayNone">
+                <td>
+                    <table width="100%" align="center" cellpadding="0" cellspacing="0">                                                                                                                                            
+                        <tr>
+                            <td class="td-gray-bg">Name Of Bank<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"><input class="cmnWidth" type="text" id="bank_name" name="txt_bank_name"/>                                    
+                            </td>
+                            <td class="td-gray-bg">Branch Name<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"> 
+                                <input class="cmnWidth" type="text" id="branch_Name" name="txt_branch_name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Branch Code<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"><input class="cmnWidth" type="text" id="branch_code" name="txt_branch_code"/>                                    
+                            </td>
+                            <td class="td-gray-bg">Select Account Type<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"> 
+                                <select class="cmnWidth" id="account_type" name="txt_account_type">
+                                    <option value="">--select--</option>
+                                   {% for a in bankAccType %}
+                                     <option value="{{ a.bankAccTypePk }}"> {{ a.accTypeName }} </option>
+                                   {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">MICR Code</td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="micr_code" name="txt_micr_code"/>                                    
+                            </td>
+                            <td class="td-gray-bg">IFSC Code</td>
+                            <td class="td-white-bg"> 
+                                <input class="cmnWidth" type="text" id="ifsc_code" name="txt_ifsc_code"/>
+                            </td>
+                        </tr>
+                        <tr>                            
+                            <td class="td-gray-bg">Account Number<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"><input class="cmnWidth" type="text" id="account_no" name="txt_account_no">  </td> 
+                            <td class="td-gray-bg">Contact No</td>
+                            <td class="td-white-bg">  <input class="cmnWidth" type="text" id="contact_no" name="txt_contact_no" onKeypress="return validationDigit('#account_no');">  </td>
+                        </tr> 
+                        <tr>
+                            <td class="td-gray-bg">Location<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">  
+                                <textarea id="location" name="txt_location" cols="40" rows="4"></textarea>  
+                                <td class="td-gray-bg">Upload Bank Passbook Photo</td>
+                                <td class="td-white-bg">  <input class="cmnWidth" type="file" id="photoPassbook" name="photoPassbook">  </td>
+                            </td>                                                                 
+                        </tr> 
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Save" onclick="saveEmpBankDetails('{{path('_save_employee_bank_details')}}', this);"/>
+                                <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editBankDetailsFields(this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_update" value="Update" onclick="saveEmpBankDetails('{{path('_save_employee_bank_details')}}', this);"  style="display: none;"/>              
+                                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="showHideBtnOrForm(this,'add_bank_btn_div'); clearAllfields(this);" />
+                            </td>  
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <input type="hidden" id="bankDetaiID" name="txt_bank_detail_id" value=""/>  
+       </form>
+    </div>
+   {# firstly show table #}
+       <script type="text/javascript">
+         fnHideShow('emp_bank_detail');   
+         fnHideShow('emp_bank_detail_form');
+      </script>
+</div>

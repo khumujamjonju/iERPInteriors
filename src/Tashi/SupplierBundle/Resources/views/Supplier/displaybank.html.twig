@@ -1,0 +1,40 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+        <tr>
+            <td class="td-label-title">Bank Details List:</td>
+        </tr>
+        <tr>
+            <td>
+                <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                    <thead class="">
+                        <tr>
+                            <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Bank Name</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">Branch Name</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">Account Type</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">Account Number</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Location</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                        </tr>
+                    </thead>
+                    <tbody>                           
+
+              {%for r in bankdetails.result | default('') %}
+                        <tr>                                   
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ r.bankFk.bankName|default('') }} </td> 
+                            <td class="tbl-grid-view-row-no-bg" align="center"> {{ r.bankFk.branchName|default('') }} </td>
+                            <td class="tbl-grid-view-row-no-bg" align="center"> {{ r.bankFk.accountTypeMasterFk.accTypeName|default('') }} </td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ r.bankFk.accountNumber|default('') }}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ r.bankFk.location|default('') }}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <a href="javascript:void();" onclick="RetriveSupBankDetails('{{ path('_retrive_supplier_bank',{'bankid': r.bankFk.bankPk})}}');">Edit</a> | 
+                                <a href="javascript:void();" style="color:red;" onclick="deleteSupplierBankDetails('{{ path('_delete_Bank_Detail',{'bankid': r.bankFk.bankPk})}}');">Delete</a>
+                            </td>                                                 
+                        </tr>                    
+              {%endfor%}
+
+                    </tbody>
+                </table>
+            </td>
+        </tr>                                 
+    </table>

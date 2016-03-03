@@ -1,0 +1,40 @@
+<table width="100%" border="0" class="tbl-border" cellpadding="0" cellspacing="0">           
+    <tr>
+    <input id="spanCloseOpenHandlerbuildinglist" value="0" type="hidden">
+    <td class="td-label-title" onclick="lmsShowHideAddressResult('buildinglist');">Building List
+        <span style="float: right;" onclick="lmsShowHideAddressResult('buildinglist');" id="spanIdbuildinglist" class="span_open" >&nbsp;</span>        
+    </td>
+    </tr>
+    <tr id="trAddressbuildinglist">
+        <td>
+            <table id="example" width="100%" align="center" id="example2" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg">#</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Building Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Address</th>                      
+                        <th class="tbl-th-grid-view-row-no-bg">Use Building</th> 
+                    </tr>
+                </thead>
+                <tbody>  
+                    {%for i in range(0,buildingArr['bid']|length-1)%}      
+                        {%set bid=buildingArr['bid'][i]%}
+                        {%set bname=buildingArr['bname'][i]%}
+                        {%set add=buildingArr['address'][i]%}                        
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{i+1}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{bname}}
+                                <input type="hidden" name="inputbuildingId" value="{{bid}}">
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{add|raw}}</td>             
+                                <td class="tbl-grid-view-row-no-bg" align="center">                           
+                                    <input class="button" onclick="selectbuilding();" type="button" id="btn_go" value="Select">                                                              
+                                </td>
+                            </tr>
+                        {%set i=i+1%}
+                    {%endfor%}
+                </tbody>
+            </table>
+        </td>
+        </tr> 
+    </table>

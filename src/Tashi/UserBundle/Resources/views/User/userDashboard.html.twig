@@ -1,0 +1,51 @@
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Setting</h3>
+        <div id="newmenu">
+            <ul> 
+                <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_userdashboard')}}', 'user_a', 'User  Management', 'Dashboard');"><a href="javascript:void();" >Dashboard</a></li>                                         
+                <li id="group_li" onclick="fnLeftMenuNavigation('{{path('_gotoaddusergroup')}}', 'group_li','User Management','Manage User Group');"><a href="javascript:void();">Manage Group</a></li>
+                <li id="account_li" onclick="fnLeftMenuNavigation('{{path('_createaccountpage')}}', 'account_li','User Management','Manage User Account');"><a href="javascript:void();">Manage User Account</a></li>                
+                <li id="activity" onclick="fnLeftMenuNavigation('{{path('_activityassign')}}', 'activity','User Management','Assign Group Activity');"><a href="javascript:void();">Assign Group Activity </a></li>
+                <li id="group_assign" onclick="fnLeftMenuNavigation('{{path('_assignusergroup')}}', 'group_assign','User Management','Assign User Group');"><a href="javascript:void();">Assign User Group</a></li>
+              {#  <li id="search" onclick="fnLeftMenuNavigation('{{path('_searchactivity')}}', 'search','User Management','Search Activiy');"><a href="javascript:void();">Search Activity</a></li>
+           #}</ul> 
+        </div>       
+    </div>         
+</div>
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'><a href="javascript:void();"><span>Dashboard</span></a></li>              
+        </ul>             
+    </div>
+    <div class="newdashboard">        
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_gotoaddusergroup')}}', 'group_li','Setting', 'Manage Module','Add Module');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/group128.png') }}">
+                <span style="color:#000;font-weight: bold;  font-size: 12px; font-family: arial; text-decoration: underline; text-align: left;">Manage Group</span> <br/>        
+                User group categorizes users and accordingly give access to respective module  
+            </p>
+        </div>
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_createaccountpage')}}', 'account_li','User Management','Manage User Account');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/user128.png') }}">
+                <span style="color:#000;font-weight: bold;  font-size: 12px; font-family: arial; text-decoration: underline; text-align: left;">Manage User Account</span> <br/>        
+                User group categorizes users and accordingly give access to respective module  
+            </p>
+        </div>
+             <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_activityassign')}}', 'group_li','Setting', 'Manage Module','Add Module');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/assign.png') }}">
+                <span style="color:#000;font-weight: bold;  font-size: 12px; font-family: arial; text-decoration: underline; text-align: left;">
+                Assign Group Activity</span> <br/>        
+                assigning group activity for particular user.  
+            </p>
+        </div>
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_assignusergroup')}}', 'account_li','User Management','Manage User Account');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/usergroup.png') }}">
+                <span style="color:#000;font-weight: bold;  font-size: 12px; font-family: arial; text-decoration: underline; text-align: left;">
+                Assign User Group</span> <br/>        
+                assigning group for users 
+            </p>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="datePickerImage" value="{{asset('bundles/common/images/calendar.png') }}" />

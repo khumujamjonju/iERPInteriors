@@ -1,0 +1,142 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active' onclick="fnLeftMenuNavigation('{{path('_approved_salary_slip')}}', 'apprv_sal_slip', 'Payroll', 'Approved Salary Slip');"><a id="asset_register" >Approval Wages</a></li>               
+    </ul>
+</div>
+<div class="newdashboard"> 
+    <div class="application-form">        
+        <div class="approval_list">         
+                <input type="hidden" value="0" class="approval_salary_slip_hide_show_key"/>
+                <form id="frmApprovalWage">
+                <table id="worker_wage_approval_tbl" width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+                    <tr onclick="fnHideShow('approval_salary_slip');">
+                        <td class="td-label-title">
+                            <span>Pending Approval List Of Created Wages :</span>  
+                            <div class="approval_salary_slip_hide_show_icon floatRight plus"></div>
+                        </td>
+                    </tr>
+                    <tr class="approval_salary_slip displayNone">
+                        <td class="td-cmn-white-bg">
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr>
+                                        <th class="tbl-th-grid-view-row-no-bg"><input type="checkbox" class="checkAll" onclick="checkUncheckAll(this);" /></th>
+                                        <th class="tbl-th-grid-view-row-no-bg">ID</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Name</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Wage Type</th>                                   
+                                        <th class="tbl-th-grid-view-row-no-bg">Wage</th> 
+                                        <th class="tbl-th-grid-view-row-no-bg">Created On</th> 
+                                        <th class="tbl-th-grid-view-row-no-bg">Working Date</th>   
+                                        <th class="tbl-th-grid-view-row-no-bg">Description</th>   
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>   
+                                  {%set recordFlag = 0%}
+                                  {% for s in createdWorkerWage|default('') %} 
+                                      <tr id="salarySlipInfo{{s.salarySlipPk|default('')}}">
+                                          <td class="tbl-grid-view-row-no-bg" align="center">
+                                              <input type="checkbox" class="select_adv_pay" name="txt_selected_wages" value="{{ s.pkid|default('') }}" onclick="checkNoOfCheckBox(this);"/>
+                                          </td>
+                                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.employeeFk.employeeId|default('') }} </td>
+                                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.employeeFk.personFk.personName|default('') }}</td>
+                                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.wageTypeFk.salaryType|default('') }} ({{ s.totalWageType|default('') }} * {{ s.employeeFk.grossSalary|default('') }})</td> 
+                                          <td class="tbl-grid-view-row-no-bg" align="center">
+                                               {{ s.netWage| default('') }}                                              
+                                               <input type="hidden" name="{{ 'txt_wages'~s.pkid| default('')}}" value="{{ s.netWage| default('') }}"/>
+                                          </td> 
+                                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.entryDate | date('d-m-Y') }}</td>   
+                                          <td class="tbl-grid-view-row-no-bg" align="center">
+                                              {%if s.isWageDateSingle|default('') == 1%}
+                                                  {{ s.workingDateFrom | date('d-m-Y') }}
+                                              {%else%}
+                                                  <table cellspacing="0">
+                                                      <tr>
+                                                          <td>from:</td>
+                                                          <td>{{ s.workingDateFrom |default('')| date('d-m-Y') }}</td>
+                                                      </tr>
+                                                      <tr>
+                                                          <td>to:</td>
+                                                          <td>{{ s.workingDateTo |default('')| date('d-m-Y') }}</td>
+                                                      </tr>
+                                                  </table>
+                                                   <br/>                                             
+                                              {%endif%}
+                                          </td>                                                                                                                                                                                            
+                                          <td class="tbl-grid-view-row-no-bg" align="center">
+                                              <textarea id="{{ 'description'~s.pkid|default('') }}" name="{{ 'txt_description'~s.pkid|default('') }}" cols="25" rows="3"></textarea>
+                                          </td>
+                                          <td class="tbl-grid-view-row-no-bg" align="center" style="width: 150px;">                                                                                     
+                                              <select class="normal_select" id="wageApproveAction{{s.pkid|default('')}}" name="txt_wageApproveAction" >                                                
+                                                     <option value="">--Select--</option>    
+                                                     <option value="{{path('_view_edit_wages',{'pkid': s.pkid|default('')})}}&viewEdit">View&Edit</option>                                                                                                                                                 
+                                               </select> 
+                                              <input class="button" name="commit" type="button" value="Go" onClick="wageApproveAction(this,'{{s.pkid|default('')}}',  '#wageApproveAction');" />
+                                          </td> 
+                                      </tr> 
+                                    {%set recordFlag = 1%}
+                                 {% endfor %}                                 
+                                </tbody>
+                            </table>                 
+                        </td>                  
+                    </tr>
+                {% if recordFlag > 0 %}
+                    <tr>
+                        <td>
+                            <table id="account_entry_form_tbl" width="100%" border="0" cellpadding="0" cellspacing="0"> 
+                                <tr>
+                                    <td class="td-gray-bg">Payment Mode <span class="necessary-field">*</span></td>
+                                    <td class="td-white-bg">
+                                        <select class="cmnWidth" id="paymentMode" name="txt_payment_mode" onchange="if(fnFindingCashPaymentMode(this.value)){  loadAccountSource(this.value, '{{ path('_load_account_source_type') }}'); }">
+                                            <option value="">--select--</option>  
+                                         {%for p in paymentMode%}
+                                            <option value="{{ p.pkid|default('') }}">{{ p.paymentModeName|default('') }} </option>                                       
+                                         {%endfor%}
+                                        </select> 
+                                    {%for p in paymentMode%} 
+                                        <input type="hidden" id="keyToDetectCash{{ p.pkid|default('') }}" value="{{ p.ispaymentNoRequired|default('') }}"/> 
+                                    {%endfor%}
+                                    </td>
+                                    <td class="td-gray-bg">Payment No. <span class="necessary-field payment_no_necessary" style="display: none;">*</span></td>
+                                    <td class="td-white-bg">
+                                        <input type="text" class="cmnWidth" id="payment_number" name="txt_payment_number" />
+                                    </td>
+                                </tr>
+                                <tr>                               
+                                    <td class="td-gray-bg">Select Source Account <span class="necessary-field">*</span></td>
+                                    <td class="td-white-bg" colspan="3">
+                                        <select class="cmnWidth" id="enter_account_id" name="txt_enter_account_id" onchange="return loadCurrentBankBalance(this.value, '{{ path('_load_current_bank_balance') }}');">
+                                            <option value="">--select--</option>                                        
+                                        </select> 
+                                        <span id="current_balance_field" style="margin-left: 30px; display: none;">
+                                            Current Balance(<b>&#8377;</b>):  <span id="balance" style="margin-left: 10px;"></span>
+                                        </span> 
+                                    </td>
+                                </tr>
+                                <tr>                               
+                                    <td class="td-gray-bg">Date <span class="necessary-field">*</span></td>
+                                    <td class="td-white-bg" colspan="3">
+                                        <input type="date" class="cmnWidth" id="rapproved_or_rejected_date" name="txt_approved_or_rejected_date"/>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td align="center" style="padding: 6px;" colspan="4">
+                                        <input type="button" class="button blue" id="approve_btn" value="Approve" onclick="return cmnApprovedOrRejectWage(this,'{{path('_reject_approved_wages')}}', 'A');"/>
+                            <input type="button" class="button blue" id="reject_btn" value="Reject" onclick="return cmnApprovedOrRejectWage(this,'{{path('_reject_approved_wages')}}', 'R');"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
+                    </tr>                  
+             {% endif %}
+                </table> 
+                </form>         
+        </div> 
+        <div id="editArea" style="margin-top: 10px;"></div>
+        {#open/show hide table when load in first time#}
+        <script type="text/javascript">
+            fnHideShow('approval_salary_slip'); 
+        </script>     
+    </div> 
+</div>

@@ -1,0 +1,3 @@
+_supplier:
+    resource: "@TashiSupplierBundle/Controller/SupplierController.php"
+    type:     annotation

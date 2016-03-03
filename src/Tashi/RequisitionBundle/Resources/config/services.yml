@@ -1,0 +1,10 @@
+
+parameters:
+    tashi.service.requisition.class : Tashi\RequisitionBundle\Service\RequisitionService
+ 
+   
+services:
+    tashi.requisition.service:
+        class:     "%tashi.service.requisition.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]
+    

@@ -1,0 +1,148 @@
+<style>
+    h1,h2,h3,p{       
+       margin: 0;
+       padding:0
+    }
+    .left{
+        float:left;
+    }
+    .right{
+        float:right;
+    }
+    .centertext{
+        text-align: center;
+    }
+    .underlinetext{
+        text-decoration: underline;
+    }
+    .bottomborder{        
+        border-bottom: 1px solid #333;
+    }
+    p.dynamic{
+        padding:0;
+        margin:0;
+        border:none;
+        border-bottom:1px solid #666;
+        text-align: center;
+        text-transform: uppercase;
+        font-weight: bold;
+    }
+    table{
+        font-size: 12px;
+        border-spacing: 0
+        
+    }
+    table.border{
+        /*border-right:1px solid #666;
+        border-top:1px solid #666;*/
+    }
+    table.border th{
+        font-weight:bold;
+        /*border-bottom:1px solid #666;
+        border-left:1px solid #666;*/
+        padding:3px;
+        text-align: center;
+    }
+    table.border td{
+        /*border-bottom:1px solid #666;*/
+        border:1px solid #666;
+        padding:5px;
+    }
+        
+</style>
+<br>
+<div class="right">
+    <a href="javascript:;" style="margin-right: 10px;" onclick="divPrint();">Print Receipt</a>&nbsp;|&nbsp; 
+    <a href="javascript:;" style="margin-right: 10px;" onclick="$('#divBlocker').hide(); $('#PrintArea').hide();">[X]Close</a>
+    <div style="clear:both; height:5px;"></div>
+</div>
+
+<div id="printHere" style="width: 100%;">
+    <div  style=" width:575px; height: 400px;padding:10px; font-family: Trebuchet Ms; font-size: 12px; margin: 10px auto; background: #fff;">
+        <div style="border:2px double #333; padding: 10px; border-radius: 10px; -moz-border-radius: 10px; -o-border-radius: 10px; -webkit-border-radius: 10px; ">
+            <h2>Tashi Interiors</h2>
+            <p>{%set address=compAdd.addressFk%}
+                {%if address!=''%}
+                    {{address.address1}}
+                    {%if address.cityCodeFk|default('')!=''%}, {{address.cityCodeFk.cityName}}{%endif%}
+                    {%if address.stateCodeFk|default('')!=''%}, {{address.stateCodeFk.stateName}}{%endif%}
+                    {%if address.pinNumber|default('')!=''%}-{{address.pinNumber}}{%endif%}
+                {%endif%}
+            </p>
+            <p>{%set i=0%}{%for mob in mobArr%}{{mob.number}}{%if i==mobArr|length-1%}.{%else%},{%endif%}{%set i=i+1%}{%endfor%}</p>
+            <p>{%set i=0%}{%for phone in phoneArr%}{{phone.phoneNo}}{%if i==phoneArr|length-1%}.{%else%},{%endif%}{%set i=i+1%}{%endfor%}</p>
+            <span class="right">Date: {{receipt.receiptDate|date('d-M-Y')|default('')}}</span>
+            <div style="clear:both;"></div>
+            <span class="right">Receipt No.: {{receipt.receiptNo}}</span>.
+            <hr style="width:100%; border-top:2px solid #333;">
+            <h3 style="text-decoration: underline; text-align: center; background: none; color:#333; border:none; padding:2px 10px;">ACKNOWLEDGEMENT</h3>
+            <p style="margin:0; text-align: center; border:none;">Receipt of Payment</p>
+            <br>  
+            <div style="width:95%; margin:0 auto;">    
+                <table style="width: 100%; font-size: 12px;" cellpadding="5">
+                    <tr>
+                        <td colspan="2">
+                            {%set cust=custAdd.customerFk|default('')%}
+                            Received with thanks from 
+                            <p class="dynamic right" style="width: 360px;">
+                                {%if cust!=''%}{{cust.customerName|upper}}{%endif%}
+                            </p>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            of <p class="dynamic right" style="width: 95%;">
+                                {%set cadd=custAdd.addressFk|default('')%}
+                                {%if cadd!=''%}
+                                    {{cadd.address1|upper}}
+                                {%endif%}
+                            </p> 
+                        </td>
+                    </tr>
+                    <tr>
+                        <td {#width="165px"#} colspan="2">
+                            Amount of &#8377;.<p class="dynamic right" style="width: 85%;">{{amt|number_format('2','.',',')}}/-</p>
+                        </td>
+
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            Rupees<span class="right">Only.</span><p class="dynamic right" style="width: 80%;">{{amtword|upper}}</p>&nbsp;
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
+                            For <p class="dynamic right" style="width: 95%; text-align: justify; text-transform: capitalize;">{{receipt.advancePaymentFk.description|default('')}}</p>&nbsp;
+                        </td>
+                    </tr>
+                </table>    
+                <br>
+                <table class="border" width="70%">
+                    <thead>
+                        <tr>
+                            <th colspan="4">PAYMENT TERMS</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            {%set rpaymode=receipt.advancePaymentFk.paymentModeFk|default('')%}
+                            {%for paymode in paymodeArr%}
+                                <td>{{paymode.paymentModeName|upper}}
+                                    {%if paymode.pkid==rpaymode.pkid%}
+                                        <img src="{{asset('bundles/common/images/tick16.png')}}" alt="">
+                                    {%endif%}
+                                </td>
+                            {%endfor%}                       
+                        </tr>                    
+                    </tbody>
+                </table>
+                <br><br>
+                Amount Received by: <p class="right bottomborder " style="width:75%; padding-left: 10px;">{{employee.personFk.personName|upper}}</p>
+
+                <p class="right" style="border-top:1px dotted #333; padding:0 15px; margin-top: 50px;">Authorised Signature</p>
+            </div>
+        <div style="clear:both;"></div>    
+        </div>
+    </div>
+                <div style="clear:both; height:5px;"></div>
+</div>

@@ -1,0 +1,21 @@
+
+</br>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+    <tr>
+        <input id="spanCloseOpenHandlerempasignlist" value="0" type="hidden">
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('empasignlist');">Assigned Asset To Particular Employee: {{empName |default('')}} <label id="empGenerateID" style="margin-left: 20px;"></label>
+        <span style="float: right;" id="spanIdempasignlist" class="span_open" >&nbsp;</span>
+        </td>
+    </tr>
+</table>
+</br>
+<div id="divTabs" class='sub-menu'>
+    <ul id="tabs">
+        <li id="asset_to_emp_li" class="active"><a href="javascript:void(0);" onclick="AssetEmpNavigation('asset_to_emp_li','{{path("_assetempdetail",{'employeePk':employeePk,'empId':empId})}}', this.value);">Asset to Employee</a></li> 
+        <li id="asset_emp_li" ><a href="javascript:void(0);" onclick="AssetEmpNavigation('asset_emp_li','{{path("_SearchempAssetStatus",{'employeePk':employeePk,'empId':empId})}}', this.value);">Search  Asset To Assign</a></li>
+    </ul>
+</div>
+<form id="ProjectForm" enctype="multipart/form-data">
+<div id="divAssetEmpDetail" style="margin: 0; margin-top:-3px; padding:5px; padding-top:10px; border:1px solid #818181;">
+</div>
+</form>

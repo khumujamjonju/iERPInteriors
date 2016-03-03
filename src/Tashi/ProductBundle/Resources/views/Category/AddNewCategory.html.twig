@@ -1,0 +1,166 @@
+{%set catName=''%}
+{%set catDesc=''%}
+{%set catpk=''%}
+<div class='sub-menu'>
+    <ul>      
+        <li id="project_category" class="active"><a href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_productcategory')}}', 'project_category', 'Project','Master Setting', 'Manage Project Category', '');">Manage Product Category</a></li>         
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form">
+        {%if AreaArr|length<=0%} 
+            <div class="innerErr">
+                NOTE: There are no Project Area in the database. You must first create Project Area before creating Product Category. Goto Project->Master Setting.
+            </div>
+            <br/>
+        {%else%}
+            <div id="catsaveEditPage">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+                    <tr>
+                        <td class="td-label-title">Add New Product Category</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <form id="frmProductCategory">
+                                <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0"> 
+                                    <tr>
+                                        <td class="td-gray-bg" width="200px">Select Related Area<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bg">
+                                            <div class="tableElementEmulation">
+                                                <ul class="trElementEmulation">
+                                                    {%for area in AreaArr%}
+                                                        <li class="tdElementEmulation">                                                          
+                                                            <label for="chkArea{{area.pkid}}">
+                                                                <input type="checkbox" id="chkArea{{area.pkid}}" onchange="toggleSelectArea(this,'{{area.pkid}}');">
+                                                                {{area.area|upper}}
+                                                            </label>
+                                                            <input type="hidden" id="inputarea{{area.pkid}}" name="inputarea" class="inputarea"/>
+                                                        </li>
+                                                    {%endfor%}
+                                                </ul>
+                                             </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg" >Category Name<span class="necessary-field">*</span>:</td>
+                                        <td class="td-white-bg">
+                                            <input class="cmnWidth" type="text" id="txtCategory" name="txtCategory" onkeypress="return disableEnterKey(event);"/>
+                                        </td>
+                                    </tr>                                    
+                                    <tr>
+                                        <td class="td-gray-bg" >Description<span class="necessary-field">*</span>:</td>
+                                        <td class="td-white-bg">                                            
+                                            <textarea id="txtDescription" name="txtDescription" rows="5" cols="50"></textarea>
+                                            <input type="hidden" value="{{catpk}}" name="pkid">
+                                            {#<input class="cmnWidth" type="text" id="txt_Description" name="txt_Description"> #}
+                                            
+                                        </td> 
+                                    </tr>
+                                    {#<tr>
+                                        <td class="td-gray-bg" valign="top">Add Related Service(s):</td>
+                                        <td class="td-white-bg"colspan="1">
+                                            <table id="tblPrdService" style="float:left;">
+                                                <tbody>
+                                                    <tr id="trunit0">
+                                                    <td class='td-white-bg'>
+                                                        <input type="text" name="txtServicename" placeholder="Enter Service Name" class="cmnWidth">
+                                                    </td>
+                                                    <td class='td-white-bg' width="30px">                                                        
+                                                    </td>
+                                                    </tr>
+                                                </tbody>
+                                            </table>
+                                            <input type='button' class='button' value='+' title='Add More Services' onclick="AddServiceRow();" style="margin-top:5px; margin-left: -35px; z-index:10;"/>
+                                        </td> 
+                                    </tr>#}  
+                                    <tr>
+                                        <td class="td-gray-bg"></td>
+                                        <td class="td-separator">
+                                            <input type="button" class="button blue" id="btn_save" value="Save" 
+                                                onclick="ManageProductCategory('{{path("_addproductcategory")}}','frmProductCategory');"/>  
+                                        </td>  
+                                    </tr>
+                                </table>
+                            </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <br/>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                <tr>
+                    <td class="td-label-title">Category Name List</td>
+                </tr>
+                <tr>
+                    <td id="Newcatlist">
+                        <table id="example" width="100%" align="center" border="0" cellpadding="0" cellspacing="0"  class="display"  >  
+                            <thead>
+                                <tr> 
+                                    {#<th class="td-gray-bg">CATEGORY_ID</th>#}
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">CATEGORY NAME</th>
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">DESCRIPTION</th>
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">RELATED AREA</th>
+                                    {#<th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">SERVICES</th>#}
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">ACTION</th>                                              
+                                </tr>
+                            </thead>
+                            <tbody> 
+                                {%if category|length <=0%}
+                                    <tr>
+                                        <td colspan="3">
+                                            <p style="color:#ff0000; margin:0; text-align:center; padding:5px 0;">
+                                                No Category has been added yet
+                                            </p>
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"></td>
+                                    </tr>
+                                {%else%}
+                                    {%for cat in category %}
+                                        <tr>
+                                           {# <td class="tbl-grid-view-row-no-bg" align="center">{{cat.CategoryID|default("")}}</td>#}
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{cat.CategoryName|default("")}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="left">{{cat.CategoryDesc|default("")}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" style="text-align:justify;">
+                                                {%set areas=''%}
+                                                {%for area in areacattxn%}
+                                                    {%if area.prodCategoryFk.pkid==cat.pkid%}
+                                                        {%set areas=areas~area.projectAreaFk.area|upper~","%}
+                                                    {%endif%}
+                                                {%endfor%}
+                                                {{areas|trim(', ')}}.
+                                            </td>
+                                           {# <td class="tbl-grid-view-row-no-bg" style="text-align:justify;">
+                                                {%set services=''%}
+                                                {%for service in serviceArr%}
+                                                    {%if service.catFk.pkid==cat.pkid%}
+                                                        {%set services=services~service.serviceName|upper~", "%}
+                                                    {%endif%}
+                                                {%endfor%}
+                                                {{services|trim(', ')}}.
+                                            </td>#}
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                                <a href="javascript:void(0);" onclick="CategoryActions('{{path("_editproductcat",{'catid':cat.pkid})}}&upd');">Edit</a>&nbsp;|&nbsp;
+                                                <a href="javascript:void(0);" onclick="CategoryActions('{{path("_deletecategory",{'catid':cat.pkid})}}&del');" style="color:#ff0000;">Delete</a>
+                                            {#<select class="normal_select" id="prodcat{{cat.pkid}}" name="prodcat{{cat.pkid}}" >
+                                                <option value="">--select-</option>                                
+                                                <option value="{{path("_editproductcat",{'catid':cat.pkid})}}&upd">Edit</option>
+                                                <option value="{{path("_deletecategory",{'catid':cat.pkid})}}&del">Delete</option>
+                                            </select> 
+                                            <input class="button" name="commit" type="button" value="Go" onClick="CategoryActions('{{cat.pkid}}');" />#}
+                                            </td>                                                
+                                        </tr> 
+                                   {%endfor%}
+                                {%endif%}
+                           </tbody>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        {%endif%}
+    </div>
+</div>
+                        
+{# empty Twig template #}

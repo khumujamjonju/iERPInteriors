@@ -1,0 +1,52 @@
+<table width="100%" border="0" class="tbl-border" cellpadding="0" cellspacing="0" >           
+    <tr>
+    <input id="spanCloseOpenHandlerprojlist" value="0" type="hidden">
+    <td class="td-label-title" onclick="lmsShowHideAddressResult('projlist');">Project List
+        <span style="float: right;" id="spanIdprojlist" class="span_open" >&nbsp;</span>        
+    </td>
+        </tr>
+    <tr id="trAddressprojlist">
+        <td>
+            <table id="example" width="100%" align="center" id="example2" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Order No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Customer</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Category</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Start Date</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Tentative Completion Date</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Status</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Due Balance</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Action</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for proj in projArr%}
+                        {%set balance=proj.balanceAmount|default(0)%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{proj.orderNo}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{proj.customerFk.customerName|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{proj.areaFk.area}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{proj.startDate|date('d-M-Y')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{proj.expectedCompletionDate|date('d-M-Y')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" style="background-color:{{proj.status.statusColor}};" align="center">
+                                <b>{{proj.status.statusName}}</b>
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="right">
+                                <b>{{proj.balanceAmount|default(0)|number_format(2,'.')}}</b>
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg">
+                                <select id="selInv{{proj.pkid}}">
+                                    <option value="">--select--</option>
+                                    <option value="{{path("_searchbyprojid",{'projid':proj.pkid})}}">View Invoices</option>
+                                    <option value="{{path("_gotocreateinvoice",{'projid':proj.pkid})}}">Create Invoice</option>
+                                </select>
+                                <input type="button" class="button" value="Go" onclick="NewInvoiceAction('selInv{{proj.pkid}}');"/>
+                            </td>                                
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>

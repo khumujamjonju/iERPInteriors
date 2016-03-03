@@ -1,0 +1,3 @@
+_customer:
+    resource: "@TashiCustomerBundle/Controller/CustomerController.php"
+    type:     annotation

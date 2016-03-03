@@ -1,0 +1,21 @@
+<tr>
+<form id="form_mobile_details_list">
+    {%for mob in mobile%}  
+        <tr>
+    <td class="td-gray-bg cmnWidth">Already Added Mobile No:</td> 
+
+    <td class="td-white-bg cmnWidth">
+      <input type="text"  disabled="true" id="{{'mobile_list'~mob.mobileFk.pkid}}" onkeypress="return IntegerOnly(event);" maxlength="10" placeholder="e.g.9856123456"
+      name="mobileno" class="{{'mobilelist'~mob.mobileFk.pkid}}" name="mobile" value="{{mob.mobileFk.mobileNo}}"/>
+       </td>
+        <td class="td-gray-bg cmnWidth">
+           
+
+ <input type="button" id="btn_mobileedit"  value="Edit" onclick="EnableEditTransportMobileNoOnly('{{'mobilelist'~mob.mobileFk.pkid}}');"/>
+ <input type="button" id="btn_mobileupdate" disabled="true" class="{{'mobilelist'~mob.mobileFk.pkid}}" value="Update" onclick="return UpdateTransportmobileonly('{{ path('_update_transportmobilelist_',{'mob_id': mob.mobileFk.pkid})}}',this,{{mob.mobileFk.pkid}});"/>
+ <input type="button" id="btn_mobiledelete" disabled="true" class="{{'mobilelist'~mob.mobileFk.pkid}}" value="Delete" onclick="DeleteTransportmobileonly('{{ path('_deletetransportMobile',{'mob_id': mob.mobileFk.pkid})}}',this);"/></td>
+        <td class=" td-white-bg  cmnWidth"></td> 
+        </tr>
+     {%endfor%}
+    </form>
+</tr>

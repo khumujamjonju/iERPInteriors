@@ -1,0 +1,30 @@
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Location Management</h3>
+        <div id="newmenu">
+            <ul>
+                <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_location_master')}}', 'location_master', 'Location', 'Dashboard');"><a  href="javascript:void();" >Dashboard</a></li>
+                <li id="location_details" onclick="fnLeftMenuNavigation('{{path('_master_location_details')}}', 'location_details', 'Details Master', 'Location Details Master');"><a href="javascript:void();" >Create </a></li>
+            </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'><a href="javascript:void();"  onclick="fnMainMenuNavigation('{{path('_location_master')}}', 'location_master', 'Location', 'Location Dashboard');"><span>Location Dashboard</span></a></li>              
+        </ul>
+    </div>
+    <div class="newdashboard">
+        <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_master_location_details')}}', 'location_details', 'Details Master', 'Location Details Master');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/location.png') }}">
+                <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Location</span> <br/>
+                Capturing Location Details information.
+            </p>
+        </div>
+    </div>
+</div>
+
+
+

@@ -1,0 +1,6 @@
+<select name="selStkBldg" id="selStkBldg" class="cmnWidth" onchange="loadfloorbybldgid(this.id);" tabindex="-1">
+    <option value="">--select--</option>
+    {%for bldg in buildingArr%}
+        <option value="{{path('_loadfloorbybldgid',{'bldgid':bldg.storeBuildingPk})}}&{{bldg.storeBuildingPk}}">{{bldg.buildingName}}</option>
+    {%endfor%}
+</select>

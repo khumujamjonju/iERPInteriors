@@ -1,0 +1,77 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <td class="td-label-title" colspan="3">Edit Project Detail</td>        
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="td-gray-bg" width="200px">Project Area</td>
+                    <td class="td-white-bg" align="left">{{proj.areaFk.area|upper}}</td>
+                    <td class="td-gray-bg" width="200px">Project ID/ Order Number:</td>
+                    <td class="td-white-bg" style="text-align:justify">{{proj.orderNo|upper}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="200px">Industry Type<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg" align="left">
+                        <select name="selIndType" id="selIndType">
+                            <option value="">--select--</option>
+                            {%for industry in industryArr%}
+                                <option value="{{industry.pkid}}" {%if industry.pkid==proj.industryTypeFk.pkid|default('')%}selected{%endif%}>{{industry.industryType|upper}}</option>
+                            {%endfor%}
+                        </select>
+                    </td>
+                    <td class="td-gray-bg" width="200px">Opportunity<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg" style="text-align:justify">
+                        <select name="selOpportunity" id="selOpportunity"> 
+                            {%for opp in oppArr%}
+                                <option value="{{opp.pkid}}" {%if opp.pkid==proj.opportunityFk.pkid|default('')%}selected{%endif%}>{{opp.opportunityType}}</option>                                
+                            {%endfor%}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Execution Date<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg" align="left">
+                        <input type="date" name="txtStartDate" id="txtStartDate" value="{{proj.startDate|date('Y-m-d')}}"/></td>
+                    <td class="td-gray-bg" width="200px">Tentative Completion Date<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg"><input type="date" name="txtEndDate" id="txtEndDate" value="{{proj.expectedCompletionDate|date('Y-m-d')}}"/></td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Status</td>
+                    <td class="td-white-bg" align="left" style="background-color: {{proj.status.statusColor}};"><b>{{proj.status.statusName}}</b></td>
+                    <td class="td-gray-bg" width="200px">Balance</td>
+                    {%set balance=proj.balanceAmount|default(0)%}
+                    <td class="td-white-bg" style="color:{%if balance<=5000%}#ff0000;{%else%}#333;{%endif%}">
+                        {{proj.balanceAmount|default(0)|number_format(2,'.')}}/-
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Dimension<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg" align="left" >
+                        <input type="text" class="cmnWidth" id="txtdimension" name="txtdimension" value="{{proj.dimension}}"></td>
+                    <td class="td-gray-bg">Estimated Cost</td>
+                    <td class="td-white-bg" align="left" >{{totBudget|default(0)|number_format(2)}}/-</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Project Description<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg" align="left" colspan="3">
+                        <textarea name="txtDesc" id="txtDesc" cols="60" rows="6">{{proj.Description}}</textarea></td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Modification Remark<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg" align="left" colspan="3">
+                        <textarea name="txtRemark" id="txtRemark" cols="60" rows="6"></textarea></td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg"></td>
+                    <td class="td-white-bg">
+                        <input type="button" class="button" value="Update" onclick="updateProjectDetail('{{path("_updateproject",{'projid':proj.pkid})}}');"/> &nbsp; &nbsp;
+                        <input type="button" class="button" value="Cancel" 
+                               onclick="if(!confirm('Are you sure you want to cancel the update?')){return;} else{ProjectEditor('{{path("_canceleditproject",{'projid':proj.pkid})}}','divProjDetailOnly');}" />
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>

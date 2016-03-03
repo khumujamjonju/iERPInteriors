@@ -1,0 +1,11 @@
+<tr id="{{obj.pkid}}">
+<td class="td-gray-bg">Sub-Category For {{obj.categoryName}}</td>
+<td class="td-white-bg" align="left" colspan="2">
+    <select class="normal_select cmnWidth"  id="pkid{{obj.pkid}}" onchange="loadsubcatdy('{{obj.pkid}}');" >
+        <option value="">--Select--</option>
+        {%for cat in catMaster%}
+            <option value="{{path('_stk_appendprdsubcat',{'pkid':cat.pkid})}}">{{cat.categoryName}}</option>
+        {%endfor%}
+    </select>    
+ </td>
+</tr>

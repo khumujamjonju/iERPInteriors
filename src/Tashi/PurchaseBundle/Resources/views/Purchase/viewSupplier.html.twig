@@ -1,0 +1,91 @@
+<div class='sub-menu'>
+<ul>
+<li class='active' onclick="fnLeftMenuNavigation('{{path('_purchase_product')}}', 'purchase_product', 'Purchase Master', 'Purchase Product');"><a  href="javascript:void();">Create Purchase Order</a></li> 
+{# <li id="Search_Purchase_id"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_search_purchase')}}', 'Search_Purchase_id', 'Purchase', 'Search Purchase', 'Search Purchase');"><span>Search</span></a></li> #}
+</ul>
+    </div>
+    <div class="newdashboard"> 
+        <div class="application-form"> 
+            <form id="PODETAILS">
+
+
+<div id="display-list" style="margin-top: 5px;">
+    <input type="hidden" id="jobTitleUpdateURL" value="">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+        <tr>
+       <input id="spanCloseOpenHandlerSearchCustomerResult" value="0" type="hidden">
+       <td class="td-label-title" onclick="lmsShowHideAddressResult('SearchCustomerResult');">Select Supplier 
+       <span style="float: right;" id="spanIdSearchCustomerResult" class="span_open" >&nbsp;</span></td>
+        </tr>
+        <input id="companyid" type="hidden" value="{{company.pkid | default('')}}">  
+        <tr id="trAddressSearchCustomerResult" >
+            <td>                    
+                <table width="100%" align="center" border="0" cellpadding="0" id="example2" cellspacing="0"  class="display"  >  
+                   <tbody>                           
+                        <tr> 
+                                <td class="tbl-grid-view-row-no-bg" align="center">Supplier Name:</td>
+                                <td class="tbl-grid-view-row-no-bg">
+                                    <select id="TYPEID" class="cmnWidth">
+                                        <option value="0">--Select--</option>
+                                      {% for c in comp %}    
+                                      <option value="{{c.supplierPk}}">
+                                        {{c.companyId}}
+                                      </option> {%endfor%} 
+                                    </select>
+                                <input type="button" value="Go" class="button blue" onclick="loadPO_Page('{{path('_purchase_order')}}','#TYPEID');">
+                                </td>
+                        </tr>                    
+                   </tbody>
+                </table>
+                </td>
+            </tr>
+
+   </table>
+
+    </div> 
+                
+                  {# for company grid details#}
+            
+            <div id="company_grid">
+            
+            
+            </div>
+            <div id="company_detailsgrid">
+            
+            
+            </div>
+            
+            <div id="sup_grid">
+            
+            
+            </div>
+            
+            
+            {#for supplier details#}
+            <div id="supplier_details_grid">
+            
+            </div>
+           
+            {#ends here#}
+            
+            
+            
+            
+            
+            {#for purchase order details#}
+            <div id="purchase_order_details" >
+            
+            </div>
+            {#purchase order details ends here#}
+            <br/>     
+            <div id="display-list">
+                  
+                    
+                         
+
+            </div>
+ 
+             </form>   
+                
+            </div>
+            </div>

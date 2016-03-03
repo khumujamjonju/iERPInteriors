@@ -1,0 +1,130 @@
+<form id="frmApprovalCreateAdvancePayment">
+<input type="hidden" value="0" class="advance_payment_paid_hide_show_key"/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >      
+    {#paramer: project_item => class name of table row (tr) to hide or show #}
+    <tr onclick="fnHideShow('advance_payment_paid');">      
+        <td class="td-label-title">
+             List Of Pending Payment for Approved Advance Payment Of Employees :
+            <div class="advance_payment_paid_hide_show_icon floatRight plus"></div>
+        </td>
+    </tr>
+    <tr class="advance_payment_paid displayNone">
+        <td>                    
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                <thead class="">
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Sl No</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Id</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Name</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Designation</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Approved On</th>                      
+                        <th class="tbl-th-grid-view-row-no-bg"> Amount</th>  
+                        <th class="tbl-th-grid-view-row-no-bg"> Action</th>
+                    </tr>
+                </thead>
+                <tbody>                           
+                       
+                 {%for a in approvedAdvancePayment|default('') %} 
+                    <tr id="{{'approvedID'~a.advancePaymentPk}}">
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{loop.index}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.employeeFk.employeeId|default('') }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.employeeFk.personFk.personName | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.employeeFk.empJobTitleFk.jobTitleName | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.approvedDate | date('d-m-Y')}}</td>                    
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.advanceAmount|default('') }}</td>   
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                            {#hidden fiels for employee information#}
+                             <input class="cmnWidth" type="hidden" id="{{ 'empPk'~a.advancePaymentPk|default('') }}" value="{{ a.employeeFk.employeePk|default('') }}"/>
+                             <input class="cmnWidth" type="hidden" id="{{ 'empID'~a.advancePaymentPk|default('') }}" value="{{ a.employeeFk.employeeId|default('') }}"/>
+                             <input class="cmnWidth" type="hidden" id="{{ 'empName'~a.advancePaymentPk|default('') }}" value="{{ a.employeeFk.personFk.personName|default('') }}"/>
+                             <input class="cmnWidth" type="hidden" id="{{ 'empDesig'~a.advancePaymentPk|default('') }}" value="{{ a.employeeFk.empJobTitleFk.jobTitleName|default('') }}"/>
+                             <input class="cmnWidth" type="hidden" id="{{ 'empDept'~a.advancePaymentPk|default('') }}" value="{{ a.employeeFk.departmentFk.departmentName | default('') }}"/>
+                             <input class="cmnWidth" type="hidden" id="{{ 'advanceAmt'~a.advancePaymentPk|default('') }}" value="{{ a.advanceAmount|default('') }}"/>
+                            <select class="normal_select" id="paymentAction{{a.advancePaymentPk|default('')}}" name="txt_paymenyAction" >
+                                <option value="">Select</option>   
+                                <option value="p&pay">Payment</option> 
+                              {#  <option value="{{path('_reject_approved_advance_payment',{'advancePayID' : a.advancePaymentPk|default('') })}}&rej">Reject</option> #}
+                            </select> 
+                            <input class="button" name="commit" type="button" value="Go" onclick="employeeAdvancePayPaymentAction(this,'{{a.advancePaymentPk|default('')}}','#paymentAction');" />
+                        </td>    
+                    </tr>                    
+                {%endfor%}
+                       
+                </tbody>
+            </table>
+        </td>
+    </tr>   
+</table>
+</form>
+
+<div id="advance_payment_div" style="margin-top: 10px; display: none;">
+   <form id="frmPayPaymentAdvance">
+    <input type="hidden" id="already_advance_payment_key" value="0"/> {# use to detect already payment#}
+    <input type="hidden" id="employeePkid" name="txt_employee_pkid" />
+    <input type="hidden" id="advance_payment_id" name="txt_advance_payment_id"/>
+    <input type="hidden" value="0" class="advance_pay_payment_hide_show_key"/>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr onclick="fnHideShow('advance_pay_payment');">
+                <td class="td-label-title">
+                    Transaction details: <div class="advance_pay_payment_hide_show_icon floatRight plus"></div>
+                </td>
+            </tr>
+            <tr class="advance_pay_payment displayNone">
+                <td>                 
+                    <form id="frmSearchEmployee" style="margin: 0px;">
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">   
+                            <tr>
+                                <td class="td-gray-bg">Employee Id</td>
+                                <td class="td-white-bg empID"></td>
+                                 <td class="td-gray-bg">Employee Name</td>
+                                 <td class="td-white-bg empName"></td>      
+                            </tr> 
+                            <tr>
+                                <td class="td-gray-bg">Designation</td>
+                                <td class="td-white-bg empDesig"></td>
+                                <td class="td-gray-bg">Department</td>
+                                <td class="td-white-bg empDept"></td>      
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Select Payment Mode</td>
+                                <td class="td-white-bg">
+                                    <select class="cmnWidth" id="payment_mode" name="txt_payment_mode" onchange="chagePaymentModeType(this);">
+                                        <option value="">--select--</option> 
+                                    {%for p in paymentMode|default('') %}
+                                        <option value="{{ p.pkid|default('') }}">{{ p.paymentModeName|default('') }}</option> 
+                                    {%endfor%}
+                                    </select>  
+                                </td>
+                                <td class="td-gray-bg">Payment Date</td>
+                                <td class="td-white-bg"><input class="cmnWidth" type="date" id="payment_date" name="txt_payment_date"/></td>      
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Payment No/Transaction ID</td>
+                                <td class="td-white-bg">
+                                    <input type="hidden" class="checkKey" value="0"/>
+                                    <input class="cmnWidth" type="text" id="payment_no" name="txt_payment_no"/>
+                                </td>
+                                <td class="td-gray-bg">Amount</td>
+                                <td class="td-white-bg">
+                                    <span class="advanceAmt"></span>  
+                                    <input  type="hidden" id="advance_amount" name="txt_advance_amount"/>
+                                </td>      
+                            </tr>
+                            <tr>
+                                <td class="td-separator" colspan="4" style="text-align: center;">  {# AP => Advance Payment#}
+                                    <input type="button" class="button blue" id="search_btn" value="Pay Now & Save" onclick="payPaymentAdvancePayment(this, 'AP', '{{path('_pay_payment_advance_payment', {'key': 'AP'})}}');"/>                                 
+                                </td>  
+                            </tr>
+                        </table>
+                    </form>                               
+                </td>
+            </tr> 
+        </table> 
+    </form>
+</div>
+
+
+{#open/show hide table when load in first time#}
+<script type="text/javascript">
+    fnHideShow('advance_payment_paid');
+</script>

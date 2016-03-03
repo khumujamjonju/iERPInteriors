@@ -1,0 +1,7 @@
+parameters:
+    tashi.service.report.class : Tashi\ReportBundle\Service\ReportService
+
+services:
+    tashi.report.service:
+        class:     "%tashi.service.report.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]

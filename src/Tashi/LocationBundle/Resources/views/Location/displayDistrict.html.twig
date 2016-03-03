@@ -1,0 +1,35 @@
+<input type="hidden" id="districtUpdateURL" value="{{'/Tashi/web/app_dev.php/location/update_district/'~result1.id  }}">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <td class="td-label-title">District List:</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg">Country Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">State Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">District Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">District Code</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                    </tr>
+                </thead>
+                <tbody>                           
+                                {%for dis in result1.result%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{dis.countryFk.countryName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{dis.stateFk.stateName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{dis.districtName}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{dis.districtCode}}</td>  
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <a href="javascript:void();" onclick="retriveDistrictMaster('{{path('_retreive_district_id',{'did': dis.pkid })}}');">Edit</a> | 
+                                <a href="javascript:void();" onclick="deleteDistrictMaster('{{path('_delete_district',{'did': dis.pkid })}}');" style="color:#ff0000;">Delete</a></td>
+                        </tr> 
+                            {%endfor%}
+                    </tbody>
+                </table>  
+            </td>
+        </tr>                                 
+    </table>
+

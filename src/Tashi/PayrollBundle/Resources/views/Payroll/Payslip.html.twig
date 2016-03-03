@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+  <body>
+  		   
+   <table width="90%" align="center"> 
+       <h1 align="center">TASHI INTERIORS EMPLOYEE MONTHLY SALARY DETAILS</h1>
+            <tr>
+                <td colspan="2" align="center" >PAY SLIP FOR THE MONTH OF {{ month | default(' ')}}:</td>
+            </tr>
+            <br/>
+            
+            <tr> <br>
+                <td style="padding: 5px; background: #F8F8F8;" valign="top">
+                    <table>
+                        <tr>
+                            <td>NAME:</td>
+                            <td><span style="margin-left: 10px; font-weight: normal;">{{empname | default(' ')}}</span></td>
+                        </tr>
+                        <tr>
+                            <td>DESIGNATION:</td>
+                            <td><span style="margin-left: 10px; font-weight: normal;">{{desig}}</span></td>
+                        </tr>
+                    </table>                   
+                </td>
+                <td style="padding: 5px; background: #F8F8F8;" valign="top">
+                    <table width="100%">
+                        <tr>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td align="left">GROSS SALARY: </td>
+                            <td><span style="margin-left: 10px;font-weight: normal;">{{grossSal}}</span></td>
+                        </tr>
+                        
+                    </table>                    
+                </td>
+            </tr>
+            <tr>            
+                <td align="center" colspan="2" style=" border-top: 1px dotted #ccc; background: rgb(240, 240, 240);">                 
+                    <div style="float: left; width: 49.8%;">
+                        <table  width="100%" align="center" border="0" cellpadding="0" cellspacing="0">   
+                            <tr>
+                                <td class="td-gray-bg" colspan="2" style="padding: 20px; font-weight: bold; border-bottom: 1px dotted rgb(240, 240, 240); border-right: 1px dotted rgb(240, 240, 240); background: rgb(240, 240, 240);">
+                                    Earning
+                                </td>                                                         
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg" style="padding: 5px; border-top: 1px dotted #ccc;">Basic - 35% of Gross</td>
+                                <td class="td-white-bg" style="padding: 5px; border-top: 1px dotted #ccc;">
+                                    
+                                 {{basic}}  
+                                </td>                            
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg" style="padding:5px;">HRA - 40% of Basic:</td>
+                                <td class="td-white-bg" style="padding:5px;">{{gross}}</td>
+
+                            </tr>  
+                           {%for d in emolution%} 
+                            <tr>                             
+                                <td style="padding:5px;">{{d.emolumentDeductionMasterFk.fieldAttributeName}}:</td>
+                                <td style="padding:5px;">{{d.amount}}</td>
+                            </tr>
+                            {%endfor%}
+                            <tr>
+                                <td class="td-gray-bg" colspan="2" style="padding: 10px; font-size: 13px; font-weight: bold; border-bottom: 1px dotted rgb(240, 240, 240); background: rgb(240, 240, 240);"></td>                                                         
+                            </tr>
+                            <tr>                             
+                                <td class="td-gray-bg" style="padding:5px;"><b>Total Salary:</b></td>
+                                <td class="td-white-bg" style="padding:5px;">{{netsal}}</td>
+                            </tr>                         
+                        </table>
+
+                    </div>
+                             
+                    <div style="float: right; width: 49.8%;">
+                        <table id="deductionsFormTbl" width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                             <tr>
+                                <td class="td-gray-bg" colspan="2" style="padding: 21px; font-size: 13px; font-weight: bold; border-bottom: 1px dotted rgb(240, 240, 240); background: rgb(240, 240, 240);">Deduction</td>                                                         
+                            </tr>
+
+                            <tr>
+                                <td class="td-gray-bg" style="border-top: 1px dotted #ccc;">
+                                    </td>
+                                <td class="td-white-bg" style="border-top: 1px dotted #ccc;">
+                                </td>                            
+                            </tr>                          
+                            <tr>                             
+                                <td style="padding:5px;">Repayment for advance:</td>
+                                <td >{{repay}}</td>
+                            </tr> 
+                            <tr>                             
+                                <td style="padding:5px;">Adjustment from Wallet:
+                                </td>
+                                <td style="padding:5px;">{{wallet}}</td>
+                            </tr>
+                            {%for a in allowance%} 
+                            <tr>                             
+                                <td style="padding:5px;">{{a.emolumentDeductionMasterFk.fieldAttributeName}}:</td>
+                                <td style="padding:5px;">{{a.amount}}</td>
+                            </tr>
+                            {%endfor%}
+                            <tr>
+                                <td class="td-gray-bg" colspan="2" style="padding: 10px; font-size: 13px; font-weight: bold; border-bottom: 1px dotted rgb(240, 240, 240); background: rgb(240, 240, 240);"></td>                                                         
+                            </tr>
+                            <tr>
+                                <td style="padding:5px;"><b>Total Deduction</b></td>
+                                <td>{{deduct}}</td>
+                            </tr>                         
+                        </table>
+
+                    </div>
+                        
+                         
+                </td>
+            </tr> 
+           
+            
+        </table>
+        
+   
+  </body>
+</html>

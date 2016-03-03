@@ -1,0 +1,3 @@
+_login:
+    resource: "@TashiLoginBundle/Controller/LoginController.php"
+    type:     annotation

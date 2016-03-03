@@ -1,0 +1,208 @@
+{%set comid=0%}
+{%set supid=0%}
+
+{%if po is defined%}
+{%set comid=po.companyAddressFk.companyFk.pkid | default(' ')%}
+{%set supid=po.vendorMasterFk.supplierPk | default(' ')%}
+{%endif%}
+
+
+<div style="margin-top: 5px;">
+
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+        <tr>
+        <input id="spanCloseOpenHandlerUpdatePurchaseOrder" value="0" type="hidden">
+        <td class="td-label-title" colspan="4" onclick="lmsShowHideAddressResult('UpdatePurchaseOrder');">
+            <label id="generatedpo">Purchase Details For {{details.companyName | default(' ')}}  (Purchase Order No : {{po.uiOrderId}}) </label>
+            <span style="float: right;" id="spanIdUpdatePurchaseOrder" class="span_open" >&nbsp;</span>
+        </td>
+        <input id="supplierid" type="hidden" value="{{supid}}"><input id="comid" type="hidden" value="{{comid}}">
+        <input id="poid" type="hidden" value="{{po.poPk}}">
+        </tr>
+
+
+
+        <tr id="trAddressUpdatePurchaseOrder" >
+            <td>
+
+
+
+                <div id="result_po" style="margin-top: 5px;">
+
+                    <table id="display_product" class="tab_price"  width="99%">
+                        <tr style="padding:5px;background:#EFEFEF;">
+                            <td  style="padding:5px;background:#EFEFEF;">Product Name <br/>(Code)</td>
+                            <td  style="padding:5px;background:#EFEFEF;">Qtny</td>
+                            <td  style="padding:5px;background:#EFEFEF;">Delivr. Qtny</td>
+                            <td  style="padding:5px;background:#EFEFEF;width:50px;">Unit</td>
+                            <td  style="padding:5px;background:#EFEFEF;">Quoted</td>
+                            <td  style="padding:5px;background:#EFEFEF;">Tax</td>
+                            <td  style="padding:5px;background:#EFEFEF;">Remarks</td>
+                            <td  style="padding:5px;background:#EFEFEF;width: 250px;">Is Project Related</td>
+                            <td  style="padding:5px;background:#EFEFEF;">Action</td>
+                        </tr>
+                        {%set price = 0%}
+                       {%for a in all.result%}
+
+
+                        <tr id="unit{{a.productFk.pkid}}" width=100% style="border-bottom: 1px dashed #000;">
+
+                            <td class=" " style="padding:5px;">{{a.productFk.productName}} <br/>{{a.productFk.productCode}})
+                                <input type="hidden" name="{{'productid'~a.productFk.pkid}}" value="{{0}}"/> 
+                                <input type="hidden" name="pid" value="{{a.productFk.pkid}}"/>
+                            </td>   
+                            <td class="" style="padding:5px;width: 40px;">
+                                <label>{{a.quantity}}</label>
+                                <input id="{{'quantityID'~a.productFk.pkid}}"   class="quantityID" style="width: 40px;" type="hidden" name="{{'quantity'~a.productFk.pkid}}"  value="{{a.quantity}}" 
+                                       onkeyup="fnQuantityWithAmount({{a.productFk.pkid}});"/>
+                            {#
+                            <input id="quantity" class="txt_quantity" style="width: 40px;" type="text" name="{{'quantity'~a.productFk.pkid}}"  value="{{a.quantity}}"/>
+                            #}
+
+                        </td>
+                        <td class="" style="padding:5px;width: 40px;">
+                            <input  id="dquantity" class="txt_dquantity" style="width: 40px;" type="text" name="{{'deliverquantity'~a.productFk.pkid}}"  value="{{a.deliveredQuantity}}"/>
+                        </td>
+                        <td class="" style="padding:5px;">
+                            <select id="unit" class="ddlb_unit" disabled name="{{'unitid'~a.productFk.pkid}}">
+                                <option value="0">--Select--</option>
+                                <option value="{{a.unitFk.pkid}}" selected="selected">
+                                {{a.unitFk.unitName}}
+                                    </option>  
+                                </select>
+
+                                       {# <select id="unit" class="ddlb_unit" name="{{'unitid'~a.productFk.pkid}}">
+                                        <option value="0">--Select--</option>
+                                        {%for u in unit %}
+                                        <option value="{{u.pkid}}">
+                                        {{u.unitName}}
+                                        </option>
+                                        {%endfor%}
+                                        </select> #}
+
+
+
+                            </td>
+                            <td class="" style="padding:5px;">
+
+                               {# <input type="text" class="total1" name="{{'totalprice'~a.productFk.pkid}}" id="{{'totalprice'~a.productFk.pkid}}" value="{{a.quotedPrice}}" style="width:100px;"/>
+                                <input type="hidden" class="total" name="{{'price'~a.productFk.pkid}}" value="{{a.quotedPrice}}"/>
+                                <input type="hidden" class="total2"  id="{{'totalquoted'~a.productFk.pkid}}" style="width:50px;" name="quotedtotal[]" value="{{0}}"/>
+                                #}
+                                <input disabled type="text" class="total1" name="{{'totalprice'~a.productFk.pkid}}" id="{{'totalprice'~a.productFk.pkid}}" value="{{a.quotedPrice}}" style="width:100px;"/>
+                                <input type="hidden" class="total2"  id="{{'totalquoted'~a.productFk.pkid}}" style="width:50px;" name="quotedtotal[]" value="{{a.quotedPrice}}"/>
+
+                                {%set price = a.quotedPrice/a.quantity %}
+
+                                <input type="hidden" id="{{'price'~a.productFk.pkid}}" class="total" name="{{'price'~a.productFk.pkid}}" value="{{price}}"/>
+
+
+                            </td>    
+                            <td class="" style="padding:5px;width: 80px;">
+                                <input type="text" disabled name="{{'tax'~a.productFk.pkid}}" value="{{a.tax}}" class="taxtotal" style="width: 70px;" onkeyup="fnCalculateTax();"/>
+                            </td> 
+                            <td class="" style="padding:5px;">
+                                <input type="text" disabled name="{{'remarks'~a.productFk.pkid}}" value="{{a.remarks}}" style="width: 100px;"/>
+                            </td>
+                            <td class="" style="padding:5px; width:200px;">
+
+                                <input disabled type="checkbox" style="width: 30px;"id="test" 
+                                                {%if a.isProjectRelated ==1%}
+                                       checked="unchecked"    
+                                               {%endif%}
+                                       onclick="loadProjectRelatedItems_Page('{{'project_list'~a.productFk.pkid}}', this);"  name="{{'isrelated'~a.productFk.pkid}}" /> 
+                                       <input type="hidden" class="{{'project_list'~a.productFk.pkid}}" id="checkboxvalue" name="{{'txt_isrelated'~a.productFk.pkid}}" 
+                                               {%if a.isProjectRelated ==1%}value="1"
+                                                {%else%} value="0"
+                                                {%endif%}/>
+
+                                              <select disabled class="{{'project_list'~a.productFk.pkid}}" name="{{'project'~a.productFk.pkid}}">
+                                                  <option value="">--Select--</option>
+         {%for p in project.detail%}
+          {%if a.isProjectRelated==1%} 
+                                                  <option value="{{p.projectFk.pkid}}" selected="selected">{{p.projectFk.areaFk.area}}[{{p.projectFk.orderNo}}]</option>
+            {%else%}
+                                                  <option value="{{p.projectFk.pkid}}">{{p.projectFk.areaFk.area}}[{{p.projectFk.orderNo}}]</option>     
+            {%endif%}
+
+         {%endfor%}
+                                              </select>
+
+
+
+                                       </td>
+                                       <td class="" style="padding:5px;">
+
+                                       </td>
+                                </tr>
+
+
+
+
+                        {%endfor%}    
+
+
+
+
+
+                            </table>
+
+                            <table style="border: 1px dashed #000;width:99.5%;margin-left: auto;margin-right: auto;"> 
+                       {# <tr>
+                            <td style="padding:5px;width:50px;"><input type="hidden" value="{{po.taxAmt}}" id="tax" name="taxamount"></td>
+                            <td style="padding:5px;width:60px;"><input type="hidden" value="{{po.grandTotal}}" id="grand" name="grandtotal"></td>
+                            <td style="padding:5px;width:50px;"> <input type="hidden" value="{{po.subTotal}}" id="quoted" name="subtotal"></td>
+                            <td style="padding:5px;width:200px;"><label class="dis">Total Quoted Price: </label><label class="quotedtotal">{{po.subTotal}}</label></td>
+                            <td style="padding:5px;width:100px;"><label class="dis" style="text-align: left;margin-left: -50px;">Total Tax: </label><label class="taxtotal">{{po.taxAmt}}</label> </td>
+                            <td style="padding:5px;width:200px;"><label class="dis">Grand Total: </label><label class="grandtotal"> {{po.grandTotal}}</label></td>
+                        </tr>#}
+                                    <tr>
+                                        <td style="padding:5px;width:50px;"><input type="hidden" value="{{po.taxAmt}}" id="taxtotal" name="taxamount"></td>
+                                        <td style="padding:5px;width:60px;"><input type="hidden" value="{{po.grandTotal}}" id="grand" name="grandtotal"></td>
+                                        <td style="padding:5px;width:50px;"><input type="hidden" value="{{po.subTotal}}"  id="quoted" name="subtotal"></td>
+                                        <td style="padding:5px;width:200px;">
+                                            <input type="hidden" id="total" class="grandtotal" name="total"  value="{{po.subTotal}}">
+                                        </td>
+                                        <td style="padding:5px;width:100px;"></td>
+                                        <td style="padding:5px;width:200px;"><label style="margin-left: -200px;">Grand Total: </label><label id="grand" class="grandtotal">{{po.grandTotal}}</label></td>
+                                        <td style="padding:5px;width:100px;"><label class="dis" style="text-align: left;margin-left: -250px;">Total Tax: </label><label id="tax" class="taxtotal1">{{po.taxAmt}}</label></td>
+                                        <td style="padding:5px;width:200px;"></td>
+                                    </tr>
+
+
+                                </table>    
+
+
+
+
+
+                            </div> <br/>
+                        </td>
+
+
+
+
+
+
+
+
+                    </tr> 
+
+                    <table id="trSavePO"  width="100%" border="0" cellpadding="0" cellspacing="0" id="purtable" style="margin-top: 5px;"> 
+
+
+                        <tr>
+                            <td class="td-white-bg" colspan="3" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Update" onclick="return UpdatePurchaseQuantityDetails('{{path('_updatequantityDetails')}}', this);"></td>
+                        </tr>
+
+
+
+
+
+                    </table>
+
+
+                </table>
+
+            </div> 

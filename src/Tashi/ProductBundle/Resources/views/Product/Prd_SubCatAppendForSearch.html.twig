@@ -1,0 +1,11 @@
+<tr id="{{obj.pkid}}">
+<td class="td-gray-bg">Sub-Category For {{obj.categoryName}}</td>
+<td class="td-white-bg" align="left">
+    <select class="normal_select cmnWidth"  id="pkid{{obj.pkid}}" onchange="loadsubcatdyonly('{{obj.pkid}}'); ">
+        <option value="">--select--</option>
+        {%for cat in catMaster%}
+            <option value="{{path('_appendsubcatonly',{'pkid':cat.pkid})}}">{{cat.categoryName}}</option>
+        {%endfor%}
+    </select>    
+ </td>
+</tr>{# empty Twig template #}

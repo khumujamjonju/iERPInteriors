@@ -1,0 +1,38 @@
+<table width="100%" align="center" cellspacing="0" class="tbl-border">
+    <tr>
+        <input id="spanCloseOpenHandleracchistory" value="0" type="hidden"/>
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('acchistory');">
+            Activity Log
+            <span style="margin-left: 200px;"><b>User Name</b>: {{account.userName|upper}}</span>
+            <span style="margin-left: 100px;"><b>Employee ID</b>: {{account.userFk.employeeId|default('')}}</span>
+            <span style="margin-left: 100px;"><b>Employee Name</b>: {{account.userFk.personFk.personName|default('')|upper}}</span>
+            <span style="float: right;" id="spanIdacchistory" class="span_open" >&nbsp;</span>
+        </td>
+    </tr>
+    <tr id="trAddressacchistory">
+        <td>
+            <table width="100%" align="center" id="example2" cellspacing="0" class="display">  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center; width: 70px;">Sl. No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center; width:100px;">Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center; width:100px;">Time</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Activity</th>
+                    </tr>
+                </thead>
+                <tbody>  
+                    {%set slno=1%}
+                    {%for act in actArr%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" width="50px" align="center">{{slno}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center" width="100px">{{act.activityDate|date('d-M-Y')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center" width="100px">{{act.activityDate|date('h:i:s a')}}</td>                                                       
+                            <td class="tbl-grid-view-row-no-bg" align="left">{{act.activity}}</td>                            
+                        </tr>
+                        {%set slno=slno+1%}
+                    {%endfor%}
+                </tbody>
+            </table>
+        </td>        
+    </tr>
+</table>

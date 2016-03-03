@@ -1,0 +1,68 @@
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">My Wallet</h3>
+        <div id="newmenu">
+            <ul>
+                <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_mywallet')}}', '', '', '');"><a href="javascript:void();" >Dashboard</a></li>
+                <li id="view_trans" onclick="fnLeftMenuNavigation('{{path('_viewmytrans')}}', 'view_trans','My Wallet', 'View My Trnsaction', '');"><a href="javascript:void();">View Transactions</a></li>
+                <li id="add_expenses" onclick="fnLeftMenuNavigation('{{path('_addexpense')}}', 'add_expenses', 'My Wallet', 'Add Expense');"><a href="javascript:void();">Add Expense</a></li>
+            </ul>
+        </div>       
+    </div>         
+</div>
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>               
+            <li class='active'><a href="javascript:void(0);"><span>Dashboard</span></a></li>
+        </ul>
+    </div>
+    <div class="newdashboard">
+        <div class="application-form">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+                <tr>
+                    <td class="td-label-title" width="90%" style="padding:10px;">Current Balance</td>
+                    <td class="td-label-title" align="right">{{balance|number_format('2','.','')}}</td>
+                </tr>
+            </table>
+            <br/>            
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+                <tr>
+                    <td class="td-label-title" >Last 10 Transactions</td>                
+                </tr>
+                <tr>
+                    <td>
+                        {%if trans['Date']|length >0%}
+                            <table id="example" width="100%" border="0" cellpadding="0" cellspacing="0" class="display">   
+                            <thead>
+                                <tr>
+                                    <th class="tbl-th-grid-view-row-no-bg">Sl. No.</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Transaction Date</th>                                
+                                    <th class="tbl-th-grid-view-row-no-bg" style="text-align:left;">Description</th>
+                                    <th class="tbl-th-grid-view-row-no-bg" style="width:150px;">Transaction Type</th>
+                                    <th class="tbl-th-grid-view-row-no-bg" style="text-align:right;">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>                                
+                                    {%set slno=1%}
+                                    {%for i in range(0,trans['Date']|length-1)%}
+                                        <tr>
+                                            <td class="tbl-grid-view-row-no-bg" width="70px" align="center">{{slno}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" width="150px">{{trans["Date"][i]|date('d-M-Y h:i a')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" style="text-align:justify;">{{trans["Desc"][i]|default('')}}</td>                                    
+                                            <td class="tbl-grid-view-row-no-bg" width="150px" align="center">{{trans["Type"][i]}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="right" width="100px">{{trans["Amount"][i]|number_format('2','.','')}}</td>
+                                        </tr>
+                                        {%set slno=slno+1%}
+                                    {%endfor%}                                    
+                            </tbody>
+                        </table>
+                        {%else%}
+                            <p style="color:#009900; text-align:center;">No Transaction Record Found.</p>
+                        {%endif%}
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+            

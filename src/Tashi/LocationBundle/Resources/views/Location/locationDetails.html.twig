@@ -1,0 +1,80 @@
+
+<div class='sub-menu'>
+    <ul>
+        <li class='active' id="location_master"><a href='#' href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_master_location_details')}}', 'location_details', 'Details Master', 'Location Details Master');">Country</a></li> 
+        <li id="state"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_masterstate')}}', 'state', 'State Master', 'State Details', 'Create State');">State</a></li> 
+        <li id="district"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_masterdistrict')}}', 'district', 'District Master', 'Distric Details', 'Create District');">District</a></li> 
+        <li id="city"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_mastercity')}}', 'city', 'City Master', 'City Details', 'Create City');">City</a></li> 
+        <li id="address_type"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_masteraddress_type')}}', 'address_type', 'Address Master', 'Address Details', 'Create Address Type');">Address Type</a></li> 
+     {#   <li id="address"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_masteraddress')}}', 'address', 'Address Master', 'Address Details', 'Create Address');">Create Address</a></li> #}
+    </ul>
+</div>
+<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" cellspacing="0" cellspadding="0" class="tbl-border">         
+            <tr>
+                <td class="td-label-title" colspan="2">Manage Country Detail:</td>
+            </tr>
+            <tr>
+                <td> <form id="frmCountryDetails" style="margin: 0px;">
+                        <table width="100%" cellspacing="0" cellspadding="0">                       
+                            <tr>
+                                <td class="td-gray-bg">Name<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"><input type="text" class="cmnWidth" id="txt_country" name="country"></td>
+                                <td class="td-gray-bg">Code</td>
+                                <td class="td-white-bg"><input type="text" class="cmnWidth" id="txt_country_code" name="countrycode"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-separator" colspan="4" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addCountryMaster('{{ path('_add_country_details')}}', this);"/>
+                                    <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="locEditBtn('txt_country', 'txt_country_code');" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="return updateCountryMaster(this);" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="fnLeftMenuNavigation('{{path('_master_location_details')}}', 'location_details', 'Details Master', 'Location Details Master');" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>
+                            </tr>
+                        </table>
+                                <input type="hidden" id="locationUpdateURL" value="{{path('_update_country')}}">
+                             <input type="hidden" id="inputcid" name="inputcid" value=""/>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+            <input type="hidden" id="locationUpdateURL" value="{{path('_update_country')}}">
+            <input type="hidden" name="inputcid" id="inputcid" value=""/>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                <tr>
+                    <td class="td-label-title">Country List:</td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                            <thead>
+                                <tr> 
+                                    <th class="tbl-th-grid-view-row-no-bg">Name</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Code</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                                </tr>
+                            </thead>
+
+                            <tbody>
+                             {% for c in record%}
+                                    <tr>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{c.countryName}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{c.countryCode | default('')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">
+                                            <a href="javascript:void();" onclick="retriveCountryMaster('{{path('_retreive_countryid',{'cid': c.countryPk })}}');">Edit </a> |
+                                            <a href="javascript:void();" onclick="deleteCountryMaster('{{path('_delete_country',{'cid': c.countryPk })}}');" style="color:#ff0000;">Delete </a>
+                                        </td>                                                 
+                                    </tr>
+                                  {%endfor%}
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>                                 
+                </table>
+            </div>   
+        </div>
+    </div> 
+

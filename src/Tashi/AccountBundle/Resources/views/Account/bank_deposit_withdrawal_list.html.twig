@@ -1,0 +1,89 @@
+<table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+        <thead>
+            <tr>
+                <th class="tbl-th-grid-view-row-no-bg">Sl. No.</th>
+                <th class="tbl-th-grid-view-row-no-bg"> Reciept No.</th>
+                <th class="tbl-th-grid-view-row-no-bg">Transaction Details</th>
+                <th class="tbl-th-grid-view-row-no-bg">Amount</th> 
+                <th class="tbl-th-grid-view-row-no-bg">Date</th> 
+                <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                <th class="tbl-th-grid-view-row-no-bg">Receipt</th>
+               {# <th class="tbl-th-grid-view-row-no-bg">Action</th>  #}                                           
+            </tr>
+        </thead>
+        <tbody> 
+        {%for b in bankDepositWithdrawalRecord|default('')%} 
+            <tr>                         
+                <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                <td class="tbl-grid-view-row-no-bg" align="center">{{ b.receiptContraFk.receiptNo|default('') }}</td> 
+                <td class="tbl-grid-view-row-no-bg">
+
+                    {%set loopBreak = false%}
+        {%for c in allContraTansactionDetails|default('') if not loopBreak%} 
+            {%if c.receiptNo|default('') == b.receiptContraFk.receiptNo|default('')%}                                                                                                      
+           <div style="float: left;"><b>Withdrawal From:</b>
+                {%if cashAccountDetails.pkid|default('') == c.accountFrom|default('')%}{#check cash account#}
+                        Cash Account                                     
+                {%else%}{#check bank account #}
+                    {%set loopBreak2 = false%}   
+                    {%for bank in allCompanyBankDetails if not loopBreak2%}
+                            {%if bank.bankFk.bankPk|default('')==  c.accountFrom|default('') %}
+                                   {{ bank.bankFk.bankName|default('') }}({{ bank.bankFk.accountNumber|default('') }})
+                                   {%set loopBreak2 = true%}   
+                            {%endif%}
+                    {%endfor%}                                      
+                {%endif%}  
+                </div> 
+                <br/>
+                <div style="float: left;">
+               <b>Deposit To: </b>                                   
+                {%if cashAccountDetails.pkid|default('') == c.accountTo|default('')%}{#check cash account#}
+                    Cash Account                                       
+                {%else%}{#check bank account#}
+                    {%set loopBreak3 = false%}   
+                    {%for bank in allCompanyBankDetails if not loopBreak3%}
+                            {%if bank.bankFk.bankPk|default('')==  c.accountTo|default('') %}
+                                   {{ bank.bankFk.bankName|default('') }}({{ bank.bankFk.accountNumber|default('') }})
+                                   {%set loopBreak3 = true%}   
+                            {%endif%}
+                    {%endfor%}                                       
+                {%endif%}
+               </div>                 
+              {%set loopBreak = true%}
+            {%endif%}
+        {%endfor%}
+        {# deposit or withdrawal by#}
+        <br/>
+        <div style="float: left;"> <b>By:</b>
+            {%if b.depositWithdrawalKey|default('') == 'D'%}
+                {{ b.depositWithdrawalBy|default('') }} 
+            {%else%}
+                {{ b.depositWithdrawalBy|default('') }}
+            {%endif%}
+            </div>
+
+                </td>
+                <td class="tbl-grid-view-row-no-bg">Rs {{ b.amount|default('') }}</td> 
+                <td class="tbl-grid-view-row-no-bg" align="center">{{ b.date|default('')|date('d-m-Y') }}</td> 
+
+
+                <td class="tbl-grid-view-row-no-bg" style="width: 220px; text-align: justify;">{{ b.description|default('') }}</td> 
+                <td class="tbl-grid-view-row-no-bg" align="center">
+                    {% if  b.receiptDocFk.path|default('') != ''%}
+                        <a href="{{ asset(b.receiptDocFk.path|default('')) }}" download="{{b.receiptDocFk.originalName|default('')~'.'~b.receiptDocFk.docType|default('')}}"><input type="button" id="downloadPassbookBtn" value="download"/></a> 
+                    {%else%}
+                            No file
+                    {%endif%}
+                </td>
+              {#  <td class="tbl-grid-view-row-no-bg"  style="width: 150px;">
+                    <select class="normal_select" id="bankDepositWidrawHistoryAction{{b.pkid|default('')}}" name="txt_bankDepositWidrawHistoryAction" >
+                        <option value="">Select</option>                                
+                        <option value="{{path('_retrive_bank_deposit_withdrawal_history',{'pkid': b.pkid|default('')})}}&upd">Edit</option>
+                        <option value="{{path('_delete_bank_deposit_withdrawal_record',{'pkid': b.pkid|default('')})}}&del">Delete</option>
+                    </select> 
+                    <input class="button" name="commit" type="button" value="Go" onClick="bankDepositWidrawHistoryAction(this,'{{b.pkid|default('')}}','#bankDepositWidrawHistoryAction');" /> 
+                </td> #}
+            </tr> 
+        {%endfor%}
+        </tbody>                                
+    </table>

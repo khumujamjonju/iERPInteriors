@@ -1,0 +1,56 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <td class="td-label-title" style="cursor:pointer;" >Update Project Status
+            <table style="float:right;">
+                <tr>
+                    <td>Customer Name:  {{project.customerFk.customerName|upper}}</td>
+                    <td width="50px"></td>
+                    <td>Project: {{project.areaFk.area|upper}}</td>                 
+                </tr>
+            </table>
+        </td> 
+    </tr>
+    <tr>
+        <td>
+            <input type="hidden" name="inputprojId" value="{{project.pkid}}"/>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="td-gray-bg">Current Status</td>
+                    <td class="td-white-bg">
+                        <strong style="color:{{project.status.statusColor}};">{{project.status.statusName}}</strong>
+                        <input type="hidden" name="inputstatusid" id="inputstatusid" value="{{project.status.pkid}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Select Status <span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg">
+                        <select name="selProjectStatus" id="selProjectStatus">
+                            <option value="">--select--</option>
+                            {%for status in statusArr%}
+                                <option value="{{status.pkid}}">{{status.statusName}}</option>
+                            {%endfor%}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Status Date<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg">
+                        <input type="date" name="txtstatusDate" id="txtstatusDate" value="{{'now'|date('Y-m-d')}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Remarks<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg">
+                        <textarea name="txtRemarks" id="txtRemarks" cols="50" rows="5"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg"></td>
+                    <td class="td-white-bg">
+                        <input type="button" class="button" value="Submit" onclick="UpdateProjectStatus('{{path("_updateprojstatus",{projid:project.pkid})}}');"/>
+                    </td>
+                </tr>                
+            </table>
+        </td>
+    </tr>
+</table>

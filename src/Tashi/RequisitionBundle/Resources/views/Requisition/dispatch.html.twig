@@ -1,0 +1,56 @@
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" style="margin-top:5px;">                             
+    <tr>
+    <td class="td-label-title" colspan="4">Requisition Product Details List:</td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg cmnWidth">Select Employee :</td>
+        <td class="td-white-bg cmnWidth">
+            <select class="cmnWidth" name="selectedEMp" id="selectedEMp">
+            <option value="">--Select--</option>
+            {%for w in emp%}
+            <option value="{{w.employeePk}}">{{w.personFk.personName}}</option>
+            {%endfor%}
+            </select> 
+        </td>
+        <td class="td-gray-bg cmnWidth"></td>
+        <td class="td-white-bg cmnWidth"></td>
+        
+    </tr>
+</table>
+
+
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" style="margin-top:5px;">
+    <input type="hidden" value="" id="requisitionID" name="requisitionID"/>
+  <thead>  <tr> <td class="tbl-th-grid-view-row-no-bg" style="width:100px;background: #ccc;">Sl No</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="width:300px;background: #ccc;">Product</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Quantity</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Unit</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Action</td>
+    </tr>
+    </thead>
+     {%if details.result|length<=0%}
+                    <tr>
+                        <td colspan="5">
+                            <br/>
+                            <p style="color:#ff0000; text-align: center; margin: 0;">Either stock not available or no requisition request found</p>
+                        </td>
+                    </tr>
+    {%endif%}
+    
+    
+    {%for r in details.result%}
+    <tr>
+        <td class="td-gray-bg" style="width:100px;">{{loop.index}}</td>
+        <td class="td-white-bg cmnWidth" style="width:300px;">{{r.name}} ({{r.code}})
+        <input type="hidden" value="{{r.pid}}" name="productID"/><input type="hidden" value="{{r.pid}}" name="{{'proID'~r.pid}}"/>
+        </td>
+        <td class="td-white-bg cmnWidth">{{r.rq}}  <input type="hidden" id="requisitionquantity" name="{{'requisitionquantity'~r.pid}}" value="{{r.rq}}"/> 
+        (In Stock {{r.q}})  <input type="hidden" id="Stockquantity" name="{{'Stockquantity'~r.pid}}" value="{{r.q}}"/></td>
+        <td class="td-white-bg cmnWidth">{{r.uname}}  <input type="hidden" id="UnitID" name="{{'UnitID'~r.pid}}" value="{{r.uid}}"/></td>
+       <td class="td-gray-bg cmnWidth"><input type="button" value="Dispatch" class="button blue" 
+              onclick="Dispatch('{{path('_dispatch_stock',{'rid':r.pid})}}');"/></td>  
+    </tr> 
+    {%endfor%}
+    
+    
+</table>

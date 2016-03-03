@@ -1,0 +1,73 @@
+<div class="bankdetails"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Supplier Bank Details</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmPurchaseSupplierBankDetail" style="margin: 0px;">
+                        <table width="100%" id="tablebankdetails" align="center" border="0" cellpadding="0" cellspacing="0">                            
+                            <tr>
+                                <td class="td-gray-bg">Name of the Bank:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="txt_Name_Of_The_Bank" name="txt_bank_name">               
+                                </td>
+                                <td class="td-gray-bg">Branch Name:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="txt_Branch_Name" name="txt_branch">                                  
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Branch Code:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"><input class="cmnWidth" type="text" id="txt_branchcode" name="txt_branchcode"></td>  
+                                <td class="td-gray-bg">Account No:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"><input class="cmnWidth" type="text" id="txt_accountno" name="txt_accountno"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Select Account Type:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"><select class="cmnWidth" id="ddlb_account_type_list" name="account_type">
+                                     <option value="" >--Select--</option>
+                                     {%for s in account_type%}
+                                     <option value="{{s.bankAccTypePk}}">{{s.accTypeName}}</option>
+                                     {%endfor%}
+                              </select> </td>  
+                                <td class="td-gray-bg">MICR Code</td>
+                                <td class="td-white-bg"><input class="cmnWidth" type="text" id="txt_micr" name="txt_micr"></td>
+                            </tr> 
+                            <tr>
+                                <td class="td-gray-bg">IFSC Code:</td>
+                                <td class="td-white-bg"><input class="cmnWidth" type="text" id="txt_ifsc" name="txt_ifsc"></td>  
+                                <td class="td-gray-bg">Contact Number:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" >
+                                    <input type="hidden" id="comMobileId" name="comMobileId"/>
+                                    <input type="text" id="txt_Contact_Number" name="txt_contact" class="cmnWidth" 
+                                            onkeypress="return IntegerOnly(event);" maxLength="10" placeholder="e.g.9856123456">
+                                   <span id="digitMessageCustomerMobileNo" class="digitMessage"></span>
+                                </td>
+                                
+                                
+                                {#<td class="td-white-bg"><input class="cmnWidth" type="text" id="txt_Contact_Number" name="txt_contact"></td>#}
+                            </tr>
+                            
+                           
+                            <tr>
+                                <td class="td-gray-bg">Location:</td>
+                                <td class="td-white-bg" colspan="3"><textarea id="location" name="location" cols="120" rows="4"> </textarea> </td>
+                                
+                           </tr>
+                            <tr>
+                                <td class="td-separator" colspan="4" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addnewsupplierBankDetails('{{ path('_insert_Bank_Detail')}}',this);"/>
+                                    {#<input type="button" class="button blue" id="btn_newSave" value="Add New Bank Details" onclick="AddnewsupplierBankDetailsMaster('tablebankdetails');"  style="display: none;"/> #}
+                                    <input type="button" class="button blue" id="btn_update" value="update" onclick="return UpdatebanksupplierBankDetails('{{ path('_update_Bank_Detail')}}',this);"/> 
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="ResetAll(this);"/>  
+                                </td>  
+                            </tr>
+                        </table>
+                            
+                    <input type="hidden" id="bankID" value=""/>        
+                    </form>
+                 </td>
+            </tr> 
+        </table>      
+    </div> 

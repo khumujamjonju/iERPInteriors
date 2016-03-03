@@ -1,0 +1,14 @@
+ 
+parameters:
+   
+    tashi.service.supplier.class: Tashi\SupplierBundle\Service\SupplierService
+services:
+    tashi.supplier.service:
+        class:     "%tashi.service.supplier.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service","@mailer"]    
+    
+    
+#    parameters:
+#    tashi.supplier.service:
+#        class:     "%tashi.service.supplier.class%"
+#        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]

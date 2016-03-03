@@ -1,0 +1,108 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <td class="td-label-title" colspan="3">Payment Detail</td>
+    </tr>
+    <tr>
+        <td>
+            <input type="hidden" name="inputProjId" value="{%if projid is defined%}{{projid}}{%endif%}">
+            <table width="100%" align="center" id="example2" cellspacing="0">
+                {%if projid is not defined%}
+                    <tr>
+                        <td class="td-gray-bg" width="200px">Is Advance Payment Received?</td>
+                        <td class="td-white-bg">
+                            <div class="example">
+                                <div style="float:left;">
+                                    <input id="radio1" type="radio" name="radio" value="1" checked onchange="toggleAdvancePay(this);" ><label for="radio1"><span><span></span></span>Yes</label>
+                                </div>                                                         
+                                <div style="float:left;">
+                                    <input id="radio2" type="radio" name="radio" value="0" onchange="toggleAdvancePay(this);"><label for="radio2"><span><span></span></span>No</label>
+                                </div>                                                                    
+                                <input type="hidden" id="inputIsAdvPaid" name="inputIsAdvPaid" value="1">
+                            </div>
+                        </td>
+                    </tr>
+                {%endif%}
+            </table>
+            <div id="divAdvPay" disbaled>
+                <table width="100%" align="center" cellspacing="0">
+                    <tr>
+                        <td class="td-gray-bg" width="200px">Payment Mode<span class="mandatoryField">*</span></td>
+                        <td class="td-white-bg">    
+                            <select name="selpayMode" id="selpayMode" onchange="payModeChange(this);">
+                                <option value="">--select--</option>
+                                {%for paymode in payModes%}
+                                    <option value="{{paymode.pkid}}&{{paymode.ispaymentNoRequired}}">{{paymode.paymentModeName}}</option>
+                                {%endfor%}
+                            </select>
+                        </td>
+                    </tr>    
+                    <tr>
+                        <td class="td-gray-bg">Cheque/Transaction/DD No</td>
+                        <td class="td-white-bg">
+                            <input type="text" name="txtTranNo" id="txtTranNo" class="cmnWidth" disabled>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Payer Bank Name</td>
+                        <td class="td-white-bg">
+                            <input type="text" name="txtBankName" id="txtBankName" class="cmnWidth" disabled>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Date of Payment<span class="mandatoryField">*</span></td>
+                        <td class="td-white-bg">
+                            <input type="date" name="txtPayDate" id="txtPayDate" value="{{"now"|date('Y-m-d')}}">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Received Amount<span class="mandatoryField">*</span></td>
+                        <td class="td-white-bg">
+                            <input type="text" name="txtAmount" id="txtAmount" class="money" value="0.00" onkeyup="isMoney(this.id);" onblur="isMoney(this.id);">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Re-enter Amount<span class="mandatoryField">*</span></td>
+                        <td class="td-white-bg">
+                            <input type="text" name="txtreAmount" id="txtreAmount" class="money" value="0.00" onkeyup="isMoney(this.id);" onblur="isMoney(this.id);">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Alert Percent<span class="mandatoryField">*</span></td>
+                        <td class="td-white-bg">
+                            <input type="text" name="txtalertpc" id="txtalertpc" class="money" value="0.00" onkeyup="isMoney(this.id);"> %
+                            <br/><br/>
+                            <span style="font-size: 11px; color:#ff0000;">When the project expenses reaches this percent of the Received Amount. Low Balance alert will be shown.</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Remarks</td>
+                        <td class="td-white-bg">
+                            <textarea name="txtremarks" cols="50" rows="5"></textarea>
+                        </td>
+                    </tr>                    
+                </table>
+            </div>
+            <table width="100%" align="center" cellspacing="0">
+                {%if projid is defined%}
+                    <tr>
+                        <td class="td-gray-bg" width="200px"></td>
+                        <td class="td-white-bg">
+                            <input type="button" class="button"  value="Submit" onclick="AddNewAdvancePayment('{{path("_insertadvpay",{projid:projid})}}');"/>
+                            &nbsp;
+                            <input type="button" class="button"  value="Cancel" onclick="CancelAdvPay();"/>
+                        </td>
+                    </tr>
+                {%else%}  
+                    <tr>
+                        <td class="td-gray-bg" width="200px"></td>
+                        <td class="td-white-bg">
+                            <input type="button" class="button"  value="Back" onclick="stepper('Enter Project Detail','3');"/>
+                                &nbsp;
+                            <input type="button" class="button"  value="Proceed" onclick="projectStep5('{{path("_projstep5")}}');"/>
+                        </td>
+                    </tr>
+                {%endif%}
+            </table>
+        </td>
+    </tr>
+</table>

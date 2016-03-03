@@ -1,0 +1,25 @@
+ <tr>
+                    <td class="td-gray-bg cmnWidth">Amount:</td>
+                    <td class="td-white-bg cmnWidth"><input type="text" name="purpost" id="" class="cmnWidth"/></td>
+                    <td class="td-gray-bg cmnWidth"></td>
+                    <td class="td-white-bg cmnWidth"></td>
+</tr>
+
+ <tr>
+                    <td class="td-gray-bg cmnWidth">Purpose:</td>
+                    <td class="td-white-bg cmnWidth">
+                     <textarea name="txt_purpose" style="width: 99%;height: 70px;"></textarea>
+                    </td>
+</tr>
+<tr>
+                    <td class="td-gray-bg cmnWidth"> </td>
+                    <td class="td-white-bg cmnWidth"> 
+                    <input type="button" class="button" id="btnSave" value="Save" onclick="return SaveWalletDetails('{{path("_saveWallet")}}',this);">
+                    <input type="button" class="button" id="btnUpdate" value="Update" onclick="return UpdateWalletDetails('{{path("_updateWallet")}}',this);">
+                    <input type="hidden" id="acct_id" name="txt_accntid" value=""/>
+                    
+                    
+                    </td>
+                    <td class="td-gray-bg cmnWidth"> </td>
+                    <td class="td-white-bg cmnWidth"> </td>
+</tr>

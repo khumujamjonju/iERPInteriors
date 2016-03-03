@@ -1,0 +1,149 @@
+{%set pkid=company.pkid|default('')%}
+{%set name=company.companyName|default('')%}
+{%set slogan=company.slogan|default('')%}
+{%set website=company.website|default('')%}
+{%set regno=company.registrationNo|default('')%}
+{%set tan=company.tanNo|default('')%}
+{%set tin=company.tinNo|default('')%}
+{%set cin=company.cinNo|default('')%}
+{%set vat=company.vatNo|default('')%}
+{#ADDRESS DETAIL#}
+{%set apkid=address.addressFk.addressPk|default('')%}
+{%set addr=address.addressFk.address1|default('')%}
+{%set countryid=address.addressFk.countryCodeFk.countryPk|default('')%}
+{%set stateid=address.addressFk.stateCodeFk.statePk|default('')%}
+{%set cityid=address.addressFk.cityCodeFk.cityPk|default('')%}
+{%set districtid=address.addressFk.districtFk.pkid|default('')%}
+{%set pin=address.addressFk.pinNumber|default('')%}
+<div class='sub-menu'>
+    <ul>
+        <li class='active' id="add_new_company" onclick="fnLeftMenuNavigation('{{path('_gotocompanyinfo')}}', 'add_new_company', 'Company Master', 'Create Company');"><a href="javascript:void();">Company Information</a></li>
+        <li id="mobile_li"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_Company_mobile')}}', 'mobile_li', 'Company Master', 'Manage Mobile Number');"><span>Mobile Number</span></a></li>
+        <li id="email_li"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_Company_Email')}}', 'email_li', 'Company Master', 'Email');"><span>Email</span></a></li>
+        <li id="telephone_li"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_Company_telephone')}}', 'telephone_li', 'Company Master', 'Telephone Number');"><span>Telephone Number</span></a></li>
+        <li id="fax_li"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_Company_fax')}}', 'fax_li', 'Company Master', 'Fax Number');"><span>Fax Number</span></a></li>
+    </ul>
+</div>
+<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" cellspacing="0" cellspadding="0" class="tbl-border">         
+            <tr>
+                <td class="td-label-title" colspan="2">Company Information</td>
+            </tr>
+            <tr>
+                <td> 
+                    <form id="frmCompanyDetails" style="margin: 0px;">
+                        <input type="hidden" name="cpkid" value="{{pkid}}">
+                        <input type="hidden" name="addpkid" value="{{apkid}}">
+                        <table width="100%" cellspacing="0" cellspadding="0">     
+                            <tr>
+                                <td class="td-gray-bg" width="150px">Name <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" width="300px">
+                                    <input type="text" class="cmnWidth" id="txt_company" name="CompanyName" value="{{name}}">
+                                </td>
+                                <td class="td-white-bg" colspan="2" rowspan="3" align="center">
+                                    <div style="border: 1px solid #ccc; padding: 3px; padding-bottom: 0px; width: 120px; border-radius: 3px;">
+                                        {%if company.logoFk | default('') is null%}
+                                            <img id="profile-view" src="{{asset('bundles/common/images/NoImage128.png')}}" width="120" height="130">
+                                        {%else%}
+                                            <img id="profile-view" src="{{asset(company.logoFk.path | default(''))}}" width="120" height="130">                                            
+                                        {%endif%}                                         
+                                        <div class="upload-profile-pic-btn" onclick="ClickOnChooseFile('#emp_pro_pic');">Company Logo</div>
+                                    </div>
+                                    <input class="cmnWidth" type="file" id="emp_pro_pic" name="txt_emp_pro_pic" onchange="readURL(this, 'profile-view');" style="display: none;">
+                                </td>
+                            </tr>
+                            <tr>                                
+                                <td class="td-gray-bg">Slogan</td>
+                                <td class="td-white-bg"><input type="text" class="cmnWidth" id="txt_slogan" name="slogan" value="{{slogan}}"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Web Site:</td>
+                                <td class="td-white-bg" colspan="3"><input type="text" class="cmnWidth" id="txt_website" name="webSite" value="{{website}}"></td>                                
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Registration Number<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" colspan="2"><input type="text" class="cmnWidth" id="txt_Registration_number" name="Registration_number" value="{{regno}}"></td>
+                            </tr>                            
+                            <tr>
+                                <td class="td-gray-bg">TIN</td>
+                                <td class="td-white-bg"><input type="text" class="cmnWidth" id="txt_Tin" name="Tin" value="{{tin}}"></td>
+                                <td class="td-gray-bg">TAN</td>
+                                <td class="td-white-bg"><input type="text" class="cmnWidth" id="txt_Tan" name="Tan" value="{{tan}}"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">VAT</td>
+                                <td class="td-white-bg"><input type="text" class="cmnWidth" id="txt_Vat" name="Vat" value="{{vat}}"></td>
+                                <td class="td-gray-bg">CIN</td>
+                                <td class="td-white-bg"><input type="text" class="cmnWidth" id="txt_Cin" name="Cin" value="{{cin}}"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-label-title" colspan="4">Address</td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg" >Address<span class="mandatoryField" >*</span> </td>
+                                <td class="td-white-bg" colspan="3">
+                                    <textarea name="address1" id="address1" cols="100" rows="5">{{addr}}</textarea> 
+                                </td>  
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Select Country<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" id="tdCountry">
+                                    <Select id="selcountry" name="selcountry" class="cmnWidth" onchange="loadDropDown(this, '{{path('_loaddropdown', {'key': 'S'})}}','selstate');">
+                                        <option value="">--Select--</option>
+                                        {%for c in countryArr%}
+                                            <option value="{{ c.countryPk|default('')}}" {%if c.countryPk==countryid%}selected{%endif%}>{{ c.countryName|default('') }}</option>
+                                        {%endfor%}
+                                    </Select>                                       
+                                </td>
+                                <td class="td-gray-bg">Select State<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" id="tdState">
+                                    <Select id="selstate" name="selstate" class="cmnWidth" onchange="loadDropDown(this, '{{path('_loaddropdown', {'key': 'D'})}}','seldistrict');">
+                                        <option value="">--Select--</option>
+                                        {%for state in stateArr%}
+                                            <option value="{{state.statePk|default('')}}" {%if state.statePk==stateid%}selected{%endif%}>{{ state.stateName|default('') }}</option>
+                                        {%endfor%}
+                                    </Select>                                        
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Select District</td>
+                                <td class="td-white-bg" id="tdDistrict">
+                                    <Select id="seldistrict" name="seldistrict" class="cmnWidth"  onchange="loadDropDown(this, '{{path('_loaddropdown', {'key': 'C'})}}','selcity');">
+                                        <option value="">--Select--</option>
+                                        {%for district in districtArr%}
+                                            <option value="{{district.pkid|default('')}}" {%if district.pkid==districtid%}selected{%endif%}>{{ district.districtName|default('') }}</option>
+                                        {%endfor%}
+                                    </Select>                                         
+                                </td> 
+                                <td class="td-gray-bg">Select City</td>
+                                <td class="td-white-bg" id="tdCity">
+                                    <Select id="selcity" name="selcity" class="cmnWidth">
+                                        <option value="">--Select--</option> 
+                                        {%for city in cityArr%}
+                                            <option value="{{ city.cityPk|default('') }}" {%if city.cityPk==cityid%}selected{%endif%}>{{ city.cityName|default('') }}</option>
+                                        {%endfor%}
+                                    </Select> 
+                                </td> 
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Postal Code <span class="mandatoryField" >*</span></td>        
+                                <td class="td-white-bg" colspan="3">
+                                    <input type="text" class="cmnWidth" name="zipcode" id="zipcode" maxLength="6" value="{{pin}}">
+                                    <br><span id="digitMessagePostalCode" class="digitMessage"></span>
+                                </td>
+                            </tr>                            
+                            <tr>
+                                <td class="td-separator" colspan="4" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveCompanyMaster('{{ path('_savecompanyinfo')}}', this);"/>                                                                        
+                                </td>
+                            </tr>
+                        </table>
+                         <input type="hidden" id="companyId" value=""/>    
+                    </form>
+                </td>
+            </tr>
+        </table>          
+    </div>
+</div> 
+

@@ -1,0 +1,46 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+        <tr>
+            <td class="td-label-title">Branch Office List:</td>
+        </tr>
+        <tr>
+            <td>
+
+                <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                    <thead class="">
+                        <tr>
+                            <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Branch Code</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Branch Name</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Mobile</th>                            
+                            <th class="tbl-th-grid-view-row-no-bg">Phone</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Address</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                        </tr>
+                    </thead>
+
+                    <tbody>                           
+                          {%for b in allBranchOffice|default('') %}
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ b.branchFk.branchCode|default('') }}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ b.branchFk.branchName|default('') }}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ b.branchFk.mobileNo|default('') }}</td>                             
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ b.branchFk.telNo|default('') }} </td>
+                                <td class="tbl-grid-view-row-no-bg" style="text-align: justify;">
+                                    {{ b.addressFk.address1|default('') }}, <br/>
+                                    {{ b.addressFk.cityCodeFk.cityName|default('') }}, 
+                                    {{ b.addressFk.districtFk.districtName|default('') }},
+                                    {{ b.addressFk.stateCodeFk.stateName|default('') }},
+                                    {{ b.addressFk.countryCodeFk.countryName|default('') }}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">
+                                   <a href="javascript:void();" onclick="return branchOfficeAction(this, '{{ path('_retrive_branch_office_info',{ 'branchAddTxnId': b.pkid|default('') })}}', 'edit');">Edit</a> | 
+                                   <a href="javascript:void();"  style="color:#ff0000;" onclick="return branchOfficeAction(this, '{{ path('_delete_branch_office_info',{ 'branchAddTxnId': b.pkid|default('') })}}', 'del');">Delete</a>
+                                </td>                                                 
+                            </tr>                    
+                         {%endfor%}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>                                 
+    </table>

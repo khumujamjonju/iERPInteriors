@@ -1,0 +1,74 @@
+<div class="application-form"> 
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+        <tr>
+            <td class="td-label-title">Working Type</td>
+        </tr>
+        <tr>
+            <td>
+               
+                <form  id="frmEmpWorkingType" style="margin: 0px;">
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                        <tr>
+                            <td class="td-gray-bg">Working Type</td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="txt_workingtype" name="workingtype">                                     
+                            </td>
+                            <td class="td-gray-bg">Description</td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="txt_description" name="description">                                          
+                            </td>                                                          
+                        </tr>                                              
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                               <input type="button" id="btn_save" class="button blue" value="Save" onclick="return addEmpWorkingtype('{{path('_add_new_workingtype')}}',this);"/>
+                               <input type="button" id="btn_edit" class="button blue" value="Edit" onclick="commonEditBtn('txt_workingtype','txt_description');" style="display:none;" />
+                               <input type="button" id="btn_update" class="button blue" value="Update" onclick="return addEmpWorkingtype('{{path('_add_new_workingtype')}}',this);" style="display:none;" />
+                               <input type="button" id="btn_cancel" class="button blue" value="Cancel" onclick="commonCancelBtn('txt_workingtype','txt_description','workingtypeId');" style="display:none;" />
+                               <input type="button"  id="btn_clear" class="button blue"value="Reset" onclick="formReset();"/>  
+                            </td>  
+                        </tr>
+                    </table>
+                             <input type ="hidden" id="workingtypeId" name="workingtypeId" value="" >
+                </form>
+            </td>
+        </tr> 
+    </table>
+
+    <div id="display-list" style="margin-top: 8px;">
+   
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Work Type List</td>
+            </tr>
+            <tr>
+                <td>
+
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                            <thead>
+                                <tr>
+                                    <th class="tbl-th-grid-view-row-no-bg">Working Type Name</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                                </tr>
+                            </thead>
+
+                            <tbody>  
+                                {%for wt in allRecord%}
+                                
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{wt.workingType|default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{wt.description|default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+ <a href="javascript:void();" onclick="retreiveEmpWorkingType('{{path('_retreive_workingtype',{'workingtypeId': wt.workingTypePk|default('') })}}');">Edit </a>
+ | <a href="javascript:void();"   style="color:#ff0000;" onclick="deleteEmpWorkingTypeMaster('{{path('_deleteEmpWorkingType',{'workingtypeId': wt.workingTypePk |default('')})}}');">Delete </a></td>                                                 
+                                </tr>
+                                
+                               {%endfor%}
+                                
+                            </tbody>
+                        </table>
+                </td>
+            </tr>                                 
+        </table>
+    </div>
+</div>

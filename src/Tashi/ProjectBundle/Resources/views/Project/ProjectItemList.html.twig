@@ -1,0 +1,79 @@
+<input type="hidden" name="projectArea" value="{{areaid}}"/>
+<input type="hidden" name="projectid" value="{{projectid}}"/>
+{%if from =='createproject'%}
+    <p class="success" style=" padding:7px 0; text-align:center; background-image: none;">
+        Project has been created successfully. Project ID/Order No. is <strong>{{orderno}}</strong>
+    </p>
+{%endif%}
+<br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        
+        <td class="td-label-title">Add Product </td>
+    </tr>
+    <tr id="trAddressprojprdList">
+        <td>
+            <table width="100%">                                                   
+                <tbody>                    
+                    {%for cattxn in cattxnArr%}
+                        <tr>
+                            {%set catid=cattxn.prodCategoryFk.pkid%}
+                            <input id="spanCloseOpenHandler{{catid}}" value="1" type="hidden">
+                            <td class="td-label-title" colspan="5" style="cursor:pointer;" onclick="LoadProductByCat('{{path("_loadprojitems",{'catid':catid})}}','{{catid}}',this);">{{cattxn.prodCategoryFk.categoryName|upper}}
+                                <span style="float: right;" id="spanId{{catid}}" class="span_close" >&nbsp;</span>
+                            </td>
+                        </tr> 
+                        <tr id="trAddress{{catid}}" style="display:none;" >
+                            <td id='td{{catid}}'></td>
+                        </tr>
+                    {%endfor%}                    
+                </tbody>  
+            </table> 
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%">
+                <tr>
+                    <td width="70px"></td>                    
+                    <td></td>
+                    <td width="100px"></td>
+                    <td width="150px"></td>
+                    <td width="100px"></td>
+                    
+                </tr>
+                {#<tr>
+                    <td class="tbl-grid-view-row-no-bg tbl-th-bg" colspan="3" style="text-align:right; padding:5px;">
+                        <b>GRAND TOTAL</b>
+                    </td>
+                    <td class="tbl-grid-view-row-no-bg tbl-th-bg" style="text-align:right;">
+                        <input type="text" class="totalMoney" name="txtGrandPrice" id="txtGrandPrice" readonly value="0.00"/>
+                    </td>
+                    <td class="tbl-grid-view-row-no-bg tbl-th-bg" style="text-align:right;">
+                        <input type="text" class="totalMoney" name="txtGrandCharge" id="txtGrandCharge" readonly value="0.00"/>
+                    </td>
+                </tr>#}
+                <tr>
+                    <td class="tbl-grid-view-row-no-bg tbl-th-bg" colspan="4" style="text-align:right; padding: 5px;">
+                        <b>TOTAL PROJECT BUDGET</b>
+                    </td>                    
+                    <td class="tbl-grid-view-row-no-bg tbl-th-bg" style="text-align:right;">
+                        <input type="text" class="totalMoney" name="txtTotBudget" id="txtTotBudget" readonly value="0.00"/>
+                    </td>
+                </tr>
+            </table>
+        </td>                        
+    </tr>
+</table>
+                <br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td align="center">
+            {%if from =='createproject'%}{#this will be used after project is created #}
+                <input type="button" class="button"  value="Save" onclick="AddProjectItemService('{{path("_addprojectitemservice")}}','{{from}}');"/>
+            {%else%}{#this will be used when user want to add project item or service from project detail page#}
+                <input type="button" class="button"  value="Add Items" onclick="AddProjectItemService('{{path("_addprojitemserviceprojdetail")}}','{{from}}');"/>
+            {%endif%}
+        </td>
+    </tr>
+</table>

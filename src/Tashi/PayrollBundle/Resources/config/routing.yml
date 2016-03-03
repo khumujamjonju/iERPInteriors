@@ -1,0 +1,3 @@
+_payroll:
+    resource: "@TashiPayrollBundle/Controller/PayrollController.php"
+    type:     annotation

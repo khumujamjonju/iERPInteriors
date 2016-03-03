@@ -1,0 +1,3 @@
+_account:
+    resource: "@TashiAccountBundle/Controller/AccountController.php"
+    type:     annotation

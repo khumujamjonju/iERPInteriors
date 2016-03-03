@@ -1,0 +1,73 @@
+   <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+        <tr>
+            <td class="td-label-title">Department Form</td>
+        </tr>
+        <tr>
+            <td>                 
+                <form id="frmEmployeeDepartment" style="margin: 0px;">
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                        <tr>
+                            <td class="td-gray-bg">Department Name<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <input type="hidden" id="deptId"  name="deptId">
+                                <input class="cmnWidth" type="text" id="deptName" name="deptName" onkeypress="return NullonEnterKey(event);">                                     
+                            </td>
+                        </tr>                                              
+                        <tr>
+                            <td class="td-gray-bg">Description<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <textarea id="description" name="description" cols="50" rows="4"></textarea>                                         
+                            </td>                                                          
+                        </tr>                                              
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Save" onclick="return createDepartment('{{ path('_create_employee_department')}}', this);"/>
+                                {#<input type="button" class="button blue" id="btn_edit" value="Edit" onclick="commonEditBtn('deptName', 'description');" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_update" value="Update" onclick="return createDepartment('{{ path('_create_employee_department')}}', this);" style="display: none;"/>#}
+                                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="onCancleClick('frmEmployeeDepartment');" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                            </td>
+                        </tr>
+                    </table>
+                    
+                </form>                               
+            </td>
+        </tr> 
+    </table>
+    <div id="display-list" style="margin-top: 8px;">
+
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Department List:</td>
+            </tr>
+            <tr>
+                <td>
+
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                        <thead class="">
+                            <tr>
+                                <th class="tbl-th-grid-view-row-no-bg">Department Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+
+                        <tbody>                           
+                  {%for d in allRecord|default('') %}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ d.departmentName|default('') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ d.description|default('') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                     <a href="javascript:void();" onclick="retriveDepartmentInfo('{{ path('_retrive_department_info',{ 'deptID': d.pkid|default('') })}}');">Edit</a> 
+                            | <a href="javascript:void();"   style="color:#ff0000;" onclick="deleteEmpDepartment(this, '{{ path('_delete_department_info',{ 'deptID': d.pkid|default('') })}}');">Delete</a>
+                                    </td>                                                 
+                      
+                                  
+                                </tr>                    
+                  {%endfor%}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>
+        </div> 

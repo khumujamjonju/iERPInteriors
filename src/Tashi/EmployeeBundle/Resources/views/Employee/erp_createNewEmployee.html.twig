@@ -1,0 +1,185 @@
+{# empty Twig template #}
+{% set fname = '' %}
+{% set mname = '' %}
+{% set lname = '' %}
+{% set dob = '' %}
+{% set mobileNo = '' %}
+
+{% if employee is defined %}
+    {% set fname = employee.name %}
+    {% set mname = '' %}
+    {% set lname = '' %}
+    {% set dob = employee.dob|date('d-M-Y') %}
+    {% set mobileNo = employee.mobileNo %}
+{% endif %}
+<table width="100%" border="0">
+    <tr class="trMessage">
+        <td><div class="message" id="divEmpmessage"></div></td>
+    </tr>
+    <tr> 
+        <td>
+            <ul class="tabs"> 
+                <li id="sub-tab1" class="active" onclick="appendEmployeeDetails('{{path('_appendCreateEmployeeDetails')}}','sub_tabs1','1');" rel="tab1">Employee Details</li> 
+                <li id="sub-tab1">Employee Address Details</li> 
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" style="padding: 5px;" cellpadding="0" cellspacing="0" class="tbl-border">
+            <tr>
+                <td>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        {#<tr class="trMessage" id="trMessage" style="">
+                            <td><div class="message"></div></td>
+                        </tr>#}
+                    </table>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-separator" id="sub_tabs1">
+                    <form id="employeeAddForm" name="PositionForm" enctype="multipart/form-data" method="POST">
+                        <table width="100%" style=" margin-top: auto;" class="tbl-border-content"  align=center border="0" cellpadding="0" cellspacing="0" >                         
+                            
+                            <tr>
+                                <td class="td-label-title" colspan="4">Employee Details</td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg td-dotted-top">Enployee ID/Number<span class="mandatoryField" >*</span></td>
+                                <td  class="td-white-bg td-dotted-top" ><input type="text" name="txtEmpNo" id="txtEmpNo" size="30" value="" ></td>                                              
+
+                                <td colspan="2" rowspan="9" class="td-white-bg td-dotted-top">
+                                    <div class="tbl-border" style="width: 120px; height: 130px; padding:2px; margin: auto;">
+                                        <img src="/cms/web/bundles/CRM/images/unknown.jpg" width="120px" id="agent_img" height="130px" style="cursor: pointer" onclick="uploadAgentPhoto('agent_photo');"/>
+                                        <input id="agent_photo" name="emp_pro_pic" type="file" onchange="displays(this);" style="visibility: hidden; border:none; background: none; opacity: 0"/>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg td-dotted-top">First Name<span class="mandatoryField" >*</span></td>
+                                <td  class="td-white-bg td-dotted-top" ><input type="text" name="first_name" id="first_name" size="30" value="{{fname}}" ></td>                                      
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Middle Name</td>
+                                <td  class="td-white-bg"><input type="text" name="middle_name" id="middle_name" size="30" value="{{mname}}"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Last Name<span class="mandatoryField" >*</span></td>
+                                <td  class="td-white-bg"><input type="text" name="last_name" id="last_name" size="30"  value="{{lname}}"/></td> 
+                            </tr>                                                
+                            <tr>
+                                <td class="td-gray-bg td-dotted-top">Father Name</td>
+                                <td  class="td-white-bg td-dotted-top"><input type="text" name="father_name" id="father_name" size="30"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Mother Name</td>
+                                <td class="td-white-bg">
+                                    <input type="text" name="mother_name" id="mother_name" size="30">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Date of Birth<span class="mandatoryField" >*</span></td>
+                                <td class="td-white-bg" ><input type="text" class="datepicker" style="width: 180px;" name="dob" id="dob" value="{{dob}}"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Gender<span class="mandatoryField" >*</span></td>
+                                <td class="td-white-bg">
+                                    <select name="selGender" id="gender" style="width:180px;">
+                                        <option value="">--select--</option>
+                                        <option value="M">Male</option> 
+                                        <option value="F">Female</option>
+                                    </select>
+                                </td>                                                    
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Marital Status</td>
+                                <td class="td-white-bg">
+                                    <select name="marital_status" id="marital_status" style="width:180px;">
+                                        <option value="">--select--</option>
+                                        <option value="U">Unmarried</option> 
+                                        <option value="M">Married</option>
+                                        <option value="D">Divorce</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Designation<span class="mandatoryField" >*</span></td>
+                                <td class="td-white-bg" ><input type="text" style="width: 180px;" name="designation" id="designation" value=""></td>
+                                <td class="td-gray-bg">Blood Group</td>
+                                <td class="td-white-bg" >
+                                    <select  data-placeholder="Select a Blood Group" class="divSelect select-width" name="blood_group" id="blood_group" style="width:180px;">
+                                        <option value="">--select--</option>
+                                        <option value="A+">A+</option> 
+                                        <option value="A-">A-</option>
+                                        <option value="B+">B+</option> 
+                                        <option value="B-">B-</option>
+                                        <option value="O+">O+</option> 
+                                        <option value="O-">O-</option>
+                                        <option value="AB+">AB+</option> 
+                                        <option value="AB-">AB-</option>
+                                    </select>
+                                </td>
+                            </tr>                                                
+                            <tr>                                            
+                                <td class="td-gray-bg">Religion</td>
+                                <td class="td-white-bg">
+                                    <select name="selReligion" style="width: 120px;">
+                                        <option value="">--Select--</option>
+                                        {% for rel in religion %}
+                                            <option value="{{rel.pkid}}">{{rel.religionName}}</option>
+                                        {% endfor %}
+                                    </select>
+                                </td> 
+                                <td class="td-gray-bg">Nationality</td>
+                                <td class="td-white-bg">
+                                    <input type="text"  name="txtnationality" value="">
+                                </td>
+                            </tr>
+                            <tr>
+                           {# <tr>
+                                <td class="td-gray-bg td-dotted-top">Status</td>
+                                <td class="td-white-bg td-dotted-top">
+                                    {% if empId is defined %}
+                                        <input checked="checked" id="category_status_true" class="status radiobtn active" name="active_flag" type="radio" value="1" {% if empId.activeFlag == 1  %} checked="checked" {% endif %} />Active
+                                        <input id="leave_type_status_false" class="status radiobtn inactive" name="active_flag" type="radio" value="0" {% if empId.activeFlag == 0  %} checked="checked" {% endif %}/>Inactive  
+                                    {% else %}
+                                        <input checked="checked" id="category_status_true" class="status radiobtn active" name="active_flag" type="radio" value="1" />Active
+                                        <input id="leave_type_status_false" class="status radiobtn inactive" name="active_flag" type="radio" value="0" />Inactive                       
+                                    {% endif %}
+                                    </td> 
+                                </tr>#} 
+                                <tr>
+                                    <td class="td-gray-bg">Mobile No.<span class="mandatoryField" >*</span></td>
+                                    <td class="td-white-bg"><input type="text" value="{{mobileNo}}" name="txtMobileNo" id="txtMobileNo"></td>
+                                    <td class="td-gray-bg">Email<span class="mandatoryField" >*</span></td>
+                                    <td class="td-white-bg"><input type="text" value="" name="txtEmail" id="txtEmail"></td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg">Telephone No.</td>
+                                    <td class="td-white-bg"><input type="text" value="" name="txtTeleNo"></td>                                                    
+                                    <td class="td-gray-bg">Resource Type</td>
+                                    <td class="td-white-bg" colspan="4">
+                                        <select name="drp_empType">
+                                            {% for list in empMaster %}
+                                            <option value="{{list.pkid}}">{{list.typeName}}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>   
+                                    <td class="td-separator" colspan="4" style="padding-left: 10px;"> 
+                                        <input type="hidden" readonly="true" name="lastPkid" value=""/>
+                                        <button class="button blue" name="save" type="button" onClick="employeeDetailsFrmSubmit('{{path('_saveEmployeeDetails',{'personId':'null','mode':'ins'})}}');">Save</button>
+                                        <button class="button blue" type="button" name="butReset" id="empReset"  onclick="formReset();" >Reset</button>
+                                        <img id="ajax_loader" src="/cms/web/bundles/CRM/images/AjaxLoader/ajax-loader3.gif"  style="display: none;float: left; margin-left: 3px;"/>
+                                        <label id="successAlert" style=" margin-left: 20px; margin-top: 2px; color: blue; display: none;"></label>                     
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>                    
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table> 

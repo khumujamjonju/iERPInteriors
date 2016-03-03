@@ -1,0 +1,137 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="javascript:void();">Cash Deposit / WithDrawal</a></li>  
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Cash Deposit / Withdrawal Entry Form</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmCashDepositWidrawal" style="margin: 0px;">                    
+                        <table id="cash_deposit_withdrawal_form_tbl" width="100%" align="center" border="0" cellpadding="0" cellspacing="0"> 
+                            <tr>   
+                                <td class="td-gray-bg" colspan="4" align="center">
+                                    <input type="radio" class="cmnWidth radioBtnKey" id="deposit_key" name="deposit_withdrawal_key" value="D" checked disabled  onclick="changeFieldText(this, '#withdrawal_key', 'cash');"/> Deposit
+                                    <input type="radio" class="cmnWidth radioBtnKey" id="withdrawal_key" name="deposit_withdrawal_key" value="W"  onclick="changeFieldText(this, '#deposit_key', 'cash');" style="margin-left: 30px;"/> Withdrawal
+                                    <input type="hidden" class="deposit_withdrawal_key" name="txt_deposit_withdrawal_key" value="D"/>
+                                </td>                                                            
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Selected Account <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <select id="cashAccount" name="txt_cash_account" class="cmnWidth">                                                              
+                                        <option value="{{ cashAccount.pkid|default('') }}">Cash Account</option>                                 
+                                    </select>                                   
+                                </td>
+                                <td class="td-gray-bg" colspan="2">
+                                    <table>                                       
+                                        <tr>
+                                            <td>Current Balance (<b>&#8377;</b>):</td>
+                                            <td><span class="current_balance">{{ cashAccount.currentAmount|default('') }}</span>
+                                                <input type="hidden" id="current_balance" name="txt_current_balance" value="{{ cashAccount.currentAmount|default('') }}"/>
+                                            </td>
+                                        </tr>
+                                    </table>                                   
+                                </td>                             
+                            </tr>
+                            <tr>   
+                                <td class="td-gray-bg"><label class="deposit_withdraw_amt">Deposited Amount</label> <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"><input type="text" class="cmnWidth" id="deposit_withdrawal_amount" name="txt_deposit_withdrawal_amount" onKeypress="return validationDigit('#deposit_widrawal_amount');"/></td>
+                                <td class="td-gray-bg"><label class="deposit_withdraw_date">Deposited Date</label>  <span class="necessary-field">*</span></td>
+                                <td style="" class="td-white-bg"><input class="cmnWidth" type="date" id="deposit_withdrawal_date" name="txt_deposit_withdrawal_date" value="{%if tranDate is not null%}{{tranDate.lastSelectedDate|date('Y-m-d')}}{%else%}{{"now"|date('Y-m-d')}}{%endif%}"/></td>                                
+                            </tr>  
+                            <tr>    
+                                <td class="td-gray-bg"><label class="deposit_withdraw_by">Deposited By</label> <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" colspan="3">
+                                    <input type="text" id="deposit_withdrawal_by" name="txt_deposit_withdrawal_by"  class="cmnWidth" />
+                                </td>
+                            </tr> 
+                            <tr class="deposit_field">   
+                                <td class="td-gray-bg">Source Type <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" colspan="3">
+                                    <select class="cmnWidth" id="sourceType" name="txt_source_type" onchange="return loadSourceTypeId(this, 'CA', '{{ path('_load_source_type_id') }}');">
+                                            <option value="">--select--</option>  
+                                         {%for a in accSourceType|default('')%}
+                                            {%if a.pkid|default('') == 1 or a.pkid|default('') == 7%} 
+                                            <option value="{{ a.pkid|default('') }}">{{ a.sourceType|default('') }} </option> 
+                                             {%endif%} 
+                                         {%endfor%}
+                                    </select>
+                                </td>                                 
+                            </tr> 
+                            <tr class="deposit_field" id="load_accounts"> </tr> 
+                            <tr>   
+                                <td class="td-gray-bg">Description <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" colspan="3">
+                                    <textarea id="description" name="txt_description" cols="106" rows="4"></textarea>
+                                </td>                                                             
+                            </tr>                                            
+                            <tr>                               
+                                <td style="" class="td-white-bg" colspan="4" align="center">                                      
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="saveCashBankDepositWithdrawalHistory('{{path('_save_cash_deposit_withdrawal')}}', this);"/>                                            
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>                                   
+                                </td>                           
+                            </tr>                        
+                        </table>                                                                                                     
+                    </form>                               
+                </td>
+            </tr> 
+        </table>
+    
+        <div class="stylecommonborder" style="margin-top: 8px;">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+                <tr>
+                    <td class="td-label-title">Bank Deposited And Withdrawal Of :
+                        <select id="month" onchange="return loadDepositWithdrawalHistory('{{path('_load_deposit_withdrawal_history')}}');">
+                            <option value="">--select--</option>
+                        {%for m in month|default('')%}
+                            <option value="{{m.pkid|default('')}}" {%if m.pkid|default('') == currentMonth|default('')%} selected {%endif%}>{{m.monthName|default('')}}</option>
+                        {%endfor%}
+                        </select>
+                        <input type="text" id="year" value="{{ currentYear|default('') }}" size="13" onKeypress="return validationDigit('#year');"/> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-cmn-white-bg" id="display_list">
+                        <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                            <thead>
+                                <tr>
+                                    <th class="tbl-th-grid-view-row-no-bg">Sl. No.</th>
+                                    <th class="tbl-th-grid-view-row-no-bg"> Type</th>                                   
+                                    <th class="tbl-th-grid-view-row-no-bg">Amount</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg">Date</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg">By</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                                                       
+                                </tr>
+                            </thead>
+                            <tbody> 
+                            {%for c in cashDepositWithdrawalRecord|default('')%} 
+                                <tr>                         
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                        {%if c.depositWithdrawalKey|default('') == 'D'%}
+                                            Deposit
+                                        {%else%}
+                                            Withdrawal
+                                        {%endif%}
+                                    </td>                                 
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ c.amount|default('') }}</td> 
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ c.date|default('')|date('d-m-Y') }}</td> 
+                                    <td class="tbl-grid-view-row-no-bg">{{ c.depositWithdrawalBy|default('') }}</td> 
+                                    <td class="tbl-grid-view-row-no-bg" style="width: 300px; text-align: justify;">{{ c.description|default('') }}</td> 
+                                </tr> 
+                            {%endfor%}
+                            </tbody>                                
+                        </table>                             
+                    </td>                  
+                </tr>                                   
+            </table>              
+        </div>      
+    </div> 
+</div>

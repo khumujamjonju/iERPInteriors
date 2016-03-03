@@ -1,0 +1,64 @@
+<div class="application-form"> 
+    <form id="frmAddressTypeDetails" style="margin: 0px;">
+        <table width="100%" class="tbl-border" cellspacing="0" cellspadding="0">
+            <tr>
+                <td class="td-label-title" colspan="5">Address Type List:</td>
+            </tr>
+            <tr>
+                <td class="td-gray-bg">Address Type<span class="necessary-field">*</span></td>
+                <td class="td-white-bg"><input type="text" class="cmnWidth" id="txt_addresstype" name="addressType"></td>
+                <td class="td-gray-bg">Address Type Code</td>
+                <td class="td-white-bg"><input type="text" class="cmnWidth" id="txt_addresstypeCode" name="addressTypeCode" ></td>
+            </tr>
+            <tr>
+                <td class="td-separator" colspan="4" style="text-align: center;">
+                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addAddressTypeMaster('{{ path('_save_address_type')}}', this);"/>
+                    <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="commonEditBtn('txt_addresstype', 'txt_addresstypeCode');" style="display: none;"/>
+                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="return updateAddressTypeMaster(this);" style="display: none;"/>
+                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="fnSubMenuNavigation('{{path('_masteraddress_type')}}', 'address_type', 'Address Master', 'Address Details', 'Create Address Type');" style="display: none;"/>
+                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                </td>
+            </tr>
+
+        </table>
+    
+
+    <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+        <input type="hidden" id="locationUpdateAddTypeURL" value="{{path('_update_address_type')}}">
+        <input type="hidden" name="inputcid" id="inputcid" value=""/>
+        {#<input type="hidden" id="locationUpdateAddTypeURL" value="">#}
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Address Type Details:</td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr> 
+                                <th class="tbl-th-grid-view-row-no-bg">Address Type</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Address Code</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                             {% for c in record%}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.addressTypeName}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.addressTypeCode | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                        <a href="javascript:void();" onclick="retriveAddressTypeMaster('{{path('_retreive_address_type',{'aTid': c.AddressTypePk })}}');">Edit </a> | 
+                                        <a href="javascript:void();" onclick="deleteAddressTypeMaster('{{path('_delete_address_type',{'aTid': c.AddressTypePk})}}');" style="color:#ff0000;">Delete</a></td>
+                                    </td>                                                 
+                                </tr>
+                                  {%endfor%} 
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>
+        </div>
+    </div> 
+</div>
+</form>

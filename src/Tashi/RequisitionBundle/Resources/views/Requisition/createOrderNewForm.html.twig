@@ -1,0 +1,127 @@
+  <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border"  id="purtable">           
+            <tr>
+            <input id="spanCloseOpenHandlerCreateRequisitionOrder" value="0" type="hidden">
+            <td class="td-label-title" colspan="4" onclick="lmsShowHideAddressResult('CreateRequisitionOrder');">
+                <label style="display:none;" id="generatedpo"></label>Requisition Details For {{emp.personFk.personName}} 
+                <span style="float: right;" id="spanIdCreateRequisitionOrder" class="span_open" >&nbsp;</span>
+            </td>
+          {#  <input id="supplierid" type="hidden" value="{{details.supplierPk}}">#}
+            </tr>
+            <tr id="trAddressCreateRequisitionOrder" >
+            <td>
+                    <div id="divPrdWithoutPO">
+                        <form id="Requesition_details">
+                            <table width="100%" align="center" border="0"  cellpadding="0" cellspacing="0" class="tbl-border">
+
+                                <tbody>
+                                    <tr>
+                                        <td width="200px" class="td-gray-bg">Select Project Area</td>
+                                        <td class="td-white-bg" align="left" colspan="2">
+                                            <select id="pkid"  class="normal_select cmnWidth" name="category" onchange="LoadSubCategory1(this.id);">
+                                                <option value="0">--Select--</option>
+                                                {%for a in area%}
+                                                <option value="{{path('_orderappendprdsubcat',{'pkid':a.pkid})}}#}">{{a.area}}</option>
+                                                {%endfor%}
+                                            </select>   
+                                            <input type="hidden" name="searchvalue" value="" id="searchvalue"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+
+                                <tbody id="tbodyDynamic">
+                                </tbody>
+
+
+                                <tbody>
+                                    <tr>
+                                        <td width="200px" class="td-gray-bg">Select Product</td>
+                                        <td class="td-white-bg" align="left" id="prdproductList" width="200px">
+                                            <select id="selStkPrdList" name="selStkPrdList"  class="normal_select cmnWidth">
+                                                <option value="0">--Select--</option>                                    
+                                            </select>
+                                        </td>
+                                        <td class="td-white-bg" align="left">
+
+                                             <input class="button blue" onclick="SelectProductIdforReqEntry1('{{path('_selectedappend')}}', this);" type="button" value="Select">
+
+
+                                        </td>
+                                    </tr>
+                                </tbody>
+
+                                <tbody>
+
+                            </table>     
+                        </form>           
+                    </div>
+                    <input type="hidden" id="inputstkdetailUrl" value=""/>
+                    <input type="hidden" id="inputProductCode" name="inputProductCode">
+
+
+
+                    <div id="result_po" style="display:none;margin-top: 5px;">
+
+                        <table id="display_product" class="tab_price"  width="99%">
+                            <tr style="padding:5px;background:#EFEFEF;">
+                                <td  style="padding:5px;background:#EFEFEF;">Product Name <br/>(Code)</td>
+                                <td  style="padding:5px;background:#EFEFEF;">Required Qty.</td>
+                                <td  style="padding:5px;background:#EFEFEF;">Unit</td>
+
+                                <td  style="padding:5px;background:#EFEFEF;width: 200px;">Purpose</td>
+                                <td  style="padding:5px;background:#EFEFEF;">Remarks</td>
+                                <td  style="padding:5px;background:#EFEFEF;">Action</td>
+                            </tr>
+                        </table>
+
+                    </div> <br/>
+                </td>
+
+    </tr> 
+    </table>
+
+        <table id="trSavePO"  width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border"  id="purtable" style="margin-top: 5px;"> 
+         <tr>
+            <input id="spanCloseOpenHandlerSHowdetails" value="0" type="hidden">
+            <td class="td-label-title" colspan="4" onclick="lmsShowHideAddressResult('SHowdetails');">
+                <label id="generatedpo">Requisition Form Entry Details </label>
+                <span style="float: right;" id="spanIdSHowdetails" class="span_open" >&nbsp;</span>
+            </td>
+
+         </tr>
+          <tr id="trAddressSHowdetails">
+                <td>                    
+                    <table width="100%" cellpadding="0" cellspacing="0" class="tbl-border">
+                        <tr>
+                            <td class="td-gray-bg">Select Required Date:</td>
+                            <td class="td-white-bg">
+                                <input type="date" class="cmnWidth" name="reqdate"  >
+                            </td>
+                            <td class="td-gray-bg"></td>
+                            <td class="td-white-bg"></td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Enter Description:</td>
+                            <td class="td-white-bg" colspan="3">
+                            <textarea style="width:99%;" name="description"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-white-bg" colspan="3" style="text-align: center;">
+                            <input type="button" class="button blue" id="btn_save" value="Save" onclick="return SaveRequisitionDetails('{{path('_add_requisition')}}',this);"></td>
+                        </tr>
+
+                    </table>
+
+                </td>
+            </tr>
+
+
+
+
+
+
+
+
+        </table>
+         

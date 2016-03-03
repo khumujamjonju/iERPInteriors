@@ -1,0 +1,62 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <td class="td-label-title" style="cursor:pointer;">Daily Progress Report
+            <table style="float:right;">
+                <tr>
+                    <td>Customer Name:  {{item.projectFk.customerFk.customerName|upper}}</td>
+                    <td width="50px"></td>
+                    <td>Project: {{item.projectFk.areaFk.area|upper}}</td>
+                    <td width="50px"></td>
+                    <td>Item: {{item.itemFk.productName|upper}}</td>                 
+                </tr>
+            </table>
+        </td> 
+    </tr>
+    <tr>
+        <td>
+             <table id="example2"  width="100%" border="0" cellpadding="0" cellspacing="0" class="display">
+                <thead>
+                    <tr>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="width:70px;">#</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Work Status</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Report Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">Report</th>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="width:150px;">Document</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if reportArr|length>0%}
+                        {%set slno=1%}
+                        {%for rpt in reportArr%}
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" align="center" width="70px">{{slno}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center" style="color:{{rpt.statusFk.statusColor}};">{{rpt.statusFk.statusName}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{rpt.reportDate|date('d-M-Y')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" style="text-align:justify;">{{rpt.report}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">
+                                    {#{%set doctype=rpt.docType|upper%}
+                                    {%if doctype=='JPG' or doctype=='JPEG' or doctype=='PNG' or doctype=='GIF' or doctype=='BMP' %}
+                                    {%else%}
+                                        <a>Download</a>
+                                    {%endif%}#}
+                                    {%if rpt.documentFk is null%}
+                                        NA
+                                    {%else%}
+                                        <a href="{{asset(rpt.documentFk.path)}}{{rpt.documentFk.systemName}}" target="_blank" download="{{rpt.documentFk.originalName~"."~rpt.documentFk.docType}}">View/Download</a> 
+                                    {%endif%}
+                                </td>
+                            </tr>
+                            {%set slno=slno+1%}
+                        {%endfor%}
+                    {%else%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center" colspan="5">
+                                <strong style="color:#ff0000;">No Daily Progress Report has been uploaded yet</strong>
+                            </td>
+                        </tr>
+                    {%endif%}
+                </tbody>
+             </table>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,22 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td class="td-gray-bg" width="150px">Module Name<span class="mandatoryField">*</span></td>
+        <td class="td-white-bg">
+            <input type="text" id="txtModuleName" name="txtModuleName" class="cmnWidth" value="{{module.moduleName}}" >
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg" width="150px">Description</td>
+        <td class="td-white-bg">
+            <textarea id="txtdesc" name="txtdesc" cols="50" rows="5">{{module.description}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg"></td>
+        <td class="td-white-bg">
+            <input type="hidden" name="txtmoduleid" value="{{module.pkid}}">
+            <input type="button" class="button" value="Update" onclick="ManageModule('{{path("_updatemodule")}}','EDT');">
+            <input type="button" class="button" value="Cancel" onclick="cancelUpdate('{{path("_moduleindex")}}');">
+        </td>
+    </tr>
+</table>

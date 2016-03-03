@@ -1,0 +1,3 @@
+_employee:
+    resource: "@TashiInvoiceBundle/Controller/InvoiceController.php"
+    type:     annotation

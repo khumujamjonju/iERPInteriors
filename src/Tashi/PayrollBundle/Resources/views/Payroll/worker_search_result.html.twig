@@ -1,0 +1,65 @@
+<input type="hidden" value="0" class="emp_search_result_list_hide_show_key"/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >      
+    {#paramer: project_item => class name of table row (tr) to hide or show #}
+    <tr onclick="fnHideShow('emp_search_result_list');">      
+        <td class="td-label-title">
+            Worker List: <div class="emp_search_result_list_hide_show_icon floatRight plus"></div>
+        </td>
+    </tr>
+    <tr class="emp_search_result_list displayNone">
+        <td>                    
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                <thead class="">
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Sl No</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Id</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Name</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Contact No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Wage Type</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Expertise</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                    </tr>
+                </thead>
+                <tbody>                           
+                  {#    workerlist workerSalaryType  #}
+           {%for e in workerList|default('') %}           
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                                {{ loop.index }}
+                            <input class="cmnWidth" type="hidden" id="emp_worker_id{{e.empMasterFk.employeePk| default('')}}" value="{{e.empMasterFk.employeeId | default('')}}" />
+                            <input class="cmnWidth" type="hidden" id="emp_worker_name{{e.empMasterFk.employeePk| default('')}}" value="{{e.empMasterFk.personFk.personName | default('')}}" />
+                            <input class="cmnWidth" type="hidden" id="wage_type_id{{e.empMasterFk.employeePk| default('')}}" value="{{e.workerSalaryTypeFk.salaryTypePk | default('')}}" />
+                            <input class="cmnWidth" type="hidden" id="wage_type{{e.empMasterFk.employeePk| default('')}}" value="{{e.workerSalaryTypeFk.salaryType | default('')}}" />
+                            <input class="cmnWidth" type="hidden" id="wage_type_amount{{e.empMasterFk.employeePk| default('')}}" value="{{e.empMasterFk.grossSalary | default('')}}" />
+                        </td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.empMasterFk.employeeId| default('') }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.empMasterFk.personFk.personName | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.empMasterFk.personFk.mobileNo | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.workerSalaryTypeFk.salaryType | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                            <select>
+                        {%for key,expert in wokerExpertise|default('') %}                           
+                             {%for ex in expert.expertise|default('') %}  
+                                 {%if ex.empMasterFk.empMasterPk|default('') == e.empMasterFk.empMasterPk| default('')%}                                      
+                                            <option>{{ ex.expertTypeFk.expertType|default('') }}</option>                                       
+                                 {%endif%}
+                             {%endfor%}                          
+                        {%endfor%}
+                             </select>               
+                        </td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">                        
+                            <select class="normal_select" id="empWorkerAction{{e.empMasterFk.employeePk|default('')}}" name="txt_empWorkerAction" >
+                                <option value="">Select</option>                                
+                                <option value="{{ path('_load_create_worker_wage_from', {'empWorkerPkid' : e.empMasterFk.employeePk|default('')}) }}&creat">Create</option>                              
+                           {#     <option value="&hid">View History</option>  #}
+                            </select> 
+                            <input class="button" name="commit" type="button" value="Go" onClick="empWorkerAction(this,'{{e.empMasterFk.employeePk|default('')}}','#empWorkerAction');" />
+                        </td>                                                 
+                    </tr>              
+           {%endfor%}
+                       
+                </tbody>
+            </table>
+        </td>
+    </tr>                                 
+</table>

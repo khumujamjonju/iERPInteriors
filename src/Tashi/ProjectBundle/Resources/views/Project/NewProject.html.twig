@@ -1,0 +1,55 @@
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="#" href="javascript:void();">New Project</a></li> 
+        {#<li ><a href="#" href="javascript:void();">Add Project Details</a></li>#}
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div id="divnewProj" class="application-form"> 
+        <form id="NewProjectForm" enctype="multipart/form-data">
+            <input type="hidden" name="custId" id="custId"/>
+            <input type="hidden" name="addressId" id="addressId"/>
+            <input type="hidden" name="contactId" id="contactId"/>
+            
+            <p id="step_p" style="margin:0; margin-bottom: 5px; border:1px solid #0099ff; color:#fff; 
+                                        background-color:#0066ff; padding:10px 5px;
+                                        font-size: 16px;">Step 1: Select Customer</p>                                       
+            <div id="divStep1">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+                    <tr>
+                        <td class="td-label-title">Search Customer</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%" align="center" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="td-gray-bg" width='150px'>Enter Customer ID/Name<span class="mandatoryField">*</span></td>
+                                    <td class="td-white-bg"><input type="text" name="txtSearchCust" id="txtSearchCust" class="cmnWidth" onkeypress="return SearchCustOnEnter(event,'{{path("_searchcustomerproj")}}');"/>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg"></td>                                    
+                                    <td class="td-white-bg">
+                                        <input type="button" class="button" value="Search" onclick="SearchProjectCustomer('{{path("_searchcustomerproj")}}');">
+                                    </td>
+                                </tr>
+                            </table>                            
+                        </td>
+                    </tr>
+                </table>
+                <br/>
+                <div id='divCustList'>
+                </div>
+            </div> 
+            <div id="divStep2" style="display:none;">                 
+            </div>
+            <div id="divStep3" style="display:none;">                 
+            </div>
+            <div id="divStep4" style="display:none;">                 
+            </div>
+            <div id="divStep5" style="display:none;">                 
+            </div>
+            <div id="divStep6" style="display:none;">                 
+            </div>
+        </form>
+    </div>
+</div>

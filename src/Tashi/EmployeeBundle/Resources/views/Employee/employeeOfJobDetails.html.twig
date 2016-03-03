@@ -1,0 +1,99 @@
+<form id="emp_job_details">
+<div class="job_detials">  
+    <table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">                   
+        <tr>
+            <td class="td-label-title">Job Details:</td>
+        </tr>
+        <tr class="emp_contact_detail_form">
+            <td>
+                <table  id="emp_job_details_frm_tbl" width="100%" align="center" cellpadding="0" cellspacing="0">                                                                                                                                            
+                    <tr>
+                        <td class="td-gray-bg">Job Designation: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+
+                            <Select class="cmnWidth" name="txt_emp_job_title" id="empjobtitle">
+                                    <option value="">--Select--</option>
+                            {%for c in empjobtitle|default('')%}
+                              {%if c.jobTitlePk|default('') == empMaster.empJobTitleFk.jobTitlePk|default('') %}
+                                    <option value="{{c.jobTitlePk|default('')}}" selected>{{c.jobTitleName | default('')}}</option>
+                                 {%else%}
+                                    <option value="{{c.jobTitlePk|default('')}}">{{c.jobTitleName | default('')}}</option>
+                            {%endif%}
+                          {%endfor%}
+                            </Select>                                                     
+                        </td>
+                        <td class="td-gray-bg">Joining Date: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <input class="cmnWidth" type="date" id="emp_joiningdate" name="txt_emp_joiningdate" value="{{empMaster.joiningDate|default('')|date('Y-m-d') }}"/>                                          
+                        </td>                                                         
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Salary Grade: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg"> 
+                            <input class="cmnWidth" type="text" id="emp_salary_grade" name="txt_emp_salary_grade" value="{{empMaster.salaryGrade|default('') }}" style="text-transform: uppercase;"/>                                                    
+                        </td>
+                        <td class="td-gray-bg">Gross Salary: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <input class="cmnWidth" type="text" id="emp_gross_salary" name="txt_emp_gross_salary" value="{{empMaster.grossSalary|default('') }}" onKeypress="return validationDigit('#emp_gross_salary');" />                                          
+                        </td>                                
+                    </tr> 
+                    <tr>
+                        <td class="td-gray-bg">Department: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_department" id="department">
+                                    <option value="">--Select--</option>
+                            {%for d in department|default('')%}
+                              {%if d.pkid|default('') == empMaster.departmentFk.pkid|default('') %}
+                                    <option value="{{d.pkid|default('')}}" selected>{{d.departmentName | default('')}}</option>
+                                 {%else%}
+                                    <option value="{{d.pkid|default('')}}">{{d.departmentName | default('')}}</option>
+                            {%endif%}
+                          {%endfor%}
+                            </Select>                                    
+                        </td>
+                        <td class="td-gray-bg">Branch: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_branch" id="branch">
+                                    <option value="">--Select--</option>
+                            {%for b in branch|default('')%}
+                              {%if b.pkid|default('') == empMaster.branchOfficeCode.pkid|default('') %}
+                                    <option value="{{b.pkid|default('')}}" selected>{{b.branchName | default('')}}</option>
+                                 {%else%}
+                                    <option value="{{b.pkid|default('')}}">{{b.branchName | default('')}}</option>
+                            {%endif%}
+                          {%endfor%}
+                            </Select>                                         
+                        </td>                                
+                    </tr> 
+                    <tr>
+                        <td class="td-gray-bg">Job Profile: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg" colspan="3">
+                            <textarea name="txt_emp_job_profile" id="empjobprofile" cols="103" rows="4">{{empMaster.jobProfile|default('') }}</textarea>                                                                
+                        </td>                                                       
+                    </tr> 
+                    <tr>
+                        <td class="td-separator" colspan="4" style="text-align: center;">                                                    
+                            <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveEmpJobDetais(this, '{{path('_add_job_details')}}');" />
+                            <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editJobDetailsFields(this);"  style="display: none;"/>                                   
+                            <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formResetWorker();" {%if empMaster is defined%} style="display: none;" {%endif%}/>  
+                        </td>  
+                    </tr>
+                </table>
+           </td>  
+       </tr>
+   </table>
+</div> 
+</form>
+
+{%if empMaster is defined%}
+    <script type="text/javascript">
+        //check diable fields
+        if($('#empjobtitle').val() != ''){
+            $('#emp_job_details_frm_tbl').find('input[type = text], input[type = date], select, textarea').each(function() {
+                $(this).prop('disabled', true).addClass('inputDisable_bg');
+            });
+            $('#btn_save').hide();
+            $('#btn_edit').show();
+        }            
+    </script>
+{% endif %}

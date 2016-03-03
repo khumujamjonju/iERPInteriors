@@ -1,0 +1,8 @@
+
+    <td> <input class="cmnWidth inputDisable_bg mobFields" disabled type="text" id="{{ 'edit_emp_mob'~result.loopIndexNo }}" name="txt_edit_emp_mob" value="{{ result.mobileNo|default('') }}"/>  </td>
+    <td>
+        <a href="javascript:void();" class="cmnCtrlBtn {{'editEmpMob'~result.loopIndexNo}}" onclick="editIndividualMobileNos(this,'{{'.deleteEmpMob'~result.loopIndexNo}}','{{'.updateEmpMob'~result.loopIndexNo}}','{{'.cancelEmpMob'~result.loopIndexNo}}','{{ '#edit_emp_mob'~result.loopIndexNo }}');"> Edit </a>
+        <a href="javascript:void();" class="cmnCtrlBtn  {{'deleteEmpMob'~result.loopIndexNo}}" onclick="return deleteEmpMobileNo(this, '{{path('_delete_emp_mobile_no', {'mobMasterID': result.mobMasterID|default('') })}}');">| Delete </a>  
+        <a href="javascript:void();" class="cmnCtrlBtn displayNone {{'updateEmpMob'~result.loopIndexNo}}" onclick="updateEmpMobileNos(this,{{ result.loopIndexNo }}, '{{ path('_update_emp_mobile_no', {'mobMasterID': result.mobMasterID|default('') }) }}', '{{ '#edit_emp_mob'~result.loopIndexNo }}');"> Update </a>      
+        <a href="javascript:void();" class="cmnCtrlBtn displayNone {{'cancelEmpMob'~result.loopIndexNo}}" onclick="cancelUpdate(this,'{{'.deleteEmpMob'~result.loopIndexNo}}','{{'.editEmpMob'~result.loopIndexNo}}','{{'.updateEmpMob'~result.loopIndexNo}}','{{ '#edit_emp_mob'~result.loopIndexNo }}');">| Cancel </a>        
+    </td>

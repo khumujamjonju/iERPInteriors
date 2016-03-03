@@ -1,0 +1,11 @@
+parameters:
+    tashi.service.login.class : Tashi\LoginBundle\Service\LoginService
+    tashi.service.secure.class : Tashi\LoginBundle\Service\SecureService
+
+services:
+    tashi.login.service:
+        class:     "%tashi.service.login.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","@tashi.common.service","%kernel.root_dir%"]
+    tashi.secure.service:
+      class:     "%tashi.service.secure.class%"
+      arguments: ["@session"] 

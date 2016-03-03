@@ -1,0 +1,154 @@
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_gotoaddproduct')}}', 'new_prod_li', 'Product', 'Manage Product','Add New Product');">Add New Product</a></li> 
+        <li id="searchprod_li"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_gotosearchprod')}}', 'searchprod_li', 'Product', 'Manage Product', 'Search Product');">Search Product</a></li>
+    </ul>
+</div>
+<div class="newdashboard"> 
+    <div class="application-form">
+        <table style="width:100%;" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+            <tr>            
+                <td class="td-label-title" onclick="lmsShowHideAddressResult('CreateNewProduct');">Enter Product Detail
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <form id="frmCreateNewProd" enctype="multipart/form-data">
+                        {#<input type="hidden" name="txtUnit[]">#}
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg" width="150px" align="right">Select Category<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" align="left">
+                                    <select id="selCategory" name="selCategory"  class="cmnWidth">
+                                        <option value="">--Select--</option>
+                                                {%for cat in category%}
+                                        <option value="{{cat.pkid}}">{{cat.categoryName}}</option>
+                                                {%endfor%}
+                                    </select>   
+                                    <input type="hidden" name="searchvalue" value="" id="searchvalue"/>
+                                </td>
+                           </tr>
+                            <tr>
+                                <td class="td-gray-bg " align="right">SKU</td>
+                                <td class="td-white-bg">   
+                                    <input type="text" id="txtSKU" name="txtSKU" onkeypress="return AlphaNumericOnly(event);"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg " align="right">Code<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">   
+                                    <input type="text" id="prodCodeIns" name="prodCode" />
+                                </td>
+                             </tr>
+                            <tr>
+                               <td class="td-gray-bg" align="right">Name<span class="necessary-field">*</span></td>
+                               <td class="td-white-bg">  <input type="text" id="prodNameIns" name="prodName" class="cmnWidth" /></td>
+                           </tr>
+                           <tr>
+                               <td class="td-gray-bg" align="right">Bar Code</td>
+                               <td class="td-white-bg">   
+                               <input type="text" id="prodBarCodeIns" name="prodBarCodeIns" class="cmnWidth"/>
+                               </td>
+                            </tr>
+                            <tr>
+                               <td class="td-gray-bg " align="right">Manufacturer</td>
+                               <td class="td-white-bg">   
+                               <input type="text" id="txtManufacturer" name="txtManufacturer" class="cmnWidth"/>
+                               </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg" align="right">Purchase Price</td>
+                                <td class="td-white-bg"><input type="text" value="0.00" onblur="formatMoney(this.id);" id="txtPurchasePrice" name="txtPurchasePrice" class="money"/> </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg"align="right">Selling Price(if any)</td>
+                                <td class="td-white-bg"><input type="text" value="0.00" id="txtSellingprice" name="txtSellingprice" onblur="formatMoney(this.id);" class="money"/> </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg" align="right">Product Description <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <textarea name="prodDescIns" id="prodDescIns" cols="40" rows="5"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg" align="right">Product Image</td>
+                                <td class="td-white-bg">
+                                        <input type="file" name="fileProdImg" id="fileProdImg" onchange="calculateFileSize(this);"/> <span id="spanfsize" style="font-size: 11px;"></span>
+                                        &nbsp; 
+                                        <a href="javascript:;" style="color:#ff0000;" onclick="$('#fileProdImg').val('').val('');">Reset Image</a>
+                                            
+                                    <br/>
+                                    <span style="color:#666666; font-size: 11px;">(.jpg,.jpeg,.png,.gif,.bmp)- Upto 512Kb</span>
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td class="td-gray-bg" align="right">Select Supplier</td>
+                                <td class="td-white-bg">                                    
+                                    <div class="tableElementEmulation">
+                                        <ul class="trElementEmulation">
+                                            {%for supplier in supplierArr%}
+                                                <li class="tdElementEmulation" style="width:auto;">
+                                                    <div class="example">
+                                                        <div style="float:left;">
+                                                            <input id="chkSup{{supplier.supplierPk}}" type="checkbox" name="chkSupplier[]" value="{{supplier.supplierPk}}"><label for="chkSup{{supplier.supplierPk}}" style="font-weight:bold;"><span><span></span></span>{{supplier.companyName}}</label>
+                                                        </div>                                   
+                                                    </div>                                                            
+                                                </li>
+                                            {%endfor%}
+                                        </ul>
+                                    </div>                                
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg" valign="top" align="right" style="padding-top:10px;"><span >Add Unit</span></td>
+                                <td class="td-white-bg">
+                                    <table id="tblPrdUnit" style="float: left;">                            
+                                            <tr id="trunit0">
+                                            <td class='td-white-bg'>
+                                                <input type="text" name="txtUnit[]" placeholder="Enter Unit Name">
+                                            </td>
+                                            <td class='td-white-bg' width="30px">                                    
+                                            </td>
+                                            </tr>
+                                    </table>
+                                    <input type='button' class='button' value='+' title='Add More Unit' onclick='AddUnitRow();' style="margin-top:3px; margin-left: -33px;"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg" valign="top" align="right">Add Related Service(s):</td>
+                                <td class="td-white-bg"colspan="1">
+                                    <table id="tblPrdService" style="float:left;">
+                                        <tbody>
+                                            <tr id="trunit0">
+                                            <td class='td-white-bg'>
+                                                <input type="text" name="txtServicename[]" placeholder="Service Name" class="cmnWidth">
+                                            </td>
+                                            <td class='td-white-bg'>
+                                                <input type="text" name="txtServiceCharge[]" placeholder="Service Charge" class="money" 
+                                                       onkeypress="return isValidNumber(event);">
+                                            </td>
+                                            <td class='td-white-bg' width="30px">                                                        
+                                            </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <input type='button' class='button' value='+' title='Add More Services' onclick="AddServiceRow();" style="margin-top:5px; margin-left: -35px; z-index:10;"/>
+                                </td> 
+                            </tr>
+                            <tbody id="tbodyDynamic">
+                            </tbody>
+                            <tbody id="attributearea">                         
+                            </tbody>
+                            <tr> 
+                                <td>
+                                <td colspan="3" class="td-gray-bg">                
+                                    <input type="button" class="button" name="butSearch"  value="Submit" id="newStudSave"  onclick="newprodInsert('{{path('_insnewproduct',{'from':from})}}', 'frmCreateNewProd','','{{from}}');" />
+                                </td>
+                            </tr>                                             
+                        </table>
+                    </form> 
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

@@ -1,0 +1,99 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+        <tr>
+            <td class="td-label-title">Branch Office</td>
+        </tr>
+        <tr>
+            <td>                 
+                <form id="frmBranchOffice" style="margin: 0px;">
+                    <table id="branchOfficeFieldTbl" width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                        <tr>
+                            <td class="td-gray-bg">Branch Name <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="branchName" name="txt_branch_name">                                     
+                            </td>
+                            <td class="td-gray-bg">Branch Code <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="branchCode" name="txt_branch_code">                                     
+                            </td>
+                        </tr> 
+                        <tr>
+                            <td class="td-gray-bg">Mobile No <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="mobileNo" name="txt_mobile_no" onKeypress="return validationDigit('#mobileNo');"/>                                     
+                            </td>
+                            <td class="td-gray-bg">Telephone No</td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="telephoneNo" name="txt_telephone_no" onKeypress="return validationDigit('#telephoneNo');"/>                                     
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Address: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg" colspan="3">
+                                <textarea  type="text" id="address1" name="txt_address1" cols="102" rows="3"></textarea>                                    
+                            </td>                                                                                       
+                        </tr>                      
+                        <tr>           
+                        <td class="td-gray-bg">Country: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_country" id="country" onchange="cmnLoadLocationList(this, '{{path('_cmn_load_list', {'key': 'S'})}}', 'state');">
+                                    <option value="">--Select--</option>
+                                {%for c in country|default('') %}
+                                    <option value="{{ c.countryPk|default('') }}">{{ c.countryName|default('') }}</option>
+                                {%endfor%}
+                           </Select>                                        
+                        </td>  
+                        <td class="td-gray-bg">State: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_state" id="state" onchange="cmnLoadLocationList(this, '{{path('_cmn_load_list', {'key': 'D'})}}', 'district');">
+                                    <option value="">--Select--</option> 
+                                {%if state is defined%}
+                                    {% for s in state.loadList|default('') %}
+                                        <option value="{{ s.statePk|default('') }}"> {{s.stateName | default('')}} </option>
+                                    {% endfor %}
+                                {%endif%}  
+                            </Select>                                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">District: </td>
+                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_district" id="district" onchange="cmnLoadLocationList(this, '{{path('_cmn_load_list', {'key': 'C'})}}', 'city');">
+                                <option value="">--Select--</option> 
+                              {%if district is defined%}
+                                    {% for d in district.loadList|default('') %}
+                                        <option value="{{ d.pkid|default('') }}">{{d.districtName | default('')}}</option>
+                                    {% endfor %}
+                              {%endif%} 
+                            </Select>                                         
+                        </td> 
+                        <td class="td-gray-bg">City/Town: </td>
+                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_city" id="city">
+                                <option value="">--Select--</option>    
+                               {%if city is defined%}
+                                    {% for c in city.loadList|default('') %}
+                                        <option value="{{ c.cityPk|default('') }}">{{c.cityName | default('')}}</option> 
+                                    {% endfor %}
+                              {%endif%} 
+                            </Select> 
+                        </td>                                                                    
+                      </tr>
+                                                                   
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Save" onclick="return createBranchOffice('{{ path('_save_branch_office')}}', this);"/>
+                                <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editBranchOfficeBtn(this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_update" value="Update" onclick="return createBranchOffice('{{ path('_save_branch_office')}}', this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="cancelBranchOfficeBtn(this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="branch_add_txn_id"  name="txt_branch_add_txn_id" value="">
+                </form>                               
+            </td>
+        </tr> 
+    </table>
+    <div id="display-list" style="margin-top: 8px;">
+        <script type="text/javascript"> loadBranchOffice('{{path('_branch_office_list')}}', '#display-list'); </script>
+    </div> 

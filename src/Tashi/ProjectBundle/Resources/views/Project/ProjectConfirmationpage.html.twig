@@ -1,0 +1,7 @@
+
+<h3 style="margin:0; margin-top:50px; font-family:Helvetica; color:#009900; text-align: center; background: none;">
+    {#Project has been created successfully. Generated Project ID/Order Number is: <a href="javascript:void(0);">{{orderno}}</a>#}
+    Selected Item(s)/Service(s) has been successfully added to the Project ID/Order No: {{project.orderNo}}
+</h3> 
+<p style="text-align:center;">Click <a href="javascript:void(0);" onclick="GotoProjectDetailIndex('{{path("_projectdetailindex",{projid:project.pkid})}}','divnewProj');">here</a> to View Project Detail.</p>
+<input type="hidden" name="inputprojectid" value="{{project.pkid}}">

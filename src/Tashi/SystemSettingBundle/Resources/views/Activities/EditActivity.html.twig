@@ -1,0 +1,55 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+    <tr>
+        <td>
+            <form id="FormActivity">
+                <div id="divActivityDetail">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Select Module<span class="mandatoryField">*</span></td>
+                            <td class="td-white-bg">
+                                <select id="selModule" name="selModule" onchange="loadActivity(this.value,'EDT');">
+                                    <option value="{{path("_loadactivity",{'moduleid':'0'})}}">--select--</option>
+                                    {%for module in moduleArr%}
+                                        <option value="{{path("_loadactivity",{'moduleid':module.pkid})}}&{{module.pkid}}"{%if module.pkid==activity.moduleFk.pkid%}selected{%endif%}>{{module.moduleName|upper}}</option>
+                                    {%endfor%}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Activity Name<span class="mandatoryField">*</span></td>
+                            <td class="td-white-bg">
+                                <input type="text" id="txtActivityName" name="txtActivityName" class="cmnWidth" value="{{activity.activityName|capitalize}}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Description</td>
+                            <td class="td-white-bg">
+                                <textarea id="txtdesc" name="txtdesc" cols="50" rows="5">{{activity.description}}</textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Function Name<span class="mandatoryField">*</span></td>
+                            <td class="td-white-bg">
+                                <input type="text" id="txtFunctionName" name="txtFunctionName" class="cmnWidth" value="{{activity.functionName}}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Controller Path<span class="mandatoryField">*</span></td>
+                            <td class="td-white-bg">
+                                <input type="text" id="txtPath" name="txtPath" class="cmnWidth" value="{{activity.controllerPath}}">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg"></td>
+                            <td class="td-white-bg">
+                                <input type="hidden" name="txtactid" value="{{activity.pkid}}">
+                                <input type="button" class="button" value="Update" onclick="ManageActivities('{{path("_updateactivity")}}','EDT');">
+                                <input type="button" class="button" value="Add New" onclick="cancelActivity('{{path("_addactivity")}}');">                                
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </form>
+        </td>
+    </tr>
+</table>

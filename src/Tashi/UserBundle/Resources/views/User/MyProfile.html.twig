@@ -1,0 +1,205 @@
+<div class='sub-menu'>
+    <ul>               
+        <li class='active'><a href="javascript:void(0);"><span>My Profile</span></a></li>
+    </ul>
+</div>
+<div class="newdashboard">
+    <div class="application-form">
+        <table width="80%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin:0 auto;">                       
+            <tr>
+                <input id="spanCloseOpenHandlerperInfo" value="0" type="hidden"/>
+                <td class="td-label-title" style="cursor: pointer;" 
+                    onclick="lmsShowHideAddressResult('perInfo');">Personal Information 
+                    <span style="float: right;" id="spanIdperInfo" class="span_open" >&nbsp;</span></td>
+            </tr>
+            <tr id="trAddressperInfo">
+                <td>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">                       
+                        <tr>
+                            <td class="td-gray-bg" width="150px">First Name</td>
+                            <td class="td-white-bg" width="250px">
+                                <b>{{emp.personFk.firstName|default('')}}</b>                                            
+                            </td>    
+                            <td class="td-gray-bg" rowspan="4" colspan="2" align="left" style="border-left: 1px dotted #ccc;">
+                                <div style="border: 1px solid #ccc; padding: 3px; padding-bottom: 0px; width: 120px; border-radius: 3px; left:0;">
+                                    {%if emp.personFk.pictureFk is not null%}
+                                        <img id="profile-view" src="{{ asset(emp.personFk.pictureFk.path) }}" width="120" height="130">
+                                    {%else%}
+                                        <img id="profile-view" src="{{ asset('bundles/common/images/unk.jpg') }}" width="120" height="130">                                     
+                                    {%endif%}                                    
+                                </div>                                
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Middle Name</td>
+                            <td class="td-white-bg">
+                                <b>{{emp.personFk.middleName|default('')}}</b>                                        
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Last Name <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                               <b>{{emp.personFk.lastName|default('')}}</b>                                               
+                            </td>
+                        </tr>
+                        <tr>                                  
+                            <td class="td-gray-bg">Gender<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <b>{{emp.personFk.gender|default('')}}</b>
+                            </td>                                                    
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Marital Status</td>
+                            <td class="td-white-bg" colspan="3">
+                                <b>{{emp.personFk.maritalStatus|default('')}}</b>
+                            </td>
+                        </tr>
+                        <tr>   
+                            <td class="td-gray-bg">DOB</td>
+                            <td class="td-white-bg">
+                                <b>{{emp.personFk.dateOfBirth|date('d-M-Y')|default('')}}</b>                                     
+                            </td>
+                            <td class="td-gray-bg" width="150px">Father Name<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <b>{{emp.personFk.contactFatherName|default('')}}</b>                                   
+                            </td>
+                        </tr>                        
+                        <tr>   
+                            <td class="td-gray-bg">Nationality</td>
+                            <td class="td-white-bg">
+                                <b>{{emp.personFk.nationality.nationality|default('')}}</b>                                     
+                            </td>
+                            <td class="td-gray-bg">Religion</td>
+                            <td class="td-white-bg">
+                                <b>{{emp.personFk.religion.religionName|default('')}}</b>                                   
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <table width="80%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin:0 auto;">                       
+            <tr>
+                <input id="spanCloseOpenHandlerproInfo" value="1" type="hidden"/>
+                <td class="td-label-title" style="cursor: pointer;" onclick="lmsShowHideAddressResult('proInfo');">
+                    Professional Information
+                    <span style="float: right;" id="spanIdproInfo" class="span_close" >&nbsp;</span>
+                </td>
+            </tr>
+            <tr id="trAddressproInfo" style="display:none;">
+                <td>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0"       
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Employee ID</td>
+                            <td class="td-white-bg" colspan="3">
+                                <b>{{emp.employeeId|default('')}}</b>                                     
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Designation</td>
+                            <td class="td-white-bg" width="250px">
+                                <b>{{emp.empJobTitleFk.jobTitleName|default('')}}</b>                                   
+                            </td>
+                            <td class="td-gray-bg" width="150px">Department</td>
+                            <td class="td-white-bg">
+                                <b>{{emp.departmentFk.departmentName|default('')}}</b>                                   
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Branch Code</td>
+                            <td class="td-white-bg">
+                                <b>{{emp.branchOfficeCode.branchCode|default('')}}</b>                                   
+                            </td>
+                            <td class="td-gray-bg" width="150px">Branch Name</td>
+                            <td class="td-white-bg">
+                                <b>{{emp.branchOfficeCode.branchName|default('')}}</b>                                   
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Date of Joining</td>
+                            <td class="td-white-bg" colspan="3">
+                                <b>{{emp.joiningDate|date('d-M-Y')|default('')}}</b>                                   
+                            </td>                            
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <table width="80%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin:0 auto;">                       
+            <tr>
+                <input id="spanCloseOpenHandlerconInfo" value="1" type="hidden"/>
+                <td class="td-label-title" style="cursor: pointer;" onclick="lmsShowHideAddressResult('conInfo');">
+                    Contact Information
+                    <span style="float: right;" id="spanIdconInfo" class="span_close" >&nbsp;</span>
+                </td>
+            </tr>
+            <tr id="trAddressconInfo" style="display:none;">
+                <td>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0">                       
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Mobile No. </td>
+                            <td class="td-white-bg">
+                                {%if mobileArr|length>0%}
+                                    {%for mob in mobileArr%}
+                                        <b>{{mob.mobileNoFk.mobileNo|default('')}}</b><br>
+                                    {%endfor%}
+                                {%else%}
+                                    <p style="margin:0; color: #ff0000;">Mobile Number not found</p>
+                                {%endif%}
+                                                                     
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Telephone No. </td>
+                            <td class="td-white-bg">
+                                <b>{{emp.personFk.telephoneNo|default('')}}</b>                                     
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Official Email</td>
+                            <td class="td-white-bg">
+                                <a href="javascript:void(0);" style="text-decoration:underline;">{{emp.personFk.emailId|default('')}}</a>       
+                            </td>                            
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg" width="150px">Personal Email</td>
+                            <td class="td-white-bg">
+                                <a href="javascript:void(0);" style="text-decoration:underline;">{{emp.personFk.emailIdOffice|default('')}}</a>                                   
+                            </td>                            
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <table width="80%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin:0 auto;">                       
+            <tr>
+                <input id="spanCloseOpenHandlercom" value="1" type="hidden"/>
+                <td class="td-label-title" style="cursor: pointer;" onclick="lmsShowHideAddressResult('com');">
+                    Communication Detail
+                    <span style="float: right;" id="spanIdcom" class="span_close" >&nbsp;</span>
+                </td>
+            </tr>
+            <tr id="trAddresscom" style="display:none;">
+                <td>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0"> 
+                    {%for i in range(0,addArr['type']|length-1)%}
+                        <tr>
+                            <td class="td-gray-bg" width="150px">{{addArr['type'][i]}}</td>
+                            <td class="td-white-bg">                                
+                                {%if addArr['Address'][i]==''%}
+                                    <p style="margin:0; color: #ff0000;">{{addArr['type'][i]}} Address not found</p>
+                                {%else%}
+                                    {{addArr['Address'][i]|raw}}
+                                {%endif%}
+                            </td>
+                        </tr>
+                    {%endfor%}                        
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

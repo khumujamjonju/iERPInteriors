@@ -1,0 +1,14 @@
+parameters:
+    tashi.service.project.class : Tashi\ProjectBundle\Service\ProjectService
+    tashi.service.master.class : Tashi\ProjectBundle\Service\ProjMasterService
+    tashi.common.service.class: Tashi\CommonBundle\Service\CommonService
+     
+services:    
+    tashi.project.service:
+        class: "%tashi.service.project.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service","@mailer","@templating"]
+    
+    tashi.master.service:
+        class: "%tashi.service.master.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]
+

@@ -1,0 +1,79 @@
+<script type="text/javascript" src="{{ asset('bundles/Tashi/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_add_store')}}', 'add_store', 'Store Master', 'Add store');">Add store</a></li> 
+        <li id="store_building"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_store_building')}}', 'store_building', 'Store Management', 'Building Master', 'Store Building Master');">Building Details</a></li> 
+        <li id="floor_no"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_building_floor')}}', 'floor_no', 'Store Management', 'Assign Floor No', 'Floor No');">Floor No</a></li> 
+        <li id="room"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_building_room')}}', 'room', 'Store Management', 'Room', 'Room Master');">Room No</a></li> 
+        <li id="Rack"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_building_rack')}}', 'Rack', 'Store Management', 'Rack', 'Rack Master');">Rack Details</a></li> 
+        <li id="bin"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_addbin')}}', 'bin', 'Store Management', 'Bin', 'Bin Master');">Bin</a></li> 
+    </ul>
+</div>
+<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" cellspacing="0" cellspadding="0" class="tbl-border">         
+            <tr>
+                <td class="td-label-title" colspan="2">Manage Store Detail</td>
+            </tr>
+            <tr>
+                <td> <form id="frmAddStore" style="margin: 0px;">
+                    <table width="100%" cellspacing="0" cellspadding="0">                       
+                        <tr>
+                            <td class="td-gray-bg">Store Name:<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"><input type="text" class="cmnWidth" id="storename" name="storename"></td>
+                            <td class="td-gray-bg">Description:<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"><input type="text" class="cmnWidth" id="storedescription" name="storedescription"></td>
+                        </tr>
+
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveStoreMaster('{{ path('_saveStore')}}',this);"/>
+                                <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="storeEditBtn('storename', 'storedescription','storeregistrationno');" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_update" value="Update" onclick="updateStoreMaster(this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="fnLeftMenuNavigation('{{path('_add_store')}}', 'add_store', 'Store Master', 'Add store');" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+              </td>
+            </tr>
+        </table>
+            
+        <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+           <input type="hidden" id="addStoreUpdateURL" value="">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                <tr>
+                    <td class="td-label-title">Store List:</td>
+                </tr>
+                <tr>
+                    <td>                    
+                        <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                            <thead class="">
+                                <tr>
+                                    <th class="tbl-th-grid-view-row-no-bg">Store Name</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                                </tr>
+                            </thead>
+                            <tbody>                           
+
+                           {% for c in record%}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.storeName | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.storeDesc | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <a href="javascript:void();" onclick="retriveStoreMaster('{{path('_retrieve_addStore',{'Stid': c.storeMasterPk })}}');">Edit </a> | 
+                                    <a href="javascript:void();" style="color:#ff0000;" onclick="deleteAddStoreMaster('{{path('_delete_addStore',{'Stid': c.storeMasterPk })}}');">Delete </a>
+
+                                    </td>                                                 
+                                </tr>
+                                  {%endfor%}
+                            </tbody>
+                            </table>
+                        </td>
+                    </tr>                                 
+                </table>
+            </div>
+        </div>
+    </div> 

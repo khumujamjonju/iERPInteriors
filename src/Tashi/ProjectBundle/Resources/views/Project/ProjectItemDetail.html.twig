@@ -1,0 +1,85 @@
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <td class="td-label-title">Project Item: {{item.itemFk.productName|upper}}</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="td-gray-bg" width="200px">Current Status             
+                    </td>
+                    <td class="td-white-bg"><strong style="color:{{item.statusFk.statusColor}}">{{item.statusFk.statusName}}</strong></td>
+                    <td colspan="2" rowspan="4" align="center" valign="middle">                
+                        <img src="{{asset(item.itemFk.pictureFk.path)}}" alt="image" class="largeimg"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="200px">Start Date</td>
+                    <td class="td-white-bg">{{item.startDate|date('d-M-Y')}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="200px">Deadline</td>
+                    <td class="td-white-bg">{{item.expectedEndDate|date('d-M-Y')}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="200px">Product Status</td>
+                    <td class="td-white-bg"><strong style="color:{{item.productStatusFk.statusColor}}">{{item.productStatusFk.statusName}}</strong></td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="200px">Number of Team                
+                    </td>
+                    <td class="td-white-bg" align="left">{{item.teamNo}}</td> 
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="200px">Area Detail                
+                    </td>
+                    <td class="td-white-bg" colspan="3" style="text-align:justify;">{{item.areaDetail}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="200px">Special Instruction                
+                    </td>
+                    <td class="td-white-bg" colspan="3"  style="text-align:justify;">{{item.specialInstruction}}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+                <br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <td class="td-label-title">Workers</td>
+    </tr>
+    <tr>
+        <td>
+            <table  width="100%" border="0" cellpadding="0" cellspacing="0" >
+                <thead>
+                    <tr>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:center; width:50px;">#</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">ID</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">Address</th>                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {%set slno=1%}
+                    {%for emp in workerArr%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg">{{slno}}</td>
+                            <td class="tbl-grid-view-row-no-bg">{{emp.workerFk.employeeId}}</td>
+                            <td class="tbl-grid-view-row-no-bg">{{emp.workerFk.personFk.personName|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" style="text-align: justify;">
+                                {%for i in range(0,addressArr['empid']|length-1)%}
+                                    {%set empid=addressArr['empid'][i]%}
+                                    {%if empid==emp.workerFk.employeePk%}
+                                        {{addressArr['address'][i]|raw}}
+                                    {%endif%}
+                                {%endfor%}
+                            </td>
+                        </tr>
+                        {%set slno=slno+1%}
+                    {%endfor%}
+                </tbody>
+        </td>
+    </tr>
+</table>

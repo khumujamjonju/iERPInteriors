@@ -1,0 +1,93 @@
+<div class='sub-menu'>
+    <ul>      
+        <li id="project_category" class="active"><a href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_gotoaddarea')}}', 'project_category', 'Project','Master Setting', 'Manage Project Category', '');">Manage Project Area</a></li> 
+        <li id="industry_type"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_addindustry')}}', 'industry_type', 'Project', 'Master Setting', 'Manage Industry Type');">Manage Industry Type</a></li>
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Project Area</td>
+            </tr>
+            <tr>
+                <td id="catsaveEditPage">
+                    <form id="frmAreaCategory" style="margin: 0px;">
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg">Area Name<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"colspan="1">
+                                    <input class="cmnWidth" type="text" id="txtAreaName" name="txtAreaName" onkeypress="return NullonEnterKey(event);">                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Description<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"colspan="1">
+                                    <textarea id="txtDescription" name="txtDescription" rows="5" cols="50"></textarea>
+                                    <input type="hidden" name="pkid"> 
+                                </td> 
+                            </tr>                            
+                            <tr>
+                                <td class="td-gray-bg"></td>
+                                <td class="td-white-bg" colspan="5">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" 
+                                        onclick="ManageArea('{{path('_manageprojectarea',{'mode':'INS'})}}','frmAreaCategory','ins');"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>  
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Category Name List</td>
+            </tr>
+            <tr>
+                <td id="tdAreaList">
+                    <table id="example" width="100%" align="center" border="0" cellpadding="0" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr> 
+                                {#<th class="td-gray-bg">CATEGORY_ID</th>#}
+                                <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" width="200px">AREA NAME</th>
+                                <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">DESCRIPTION</th>
+                                <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" width="200px">ACTION</th>                                              
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            {%if areaArr|length <=0%}
+                                <tr>
+                                    <td colspan="3">
+                                        <p style="color:#ff0000; margin:0; text-align:center; padding:5px 0;">
+                                            No Project Area has been added yet
+                                        </p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"></td>
+                                </tr>
+                            {%else%}
+                                {%for area in areaArr %}
+                                    <tr>
+                                       {# <td class="tbl-grid-view-row-no-bg" align="center">{{cat.CategoryID|default("")}}</td>#}
+                                       <td class="tbl-grid-view-row-no-bg" align="center">{{area.area|default("")|upper}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">{{area.description|default("")}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">
+                                            <a href="javascript:;" onclick="ProjectAreaAction('{{path('_gotoeditarea',{'areaid': area.pkid|default('')})}}','');">Edit</a> | 
+                                            <a href="javascript:;" style="color:#ff0000;" onclick="ProjectAreaAction('{{path('_deletearea',{'areaid': area.pkid})}}','del');">Delete</a>                                        
+                                        </td>                                                
+                                    </tr> 
+                               {%endfor%}
+                            {%endif%}
+                       </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+                        
+{# empty Twig template #}

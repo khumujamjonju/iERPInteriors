@@ -1,0 +1,94 @@
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a  href="javascript:void();">Search Expenses </a></li> 
+    </ul>
+</div>
+<div class="newdashboard"> 
+    <div class="application-form"> 
+        <form id="SearchExpenses">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+                <tr>
+                    <td class="td-label-title">Search Expenses:</td>
+                </tr>
+                <tr>
+                    <td>     
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                             
+                            <tr>
+                                <td class="td-gray-bg cmnWidth" style="text-align: right;">Select Criteria:</td>
+                                <td class="td-white-bg cmnWidth">
+                                     <select id="selSearchExpense" name="selSearchExpense" onchange="CriteriaExpenseSearch(this.id);" class="cmnWidth">
+                                        <option value="">--Select--</option>                     
+                                        <option value="all">All</option>
+                                        <option value="empID">Employee ID.</option>
+                                        <option value="date">Expenses Date</option>
+                                        <option value="project">Project</option>
+                                    </select>
+                                </td>
+                                <td class="td-gray-bg cmnWidth">
+                                  
+                                </td>
+                                <td class="td-white-bg cmnWidth">
+                                     
+                                </td>
+                                
+                            </tr>
+                            <tr id="trproject" style="display:none;">
+                                <td class="td-gray-bg" id="tdtitle"> </td>
+                                <td id="projectdisplay" class="td-white-bg">
+                                   <select class="cmnWidth" name="projectid">
+                                   <option value="">--Select--</option> 
+                                  {% for pro in project%}<option value="{{pro.pkid| default('')}}">{{pro.areaFk.area| default('')}}</option>{%endfor%}
+                                   </select>
+                                </td>
+                            </tr>
+                            
+                            <tr id="trcriteria" style="display:none;">
+                                <td class="td-gray-bg" id="tdtitle"> </td>
+                                <td id="tdsearchcriteria" class="td-white-bg">
+                                    <input type="hidden" name="searchvalue" value="" id="searchvalue"/>
+                                    <input type="text" id="txtCriteria" name="txtCriteria" style="display:none;" class="cmnWidth">
+                                    <input type="hidden" name="inputcatid">                            
+                                </td>
+                            </tr>
+                            
+                            <tr style="display: none;" id="divdate">
+                                <td class="td-gray-bg cmnWidth" style="text-align: right;">From:</td>
+                                <td class="td-white-bg cmnWidth">
+                                    <input class="cmnWidth" type="date" id="start" name="start" value="{{"now"|date('Y-m-d')}}"/>
+                                </td>
+                                 <td class="td-gray-bg cmnWidth">
+                                   To:   <input class="cmnWidth" type="date" id="enddate" name="enddate" value="{{"now"|date_modify("+1 month")|date("Y-m-d")}}"/>
+                                </td>
+                                 <td class="td-white-bg cmnWidth">
+                                   
+                                </td>
+                                
+                            </tr>
+                             <tr>
+                                <td class="td-gray-bg cmnWidth"></td>
+                                <td class="td-white-bg cmnWidth">
+                                <input type="button" class="button" id="btnSearch" value="Search" 
+                                onclick="return SearchExpenses('{{path("_searchexpenses")}}', this);"></td>
+                                <td class="td-gray-bg cmnWidth"> </td>
+                                <td class="td-white-bg cmnWidth"></td>
+                                
+                                 
+                            </tr>
+                        </table>
+                    </td>
+                </tr> 
+            </table>
+            <div id="divSearchExpenses" style="margin-top: 10px;">
+            
+            
+            
+            
+            
+            
+            </div>            
+            <br/> 
+            
+            
+        </form>   
+    </div>
+</div> 

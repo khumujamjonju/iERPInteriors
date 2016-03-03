@@ -1,0 +1,70 @@
+ <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+        <tr>
+            <td class="td-label-title">Employee Type</td>
+        </tr>
+        <tr>
+            <td>                 
+                <form id="frmEmployeeType" style="margin: 0px;">
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                        <tr>
+                            <td class="td-gray-bg">Employee Type</td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="employeeTypeName" name="employeetypename">                                     
+                            </td>
+                            <td class="td-gray-bg">Description</td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="employeeTypenameDescription" name="employeetypenamedescription">                                          
+                            </td>                                                          
+                        </tr>                                              
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addEmpType('{{ path('_add_emp_type')}}', this);"/>
+                                <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="commonEditBtn('employeeTypeName', 'employeeTypenameDescription');" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_update" value="Update" onclick="return addEmpType('{{ path('_add_emp_type')}}', this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="commonCancelBtn('employeeTypeName', 'employeeTypenameDescription','employeeTypeId');" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="employeeTypeId"  name="employeeTypeId" value="">
+                </form>                               
+            </td>
+        </tr> 
+    </table>
+    <div id="display-list" style="margin-top: 8px;">
+
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Employee Type List:</td>
+            </tr>
+            <tr>
+                <td>
+
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                        <thead class="">
+                            <tr>
+                                <th class="tbl-th-grid-view-row-no-bg">Employee Type Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+
+                        <tbody>                           
+                  {%for a in allRecord %}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ a.typeName}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ a.description}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                     <a href="javascript:void();" onclick="retriveEmpType('{{ path('_retrive_emp_type',{ 'employeeTypeId': a.employmentTypePk})}}');">Edit</a> 
+                            | <a href="javascript:void();"   style="color:#ff0000;" onclick="deleteEmpEmployeeTypeMaster('{{ path('_deleteEmpEmployeeType',{ 'employeeTypeId': a.employmentTypePk})}}');">Delete</a>
+                                    </td>                                                 
+                      
+                                  
+                                </tr>                    
+                  {%endfor%}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>
+     </div> 

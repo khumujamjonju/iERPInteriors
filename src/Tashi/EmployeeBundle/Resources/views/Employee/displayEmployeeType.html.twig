@@ -1,0 +1,36 @@
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <td class="td-label-title">Employee Type List</td>
+    </tr>
+    <tr>
+        <td>
+
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Type</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                    </tr>
+                </thead>
+
+                <tbody>  
+                  {%for a in allRecord %}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.typeName}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.description}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                     <a href="javascript:void();" onclick="retriveEmpType('{{ path('_retrive_emp_type',{ 'employeeTypeId': a.employmentTypePk})}}');">Edit</a> 
+                            | <a href="javascript:void();"  style="color:#ff0000;" onclick="deleteEmpEmployeeTypeMaster('{{ path('_deleteEmpEmployeeType',{ 'employeeTypeId': a.employmentTypePk})}}');">Delete</a>                                                
+                      
+                                  </td>   
+                        
+                        
+                        </tr>                    
+                  {%endfor%}
+                    </tbody>
+                </table>
+            </td>
+        </tr>                                 
+    </table>

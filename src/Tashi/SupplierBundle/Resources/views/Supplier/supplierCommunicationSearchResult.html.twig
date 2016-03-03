@@ -1,0 +1,106 @@
+{#<form method="post" post="#"  enctype="multipart/form-data" id="frmCustDetail">#}
+   
+
+
+<table width="100%" class="tbl-border"  align="center" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <input id="spanCloseOpenHandlerSearchCustomerResult" value="0" type="hidden">
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('SearchCustomerResult');">Supplier List:<span style="float: right;" id="spanIdSearchCustomerResult" class="span_open" >&nbsp;</span></td>
+    </tr>
+    <tr id="trAddressSearchCustomerResult" >
+    <td colspan="6">                  
+        <table id="example2" class="display" width="100%" border="0" cellpadding="0" cellspacing="0">
+            <thead>
+                <tr class="tbl-grid-view-header">
+                     <th>#</th>
+                     <th align="center">
+                            <input type="checkbox" id="chkCommAll" title="Check/Uncheck All" onchange="toggleChildCheckComm(this.id);">
+                        </th>  
+                    <th>Sl. No</th>
+                    <th>Supplier Name</th>
+                    <th>Contact Person Name</th>
+                    <th>Email ID</th> 
+                    <th>Mobile No</th> 
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                 {%set i=0%}
+               {%for r in supplier.result%}                                     
+                    
+                    <tr align="center">
+                    <td class="tbl-grid-view-row-no-bg centered-cell" align="center">{{i+1}}</td>
+                    <td class="tbl-grid-view-row-no-bg centered-cell" align="center">
+                                <input type="checkbox" id="chkCom{{i}}" name="isSelected" class="selchkcomm" title="Check to communicate" value="0" onchange="toggleMainNOCheckComm('chkCommAll');">
+                                <input type="hidden" id="inputisselected{{i}}" name="inputisSelected" value="0">
+                                <input type="hidden" name="inputComSupId" value="{{r.supplierFk.supplierPk }}">                                
+                               {%for s in supplier.result1 %}    
+                                {%if r.supplierFk.supplierPk == s.supContactFk.supplierFk.supplierPk%} 
+                                <input type="hidden" name="inputComMobno" class="inputComMobno" value="{{s.mobileMasterFk.mobileNo}}">{%endif%}
+                                {%endfor%}
+                                <input type="hidden" name="inputComEmail" class="inputsComEmail" value="{{r.personFk.emailId}}">
+                               {%for s in supplier.result1 %}    
+                                {%if r.supplierFk.supplierPk == s.supContactFk.supplierFk.supplierPk%} 
+                                <input type="hidden" name="inputComContId" value="{{r.suppContactPk}}">{%endif%}
+                                {%endfor%}
+                    </td>
+                    <td class="tbl-grid-view-row-no-bg" align="center">{{loop.index}}</td>
+                    <td class="tbl-grid-view-row-no-bg" align="center">{{r.supplierFk.companyName}}</td>
+                    <td class="tbl-grid-view-row-no-bg" align="center">{{r.personFk.firstName}} {{r.personFk.middleName | default(' ')}} {{r.personFk.lastName | default(' ')}}   </td>
+                    <td class="tbl-grid-view-row-no-bg" align="center">{{r.personFk.emailId}}</td>
+                    <td class="tbl-grid-view-row-no-bg centered-cell"> 
+                    
+                        <select class="cmnWidth" id="suppliercontactid{{i}}">
+                        {%for s in supplier.result1 %}  
+                             {%if r.supplierFk.supplierPk == s.supContactFk.supplierFk.supplierPk%}
+                                <option value="{{s.mobileMasterFk.pkid}}">
+                                {{s.mobileMasterFk.mobileNo}}
+                                </option>
+                             {%endif%}
+                        {%endfor%}
+                        </select>
+                    </td>
+
+                    <td class="tbl-grid-view-row-no-bg centered-cell" id="saveButton1"  align="center" width="200px">
+                        <select id="selCommAction{{i}}" style="width:100px;">
+                            <option value="">--Select--</option>
+                            <option value="{{path("_viewsuppliercomhistory",{'supid':r.supplierFk.supplierPk})}}">View Communication History</option>
+                                   
+                        </select>
+                        <input type="button" class="button" value="Go" onclick="ViewCommunicationHistory('selCommAction{{i}}','suppliercontactid{{i}}');">
+                    </td> 
+                </tr>
+                    
+                    
+                   {%set i=i+1%}  
+                    
+               {% endfor %}
+
+            </tbody>
+            </table>
+        </td>   
+    </tr>
+</table>
+
+
+
+
+
+
+ <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top:10px;">           
+                <tr>        
+                    <td class="td-label-title" ><input type="text" id="txtTotalSelected" value="0" style="width:50px; text-align: center;" readonly> selected for Communication</td>
+                    <td class="td-label-title"> 
+                        Select Type of Communication
+                        <select id="selCommType" style="width:100px;">
+                            <option value="">--Select--</option>
+                            <option value="{{path("_supmessagetemplate",{'comtype':'sms'})}}&sms">SMS</option>
+                            <option value="{{path("_supmessagetemplate",{'comtype':'email'})}}&email">EMAIL</option>
+                        </select>
+                        <input type="button" class="button" value="Communicate" onclick="CommunicateCheck();">
+                    </td>        
+                </tr>
+</table>
+
+    {#</form>#}
+      

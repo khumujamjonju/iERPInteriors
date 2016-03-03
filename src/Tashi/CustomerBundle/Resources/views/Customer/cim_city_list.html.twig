@@ -1,0 +1,7 @@
+
+<select name="city" id="selcity" class="select-width">
+    <option value="">--select--</option>
+    {%for c in city%}
+       <option value="{{c.cityPk}}">{{c.cityName | default(' ')}}</option>
+    {%endfor%}
+</select>

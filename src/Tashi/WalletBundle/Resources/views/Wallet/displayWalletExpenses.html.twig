@@ -1,0 +1,105 @@
+<div class='sub-menu'>
+    <ul>               
+        <li class='active'><a href="javascript:void(0);"><span>Add Expense</span></a></li>
+    </ul>
+</div>
+<div class="newdashboard">
+    <div class="application-form">
+        <form id="FormMyExpense">
+            <p id="pConfirm" class="success" style=" margin:0 auto; margin-top:50px; padding:7px 30px; text-align:justify; background-image: none; display:none; width:90%">
+                Your expense detail has been submitted. Accountant/Authorised person will approve your request and then respective amount will be deducted from your wallet.<br><br>
+                Click <a href="javascript:void(0);" onclick="fnLeftMenuNavigation('{{path('_addexpense')}}', 'add_expenses', 'My Wallet', 'Add Expense');">here</a> 
+                to add new expense detail.
+            </p>
+            <table id="tbExpDetail" width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">  
+                <tr>                
+                    <td class="td-label-title">Wallet Expenses Details</td>
+                </tr>
+                <tr>
+                    <td>                 
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0"> 
+                            <tr>
+                                <td class="td-gray-bg">Balance in Wallet</td>
+                                <td class="td-white-bg" colspan="3"><b>{{balance|number_format('2','.','')}}</b></td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg" width="150px">Employee ID:<input type="hidden" name="empid" id="empid" value="{{empdetails.empFk.employeePk}}"/></td>
+                                <td class="td-white-bg" style="color:green;"><label>{{empdetails.empFk.employeeId}}</label>
+                                    <input type="hidden" name="empcode" value="{{empdetails.empFk.employeeId}}"/>
+                                </td>
+                                <td class="td-gray-bg" width="150px">Name:</td>
+                                <td class="td-white-bg" style="color:green;"><label>{{empdetails.empFk.personFk.personName | default('')}}</label>
+                                    <input type="hidden" name="emppersonk" id="emppk" value="{{empdetails.empFk.personFk.personPk | default('')}}"/>
+                                    <input type="hidden" name="accountid" value="{{empdetails.accntId | default('')}}"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Expenses Type<span class="mandatoryField">*</span></td>
+                                <td class="td-white-bg">
+                                    <select class id="sourceid" name="sourcename"  onchange="SearchCriteriaforExpenses('{{path('_showlist')}}');">
+                                        <option  value="">--Select--</option>
+                                        {%for a in source%}
+                                            <option value="{{a.pkid| default('')}}">{{a.sourceType| default('')}}</option>
+                                        {%endfor%}
+                                    </select>
+                                </td>
+                                <td class="td-gray-bg">Recieved Upload</td>
+                                <td class="td-white-bg"><input type="file" onchange="calculateFileSize(this);" name="fileExpensesImg" id="fileExpensesImg"/>
+                                    <span id="spanfsize" style="font-size: 11px;"></span>
+                                    <br/>
+                                    <span style="color:#666666; font-size: 11px;">(.jpg,.jpeg,.png,.gif,.bmp)- Upto 512Kb</span>
+                                </td>
+                                <tbody id="showdetailssource"></tbody>
+
+                                <tbody id="showitemslist"></tbody>
+                            </tr>
+
+                            <tr>
+                                <td class="td-gray-bg">Amount<span class="mandatoryField">*</span></td>
+                                <td class="td-white-bg">
+                                    <input type="text" name="amount" class="money" maxlength="9" id="txt_amount" class="cmnWidth" onkeypress="return isValidNumber(event);" />
+                                </td> 
+                                <td class="td-gray-bg"></td>
+                                <td class="td-white-bg"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Description<span class="mandatoryField">*</span></td>
+                                <td class="td-white-bg" colspan="3">
+                                    <textarea name="description" style="width: 99%;height: 50px;"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg"> </td>
+                                <td class="td-white-bg"> 
+                                    <input type="button" class="button" id="btnSavebefore" value="Submit" onclick="SaveWalletExpensesDetails('{{path('_saveWalletExpenses',{'btn':'before'})}}', 'FormMyExpense', this);">
+                                   {# <input type="button" class="button blue" style="display:none;" 
+                                    id="addnewExpenses" name="addnewExpenses" value="Add Another Expenses " onclick="editWalletExpensesforSaving(this);"/>    
+                                   #} <input type="hidden" id="acct_id" name="txt_accntid" value=""/>                   
+                                </td>
+                                <td class="td-gray-bg"></td>
+                                <td class="td-white-bg"></td>
+                            </tr>
+                        </table>                 
+                    </td>
+                </tr> 
+            </table>
+            <br>
+            <div id="divExpConfirm" style="display:none;">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+                    <tr>
+                        <td class="td-label-title" align="center">
+                            Expense Amount is greater than your Wallet Balance
+                        </td>       
+                    </tr>
+                    <tr>
+                        <td class="td-white-bg" align="center">
+                            Do you want to proceed? &nbsp; 
+                            <input type="button" id="btnSaveafter" class="button" value="Yes" onclick="SaveWalletExpensesDetails('{{path('_saveWalletExpenses',{'btn':'after'})}}', 'FormMyExpense', this);">&nbsp;&nbsp;
+                            <input type="button" class="button" value="No" onclick="$('#divExpConfirm').hide();">
+                        </td>       
+                    </tr>
+                </table>
+            </div>                
+        </form>
+    </div>
+</div>

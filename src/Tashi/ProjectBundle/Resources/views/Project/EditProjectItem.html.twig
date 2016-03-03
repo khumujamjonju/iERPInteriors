@@ -1,0 +1,142 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <input id="spanCloseOpenHandlerItemDetail" value="0" type="hidden">
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('ItemDetail');">
+           Edit Project Item: {{item.itemFk.productName|upper}} detail
+            <span style="float: right;" id="spanIdItemDetail" class="span_open" >&nbsp;</span>
+        </td>
+    </tr>
+    <tr id="trAddressItemDetail">
+        <td>
+            <input type="hidden" name="inputItemId" value="{{item.pkid}}"/>
+            <input type="hidden" name="inputProjectId" value="{{item.projectFk.pkid}}"/>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="td-gray-bg" width='200px'>Status</td>
+                    <td class="td-white-bg"><strong style="color:{{item.statusFk.statusColor}}">{{item.statusFk.statusName}}</strong>
+                    </td>
+                    <td class='td-gray-bg' width="200px">Product Status</td>
+                    <td class='td-white-bg'><strong style="color:{{item.productStatusFk.statusColor}}">{{item.productStatusFk.statusName}}</strong>
+                    </td>
+                </tr>   
+                <tr>
+                    <td class='td-gray-bg' width='200px'>Starting Date<span class="mandatoryField">*</span></td>
+                    <td class='td-white-bg'>
+                       <input type="date" name="txtStartDate" id="txtStartDate" class="datepicker" value="{{item.startDate|date('Y-m-d')}}">
+                    </td>
+                    <td class='td-gray-bg' width='200px'>Deadline<span class="mandatoryField">*</span></td>
+                    <td class='td-white-bg'>
+                       <input type="date" name="txtDeadline" id="txtDeadline" value="{{item.expectedEndDate|date('Y-m-d')}}"> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class='td-gray-bg' width="200px">Unit</td>
+                    <td class='td-white-bg' >
+                        <select name="selItemUnit">
+                            <option value="">--select--</option> 
+                            {%for unit in unitArr%}
+                                <option value="{{unit.unitName}}" {%if unit.unitName==item.unit%}selected{%endif%}>{{unit.unitName}}</option>
+                            {%endfor%}
+                        </select>
+                    </td>
+                    <td class='td-gray-bg' width="200px">Unit Price</td>
+                    <td class='td-white-bg' >
+                        <input type="text" name="txtPrice" id="txtPrice" value="{{'%.2f'|format(item.unitPrice|default(0))}}" readonly/>
+                    </td>                     
+                </tr>
+                <tr>
+                    <td class='td-gray-bg' width="200px">Quantity<span class="mandatoryField">*</span></td>
+                    <td class='td-white-bg' >
+                        <input type="text" name="txtQty" id="txtQty" value="{{item.quantity}}" 
+                               onkeypress="return IntegerOnly(event);" onkeyup="CalculateItemTotal(this.id,'txtCharge','txtPrice','txtTotal');"/>
+                    </td>
+                    <td class='td-gray-bg' width="200px">Sub Total</td>
+                    <td class='td-white-bg' >
+                        {%set total=(item.quantity*item.unitPrice)%}
+                        <input type="text" name="txtTotal" id="txtTotal" value="{{'%.2f'|format(total|default(0))}}" readonly/>
+                    </td>
+                   {# <td class='td-gray-bg' width="200px">Charge<span class="mandatoryField">*</span></td>
+                    <td class='td-white-bg' >
+                        <input type="text" name="txtCharge" id="txtCharge" value="{{'%.2f'|format(item.charge|default(0))}}"
+                               onkeyup="isMoney(this.id); CalculateItemTotal('txtQty',this.id,'txtPrice','txtTotal');" 
+                               onblur="FormatNumber(this,2);">
+                    </td> #}                
+                </tr>
+                <tr>                    
+                    <td class='td-gray-bg' width="200px">Number of Team<span class="mandatoryField">*</span></td>
+                    <td class='td-white-bg' colspan="3">
+                        <input type="text" name="txtTeamno" id="txtTeamno" value="{{item.teamNo}}" onkeypress="return isValidNumber(event);">
+                    </td>                     
+                </tr>                
+                
+                <tr>
+                    <td class='td-gray-bg' width='200px'>Area Detail</td>
+                    <td class='td-white-bg' colspan="3">
+                        <textarea name="txtArea" id="txtArea" cols="60" rows="6">{{item.areaDetail}}</textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width='200px'>Special Instruction</td>
+                    <td class="td-white-bg" colspan="3">
+                        <textarea name="txtInstruction" id="txtInstruction" cols="60" rows="6">{{item.specialInstruction}}</textarea>
+                    </td>
+                </tr>                
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr> 
+        <td class="td-label-title">Select Worker from the List</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">ID</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">Fields of Expertize</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Select</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyworkerlist">
+                    {%for i in range(0,workerArr['pkid']|length-1)%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{workerArr['empid'][i]}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{workerArr['name'][i]|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg">
+                                {#{%for j in range(0, addressArr['address']|length-1)%}                                    
+                                    {%if addressArr['empid'][j]==workerArr['pkid'][i]%}
+                                        {{addressArr['address'][j]|raw}}
+                                    {%endif%}
+                                {%endfor%}#}
+                                {%for exp in expArr%}                                    
+                                    {%if exp.empMasterFk.employeePk|default('')==workerArr['pkid'][i]%}
+                                        {{exp.expertTypeFk.expertType|default('')}},                                        
+                                    {%endif%}
+                                {%endfor%}
+                            </td>
+                                
+                            <td class="tbl-grid-view-row-no-bg" align="center">                                
+                                    <input type="checkbox" onchange="toggleWorkerSelection(this,'{{workerArr['pkid'][i]}}');" 
+                                           {%if workerArr['isExisting'][i]==1%}checked{%endif%}>
+                                    <input type="hidden" name="inputEmpId" id="inputEmpId{{workerArr['pkid'][i]}}" class="classempid" 
+                                               value="{%if workerArr['isExisting'][i]==1%}{{workerArr['pkid'][i]}}{%endif%}">                                    
+                            </td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </td>
+    </tr>          
+</table>
+                <br/>
+<table width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="center">
+            <input type="button" class="button" value="Submit" onclick="EditItemDetail('{{path("_edititemdetail",{itemid:item.pkid})}}');"/>
+        </td>
+    </tr> 
+</table>

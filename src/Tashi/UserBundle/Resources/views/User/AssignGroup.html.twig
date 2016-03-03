@@ -1,0 +1,49 @@
+<div class='sub-menu'>
+    <ul>      
+        <li class="active"><a href="javascript:void();">Assign User Group</a></li>
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form"> 
+        <form id="FormActivityAssign">
+            <table width="100%" align="center" cellspacing="0" class="tbl-border">
+                <tr>
+                    <input id="spanCloseOpenHandleracchistory" value="0" type="hidden"/>
+                    <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('acchistory');">
+                        Group List <span style="float: right;" id="spanIdacchistory" class="span_open" >&nbsp;</span>
+                    </td>
+                </tr>
+                <tr id="trAddressacchistory">
+                    <td>
+                        <table width="100%" align="center" id="example2" cellspacing="0" class="display">  
+                            <thead>
+                                <tr> 
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center;">Sl. No.</th>
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center;">Group Name</th>
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center;">Description</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Action</th>  
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {%for ug in usergroup%} 
+                                    <tr>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{loop.index}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{ug.groupName | default(' ')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{ug.groupDesc | default(' ')}}</td>                                                       
+                                        <td class="tbl-grid-view-row-no-bg" align="left">
+                                        <input type="button" class="button blue" value="Assign Users" 
+                                            onclick="ShowGroupUser('{{path('_showGroupuser',{'aid': ug.pkid})}}');"/>
+                                        </td>                            
+                                    </tr>
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </td>        
+                </tr>
+            </table> 
+        </form>  
+        <form id="FormAssignUserGrpu">
+            <div id="divAssignUserGrpu"></div>
+        </form>
+    </div>
+</div>

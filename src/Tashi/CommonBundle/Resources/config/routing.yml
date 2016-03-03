@@ -1,0 +1,6 @@
+_iErp_homepages:
+   pattern:  /{name}
+   defaults: { _controller: TashiCommonBundle:Default:index } 
+erp_common_homepage:
+    pattern:  /hello/{name}
+    defaults: { _controller: TashiCommonBundle:Default:index }

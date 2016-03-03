@@ -1,0 +1,68 @@
+<!--Module Name :
+Purpose or objective of the  page :Search Customer by PanCard No.
+Links :
+Created By :
+Created Date :
+Last Modified Date :
+Last Modified By :
+Test Carried Out :
+Test Carried By :
+Version :       -->
+{# it is used to display contact persons List#}
+
+
+<table width="100%" align=center border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <td colspan="6" class="td-label-title" >Contact Lists</td>                  
+    </tr>
+    <tr>
+        <td class="tbl-grid-view-header">Name</td>
+        {#<td class="tbl-grid-view-header">Designation</td>#}
+        <td class="tbl-grid-view-header">Mobile</td>
+        <td class="tbl-grid-view-header">Email ID</td>
+        <td class="tbl-grid-view-header">Phone Number</td>
+        <td class="tbl-grid-view-header">Is Primary?</td>
+        <td class="tbl-grid-view-header" style="text-align:center;">Action</td>
+
+    </tr>
+    {%if contactInfo|length>0%}
+        {% for custContactDetails in contactInfo %}
+            <tr>
+                <td class="tbl-grid-view-row-no-bg">{{custContactDetails.contact.personFk.personName|default('')}}
+                    {%if custContactDetails.contact.isPrimaryContact=='1'%}<span style="color:#ff0000; font-size: 11px;">*</span>{%endif%}
+                </td>                                    
+                <td class="tbl-grid-view-row-no-bg">
+                    {{custContactDetails.mobileNo.mobileNo|default('')}}
+                    {%if custContactDetails.contact.isPrimaryContact=='1'%}<span style="color:#ccc; font-size: 11px;">(Primary)</span>{%endif%}
+                </td>
+                <td class="tbl-grid-view-row-no-bg">
+                    {{custContactDetails.contact.personFk.emailId|default('')}}
+                </td>
+                <td class="tbl-grid-view-row-no-bg">
+                    {{custContactDetails.contact.personFk.telephoneNo|default('')}}
+                </td>
+                <td class="tbl-grid-view-row-no-bg">{% if custContactDetails.contact.isPrimaryContact|default('')=='1' %}Yes{%else%}No{%endif%}</td>
+                <td class="tbl-grid-view-row-no-bg" align="center" width="100px">
+                    {%set contactpkid=custContactDetails.contact.pkid%}
+                    {#<input type="button" value="Edit Detail" class="button"  onclick="cimContactViewEdit('divForSearchResultContact','{{path('_contactperson',{'mode':'EDT','contactid':contactpkid,'custid':custid})}}',function(output){});" >#}
+                    <a href="javascript:void(0);" onclick="cimContactViewEdit('divForSearchResultContact','{{path('_contactperson',{'mode':'EDT','contactid':contactpkid,'custid':custid})}}',function(output){});">Edit</a> | 
+                                            <a href="javascript:void(0);" style="color:#ff0000;" onclick="DeleteContactPerson('{{path('_deletecontactperson',{'contactid':contactpkid,'custid':custid})}}');">Delete</a>
+                </td>
+            </tr>
+        {% endfor %}
+    {%else%}
+        <tr>
+            <td colspan="6">
+                <p style="margin:10px 0; color:#ff0000; text-align: center;">No Contact Found</p>
+            </td>
+        </tr>
+    {%endif%}
+    <tr>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+        <td>&nbsp;</td>
+    </tr>
+    
+</table>
+<br>

@@ -1,0 +1,321 @@
+{% set disabled = 'disabled' %}
+<form method="post" align="center" id="frmCustomerDetail" style="margin-top: 0px; margin-bottom: 0px;">
+    <input type="hidden" id="custId" name="custId" value="">
+    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" class="tbl-border-content"> 
+                
+                <tr>
+                     <input id="spanCloseOpenHandlerCustomerDetail" value="0" type="hidden">
+                     <td class="td-label-title" onclick="lmsShowHideAddressResult('CustomerDetail');"> Customer Details <span style="float: right;" id="spanIdCustomerDetail" class="span_open" >&nbsp;</span></td>
+                </tr>
+                <tr id="trAddressCustomerDetail">
+                 <td>
+                          <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg">First Name<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input {{ disabled }} type="text" name="firstName" id="firstName" value="" class="cmnWidth">                                                  
+                                </td>
+                                <td class="td-gray-bg">Religion</td>
+                                <td class="td-white-bg">
+                                   <input {{ disabled }} type="text" name="relign" id="relign" value=""class="cmnWidth">
+                                </td>
+                            </tr>
+                            <tr class="admission_new_student_details">
+                                <td class="td-gray-bg">Middle Name</td>
+                                <td class="td-white-bg"><input {{ disabled }} type="text" name="middleName" value="" id="middleName" class="cmnWidth"></td>  
+                                <td class="td-gray-bg" style="">Nationality</td>
+                                <td class="td-white-bg">                                                         
+                                   <input {{ disabled }} type="text" name="nationlty" id="nationlity"  value=""class="cmnWidth">
+                                </td> 
+                            </tr>  
+                            <tr class="admission_new_student_details">
+                                <td class="td-gray-bg">Last Name<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input {{ disabled }} type="text" name="lastName" value="" id="lastName" class="cmnWidth">                                             
+                                </td>  
+                                  <td class="td-gray-bg">Date of Birth<span class="necessary-field">*</span></td>
+                                  <td class="td-white-bg">
+                                 <input {{ disabled }} type="date" name="dob" value="" id="dob" class="cmnWidth">                                                       
+                                 </td>
+                            </tr>
+                            <tr class="admission_new_student_details">
+                                <td class="td-gray-bg">Gender<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <div class="cmnWidth">
+                                        <select {{ disabled }} class="normal_select cmnWidth"  name="gender" id="gender">
+                                            <option value="">--select--</option>
+                                            <option value="M">Male</option> 
+                                            <option value="F">Female</option> 
+                                        </select></div>       
+                                                           
+                                </td>
+                              
+
+                            </tr>
+                         
+                      
+                          
+                          
+                            <tr>
+                                <td colspan="4"class="td-separator">                                                                                                     
+                                    <button type="button" class="button blue" id="newStudUpdate" onclick="updateStudentProfile('subMenuTable2');" style="float: left; display: none;" >Update</button>
+                                    <button type="button" class="button blue" id="newStudEdit"   onclick="cmnEditForm('frmNewStudAdmsn', 'newStudEdit', 'newStudUpdate', 'newStudCancel');" >Edit</button>
+                                    <button type="button" class="button blue" id="newStudCancel"  style="float: left; display: none;" onclick="cmnDisableForm('frmNewStudAdmsn', 'newStudEdit', 'newStudUpdate', 'newStudCancel');">Cancel</button>
+                                    <img id="ajax_loader" src="/cms/web/bundles/CRM/images/AjaxLoader/ajax-loader3.gif"  style="display: none; float: left; margin-left: 20px; margin-top: 8px;"/>   
+                                </td>
+                            </tr>  
+                            </table>
+                         </td>
+                </tr>
+            </table>
+        </form> 
+
+
+<form method="post" id="presentAddressForm" style="margin-top: 10px; margin-bottom: 0px">
+                    <input type="hidden" id="presentId" name="personId" value="">
+                    <input type="hidden" id="presentAddressId" name="personAddressId" value="">
+                    <input type="hidden" name="addressType" value="present">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border-content">           
+                        <tr>
+                            {#--------------For{{person}}{{addressType}}--is used for controlling close open---------#}
+                        <input id="spanCloseOpenHandlerForPresent" value="0" type="hidden">
+                        <td class="td-label-title" onclick="lmsShowHideAddressResult('ForPresent');"> 
+                         <span style="float:left;">Present Address Details</span> 
+                           
+                      
+                             <span style="float: right;" id="spanIdForPresent" class="span_open" >&nbsp;</span></td>
+                        </tr>
+                        <tr id="trAddressForPresent">
+                            <td>
+                                <table width="100%" align=center border="0" cellpadding="0" cellspacing="0">  
+                                    <tr>
+                                        <td class="td-gray-bg" style="width: 270px;">Address<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bg">
+                                            <textarea {{disabled}}  name="address" id="presentInfo" cols="40" rows="3" onkeyup="return clearAlertField(this.id);" ></textarea>{#---no idea {{addressPersent}} --#}
+                                            <span id="presentAlert" class="necessary-field-alert"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">Country<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bg"><div class="cmnWidth" style="float: left;">
+                                                <select {{disabled}} class="normal_select" id="presentCountry" name="country" >
+                                                          
+                                                    <option  value="" selected  ></option> 
+                                                          
+                                                </select></div>
+                                            <div style="float: left;"><span id="presentCountryAlert" class="necessary-field-alert"></span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">State<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bg">
+                                            <input type="hidden" id="urlLoadDistrictList" value=""/>
+                                            <div class="cmnWidth" style="float: left;">  
+                                                <select class="normal_select" id="presentState" name="state" onchange="loadDistrictList('','present');" >
+                                                    <option value=""></option>
+                                                           
+                                                    <option  value=""  selected ></option> 
+                                                          
+                                                </select>
+                                                </div>
+                                            <div style="float: left;"><span id="presentStateAlert" class="necessary-field-alert"></span></div>
+                                        </td>  
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">District<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bg" id="loadDistrictForpresent">
+                                            <div  class="cmnWidth" style="float: left;">
+                                                <select  {{disabled}} class="normal_select"  id="presentDistrict" name="district" >                                                   
+                                                    <option  value=""></option>          
+                                                           
+                                                    <option  value=""  ></option> 
+                                                           
+                                            </div>
+                                            <span id="presentDistrictAlert" class="necessary-field-alert"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">City<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bg">
+                                            <input  type="text" name="city" id="presentCity"  value=""class="cmnWidth">
+                                            <span id="presentCityAlert" class="necessary-field-alert"></span>
+                                        </td>  
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">Pin Code<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bg">
+                                            <input  type="text" name="pinCode" id="presentPinCode" class="cmnWidth" value="" onkeypress="return validationDigit();">
+                                            <span  id="presentPinCodeAlert" class="necessary-field-alert"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">Contact No With STD Code<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bg">
+                                            <input {{disabled}} type="text" name="contactNo" id="presentContactNo" value=""class=" cmnWidth" onkeypress="return validationDigit();">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">Mobile No.</td>
+                                        <td class="td-white-bg">
+                                            <input {{disabled}} type="text" name="mobileNo"  value=""class="cmnWidth" onkeypress="return validationDigit();">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">Email Id</td>
+                                        <td class="td-white-bg">
+                                            <input {{disabled}} type="text" name="emailId"  value="" class="cmnWidth" >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"class="td-separator">
+                                        
+                                            <button type="button" class="button blue" id="btnpresentUpdate"  style="float: left; display: none;" onclick="saveAddressDetails('present');" >Update</button>
+                                            <button type="button" class="button blue" id="btnpresentEdit" onclick="cmnEditForm('presentAddressForm','btnpresentEdit', 'btnpresentUpdate','btnpresentCancel');"style="float: left;" >Edit</button>
+                                            <button type="button" class="button blue" id="btnpresentCancel" onclick="cmnDisableForm('presentAddressForm','btnpresentEdit', 'btnpresentUpdate','btnpresentCancel');" style="float: left; display: none;"  >Cancel</button>
+                                            
+                                    
+                                          {#  <button type="button" class="button blue" id="btnpresentSave"  onclick="saveAddressDetails('','present');" style="float: left;">Save</button>
+                                            <button type="button" class="button blue" id="btnpresentClear"  onclick="formReset();" style="float: left;">Clear</button>
+                                            <button type="button" class="button blue" id="btnpresentUpdate"  style="float: left; display: none;" onclick="saveAddressDetails('','present');" >Update</button>
+                                            <button type="button" class="button blue" id="btnpresentEdit" onclick="cmnEditForm('presentAddressForm','btnpresentEdit', 'btnpresentUpdate','btnpresentCancel');" style="float: left; display: none;" >Edit</button>
+                                            <button type="button" class="button blue" id="btnpresentCancel" onclick="cmnDisableForm('presentAddressForm','btnpresentEdit', 'btnpresentUpdate','btnpresentCancel');" style="float: left; display: none;"  >Cancel</button>
+                                           
+                                 #}
+                                             <img id="ajax_loaderpresent" src="/cms/web/bundles/CRM/images/AjaxLoader/ajax-loader3.gif"  style="display: none; float: left; margin-left: 20px; margin-top: 8px;"/> 
+                                            
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                    </table>
+                </form> 
+
+<form method="post" id="permanentAddressForm" style="margin-top: 10px;">
+                    <input type="hidden" id="permanentId" name="personId" value="">
+                    <input type="hidden" id="permanentAddressId" name="personAddressId" value="">
+                    <input type="hidden" name="addressType" value="permanent">
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border-content">           
+                        <tr>
+                            {#--------------For{{person}}{{addressType}}--is used for controlling close open---------#}
+                        <input id="spanCloseOpenHandlerForPermanent" value="0" type="hidden">
+                        <td class="td-label-title" onclick="lmsShowHideAddressResult('ForPermanent');"> 
+                         <span style="float:left;">Permanent Address Details</span> 
+                           
+              
+                             {#{%if studPermanentAddress == '' %}
+                            <span style="float: left; margin-left: 250px; text-color: white; ">
+                                <input type="checkbox" id="idCheckBoxpermanent" class="checkboxBtn1" onclick="sameAsAddress('{{ path('_sameAsPersentAddress')}}','ForPermanent',this);"/></span>
+                            <span style="float: left; margin-top: 2px;">Same as Permanent Address</span> 
+                      {% endif %}#}
+                             <span style="float: right;" id="spanIdForPermanent" class="span_open" >&nbsp;</span></td>
+                        </tr>
+                        <tr id="trAddressForPermanent">
+                            <td>
+                                <table width="100%" align=center border="0" cellpadding="0" cellspacing="0">  
+                                    <tr>
+                                        <td class="td-gray-bg" style="width: 270px;">Address<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bg">
+                                            <textarea {{disabled}} name="address" id="permanentInfo" cols="40" rows="3" onkeyup="return clearAlertField(this.id);" ></textarea>{#---no idea {{addressPersent}} --#}
+                                            <span id="permanentAlert" class="necessary-field-alert"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">Country<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bgg"><div class="cmnWidth" style="float: left;">
+                                                <select {{disabled}} class="normal_select" id="permanentCountry" name="country" >
+                                                          
+                                                    <option  value="" ></option> 
+                                                           
+                                                </select></div>
+                                            <div style="float: left;"><span id="permanentCountryAlert" class="necessary-field-alert"></span></div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">State<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bgg">
+                                            <input type="hidden" id="urlLoadDistrictList" value=""/>
+                                            <div class="cmnWidth" style="float: left;">  
+                                                <select {{disabled}} class="normal_select" id="permanentState" name="state" >
+                                                    <option value=""></option>
+                                                           
+                                                    <option  value=""></option> 
+                                                            
+                                                </select>
+                                                </div>
+                                            <div style="float: left;"><span id="permanentStateAlert" class="necessary-field-alert"></span></div>
+                                        </td>  
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">District<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bgg" id="loadDistrictForpermanent">
+                                            <div  class="cmnWidth" style="float: left;">
+                                                <select  {{disabled}} class="normal_select"  id="permanentDistrict" name="district" >                                                   
+                                                    <option  value=""></option>          
+                                                           
+                                                    <option  value="" selected ></option> 
+                                                          
+                                                </select>
+                                            </div>
+                                            <span id="permanentDistrictAlert" class="necessary-field-alert"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">City<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bgg">
+                                            <input {{disabled}} type="text" name="city" id="permanentCity"  value=""class="cmnWidth">
+                                            <span id="permanentCityAlert" class="necessary-field-alert"></span>
+                                        </td>  
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">Pin Code<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bgg">
+                                            <input {{disabled}} type="text" name="pinCode" id="permanentPinCode" class="cmnWidth" value="" onkeypress="return validationDigit();">
+                                            <span  id="permanentPinCodeAlert" class="necessary-field-alert"></span>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">Contact No With STD Code<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bgg">
+                                            <input {{disabled}} type="text" name="contactNo" id="permanentContactNo" value=""class="cmnWidth" onkeypress="return validationDigit();">
+
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">Mobile No.</td>
+                                        <td class="td-white-bgg">
+                                            <input {{disabled}} type="text" name="mobileNo"  value=""class="cmnWidth" onkeypress="return validationDigit();">
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">Email Id</td>
+                                        <td class="td-white-bgg">
+                                            <input {{disabled}} type="text" name="emailId"  value="" class="cmnWidth" >
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4"class="td-separator">
+                                            
+                                            <button type="button" class="button blue" id="btnpermanentUpdate"  style="float: left; display: none;" onclick="saveAddressDetails('','permanent');" >Update</button>
+                                            <button type="button" class="button blue" id="btnpermanentEdit" onclick="cmnEditForm('permanentAddressForm','btnpermanentEdit', 'btnpermanentUpdate','btnpermanentCancel');"style="float: left;" >Edit</button>
+                                            <button type="button" class="button blue" id="btnpermanentCancel" onclick="cmnDisableForm('permanentAddressForm','btnpermanentEdit', 'btnpermanentUpdate','btnpermanentCancel');" style="float: left; display: none;"  >Cancel</button>
+                                            
+                                      {#
+                                            <button type="button" class="button blue" id="btnpermanentSave"  onclick="saveAddressDetails('','permanent');" style="float: left;">Save</button>
+                                            <button type="button" class="button blue" id="btnpermanentClear"  onclick="formReset();" style="float: left;">Clear</button>
+                                            <button type="button" class="button blue" id="btnpermanentUpdate"  style="float: left; display: none;" onclick="saveAddressDetails('{{path('_studNewAddress')}}','permanent');" >Update</button>
+                                            <button type="button" class="button blue" id="btnpermanentEdit" onclick="cmnEditForm('permanentAddressForm','btnpermanentEdit', 'btnpermanentUpdate','btnpermanentCancel');" style="float: left; display: none;" >Edit</button>
+                                            <button type="button" class="button blue" id="btnpermanentCancel" onclick="cmnDisableForm('permanentAddressForm','btnpermanentEdit', 'btnpermanentUpdate','btnpermanentCancel');" style="float: left; display: none;"  >Cancel</button>
+                                         #}
+                                             <img id="ajax_loaderpermanent" src="/cms/web/bundles/CRM/images/AjaxLoader/ajax-loader3.gif"  style="display: none; float: left; margin-left: 20px; margin-top: 8px;"/> 
+                                            
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                    </table>
+                </form>

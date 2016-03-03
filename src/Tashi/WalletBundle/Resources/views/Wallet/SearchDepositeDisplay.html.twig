@@ -1,0 +1,38 @@
+
+ 
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                <tr>
+                <input id="spanCloseOpenHandlerShowWalletExpenses" type="hidden" >
+                <td class="td-label-title" onclick="lmsShowHideAddressResult('ShowWalletExpenses');">Employee Wallet Deposit Details List: <span style="float: right;" id="spanIdShowWalletExpenses" class="span_open" >&nbsp;</span></td>
+                </tr>  
+                <tr id="trAddressShowWalletExpenses">
+                    <td>
+                        <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                            <thead>
+                                <tr>
+                                    <th class="tbl-th-grid-view-row-no-bg">Employee Name</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Source Type</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Amount</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>                           
+
+                               {%for d in deposit %} 
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{d.empFk.personFk.personName}} </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{d.sourceType.name}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{d.amount}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{d.description}}</td>
+                                </tr> 
+                               {%endfor%}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>                
+            <div id="searchDepositeDetails" style="margin-top: 30px;"></div>               
+        {#</form>                 
+    </div>
+</div>#}

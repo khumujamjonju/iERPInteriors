@@ -1,0 +1,70 @@
+           
+{#
+  it is use to create Form For Contact Person Detail As well as to display Contact person Details
+#}  
+<form method="post" post="#"  enctype="multipart/form-data" id="FormCustomerContact" >
+    <input type="hidden" name="inputcustId" value="{{custid}}">
+    <input type="hidden" name="inputcontId" value="{{ contactinfo.contact.pkid|default('')}}">
+    <table  width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border"  >
+        <tr>
+            <td colspan="5" class="td-label-title">Contact Details</td>
+        </tr>
+        <tr>
+            <td class="td-gray-bg" width="150px">Name <span class="mandatoryField">*</span></td>
+            <td class="td-white-bg"><input name="txt_name"  id="contact_personName" type="text" value="{{contactinfo.contact.personFk.personName|default('') }}" class="cmnWidth"></td>
+        </tr>       
+        <tr>
+            <td class="td-gray-bg" >Email Id</td>
+            <td class="td-white-bg"><input name="emailId" id="txt_emailId"  type="text" value="{{ contactinfo.contact.personFk.emailId|default('')}}" class="cmnWidth" ></td>
+        </tr>
+        <tr  >
+            <td class="td-gray-bg">Phone No.</td>
+            <td class="td-white-bg"><input id ="phoneNo" name="phoneNo" type="text"  value="{{ contactinfo.contact.personFk.telephoneNo|default('') }}" class="cmnWidth" onkeypress="return IntegerOnly(event);" maxLength="10" >
+                <span id="digitMessagePhoneNo" class="digitMessage"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="td-gray-bg">Mobile No.<span class="mandatoryField">*</span></td>
+            <td class="td-white-bg">
+                <input name="mobileNo" id="contact_mobileNo" type="text"  value="{{ contactinfo.mobileNo.mobileNo|default('') }}" class="cmnWidth" onkeypress="return IntegerOnly(event);" maxLength="10" >
+                <span id="digitMessageMobNo" class="digitMessage"></span>
+            </td>
+        </tr>
+        <tr>
+            <td class="td-gray-bg">Is this primary contact?</td>
+            <td class="td-white-bg">
+                <select name="selPrimaryContact" class="cmnWidth"> 
+                    <option value="0" {% if contactinfo.contact.isPrimaryContact|default('')==0 %} selected {%endif %}>No</option> 
+                    <option value="1" {% if contactinfo.contact.isPrimaryContact|default('')==1 %} selected {%endif %}>Yes</option>                                        
+                </select>  
+            </td>
+        </tr>        
+        <tr>
+            <td class="td-separator"></td>
+            <td style="padding:5px;">       
+                {%if mode == 'INS' %}
+                    <button class="button" type="button"  id="contactFormSave"  onclick="AddUpdateContactPerson('{{path('_saveconntactperson')}}', 'contactFormCreateEdit', 'contactFormSave');" >Save</button>
+                    <button class="button" type="button"  id="contactFormCreateEdit"  onclick="cmnFormEditionEnable('frmDynamicallyCreatedContact', 'contactFormSave', 'contactFormCreateEdit');" style="display:none;">Edit</button>
+                {%elseif mode == 'EDT'%}
+                    <button class="button" type="button"  id="contactFormUpdate"  onclick="AddUpdateContactPerson('{{path('_updatecontact')}}', 'contactFormEdit', 'contactFormUpdate');">Update</button>
+                    {#<button class="button" type="button"  id="contactFormEdit"  onclick="cmnFormEditionEnable('frmDynamicallyCreatedContact', 'contactFormUpdate', 'contactFormEdit');" >Edit</button>#}                
+                {% endif %}
+                <button class="button" type="reset" id="cancelContactFormDisplay" value="Cancel" onclick="$('.trMessage').hide(); cmnfnEmptyShow('divForSearchResultContact', 'tabSearchForContact', 'inpSearchParamValueContact', 'button_addContact');" >Cancel</button>
+                <input type="hidden" name="modeMode" value="{{mode}}" />
+            </td>                        
+        </tr>
+        </table>
+               {#---Area For Adding Multiple Mobile Number-------------#}
+                    <div id="divLoadDynamicEntryFormContact">
+                        <br>
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0"  id="dynamicAttributeTab1" >                
+
+                        </table>
+
+                    </div>
+
+                {#---------------#}
+
+            </form>
+
+                

@@ -1,0 +1,110 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Payroll Management</h3>
+        <div id="newmenu">
+            <ul>
+                <li  class="active" onclick="fnMainMenuNavigation('{{path('_payroll_dashboard')}}', 'payroll_master', 'Payroll', 'Payroll Dashboard');"><a href="javascript:void();"> Dashboard</a></li>
+                <li id="master_setting" onclick="fnLeftMenuNavigation('{{path('_payrol_master_setting')}}', 'master_setting', 'Payroll', 'Master Setting');"><a href="javascript:void();">Master Setting</a></li>
+                <li id="advance_payment" onclick="fnLeftMenuNavigation('{{path('_advance_payment')}}', 'advance_payment', 'Payroll', 'Advance Payment');"><a href="javascript:void();">Advance Payment</a></li>
+                <li id="emp_salary" onclick="fnLeftMenuNavigation('{{path('_emp_salary_master')}}', 'emp_salary', 'Payroll', 'Create Salary');"><a href="javascript:void();">Create Salary Slip</a></li>          
+             {#   <li id="gen_sal_slip" onclick="fnLeftMenuNavigation('{{path('_generate_salary_slip')}}', 'gen_sal_slip', 'Payroll', 'Generate Salary Slip');"><a href="javascript:void();">Generate Salary Slip</a></li>  #}
+                <li id="apprv_sal_slip" onclick="fnLeftMenuNavigation('{{path('_approved_salary_slip')}}', 'apprv_sal_slip', 'Payroll', 'Approve Salary Slip');">
+                        <a href="javascript:void();" style="position: relative;">
+                            <span>Approve Salary Slip </span>                   
+                            {%if pendingApprovalSalary>0%}<span id="countText" class="alert" 
+                      style="                           
+                            margin-left: 60%;
+                            padding:3px 7px;
+                            border:#ff0000;                   
+                            position:absolute; 
+                            top:-5px;
+                            left:90%;
+                            background:#ff0000; 
+                            color:#fff; 
+                            border-radius: 4px; 
+                           ">{{pendingApprovalSalary}}</span>
+                  {%endif%}
+                        </a>
+                    </li>
+                <li id="worker_wage" onclick="fnLeftMenuNavigation('{{path('_worker_wage')}}', 'worker_wage', 'Payroll', 'Creat Worker Wage');"><a href="javascript:void();">Create Worker Wage</a></li>
+                <li id="apprv_worker_wage" onclick="fnLeftMenuNavigation('{{path('_approve_created_worker_wage')}}', 'apprv_worker_wage', 'Payroll', 'Approve Worker Wage');"><a href="javascript:void();">Approve Worker Wage</a></li>
+              {#  <li id="empp_salary" onclick="fnLeftMenuNavigation('{{path('_salary_payment_slip')}}', 'empp_salary', 'Payroll', 'Salary Payment');"><a href="javascript:void();">Salary Payment</a></li>  #}          
+            </ul> 
+        </div>       
+    </div>         
+</div>
+ 
+<div id="right-content">   
+    <div class="sub-menu">
+        <ul>
+            <li class='active'><a href='#'><span>Payroll Dashboard</span></a></li>           
+        </ul>
+    </div>  
+     <div class="newdashboard">                 
+        <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_payrol_master_setting')}}', 'master_setting', 'Employee', 'Create Salary');" >
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/ms.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+            Master Setting</span><br/>
+            capturing master setting information... 
+            </p>
+       </div>
+       <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_advance_payment')}}', 'advance_payment', 'Payroll', 'Salary Master');" >
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/advance.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+            Advance Payment</span><br/>
+            capturing advanced payment information... 
+            </p>
+       </div>
+              
+       <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_emp_salary_master')}}', 'emp_salary', 'Employee', 'Create Salary');" >
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/c.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+            Create Salary Slip</span><br/>
+            creating employee salary slip... 
+            </p>
+       </div>
+       <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_approved_salary_slip')}}', 'apprv_sal_slip', 'Payroll', 'Salary Master');" style="position: relative;">          
+           {%if pendingApprovalSalary>0%}<span id="countText" class="alert" 
+                      style="                                            
+                            padding:3px 7px;
+                            border:#ff0000;                   
+                            position:absolute; 
+                            top:-15px;
+                            left:90%;
+                            background:#ff0000; 
+                            color:#fff; 
+                            border-radius: 4px; 
+                           ">{{pendingApprovalSalary}}</span>
+                  {%endif%}
+           <p class="newdashparatext"><img src="{{ asset('bundles/common/images/s.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+            Approved Salary Slip</span><br/>
+            capturing salary slip approval information... 
+            </p>
+       </div>      
+             
+       <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_worker_wage')}}', 'worker_wage', 'Employee', 'Create Salary');" >
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/emp1.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+            Create Worker Wages</span><br/>
+            capturing worker wages information... 
+            </p>
+       </div>
+       <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_approve_created_worker_wage')}}', 'apprv_worker_wage', 'Payroll', 'Salary Master');" >
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/accnt1.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+            Approved Worker Wages</span><br/>
+            capturing worker approval wages information... 
+            </p>
+       </div>
+         
+       
+             
+             
+        
+        <div class="clear"></div><br/>
+    <div class="clear"></div> 
+    </div> 
+      
+</div>

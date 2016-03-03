@@ -1,0 +1,10 @@
+
+parameters:
+    tashi.service.purchase.class : Tashi\PurchaseBundle\Service\PurchaseService
+ 
+   
+services:
+    tashi.purchase.service:
+        class:     "%tashi.service.purchase.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]
+    

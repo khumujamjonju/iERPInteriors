@@ -1,0 +1,64 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <input id="spanCloseOpenHandlerDocList" value="0" type="hidden">
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('DocList');">Document List
+        <span style="float: right;" id="spanIdDocList" class="span_open" >&nbsp;</span></td> 
+    </tr>
+    <tr id="trAddressDocList">
+        <td>
+            <input type="hidden" name="inputprojId" value="{{project.pkid}}"/>
+             <table id="example"  width="100%" border="0" cellpadding="0" cellspacing="0" class="display">
+                <thead>
+                    <tr>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">#</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Title</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Description</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Upload Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">View/Download</th>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if docArr|length>0%}
+                        {%set slno=1%}
+                        {%for doc in docArr%}
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{slno}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{doc.title|default('')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{doc.description|default('')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{doc.addDate|date('d-M-Y')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <a href="{{asset(doc.documentFk.path)}}" target="_blank">{{doc.documentFk.originalName~'.'~doc.documentFk.docType}}</a>
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <select id="selProjDocAction{{doc.pkid}}">
+                                        <option value="">--select--</option>
+                                        <option value="{{path("_gotoeditprojdoc",{docid:doc.pkid})}}&edt">View & Edit</option>
+                                        <option value="{{path("_deleteprojdoc",{docid:doc.pkid})}}&del">Delete</option>
+                                    </select>
+                                    <input type="button" class="button" value="Go" onclick="ProjectDocAction('selProjDocAction{{doc.pkid}}');"/>
+                                </td>
+                            </tr>
+                            {%set slno=slno+1%}
+                        {%endfor%}
+                    {%else%}
+                        <tr>
+                            <td colspan="6" class="tbl-grid-view-row-no-bg" align="center">
+                                <strong style="color:#ff0000;">Currently there are no documents.</strong>
+                            </td>
+                        </tr>
+                    {%endif%}
+                </tbody>
+             </table>
+        </td>
+    </tr>
+</table>
+{%if project.status.isPermanent==0%}
+<br/>
+<input type="button" class="button" value="Upload New Document" style="float:right;" onclick="GotoUpdProjDoc('{{path("_gotouploadprojdoc",{projid:project.pkid})}}');">
+<div class="clear"></div>
+<br/>
+<div id="divDocdetail">
+    
+</div>
+{%endif%}

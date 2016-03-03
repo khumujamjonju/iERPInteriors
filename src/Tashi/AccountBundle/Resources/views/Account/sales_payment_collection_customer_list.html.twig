@@ -1,0 +1,49 @@
+<input type="hidden" value="0" class="collection_customer_list_hide_show_key"/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+    <tr onclick="fnHideShow('collection_customer_list');">
+        <td class="td-label-title">List Of Payment Collection Customer 
+            <div class="collection_customer_list_hide_show_icon floatRight plus"></div>
+        </td>
+    </tr>
+    <tr class="collection_customer_list displayNone">
+        <td> 
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Customer ID</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Customer Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Collection Details</th>                             
+                        <th class="tbl-th-grid-view-row-no-bg">Adjust</th>                                                                          
+                    </tr>
+                </thead>
+                <tbody> 
+               {%for c in distinctCustomer|default('')%}
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ c.customerId|default('') }}</td> 
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ c.customerName|default('') }}</td>
+                        <td class="tbl-grid-view-row-no-bg">
+                            <table>
+                             {%for a in customerAdvance|default('')%} 
+                               {%if c.customerIdPk|default('') == a.customerFk.customerIdPk|default('')%}
+                                    <tr>
+                                        <td><b>&#8377;</b> {{ a.advanceAmount|default('') }}</td>
+                                        <td>{{ a.createdDate|default('')|date('d-m-Y') }}</td>
+                                        <td style="width: 250px; text-align: justify;">{{ a.description|default('') }}</td>
+                                    </tr>                                           
+                                {%endif%}                                           
+                             {% endfor %} 
+                            </table>
+                        </td>                               
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                            <input type="button" class="button blue"  value="Go" onclick="searchCustomerAdvanceCollection('{{path('_sales_adjustment_payment_collection')}}', '{{c.customerIdPk|default('')}}');"
+                       </td>                              
+                    </tr>  
+             {% endfor %}
+                </tbody>                                
+            </table>  
+
+        </td>
+    </tr>           
+</table>

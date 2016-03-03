@@ -1,0 +1,138 @@
+{%if priceArr|length<=0%}
+    <p style="margin:10px 0; padding:5px 0; text-align: center; background: #F3BDBD;">There are no products for this category.</p>
+{%else%}
+    <table width="100%" border="0" cellpadding="0" cellspacing="0">    
+        <thead>
+            <tr>
+                <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="width:90px;">
+                    {#<input type="checkbox" id="mainChk{{catid}}" onclick="toggleItemSelection('{{catid}}',this);"/>#}
+                </th>
+                <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">Product</th>
+                <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" width="100px">Unit</th>
+                <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right; width:120px;">Price</th>
+                <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:center; width:90px;">Quantity</th>
+                {#<th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right; width:130px;">Charges</th>#}
+                <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right; width:100px;">Total</th>
+            </tr>
+        </thead> 
+        <tbody>
+            {%for price in priceArr%}
+                {#{%if price.product.productCategory.pkid==cattxn.prodCategoryFk.pkid%}#}
+                    {%set prodid=price.product.pkid%}
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center" width="90px">
+                            <input type="checkbox" name="itemchkbox" id="itemchkbox{{catid~prodid}}" class="chkboxes{{catid}}" onclick="toggleItemSelection('{{catid}}',this); toggleServiceChk('{{catid}}','{{prodid}}',this);"/>
+                            <input type="hidden" name="txtIsSelected" id="txtIsSelected{{catid~prodid}}" class="isitemselectedinput{{catid}}" value="0"/>
+                            <input type="hidden" name="txtItemId" id="txtItemId{{catid~prodid}}" class="productIds{{catid}}" value="{{prodid}}"/>
+                        </td>
+                        <td class="tbl-grid-view-row-no-bg" style="text-align:justify;">
+                            {%if price.product.pictureFk is null%}
+                                <img src="{{asset("bundles/common/images/noimage.png")}}" alt="image" class="prodlist"/>
+                            {%else%}
+                                <a href="{{asset(price.product.pictureFk.path)}}" target="_blank"><img src="{{asset(price.product.pictureFk.path)}}" alt="image" class="prodlist"/></a>
+                            {%endif%}
+                            {{price.product.productCode|default('')}} - {{price.product.productName|default('')}}<br/>
+                            <span style="color:#565656; font-size:11px;">{{price.product.productDesc}}</span>
+                        </td>
+                        <td class="tbl-grid-view-row-no-bg" align="center" width="90px">
+                            <select name="selItemUnits" >
+                                <option value="">--select--</option>
+                                {%for unit in unitArr%}
+                                    {%if unit.productFk.pkid==price.product.pkid%}
+                                        <option value="{{unit.unitName}}">{{unit.unitName}}</option>
+                                    {%endif%}
+                                {%endfor%}
+                            </select>
+                        </td>
+                        <td class="tbl-grid-view-row-no-bg" align="right" width="70px">
+                            {{price.markupPrice|number_format(2,'.')}}
+                            <input type="hidden" name="price" value="{{price.markupPrice}}" class="price{{catid}}"/>
+                        </td>
+                        <td class="tbl-grid-view-row-no-bg" align="center" width="90px">
+                            <input type="text" name="txtQuantity" id="txtQuantity{{catid~prodid}}" size="5" class="quantity{{catid}}" 
+                                   value="1" onkeypress="return IntegerOnly(event);" style="text-align:center;" onkeyup="CalculateEstimatedCost('{{catid}}');"/>
+                        </td>
+                        {#<td class="tbl-grid-view-row-no-bg" align="right" width="130px">
+                            <input type="text" name="txtCharge" id="txtCharge{{catid~prodid}}" class="money charge{{catid}}" value="0.00" 
+                                   onkeyup="isMoney(this.id); CalculateEstimatedCost('{{catid}}');" onblur="FormatNumber(this,2);">
+                        </td> #}
+                        <td class="tbl-grid-view-row-no-bg" align="right" width="100px">
+                            <input type="text" name="txtProdSubTotal" style="border:none; width:100px;" class="money subtotal{{catid}}"  readonly value="0.00"/>
+                        </td>
+                    </tr>
+                    {%set isServiceExist=0%}
+                    {%for service in serviceArr%}
+                        {%if service.productFk.pkid==prodid%}
+                            {%set isServiceExist=1%}
+                        {%endif%}
+                    {%endfor%}
+                    {%if isServiceExist==1%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg"></td>
+                            <td class="tbl-grid-view-row-no-bg" colspan="5" style="font-weight:bold; padding:7px 0;">
+                                <!--Insert Service for each product-->
+                                <table width="100%">
+                                    <tr>
+                                        <input id="spanCloseOpenHandlersrv{{prodid}}" value="0" type="hidden">
+                                        <td class="tbl-th-bg" colspan="6" style="font-weight:bold; padding:7px 0;cursor:pointer;" onclick="lmsShowHideAddressResult('srv{{prodid}}');">
+                                            Services for {{price.product.productName|upper}}
+                                            <span style="float: right;" id="spanIdsrv{{prodid}}" class="span_open" >&nbsp;</span>
+                                        </td>
+                                    </tr>
+                                    <tr id="trAddresssrv{{prodid}}">
+                                        <td>
+                                           <table width="100%">                                                      
+                                               {%for service in serviceArr%}
+                                                  {%if service.productFk.pkid==prodid%}
+                                                      <tr>                                                                        
+                                                          <td class="tbl-grid-view-row-no-bg" align="center" width="90px">
+                                                              <input type="checkbox" name="itemservicechkbox" id="itemchkbox{{catid~service.pkid}}" class="chkboxes{{catid}} chkSrv{{prodid}}" disabled onclick="toggleItemSelection('{{catid}}',this); "/>
+                                                              <input type="hidden" name="txtserviceIsSelected" id="txtIsSelected{{catid~service.pkid}}" class="isitemselectedinput{{catid}} issrvselected{{prodid}}" value="0"/>
+                                                              <input type="hidden" name="txtServiceId" id="txtItemId{{catid~service.pkid}}" class="productIds{{catid}}" value="{{service.pkid}}"/>
+                                                          </td>
+                                                          <td class="tbl-grid-view-row-no-bg" style="text-align:justify;">{{service.serviceName}}</td>
+                                                          <td class="tbl-grid-view-row-no-bg" align="center" width="90px">
+                                                              <input type="text" name="txtserviceunit" placeholder="eg. sq.ft,hole." style="width:80px;"/>                                                            
+                                                          </td>
+                                                          <td class="tbl-grid-view-row-no-bg" align="right" width="70px">
+                                                              <input type="text" name="txtserviceprice" id="txtserviceprice{{service.pkid}}" value="{{service.charge|number_format(2,'.','')}}"  class="price{{catid}} money"
+                                                                     onkeypress="return isValidNumber(event);" onkeyup="CalculateEstimatedCost('{{catid}}');" onblur="isMoney(this.id);" style="width:70px;"/>
+                                                          </td>
+                                                          <td class="tbl-grid-view-row-no-bg" align="center" width="90px">
+                                                              <input type="text" name="txtserviceqty" value="1" size="5" class="quantity{{catid}}" 
+                                                                 value="1" onkeypress="return IntegerOnly(event);" onkeyup="CalculateEstimatedCost('{{catid}}');" style="text-align:center;"/>
+                                                          </td>
+                                                          <td class="tbl-grid-view-row-no-bg" align="right" width="100px">
+                                                              <input type="text" name="txtServiceSubTotal{{catid}}" style="border:none; width:100px;" class="money subtotal{{catid}}"  readonly value="0.00"/>
+                                                          </td>
+                                                      </tr>
+                                                  {%endif%}
+                                              {%endfor%}
+                                           </table>
+                                        </td>
+                                    </tr>
+                                </table>
+                                <!--End of Insert Service for each product-->
+                            </td>
+                        </tr>                                                    
+                    {%endif%}
+                {#{%endif%}#}
+            {%endfor%}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="tbl-th-bg" colspan="5" style="font-weight:bold; padding:5px 0; text-align: right;">
+                    <b>SUB TOTAL</b>
+                </td>
+                {#<td class="tbl-th-bg" style="font-weight:bold; text-align:right;">
+                    <input type="text" class="totalMoney totalprice" name="txtTotalPrice{{catid}}"  id="txtTotalPrice{{catid}}" readonly value="0.00"/>
+                </td>#}
+                <td class="tbl-th-bg" style="font-weight:bold; text-align:right; padding-right: 7px;">
+                    <input type="text" class="totalMoney catsubtotal" name="txtCatSubTotal{{catid}}" id="txtCatSubTotal{{catid}}" readonly value="0.00"/>
+                </td>
+               {# <td class="tbl-th-bg"></td>#}
+            </tr>
+        </tfoot>
+    </table>
+{%endif%}
+

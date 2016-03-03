@@ -1,0 +1,53 @@
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a id="add_new_employee" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_asset_assignment')}}', 'asset_assignment', 'Asset Assignment', 'Asset Assignment');">Asset Assignment</a></li>
+        {# <li id="asset_particular_emp" style=" display: none"><a href="javascript:void();" onclick="">Assign Asset To particular Employee</a></li>#}
+        </ul>
+    </div>
+
+    <div class="newdashboard">    
+        <div class="application-form">            
+            {#<input type="hidden" value="0" class="emp_search_form_hide_show_key"/>#}
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">               
+                {#<tr onclick="fnHideShow('emp_search_form');">#}
+                <tr>
+                    <input id="spanCloseOpenHandlerempsearch" value="0" type="hidden">
+                    <td class="td-label-title" onclick="lmsShowHideAddressResult('empsearch');">Search Employee: 
+                        <span style="float: right;" id="spanIdempsearch" class="span_open" >&nbsp;</span>
+                        {#<div class="emp_search_form_hide_show_icon "></div>#}                        
+                    </td>
+                </tr>
+                <tr id="trAddressempsearch">
+                    <td>                 
+                        <form id="frmSearchEmployee" style="margin: 0px;">
+                            <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">   
+                                <tr>
+                                    <td class="td-gray-bg">Employee Id:</td>
+                                    <td class="td-white-bg">
+                                        <input class="cmnWidth" type="text" id="txt_search_employee_id" name="search_employee_id">                 
+                                    </td>
+                                    <td class="td-gray-bg">Employee Name:</td>
+                                    <td class="td-white-bg">
+                                        <input class="cmnWidth" type="text" id="txt_search_employee_name" name="search_employee_name">                                          
+                                    </td>      
+                                </tr>
+
+                                <tr>
+                                    <td class="td-separator" colspan="4" style="text-align: center;">
+                                        <input type="button" class="button blue" id="search" value="Search" onclick="searchOrCreateEmployee('{{path('_searchEmployeeForEdit', {'key': 'A'})}}');"/>
+                                        <input type="button" class="button blue" id="reset" value="Reset" onclick="formReset();"/>
+                                    </td>  
+                                </tr>
+                            </table>
+                        </form> 
+                    </td>
+                </tr>        
+            </table>
+            <div id="search_emp_result" class="stylecommonborder" style="margin-top: 10px;"></div>
+            <div id="assign-assetList" class="stylecommonborder" style="margin-top: 10px;"></div>
+        </div> 
+    </div>
+
+    <script type="text/javascript">
+                fnHideShow('emp_search_form');
+    </script>

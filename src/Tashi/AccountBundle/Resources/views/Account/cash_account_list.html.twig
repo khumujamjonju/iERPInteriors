@@ -1,0 +1,46 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+    <tr>
+        <td class="td-label-title">Created Cash Account Details List</td>
+    </tr>
+    <tr>
+        <td class="td-cmn-white-bg">
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee ID</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Designation</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Created Date</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Description</th>  
+                        <th class="tbl-th-grid-view-row-no-bg">Status</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                    </tr>
+                </thead>
+                <tbody> 
+               {%for a in allCashAccount|default('')%}
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.empFk.employeeId|default('') }}</td> 
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.empFk.personFk.firstName|default('')~' '~a.empFk.personFk.lastName|default('')~' '~a.empFk.personFk.middleName|default('') }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.empFk.empJobTitleFk.jobTitleName|default('') }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.createdDate|default('')|date('d-m-Y') }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center" style="width: 250px; text-align: justify;">{{ a.description|default('') }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                            {%if a.status|default('') == 1 %} Active {%else%} Inactive {%endif%}
+                       </td>
+                        <td class="tbl-grid-view-row-no-bg" align="center" style="width: 150px;">
+                            <select class="normal_select" id="accountCashAction{{a.pkid|default('')}}" name="txt_accountCashAction" >
+                                <option value="">Select</option>                                
+                                <option value="{{path('_retrived_cash_account_record',{'pkid': a.pkid|default('')})}}&upd">Edit</option>
+                                <option value="{{path('_delete_cash_account_record',{'pkid': a.pkid|default('')})}}&del">Delete</option>
+                            </select> 
+                            <input class="button" name="commit" type="button" value="Go" onClick="accountCashAction(this,'{{a.pkid|default('')}}','#accountCashAction');" /> 
+                        </td> 
+                    </tr>  
+             {% endfor %}
+                </tbody>                                
+            </table>                             
+        </td>                  
+    </tr>                                   
+</table>  

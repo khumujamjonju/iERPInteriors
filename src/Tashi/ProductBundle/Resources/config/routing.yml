@@ -1,0 +1,3 @@
+_product:
+    resource: "@TashiProductBundle/Controller/ProductController.php"
+    type:     annotation

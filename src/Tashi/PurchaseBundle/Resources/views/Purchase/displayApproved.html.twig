@@ -1,0 +1,40 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+               <tr>
+                    <input id="spanCloseOpenHandlerSearchPurchaseOrder" value="0" type="hidden">
+                    <td class="td-label-title" onclick="lmsShowHideAddressResult('SearchPurchaseOrder');">Purchase Order List:
+                    <span style="float: right;" id="spanIdSearchPurchaseOrder" class="span_open" >&nbsp;</span></td>
+              </tr>
+                <tr id="trAddressSearchPurchaseOrder">
+                    <td>                    
+                        <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                            <thead>
+                                <tr>
+                                    <th class="tbl-grid-view-row-no-bg">SL. No.</th>  
+                                    <th class="tbl-grid-view-row-no-bg">PO No</th> 
+                                    <th class="tbl-grid-view-row-no-bg">Vendor Name</th>
+                                    <th class="tbl-grid-view-row-no-bg">Status</th>
+                                    <th class="tbl-grid-view-row-no-bg">Action</th> 
+                                     
+                                </tr>
+                            </thead>
+
+                         <tbody>                           
+                         {%for po in podetails.result%}  
+                         <tr> 
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{loop.index}} </td> 
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{po.uiOrderId}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{po.vendorMasterFk.companyName}}</td>
+                                        <td class="tbl-grid-view-row-no-bg"  style="background:{{po.statusFk.statusColor~';'}}" align="center">{{po.statusFk.statusMsg}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">
+                                            <select id="TYPEID{{po.poPk}}" >
+                                               <option value="{{path('_loadapprove',{'purid': po.poPk})}}&aprv">Approve</option>
+                                            </select>
+                         <input type="button" value="Go" class="button blue" onclick="loadEditPurPage({{po.poPk}});"/>
+                         </tr> 
+                         
+                         {%endfor%} 
+                        </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                  </table>

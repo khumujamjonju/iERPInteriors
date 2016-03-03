@@ -1,0 +1,66 @@
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Generate Reports</h3>
+        <div id="newmenu">
+            <ul>
+                <li class="active" onclick="fnMainMenuNavigation('{{path('_report_master_dashboard')}}', 'report_master', 'Report','Dashboard');"><a href="javascript:void();" >Report Dashboard</a></li>
+                <li id="report_master_purchase" onclick="fnLeftMenuNavigation('{{path('_report_master_purchase')}}', 'report_master_purchase', 'Report Master','Purchase Report');"><a href="javascript:void();">Purchase</a></li>
+                <li id="report_master_project" onclick="fnLeftMenuNavigation('{{path('_report_master_project')}}', 'report_master_project', 'Report Master', 'Project Report');"><a href="javascript:void();">Sales</a></li>
+                <li id="report_master_stock" onclick="fnLeftMenuNavigation('{{path('_report_master_stock')}}', 'report_master_stock', 'Report Master', 'Stocks Report');"><a href="javascript:void();" >Stock</a></li>
+                <li id="report_master_account" onclick="fnLeftMenuNavigation('{{path('_report_master_account')}}', 'report_master_account', 'Report Master', 'Account Report');"><a href="javascript:void();">Account</a></li>
+
+            
+            </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+   <div class='sub-menu'>
+            <ul>
+                <li class='active'><a href='#'><span>Report Dashboard</span></a></li>
+              
+            </ul>
+            
+        </div>
+     <div class="newdashboard">
+       
+       
+
+   
+         
+    <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_report_master_purchase')}}', 'report_master_purchase', 'Report Master','Purchase Report');">
+     <p class="newdashparatext"><img src="{{ asset('bundles/common/images/purreport.png') }}">
+          <span style="color:#000; font-size: 12px; font-family: arial;font-weight: bold; text-decoration: underline;">Purchase</span> <br/>
+      Generate daily / monthly Reports on Payment.    
+     </p>
+    </div>
+    <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_report_master_project')}}', 'report_master_project', 'Report Master', 'Project Report');">
+     <p class="newdashparatext"><img src="{{ asset('bundles/common/images/prj.png') }}">
+          <span style="color:#000; font-size: 12px; font-family: arial;font-weight: bold; text-decoration: underline;">Sales</span> <br/>
+          Generate report on Sales , Status etc of a project.
+     
+     </p>
+    
+    </div>
+         <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_report_master_stock')}}', 'report_master_stock', 'Report Master', 'Stocks Report');">
+        
+        <p class="newdashparatext"><img src="{{ asset('bundles/common/images/stock.png') }}">
+          <span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;font-weight: bold;">Stock</span> <br/>
+          Showing Monthly/Yearly details report on stock . </p>
+    
+    </div>
+    <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_report_master_account')}}', 'report_master_account', 'Report Master', 'Account Report');"> 
+        <p class="newdashparatext"><img src="{{ asset('bundles/common/images/accnt.png') }}">
+          <span style="color:#000; font-size: 12px; font-family: arial;font-weight: bold; text-decoration: underline;">Account</span> <br/>
+          Showing Report on Daily/Monthly Accounts Report in a single click. <br/>
+          </p></div>
+    <div class="clear"></div><br/>
+   
+   
+    
+    </div> 
+    
+    
+        
+</div>

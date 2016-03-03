@@ -1,0 +1,238 @@
+<div id="divProjDetailOnly">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+        <tr>
+            <td class="td-label-title" colspan="3">Project Detail
+                {%if proj.status.isPermanent==0%}
+                    <input type="button" class="button" value="Edit" style="float:right;" 
+                           onclick="ProjectEditor('{{path("_editprojectdetail",{'projid':proj.pkid})}}','divProjDetailOnly');"/>
+                {%endif%}
+            </td>        
+        </tr>
+        <tr>
+            <td>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="td-gray-bg" width="200px">Project Area</td>
+                        <td class="td-white-bg" align="left">{{proj.areaFk.area|default('')|upper}}</td>
+                        <td class="td-gray-bg" width="200px">Project ID/ Order Number:</td>
+                        <td class="td-white-bg" style="text-align:justify">{{proj.orderNo|upper}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg" width="200px">Industry Type</td>
+                        <td class="td-white-bg" align="left">{{proj.industryTypeFk.industryType|default('')|upper}}</td>
+                        <td class="td-gray-bg" width="200px">Opportunity:</td>
+                        <td class="td-white-bg" style="text-align:justify">{{proj.opportunityFk.opportunityType|default('')|upper}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Execution Date</td>
+                        <td class="td-white-bg" align="left">{{proj.startDate|date('d-M-Y')}}</td>
+                        <td class="td-gray-bg" width="200px">Tentative Completion Date</td>
+                        <td class="td-white-bg" style="text-align:justify">{{proj.expectedCompletionDate|date('d-M-Y')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Status</td>
+                        <td class="td-white-bg" align="left" style="background-color: {{proj.status.statusColor}};"><b>{{proj.status.statusName}}</b>
+                        </td>
+                        <td class="td-gray-bg" width="200px">Balance</td>
+                        {%set balance=totalPaid-totalExpense%}
+                        {%set alertFlag=0%}
+                        {%if totalPaid<proj.totalEstimatedCost and proj.status.isPermanent==0 and balance<=limitAmt%}
+                            {%set alertFlag=1%}
+                        {%endif%}
+                        <td class="td-white-bg" style="color:{%if alertFlag==1%}#ff0000;{%else%}#333;{%endif%}">
+                           {{balance|number_format(2,'.')}}/-                           
+                            &nbsp;&nbsp                            
+                            {%if alertFlag==1%}<span style="font-size:11px;">Balance low</span>{%endif%}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Dimension</td>
+                        <td class="td-white-bg" align="left" >{{proj.dimension}}</td>
+                        <td class="td-gray-bg">Estimated Cost</td>
+                        <td class="td-white-bg" align="left" >{{totBudget|default(0)|number_format(2)}}/-</td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Last Modified On</td>
+                        <td class="td-white-bg" align="left">
+                            {%if pmlog is not null%}
+                                    {{pmlog.modifyDate|default('')|date('d-M-Y')}}
+                                    by <span style="color:#AA3333;">{{pmlog.modifiedByFk.personFk.personName|default('')}}({{pmlog.modifiedByFk.employeeId|default('')}})</span>
+                            {%endif%}
+                        </td>
+                        <td class="td-white-bg" colspan="2">
+                            {%if pmlog is not null%}
+                                <a href="javascript:void(0);" style="font-size:11px;" onclick="$('#dimDiv').show();$('#divModificationLog').show();">View Modification Log</a>
+                            {%endif%}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Project Description</td>
+                        <td class="td-white-bg" align="left" colspan="3">{{proj.Description}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table> 
+    <div id="dimDiv" class="fixdim" style="display:none;"></div>
+    <div id="divModificationLog" class="fixcentered" style="display:none;">        
+        <table width="98%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin:10px auto;">
+            <tr>
+                <td class="td-label-title" colspan="3">Modification Log
+                </td>        
+            </tr>
+            <tr>
+                <td style="overflow-y:auto; height:400px;" valign="top">
+                    <table id="example" width="100%" align="center" id="example2" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr> 
+                                <th class="tbl-th-grid-view-row-no-bg" style="width:100px;">Date & Time</th>
+                                <th class="tbl-th-grid-view-row-no-bg" style="text-align:left;">Remark</th>
+                                <th class="tbl-th-grid-view-row-no-bg" style="width:150px;">Modified By</th>                         
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for log in pmlogArr%}                        
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{log.modifyDate|default('')|date('d-M-Y')}}  {{log.modifyDate|default('')|date('h:i:s a')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="left">{{log.remark}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{log.modifiedByFk.personFk.personName|default('')}}&nbsp;{{log.modifiedByFk.employeeId|default('')}}</td>                                                            
+                                </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </td>        
+            </tr>
+        </table>
+        <table width="98%">
+            <tr>
+                <td align="center">
+                    <input type="button" class="button" value="[X] Close" onclick="$('#dimDiv').hide();$('#divModificationLog').hide();">
+                </td>
+            </tr>
+        </table>        
+    </div>
+</div>
+            <br/> 
+<div id="divProjRefDetail">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+        <tr>
+            <td class="td-label-title" colspan="3">Project Referrer 
+                {%if proj.status.isPermanent==0%}
+                    <input type="button" class="button" value="Edit" style="float:right;" 
+                           onclick="ProjectEditor('{{path("_editprojectrefdetail",{projid:proj.pkid})}}','divProjRefDetail');"/>
+                {%endif%}
+            </td>        
+        </tr>
+        <tr>
+            <td>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="td-gray-bg" width="200px">Name</td>
+                        <td class="td-white-bg" align="c" colspan="3">{{proj.referrerName|upper}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Contact Number</td>
+                        <td class="td-white-bg" align="left">{{proj.referrerNumber}}</td>                    
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">About</td>
+                        <td class="td-white-bg" colspan="3" style="text-align: justify;">{{proj.referrerAbout}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+                <br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <td class="td-label-title" colspan="3">Customer Detail</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="td-gray-bg" width="200px">Customer Name</td>
+                    <td class="td-white-bg">
+                        {{proj.customerFk.customerName|upper|default('')}}
+                    </td>                    
+                    <td class="td-gray-bg" width="200px">Contact Person</td>
+                    <td class="td-white-bg">
+                        {{contact.contactFk.personFk.personName|upper}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Contact Number</td>
+                    <td class="td-white-bg">
+                        {{mob.mobileNo.mobileNo|default('')}}
+                    </td>
+                    <td class="td-gray-bg">Address</td>
+                    <td class="td-white-bg">
+                        {{address|raw}}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+        <br/>
+<div id="divProjCoordinator">
+    <table id="tbCoordinator" width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+        <tr>
+            <td class="td-label-title" colspan="3">Site Coordinator Detail
+                <input type="button" class="button" value="Change" style="float:right;" 
+                               onclick="SwapChangeCoordinator();"/>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Employee ID</th>
+                            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Name</th>
+                            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Designation</th>
+                            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Job Profile</th>                 
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{proj.sitecoordinator.employeeId}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{proj.sitecoordinator.personFk.personName|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{proj.sitecoordinator.empJobTitleFk.jobTitleName|default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{proj.sitecoordinator.jobProfile}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table> 
+    <table id="tbchangecoordinator" width="100%" border="0" cellpadding="0" cellspacing="0" style="display:none;">
+        <tr>
+            <td class="td-label-title" colspan="2">Change Project Coordinator</td>
+        </tr>
+        <tr>
+            <td class="td-gray-bg" width="150px">Select New Coordinator<span class="mandatoryField">*</span></td>
+            <td class="td-white-bg">
+                <select name="selCoordinator" id="selCoordinator">
+                    <option value="">--select--</option>
+                    {%for emp in empArr%}
+                        {%if emp.employeePk!=proj.sitecoordinator.employeePk%}
+                            <option value="{{emp.employeePk}}">{{emp.personFk.personName|upper}} ({{emp.empJobTitleFk.jobTitleName|default('')}})</option>
+                        {%endif%}
+                    {%endfor%}
+                </select>
+            </td>
+        </tr></div>
+        <tr>
+            <td class="td-gray-bg"></td>
+            <td class="td-white-bg">
+                <input type="button" class="button" value="Submit" onclick="ChangeCoordinator('{{path("_changecoordinator",{'projid':proj.pkid})}}');"/> &nbsp;&nbsp;
+                <input type="button" class="button" value="Cancel" onclick="CancelChangeCoordinator();"/>
+            </td>
+        </tr>
+    </table>
+</div>
+        <br/>
+
+    

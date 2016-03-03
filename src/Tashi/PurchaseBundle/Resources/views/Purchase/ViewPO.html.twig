@@ -1,0 +1,83 @@
+<input type="hidden" id="poid" value="{{sup.poPk}}"/>
+<table width="100%" style="border: 1px dashed #000;margin-top:-50px;" >
+    <td class="td-label-title" colspan="7" style="text-align: center;">-------------------------------Purchase Order Details For {{sup.vendorMasterFk.companyName}}------------------------------</td>
+    <tr class="td-label-title">
+        <td  style="padding:10px;background:#fff;">
+            <span style="text-decoration: underline;">ORDER NO:</span><br/><br/>
+{{sup.uiOrderId}}</td><br/>
+
+    <td  style="padding:10px;background:#fff;">
+        <span style="text-decoration: underline;">ORDER DATE:</span><br/><br/>
+{{sup.orderDate |date('y-m-d')}}</td>
+
+    <td  style="padding:10px;background:#fff;">
+        <span style="text-decoration: underline;">EXPECTED DELIVERY DATE:</span><br/><br/>
+{{sup.expectedDelivery |date('y-m-d')}}</td>
+    <td colspan="4"  style="padding:10px;background:#fff;">
+        <span style="text-decoration: underline;">ORDER DESCRIPTION:</span><br/><br/>
+{{sup.orderDetails}}</td>
+</tr>
+
+<tr class="td-label-title">
+    <td  style="padding:10px;background:#fff;">
+        <span style="text-decoration: underline;">Transporter Name::</span><br/><br/>
+    {{t.transporterFk.name  | default(' ')}}
+    </td><br/>
+
+<td  style="padding:10px;background:#fff;">
+    <span style="text-decoration: underline;">Mode of Transport:</span><br/><br/>
+    {{t.transportModeFk.modeName  | default(' ')}}
+</td>
+
+<td  style="padding:10px;background:#fff;">
+    <span style="text-decoration: underline;">Transport Cost:</span><br/><br/>
+    {{t.transportCost  | default(' ')}}
+</td>
+<td colspan="4"  style="padding:10px;background:#fff;">
+    <span style="text-decoration: underline;">Ordered By:</span><br/><br/>
+{{sup.employeeFk.personFk.personName |default(' ')}}
+</td>
+
+
+
+
+
+</tr>
+<br/><br/>
+
+<TD class="td-label-title" colspan="7" style=" padding-left: 10px;padding-right: 10px;">
+<tr>
+    <td style="padding:10px;text-decoration: underline;">PRODUCT NAME:</td>
+    <td style="padding:10px;text-decoration: underline;">QUANTITY:</td>
+    <td style="padding:10px;text-decoration: underline;">DELIVERED QUANTITY:</td>
+    <td style="padding:10px;text-decoration: underline;">UNIT:</td>
+    <td style="padding:10px;text-decoration: underline;">QUOTED PRICE:</td>
+    <td style="padding:10px;text-decoration: underline;">Subtotal PRICE:</td>
+    <td style="padding:10px;text-decoration: underline;">TAX:</td>
+    
+</tr>
+</TD>
+<input type="hidden" name="poid" value="{{sup.poPk}}"/>
+
+{%for r in prod%}
+<tr style="padding:10px;background:#fff;">
+    <td  style="padding:10px;">{{r.productFk.productName}} ({{r.productFk.productCode}})</td>
+    <td  style="padding:10px;">{{r.quantity}}</td>
+    <td  style="padding:10px;">{{r.deliveredQuantity}}</td>
+    <td  style="padding:10px;">{{r.unitFk.unitName}}</td>
+    <td  style="padding:10px;">{{r.quotedPrice/r.quantity}}</td>
+    <td  style="padding:10px;">{{r.quotedPrice}}</td>
+    <td  style="padding:10px;">{{r.tax}}</td>
+     
+</tr>
+{%endfor%} 
+</table>
+
+<table width="80%" style="margin-top: 10px;">
+<tr>
+<td  class="cmnWidth"> Status:<span style="color:{{sup.statusFk.statusColor~';'}}">   {{sup.statusFk.statusMsg }}</span> </td>
+<td  class="cmnWidth"></td>
+<td  class="cmnWidth" style="text-align: right;">Grand Total:   {{sup.grandTotal}}</td>
+ 
+</tr>
+</table>

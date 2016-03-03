@@ -1,0 +1,38 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <td class="td-label-title">Entry Detail List:</td>
+    </tr>
+    <tr>
+        <td>                    
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Sl.No.</th>    
+                        <th class="tbl-th-grid-view-row-no-bg">Mode Name</th>                          
+                        <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                    </tr>
+                </thead>
+
+                <tbody>                           
+                {%for r in result|default('')%} 
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>  
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ r.paymentModeName|default('') }}</td>                             
+                            <td class="tbl-grid-view-row-no-bg" style="width: 300px;">{{ r.description|default('') }}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <select class="normal_select" id="payrolMasterAction{{r.pkid|default('')}}" name="txt_payrolMasterAction" >
+                                    <option value="">Select</option>                                
+                                    <option value="{{path('_retrive_payment_mode',{'pkid': r.pkid|default('')})}}&upd">Edit</option>
+                                    <option value="{{path('_delete_payrol_percentage_calculation',{'pkid': r.pkid|default('')})}}&del">Delete</option>
+                                </select> 
+                                <input class="button" name="commit" type="button" value="Go" onClick="payrolModeAction(this,'{{r.pkid|default('')}}','#payrolMasterAction');" />  
+                            </td>                                                 
+                        </tr>                    
+                {%endfor%}
+
+                    </tbody>
+                </table>
+            </td>
+        </tr>                                 
+</table>

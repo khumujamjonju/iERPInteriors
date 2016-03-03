@@ -1,0 +1,46 @@
+<input type="hidden" id="addStoreRackUpdateURL" value="{{'/Tashi/web/app_dev.php/Store/update_addStoreRack/'~record.id  }}">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <td class="td-label-title" colspan="5">Rack List:</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead class="td-label-title">
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Store Name</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Building Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Floor No</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Rack Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Room No</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Rack Row No</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Rack Column No</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                    </tr>
+                </thead>
+
+                <tbody>                           
+                          {% for c in record.result%}
+                            {%set room=c.storeRoomMasterFk%}
+                            {%set floor=room.storeFloorMasterFk%}
+                            {%set bldg=floor.storeBuildingMasterFk%}
+                            {%set store=bldg.storeMasterFk%}
+                              <tr>                                    
+                                  <td class="tbl-grid-view-row-no-bg" align="center">{{store.storeName}}</td>
+                                  <td class="tbl-grid-view-row-no-bg" align="center">{{bldg.buildingName}}</td>
+                                  <td class="tbl-grid-view-row-no-bg" align="center">{{floor.storeFloorNo}}</td>
+                                  <td class="tbl-grid-view-row-no-bg" align="center">{{c.rackName | default('')}}</td>
+                                  <td class="tbl-grid-view-row-no-bg" align="center">{{room.storeRoomNo | default('')}}</td>
+                                  <td class="tbl-grid-view-row-no-bg" align="center">{{c.rowNumber | default('')}}</td>
+                                  <td class="tbl-grid-view-row-no-bg" align="center">{{c.columnNumber | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <a href="javascript:void();" onclick="retreiveStoreRack('{{path('_retrieve_addStoreRack',{'Rackid': c.storeRackPk })}}');">Edit </a> | 
+                                <a href="javascript:void();" style="color:#ff0000;" onclick="deleteStoreRackMaster('{{path('_delete_addStoreRack',{'Rackid': c.storeRackPk })}}');">Delete </a>
+                            </td>                                                 
+                        </tr>
+                          {%endfor%}        
+                    </tbody>
+                </table>
+            </td>
+        </tr>                                 
+    </table>

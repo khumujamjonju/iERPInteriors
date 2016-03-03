@@ -1,0 +1,3 @@
+_wallet:
+    resource: "@TashiWalletBundle/Controller/WalletController.php"
+    type:     annotation

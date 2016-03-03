@@ -1,0 +1,6 @@
+<select name="selStkFloorSearch" id="selStkFloorSearch" class="cmnWidth" onchange="laodroombyfloorid_search(this.id);"  tabindex="-1">
+    <option value="">--select--</option>
+    {%for floor in floorArr%}
+        <option value="{{path('_loadroombyflooridsearch',{'floorid':floor.storeFloorPk})}}&{{floor.storeFloorPk}}">{{floor.storeFloorNo}}</option>
+    {%endfor%}
+</select>

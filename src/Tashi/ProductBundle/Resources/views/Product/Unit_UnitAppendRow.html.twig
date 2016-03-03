@@ -1,0 +1,12 @@
+{%for unit in unit%}
+<tr id="unit{{unit.unitMaster.pkid}}">
+    <td class="td-gray-bg">
+        {{unit.unitMaster.unitName}}
+        <input type="hidden" name="unit" value="{{unit.unitMaster.pkid}}"/>
+    </td>    
+    <td class="td-white-bg">
+    <a href="javascript:void(0);" onclick="$(this).parent().parent().remove();" width="20" 
+       style=" color:#ff0000;">Remove</a>             
+    </td>
+</tr>
+{%endfor%}

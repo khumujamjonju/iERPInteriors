@@ -1,0 +1,110 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+        <tr>
+            <td class="td-label-title" colspan="3">Project Detail
+                <input type="button" class="button" value="Edit" style="float:right;" 
+                       onclick="ProjectEditor('{{path("_editprojectdetail",{'projid':proj.pkid})}}','divProjDetailOnly');"/>
+            </td>        
+        </tr>
+        <tr>
+            <td>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="td-gray-bg" width="200px">Project Area</td>
+                        <td class="td-white-bg" align="left">{{proj.areaFk.area|default('')|upper}}</td>
+                        <td class="td-gray-bg" width="200px">Project ID/ Order Number:</td>
+                        <td class="td-white-bg" style="text-align:justify">{{proj.orderNo|upper}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg" width="200px">Industry Type</td>
+                        <td class="td-white-bg" align="left">{{proj.industryTypeFk.industryType|default('')|upper}}</td>
+                        <td class="td-gray-bg" width="200px">Opportunity:</td>
+                        <td class="td-white-bg" style="text-align:justify">{{proj.opportunityFk.opportunityType|default('')|upper}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Execution Date</td>
+                        <td class="td-white-bg" align="left">{{proj.startDate|date('d-M-Y')}}</td>
+                        <td class="td-gray-bg" width="200px">Tentative Completion Date</td>
+                        <td class="td-white-bg" style="text-align:justify">{{proj.expectedCompletionDate|date('d-M-Y')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Status</td>
+                        <td class="td-white-bg" align="left" style="background-color: {{proj.status.statusColor}};"><b>{{proj.status.statusName}}</b>
+                        </td>
+                        <td class="td-gray-bg" width="200px">Balance</td>
+                        {%set balance=totalPaid-totalExpense%}
+                        {%set alertFlag=0%}
+                        {%if totalPaid<proj.totalEstimatedCost and proj.status.isPermanent==0 and balance<=limitAmt%}
+                            {%set alertFlag=1%}
+                        {%endif%}
+                        <td class="td-white-bg" style="color:{%if alertFlag==1%}#ff0000;{%else%}#333;{%endif%}">
+                           {{balance|number_format(2,'.')}}/-                           
+                            &nbsp;&nbsp                            
+                            {%if alertFlag==1%}<span style="font-size:11px;">Balance low</span>{%endif%}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Dimension</td>
+                        <td class="td-white-bg" align="left" >{{proj.dimension}}</td>
+                        <td class="td-gray-bg">Estimated Cost</td>
+                        <td class="td-white-bg" align="left" >{{totBudget|default(0)|number_format(2)}}/-</td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Last Modified On</td>
+                        <td class="td-white-bg" align="left">
+                            {%if pmlog is not null%}
+                                    {{pmlog.modifyDate|default('')|date('d-M-Y')}}
+                                    by <span style="color:#AA3333;">{{pmlog.modifiedByFk.personFk.personName|default('')}}({{pmlog.modifiedByFk.employeeId|default('')}})</span>
+                            {%endif%}
+                        </td>
+                        <td class="td-white-bg" colspan="2">
+                            {%if pmlog is not null%}
+                                <a href="javascript:void(0);" style="font-size:11px;" onclick="$('#dimDiv').show();$('#divModificationLog').show();">View Modification Log</a>
+                            {%endif%}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Project Description</td>
+                        <td class="td-white-bg" align="left" colspan="3">{{proj.Description}}</td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <div id="dimDiv" class="fixdim" style="display:none;"></div>
+    <div id="divModificationLog" class="fixcentered" style="display:none;">        
+        <table width="98%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin:10px auto;">
+            <tr>
+                <td class="td-label-title" colspan="3">Modification Log
+                </td>        
+            </tr>
+            <tr>
+                <td style="overflow-y:auto; height:400px;" valign="top">
+                    <table id="example" width="100%" align="center" id="example2" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr> 
+                                <th class="tbl-th-grid-view-row-no-bg" style="width:100px;">Date & Time</th>
+                                <th class="tbl-th-grid-view-row-no-bg" style="text-align:left;">Remark</th>
+                                <th class="tbl-th-grid-view-row-no-bg" style="width:150px;">Modified By</th>                         
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%for log in pmlogArr%}                        
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{log.modifyDate|default('')|date('d-M-Y')}}  {{log.modifyDate|default('')|date('h:i:s a')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="left">{{log.remark}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{log.modifiedByFk.personFk.personName|default('')}}({{log.modifiedByFk.employeeId|default('')}})</td>                                                            
+                                </tr>
+                            {%endfor%}
+                        </tbody>
+                    </table>
+                </td>        
+            </tr>
+        </table>
+        <table width="98%">
+            <tr>
+                <td align="center">
+                    <input type="button" class="button" value="[X] Close" onclick="$('#dimDiv').hide();$('#divModificationLog').hide();">
+                </td>
+            </tr>
+        </table>        
+    </div>

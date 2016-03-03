@@ -1,0 +1,42 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <td class="td-label-title">Search Result</td>
+    </tr>
+    <tr>
+        <td>
+
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead class="">
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Collected By</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Date</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Amount</th> 
+                    </tr>
+                </thead>
+
+                <tbody>    
+          {% set total = 0%}
+          {%for a in result|default('') %}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                {%for e in employee|default('')%}
+                                    {%if e.employeeId|default('') == a.applicationUserId|default('')%}
+                                        {{e.personFk.personName|default('')}}({{ e.employeeId|default('')}})
+                                    {%endif%}
+                                {%endfor%}
+                             </td> 
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.createdDate|default('')|date('d-m-Y') }}</td> 
+                            <td class="tbl-grid-view-row-no-bg" align="center"><b>&#8377;</b> {{ a.advanceAmount|default('') }}</td> 
+                        </tr>  
+                      {% set total = total + a.advanceAmount|default('') %}
+          {%endfor%}
+                    </tbody>
+                </table>
+            </td>
+        </tr> 
+        <tr>
+        <td class="td-separator" align="right" style="padding-right: 100px;">Total Collection: &nbsp;&nbsp;&nbsp;    <b>&#8377;</b> {{ total }}</td>
+    </tr>
+</table>

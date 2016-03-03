@@ -1,0 +1,63 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <input id="spanCloseOpenHandlerItemServiceList" value="0" type="hidden">
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('ItemServiceList');">Existing Service(s) for Item: {{item.itemFk.productName|upper}}
+            <span style="float: right;" id="spanIdItemServiceList" class="span_open" >&nbsp;</span>
+        </td> 
+    </tr>
+    <tr id="trAddressItemServiceList">
+        <td>
+             <table id="example2"  width="100%" border="0" cellpadding="0" cellspacing="0" class="display">
+                <thead>
+                    <tr>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">#</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Service Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">Descriptoin</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Unit</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Quantity</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right;">Charge</th>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right;">Total</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Action</th>
+                    </tr>
+                </thead>
+                <tbody>   
+                    {%set slno=1%}
+                    {%for service in serviceArr%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center" width="70px">{{slno}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center" width="200px">{{service.serviceFk.serviceName}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center" style="text-align: justify;">{{service.serviceDescription}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center" width="100px">{{service.unit}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center" width="100px">{{service.quantity}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="right" width="100px">{{service.unitPrice|number_format(2)}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="right" width="100px">{{(service.quantity*service.unitPrice)|number_format(2)}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="right">
+                                <select id="selItemServiceAction{{service.pkid}}">
+                                    <option value="">--select--</option>
+                                    <option value="{{path("_itemserviceaction",{'itemtxnid':item.pkid,'serviceid':service.pkid,'mode':'EDT'})}}&edt">Edit</option>
+                                    <option value="{{path("_itemserviceaction",{'itemtxnid':item.pkid,'serviceid':service.pkid,'mode':'DEL'})}}&del">Delete</option>
+                                </select>
+                                <input type="button" class="button" value="Go" onclick="ItemServiceAction('{{service.pkid}}');">
+                            </td>
+                        </tr>
+                        {%set slno=slno+1%}
+                    {%endfor%}
+                </tbody>
+                <tfoot>
+                    <td colspan="7"></td>
+                    <td>{%if item.projectFk.status.isPermanent==0 or item.statusFk.isChangeable==1 %}
+                        <br/>
+                        <input type="button" class="button" value="Add New Service" style="float:right;" 
+                               onclick="GoToAddNewItemService('{{path("_gotoadditemservice",{'itemtxnid':item.pkid,'mode':'INS'})}}');">
+                        <div class="clear"></div>
+                    {%endif%}
+                    </td>
+                </tfoot>
+             </table>
+        </td>
+    </tr>
+</table>
+<br/>
+<div id="divItemService">
+    
+</div>

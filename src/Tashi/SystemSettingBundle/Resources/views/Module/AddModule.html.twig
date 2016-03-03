@@ -1,0 +1,83 @@
+<div class='sub-menu'>
+    <ul>      
+        <li id="addmodule_li" class="active"><a href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_moduleindex')}}', 'manage_module_li', 'Setting','Manage Module', 'Add Module', '');">Manage Module</a></li>                 
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+            <tr>
+                <td class="td-label-title">Module Detail</td>
+            </tr>
+            <tr>
+                <td>
+                    <form id="FormModule">
+                        <div id="divModuleDetail">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="td-gray-bg" width="150px">Module Name<span class="mandatoryField">*</span></td>
+                                    <td class="td-white-bg">
+                                        <input type="text" id="txtModuleName" name="txtModuleName" class="cmnWidth" >
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg" width="150px">Description</td>
+                                    <td class="td-white-bg">
+                                        <textarea id="txtdesc" name="txtdesc" cols="50" rows="5"></textarea>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg"></td>
+                                    <td class="td-white-bg">
+                                        <input type="button" class="button" value="Submit" onclick="ManageModule('{{path("_insertmodule")}}','');">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+            <tr>
+                <td class="td-label-title">Existing Module List</td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="divmoduleList">
+                        <table width="100%" align="center" id="example" cellspacing="0">  
+                            <thead>
+                                <tr> 
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center; width: 70px;">Sl.no</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left; width:250px;">Module Name</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Description</th>
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="width:150px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>  
+                                {%set slno=1%}
+                                {%for module in moduleArr%}
+                                    <tr>
+                                        <td class="tbl-grid-view-row-no-bg" width="70px">{{slno}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">{{module.moduleName}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" style="text-align: justify;">{{module.description}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" width="150px">
+                                            <select id="selModuleAction{{module.pkid}}">
+                                                <option value="">--select--</option>
+                                                <option value="{{path("_gotoeditmodule",{'moduleid':module.pkid})}}&edt">Edit</option>
+                                                <option value="{{path("_deletemodule",{'moduleid':module.pkid})}}&del">Delete</option>
+                                            </select>
+                                            <input type="button" class="button" value="Go" onclick="moduleAction('selModuleAction{{module.pkid}}');">
+                                        </td>
+                                    </tr>
+                                    {%set slno=slno+1%}
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

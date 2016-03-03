@@ -1,0 +1,3 @@
+_ajxPurchaseController:
+    resource: "@TashiPurchaseBundle/Controller/PurchaseController.php"
+    type: annotation

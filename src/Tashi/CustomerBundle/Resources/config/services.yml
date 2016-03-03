@@ -1,0 +1,12 @@
+parameters:
+    tashi_customer.service.class: Tashi\CustomerBundle\Service\CustomerService
+    #tashi.service.common.class : Tashi\CommonBundle\Service\CommonService
+
+services:
+    tashi.customer.service:
+        class: %tashi_customer.service.class%
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service","@mailer"]
+    swiftmailer.command.spool_send:
+        class: Symfony\Bundle\SwiftmailerBundle\Command\SendEmailCommand
+        calls:
+            - [ setContainer, ["@service_container"] ]

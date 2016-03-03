@@ -1,0 +1,70 @@
+
+<table width="100%" border="0" name="tabRight"> 
+    <tr> 
+        <td>
+            <ul class="tabs"> 
+                <li class="active" rel="tab1" id="subMenuId" >Approve Customer Change</li>    <!--  right menu table name   -->        
+            </ul>
+        </td>
+    </tr>
+    <tr>
+    <td>
+      <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+       <tr>
+          <td class="dash-board-col-mid" >
+          <!-- body of the right content start from here -->    
+        <form method="post" post="#"  enctype="multipart/form-data" id="frmCustomeAttrChngeform">
+    <table  style="width:100%; margin-top: 10px;" class="tbl-border-content"  align="center" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+      <input id="spanCloseOpenHandlerCusChangeAttrForm" value="0" type="hidden">
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('CusChangeAttrForm');">Customer Approval List:<span style="float: right;" id="spanIdCusChangeAttrForm" class="span_open" >&nbsp;</span></td>
+          </tr>
+            <tr id="trAddressCusChangeAttrForm" >
+              <td colspan="6">                  
+                <table id="example" class="display" width="100%" border="0" cellpadding="0" cellspacing="0">
+                                        <thead>
+                                            <tr class="tbl-grid-view-header">
+                                                <th>Change ID</th>
+                                                <th>Customer ID</th>
+                                                <th>Customer Name</th>
+                                                <th>Change Area</th>
+                                                <th>Change By</th>
+                                                <th>Change Date</th>
+                                                <th>Action</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                       
+                                           
+                                            <tr align="center">
+                                                <td class="tbl-grid-view-row-no-bg centered-cell"></td>
+                                                <td class="tbl-grid-view-row-no-bg centered-cell"></td>
+                                                <td class="tbl-grid-view-row-no-bg centered-cell"></td>
+                                                <td class="tbl-grid-view-row-no-bg centered-cell"></td>
+                                                <td class="tbl-grid-view-row-no-bg centered-cell"></td>
+                                               <td class="tbl-grid-view-row-no-bg centered-cell"></td>
+                                                <td colspan="5" class="tbl-grid-view-row-no-bg centered-cell" id="saveButton1"  align="center">
+                                               
+                                               <input class="button" name="commit" type="button" value="Review" {#onClick="editUpdateProd('{{result.pkid}}',this);"#} />
+                                             </td> 
+                                            </tr>
+                                           
+                                          
+                                 
+                                        </tbody>
+                                    </table>
+                                </td>   
+                            </tr>
+                        </table>
+                    </div>
+                </td>
+   
+    </form>
+      
+        </td>  
+      </tr> 
+     </table>
+   </td> 
+  </tr> 
+</table>    {# empty Twig template #}
+{# empty Twig template #}

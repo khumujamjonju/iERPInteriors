@@ -1,0 +1,11 @@
+<td class="td-gray-bg cmnWidth">Select Source ID List:<span class="necessary-field">*</span></td>
+<td class="td-white-bg">
+    <select name="selectlist" id="ddlb_selectlist" class="cmnWidth">
+        <option value="">--Select--</option>
+                   {%for cus in customer %}
+        <option value="{{cus.customerIdPk}}">{{cus.customerName}}</option>
+                   {%endfor%}
+
+    </select>
+</td>
+

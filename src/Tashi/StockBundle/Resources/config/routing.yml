@@ -1,0 +1,6 @@
+_stock:
+    resource: "@TashiStockBundle/Controller/StockController.php"
+    type:     annotation
+
+
+    

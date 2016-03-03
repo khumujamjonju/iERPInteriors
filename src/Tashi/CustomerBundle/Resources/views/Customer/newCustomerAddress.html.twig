@@ -1,0 +1,98 @@
+{# empty Twig template #}
+<div class="address_detials">
+    <table width="100%" align=center border="0" cellpadding="0" cellspacing="0" class="tbl-border-content">
+    <tr>
+        <td colspan="5" class="td-label-title">Address Details</td>
+    </tr>
+    <tr>
+        <td class="tbl-grid-view-left-header-rounded" width="25%">Address Type</td>
+        <td class="tbl-grid-view-header">Address Id</td>
+        <td class="tbl-grid-view-header">Address</td>
+        <td class="tbl-grid-view-header" width="10%">Status</td>
+        <td class="tbl-grid-view-header" width="15%">Action</td>
+    </tr>
+    </table>
+    
+    <table width="100%" align="center" cellpadding="0" cellspacing="0" style="margin-top: 5px; border-top: 1px dotted #ccc; border-left: 1px dotted #ccc; border-right: 1px dotted #ccc;">                                                                                                                                            
+        <tr>
+            <td class="td-gray-bg">Address:</td>
+            <td class="td-white-bg" colspan="3">
+                <textarea  type="text" id="txt_cus_address" name="txt_Cus_Address" cols="50" rows="4"></textarea>                                    
+            </td>                                                                                       
+        </tr>
+        <tr>
+            <td class="td-gray-bg">City:</td>
+            <td class="td-white-bg">
+                <Select class="cmnWidth" name="city" id="city">
+                        <option value="">--Select--</option>
+                                             {%for c in city%}
+                        <option value="{{c.cityPk}}">{{c.cityName | default(' ')}}</option>
+                                             {%endfor%}
+                    </Select> 
+                                                 
+            </td>
+            <td class="td-gray-bg">District:</td>
+            <td class="td-white-bg">
+               <Select class="cmnWidth" name="district" id="district">
+                        <option value="">--Select--</option>
+                                             {%for c in district%}
+                        <option value="{{c.pkid}}">{{c.districtName | default(' ')}}</option>
+                                             {%endfor%}
+                    </Select>                                         
+            </td>                                                          
+        </tr>
+        <tr>
+            <td class="td-gray-bg">State:</td>
+            <td class="td-white-bg">
+                <Select class="cmnWidth" name="state" id="state">
+                        <option value="">--Select--</option>
+                                             {%for c in state%}
+                        <option value="{{c.statePk}}">{{c.stateName | default(' ')}}</option>
+                                             {%endfor%}
+                    </Select>                                        
+            </td>
+            <td class="td-gray-bg">Country:</td>
+            <td class="td-white-bg">
+                <Select class="cmnWidth" name="country" id="country">
+                        <option value="">--Select--</option>
+                                             {%for c in country%}
+                        <option value="{{c.countryPk}}">{{c.countryName | default(' ')}}</option>
+                                             {%endfor%}
+                    </Select>                                        
+            </td>                                                          
+        </tr>
+        <tr>
+            <td class="td-gray-bg">Pin-Code:</td>
+            <td class="td-white-bg">
+                <input class="cmnWidth" type="text" id="txt_cus_pin" name="txt_Cus_Pin">                                     
+            </td>
+            <td class="td-gray-bg">Email:</td>
+            <td class="td-white-bg">
+                <input class="cmnWidth" type="text" id="txt_cus_email" name="txt_Cus_Email">                                          
+            </td>                                                          
+        </tr>
+        <tr>
+            <td class="td-gray-bg">Mobile No:</td>
+            <td class="td-white-bg">
+                <input class="cmnWidth" type="text" id="txt_cus_mobile" name="txt_Cus_Mobile">                                     
+            </td>
+            <td class="td-gray-bg">Phone No:</td>
+            <td class="td-white-bg">
+                <input class="cmnWidth" type="text" id="txt_cus_phone" name="txt_Cus_Phone">                                          
+            </td>                                                          
+        </tr>
+    </table>   
+</div> 
+<div id="control-buttons">
+    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                          
+        <tr>
+            <td class="td-separator" colspan="4" style="text-align: center;">
+                <input type="button" class="button blue" id="btn_save" value="Save" onclick=""/>
+                <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="" style="display: none;"/>
+                <input type="button" class="button blue" id="btn_update" value="Update" onclick=""  style="display: none;"/>
+                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="commonCancelBtn();" style="display: none;"/>
+                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+            </td>  
+        </tr>
+    </table>
+</div> 

@@ -1,0 +1,77 @@
+<div style="text-decoration: underline; margin-bottom: 2px; text-align: center;"> OUTSTANDING BILL</div> 
+<div class="tbl-border" style="margin-top: 5px; background: #fff;">
+    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+        <thead>
+            <tr>
+                <th class="tbl-th-grid-view-row-no-bg">INVOICE NO.</th> 
+                <th class="tbl-th-grid-view-row-no-bg">ORDER NO./PROJECT ID</th> 
+                <th class="tbl-th-grid-view-row-no-bg">INVOICE DATE</th>                                                                                               
+                <th class="tbl-th-grid-view-row-no-bg" style="text-align:right;">TOTAL</th>
+                <th class="tbl-th-grid-view-row-no-bg" style="text-align:right;">TAX</th>
+                <th class="tbl-th-grid-view-row-no-bg" style="text-align:right;">DISCOUNT</th>
+                <th class="tbl-th-grid-view-row-no-bg" style="text-align:right;">NET TOTAL</th>
+                <th class="tbl-th-grid-view-row-no-bg" style="text-align:right;">TOTAL PAID</th>
+                <th class="tbl-th-grid-view-row-no-bg" style="text-align:right;">DUE</th>
+            </tr>
+        </thead>
+        <tbody> 
+            {%if invoiceArr|length<=0%}
+            <td colspan="8" class="tbl-grid-view-row-no-bg">
+                <p style="color:#ff0000; text-align: center;">No Record Found</p>
+            </td>
+            {%else%}
+                {%set totalDue=0%}
+                {%set totalPaid=0%}
+                {%set totalTax=0%}
+                {%set totalDis=0%}
+                {%set totalAmt=0%}
+                {%set totalSub=0%}
+                {%for inv in invoiceArr %}  
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ inv.invoiceNo }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ inv.projectFk.orderNo|default('')}}</td>  
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ inv.invoiceDate|date('d-M-Y') }}</td>  
+                        <td class="tbl-grid-view-row-no-bg" align="right">{{ inv.subTotal|number_format('2','.',',')}}{%set totalSub=totalSub+inv.subTotal%}</td>   
+                        <td class="tbl-grid-view-row-no-bg" align="right">{{ inv.taxAmt|number_format('2','.',',')}} {%set totalTax=totalTax+inv.taxAmt%}</td>   
+                        <td class="tbl-grid-view-row-no-bg" align="right">{{ inv.discount|number_format('2','.',',')}} {%set totalDis=totalDis+inv.discount%}</td>   
+                        <td class="tbl-grid-view-row-no-bg" align="right">{{ inv.total|number_format('2','.',',')}}{%set totalAmt=totalAmt+ inv.total%}</td>  
+                        <td class="tbl-grid-view-row-no-bg" align="right">
+                            {%set totPaid=0%}
+                            {%for pay in payArr%}
+                                {%if inv.pkid==pay.invoiceFk.pkid|default('')%}
+                                    {%set totPaid=totPaid+pay.amount%}
+                                {%endif%}
+                            {%endfor%}
+                            {{totPaid|number_format('2','.',',')}}
+                            {%set totalPaid=totalPaid+totPaid%}
+                        </td>
+                        <td class="tbl-grid-view-row-no-bg" align="right">                        
+                            {{(inv.total-totPaid)|number_format('2','.',',')}}
+                            {%set totalDue=totalDue+(inv.total-totPaid)%}
+                        </td>
+                    </tr>                    
+                {%endfor%} 
+                <tr>
+                    <td colspan="4" class="tbl-grid-view-row-no-bg" align="right">
+                        <strong>TOTAL</strong>
+                    </td>
+                    <td align="right" class="tbl-grid-view-row-no-bg">
+                        <strong>{{totalTax|number_format('2','.',',')}}</strong>
+                    </td>
+                    <td align="right" class="tbl-grid-view-row-no-bg">
+                        <strong>{{totalDis|number_format('2','.',',')}}</strong>
+                    </td>
+                    <td align="right" class="tbl-grid-view-row-no-bg">
+                        <strong>{{totalAmt|number_format('2','.',',')}}</strong>
+                    </td>
+                    <td align="right" class="tbl-grid-view-row-no-bg">
+                        <strong>{{totalPaid|number_format('2','.',',')}}</strong>
+                    </td>
+                    <td align="right" class="tbl-grid-view-row-no-bg">
+                        <strong>{{totalDue|number_format('2','.',',')}}</strong>
+                    </td>
+                </tr>
+            {%endif%}
+        </tbody>
+    </table>
+</div>

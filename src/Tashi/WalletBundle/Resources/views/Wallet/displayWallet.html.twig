@@ -1,0 +1,58 @@
+ 
+        <br/>    
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+    
+     <tr>
+                <input id="spanCloseOpenHandlerShowWallet" value="0" type="hidden">
+                <td class="td-label-title" onclick="lmsShowHideAddressResult('ShowWallet');">Employee Wallet Details : <span style="float: right;" id="spanIdShowWallet" class="span_open" >&nbsp;</span></td>
+    </tr>
+     
+    <tr id="trAddressShowWallet">
+        <td>                 
+         <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                             
+                <tr>
+                    <td class="td-gray-bg cmnWidth" > Employee ID:</td>
+                    <td class="td-white-bg cmnWidth" style="color:green;">
+                        <input type="text" id="eid" name="empid" disabled="true" value="{{empid.employeeId |default('')}}">
+                        <input type="hidden" id="id" name="employeepk" disabled="true" value="{{empid.employeePk |default('')}}">
+                    </td>
+                    <td class="td-gray-bg cmnWidth">Employee Name:</td>
+                    <td class="td-white-bg cmnWidth" style="color:green;">
+                        <input type="text"  id="ename" name="empname" disabled="true" value="{{empid.personFk.personName | default('')}}"></td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg cmnWidth"> Wallet Description:<span class="necessary-field">*</span></td>
+                    <td class="td-white-bg cmnWidth" colspan="3">
+                    <textarea name="description" id="txt_description" style="width:99%; height: 70px;"></textarea>
+                    </td>
+                    
+                </tr>
+                <tr>
+                    <td class="td-gray-bg cmnWidth"> </td>
+                    <td class="td-white-bg cmnWidth"> 
+                    <input type="button" class="button" id="btnSave" value="Save" onclick="return SaveWalletDetails('{{path("_saveWallet")}}',this);">
+                    <input type="button" class="button" id="btnUpdate" value="Update" onclick="return UpdateWalletDetails('{{path("_updateWallet")}}',this);">
+                    <input type="hidden" id="acct_id" name="txt_accntid" value=""/></td>
+                    <td class="td-gray-bg cmnWidth"> </td>
+                    <td class="td-white-bg cmnWidth"> </td>
+                </tr>
+                 
+            </table>
+
+        </td>
+    </tr> 
+</table> 
+
+
+
+
+
+                
+        
+
+
+
+
+
+
+

@@ -1,0 +1,78 @@
+  
+     <div id="display-list" class="stylecommonborder" style="margin-bottom: 10px;">
+        <input type="hidden" id="cityUpdateURL" value="">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Mobile Details List:</td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr> 
+                                <th class="tbl-th-grid-view-row-no-bg">Sl No</th>
+                               {# <th class="tbl-th-grid-view-row-no-bg">Supplier Name</th>#}
+                                <th class="tbl-th-grid-view-row-no-bg">Mobile No</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Phone No</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Email</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Website</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+
+                       
+                        <tbody>   
+                            
+                            {%set contactflag=0%}
+                            {%if result is defined %}
+                                    {%if result != '' %}
+                                    {%for r in result.cmn_mobile  %}
+                                     {%set contactflag=1%}
+                                    {%if r.mobileMasterFk.mobileNo is null%} 
+                                    {%set contactflag=0%}
+                                    {%endif%}
+                                    {%endfor%}
+                                    {%endif%}
+                             {%endif%}
+                             {%if contactflag==1%}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">1</td>
+                                   {#<td class="tbl-grid-view-row-no-bg" align="center">{{result1.sup_contactperson.supplierFk.companyName}}</td>#}
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                    {%for r in result.cmn_mobile  %}
+                                      {{r.mobileMasterFk.mobileNo | default('')}}<br/>     
+                                    {%endfor%}
+                                    </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                   {{result.sup_contactperson.personFk.telephoneNo | default('')}}
+                                    </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                    {{result.sup_contactperson.personFk.emailId | default('')}}
+                                    </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                   {{result.sup_contactperson.supplierFk.website | default('')}}
+                                    </td>   
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <a href="javascript:void();" onclick="RetriveMobileNo('{{ path('_retrive_supplier_mobile',{'supid': result.sup_contactperson.supplierFk.supplierPk | default('')})}}')">Edit</a>|
+                                    <a href="javascript:void();" style="color:red;" onclick="deleteSupplierContactDetails('{{ path('_delete_Mobile_Detail',{'supid': result.sup_contactperson.supplierFk.supplierPk | default('')})}}',this);">Delete</a></td>
+                                </tr> 
+                               {%endif%}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>
+        </div>       
+                        
+<button class="button" type="button" id="btnAddTypeSupplierMobile" style="float:right;" 
+onclick="LoadSaveMobileForm('{{path('_loadSupMobileAddForm')}}');">Add New Mobile</button>
+<br/>
+<div id="mobiledetails"> 
+       
+            
+</div>
+        
+        
+        
+        
+        

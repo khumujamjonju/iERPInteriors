@@ -1,0 +1,157 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+{#<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="javascript:void();">Bank Account</a></li>  
+    </ul>
+</div>#}
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Manage Bank Account</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmCompanyBankDetail" style="margin: 0px;">
+                        <input type="hidden" id="company_bank_id" name="txt_company_bank_id" />
+                        <table id="bank_account_form_tbl" width="100%" align="center" cellpadding="0" cellspacing="0">   
+                        {#<tr>
+                            <td class="td-gray-bg" colspan="4" align="center">Select Company: <span class="necessary-field">*</span> 
+                                <select class="cmnWidth" id="company" name="txt_company">
+                                    <option value="">--select--</option>
+                                   {% for c in company|default('') %}
+                                     <option value="{{ c.pkid|default('') }}"> {{ c.companyName|default('') }} </option>
+                                   {% endfor %}
+                                </select>
+                            </td>                                                                                     
+                        </tr>#}
+                        <tr>
+                            <td class="td-gray-bg">Name Of Bank: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"><input class="cmnWidth" type="text" id="bank_name" name="txt_bank_name"/>                                    
+                            </td>
+                            <td class="td-gray-bg">Branch Name: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"> 
+                                <input class="cmnWidth" type="text" id="branch_Name" name="txt_branch_name"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Branch Code:</td>
+                            <td class="td-white-bg"><input class="cmnWidth" type="text" id="branch_code" name="txt_branch_code"/>                                    
+                            </td>
+                            <td class="td-gray-bg">Select Account Type: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"> 
+                                <select class="cmnWidth" id="account_type" name="txt_account_type">
+                                    <option value="">--select--</option>
+                                   {% for a in bankAccType|default('') %}
+                                     <option value="{{ a.bankAccTypePk|default('') }}"> {{ a.accTypeName|default('') }} </option>
+                                   {% endfor %}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">MICR Code:</td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="micr_code" name="txt_micr_code"/>                                    
+                            </td>
+                            <td class="td-gray-bg">IFSC Code:</td>
+                            <td class="td-white-bg"> 
+                                <input class="cmnWidth" type="text" id="ifsc_code" name="txt_ifsc_code"/>
+                            </td>
+                        </tr>
+                        <tr>    
+                            <td class="td-gray-bg">Account Name:<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"><input class="cmnWidth" type="text" id="account_name" name="txt_account_name"/>  </td>
+                            <td class="td-gray-bg">Account Number: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"><input class="cmnWidth" type="text" id="account_no" name="txt_account_no"/>  </td>                             
+                        </tr> 
+                        <tr>
+                            <td class="td-gray-bg">Current Balance: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">  <input class="cmnWidth" type="text" id="account_balance" name="txt_account_balance" onKeypress="return validationDigit('#current_bal');"/>  </td>
+                            <td class="td-gray-bg">Location: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"> <textarea id="location" name="txt_location" cols="40" rows="4"></textarea></td>
+                                                                                                                                                 
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Balance:</td>
+                            <td class="td-white-bg">  
+                                <input class="cmnWidth" type="text" id="txtBalance" name="txtBalance" onKeypress="return isValidNumber(event);" onblur="FormatNumber(this,2);" value="0.00"/>  </td>
+                            <td class="td-gray-bg">Re-enter Balance:<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="txtReBalance" name="txtReBalance" onKeypress="return isValidNumber(event);" onblur="FormatNumber(this,2);" value="0.00"/>
+                            </td>
+                        <tr>
+                            <td class="td-gray-bg">Contact No:</td>
+                            <td class="td-white-bg">  <input class="cmnWidth" type="text" id="contact_no" name="txt_contact_no" onKeypress="return validationDigit('#contact_no');" maxlength="10"/>  </td>
+                            <td class="td-gray-bg">Upload Bank Passbook(Scan Copy):</td>
+                            <td class="td-white-bg">  
+                                <input class="cmnWidth" type="file" id="photoPassbook" name="txt_photoPassbook"> 
+                                <div id="file_control_btn" style="margin-top: 5px; display: none;">                                
+                                    <input type="button" id="changePassbookBtn" value="change" onclick="enableFileChange('#photoPassbook','#changePassbookBtn', '#cancelPassbookBtn');"/>
+                                    <input type="button" id="cancelPassbookBtn" value="cancel" onclick="disableFileChange('#photoPassbook','#changePassbookBtn', '#cancelPassbookBtn');" style="display: none;"/>
+                                </div>
+                            </td> 
+                        </tr>
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Save" onclick="saveCompanyBankInfo('{{path('_save_company_bank_account')}}', this,'ins');"/>
+                                <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editBankDetailsFields(this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_update" value="Update" onclick="saveCompanyBankInfo('{{path('_save_company_bank_account')}}', this,'edt');"  style="display: none;"/>              
+                                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="cancelBankDetailsFields(this);"  style="display: none;"/>
+                            </td>  
+                        </tr>
+                    </table>                                                                                                    
+                    </form>                               
+                </td>
+            </tr> 
+        </table>    
+        <div id="display-list" style="margin-top: 8px;">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">            
+                <tr>
+                    <td class="td-label-title">Company Bank Details: </td>
+                </tr>
+                <tr>
+                    <td>                    
+                        <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                            <thead class="">
+                                <tr>
+                                    <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Company Name</th>                                  
+                                    <th class="tbl-th-grid-view-row-no-bg">Branch Name</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg">Account Type</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg">Account Number</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Account Balance</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Bank & Location</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Scan Copy Passbook</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                                </tr>
+                            </thead>
+                            <tbody>                           
+
+                          {%for b in companyBankDetail|default('') %}
+                                <tr>                                   
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ b.companyFk.companyName|default('') }} </td>                                  
+                                    <td class="tbl-grid-view-row-no-bg" align="center"> {{ b.bankFk.branchName|default('') }} </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center"> {{ b.bankFk.accountTypeMasterFk.accTypeName|default('') }} </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ b.bankFk.accountNumber|default('') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ b.bankFk.accountBalance|default('') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center" style="width: 250px; text-align: justify;">{{ b.bankFk.bankName|default('') }}, {{ b.bankFk.location|default('') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                        {%if  b.bankFk.photoScanDocFk.path|default('') != ''%}
+                                            <a href="{{ asset(b.bankFk.photoScanDocFk.path|default('')) }}" download="{{b.bankFk.photoScanDocFk.originalName|default('')~'.'~b.bankFk.photoScanDocFk.docType|default('')}}"><input type="button" id="downloadPassbookBtn" value="download"/></a> 
+                                        {%else%}
+                                            No file
+                                        {%endif%}
+                                    </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center" width="100px">                                       
+                                        <a href="javascript:void();" onclick="bankAccountAction('{{path('_retrive_bank_account_record',{'pkid': b.bankFk.bankPk|default('')})}}','upd',this);">Edit</a> |
+                                        <a href="javascript:void();"  style="color:#ff0000;" onclick="bankAccountAction('{{path('_delete_bank_account_record',{'pkid': b.bankFk.bankPk|default('')})}}','del',this);">Delete</a>
+                                    </td>                                                 
+                                </tr>                    
+                          {%endfor%}
+
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table> 
+    </div>

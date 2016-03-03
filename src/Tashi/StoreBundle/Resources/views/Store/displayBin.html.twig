@@ -1,0 +1,49 @@
+<input type="hidden" id="addStoreBinUpdateURL" value="{{'/Tashi/web/app_dev.php/Store/update_addStoreRack/'~record.id  }}">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <td class="td-label-title" colspan="5">Bin List:</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead class="td-label-title">
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Store</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Building</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Floor</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Room</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Rack</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Bin</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th>  
+                    </tr>
+                </thead>
+
+                <tbody>                           
+                    {% for bin in record.result%}
+                        {%set rack=bin.rackFk%}
+                        {%set room=rack.storeRoomMasterFk%}
+                        {%set floor=room.storeFloorMasterFk%}
+                        {%set bldg=floor.storeBuildingMasterFk%}
+                        {%set store=bldg.storeMasterFk%}
+                        <tr>                                    
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{store.storeName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{bldg.buildingName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{floor.storeFloorNo | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{room.storeRoomNo | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="left">
+                                <b>Rack Name: </b>{{rack.rackName | default('')}}<br>
+                                <b>Row: </b>{{rack.rowNumber | default('')}}<br>
+                                <b>Column: </b>{{rack.columnNumber | default('')}}
+                            </td>                                    
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{bin.binNo}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <a href="javascript:void();" onclick="RetrieveBin('{{path('_retrieveBin',{'binid': bin.pkid })}}');">Edit </a> | 
+                                <a href="javascript:void();" onclick="deleteBin('{{path('_deletebin',{'binid': bin.pkid })}}');" style="color:#ff0000;">Delete </a>     
+                            </td>                                                  
+                        </tr>
+                    {%endfor%}        
+                </tbody>
+                </table>
+            </td>
+        </tr>                                 
+    </table>

@@ -1,0 +1,43 @@
+<div class='sub-menu'>
+    <ul>      
+        <li class="active"><a href="javascript:void">Search</a></li>
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form"> 
+        <form id="FormSearchActivity">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+                <tr>
+                    <td class="td-label-title">Search Group Activity </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td class="td-gray-bg" width="150px">Search By <span class="mandatoryField">*</span></td>
+                                <td class="td-white-bg">
+                                    <select id="selCriteria" name="selCriteria" class="cmnWidth">
+                                        <option value=''>--Select--</option>
+                                        {%for g in group%}
+                                        <option value='{{g.pkid | default('')}}'>{{g.groupName | default('')}}</option>
+                                        {%endfor%}
+                                    </select>
+                                    <input type="button" id="searchGroup" name="searchGroup" class="button blue" value="Go" onclick="return SearchUserbyGroup('{{path("_searchactivitybygroup")}}', this);">
+                                </td>                                
+                            </tr>                            
+                            
+                        </table>
+                    </td>
+                </tr>
+            </table>
+          </form>
+            <form id="showActivitylistbyGroup">
+            <div id="DisplayActivity">
+            
+            
+            </div>
+            </form>
+            
+     </div>
+</div>
+                                

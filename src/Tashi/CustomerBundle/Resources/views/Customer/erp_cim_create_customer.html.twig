@@ -1,0 +1,93 @@
+{%set name=''%}
+{%set mobno=''%}
+{%set id=''%}
+{%if attrib is defined%}
+    {%if attrib =='name'%}
+        {%set name=value%}
+    {%endif%}
+    {%if attrib =='mobno'%}
+        {%set mobno=value%}
+    {%endif%}
+    {%if attrib =='id'%}
+        {%set id=value%}
+    {%endif%}
+    {%set id=''%}
+{%endif%}
+<table width="100%" border="0" name="tabRight"> 
+    <tr> 
+        <td>
+            <ul class="tabs"> 
+                <li class="active" rel="tab1" id="subMenuId" >Create Customer</li>    <!--  right menu table name   -->        
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+           <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+            <tr class="trMessage">
+                 <td><div class="message" id="divcustMsg"></div></td>
+             </tr>
+            <tr>
+                <td class="dash-board-col-mid" >
+                <!-- body of the right content start from here 
+                Here all the future empty And append function that is insert--> 
+                <div id="loadFullCustomerDetailsForm">
+                    <table  width="100%" align=center border="0" cellpadding="0" cellspacing="0" >                
+                        <tr>   
+                            <td class="td-separator" id="tbSearchCustomer">
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border-content" >           
+                                    <tr>
+                                       <td class="td-label-title"> Create New Customer :</td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <form method="#" id="customerSearchForm" post="">
+                                                <table width="100%" align=center border="0" cellpadding="0" cellspacing="0">  
+                                                    <tr>
+                                                         <td class="td-gray-bg" style="width: 200px;">Mobile No</td>
+                                                         <td class="td-white-bg" ><input type="text" id="txtcontactMobNo" name="txtcontactMobNo" class="input-width" value="{{mobno}}" onkeypress="return IntegerOnly(event);" >
+                                                            <span id="digitMessageCustomerMobileNo" class="digitMessage"></span>
+                                                         </td>   
+                                                    </tr> 
+                                                    <tr>
+                                                        <td class="td-gray-bg">Customer Name</td>
+                                                        <td class="td-white-bg"><input type="text" id="txtCustomerName" name="txtCustomerName" class="input-width" value="{{name}}"></td>  
+                                                    </tr>                                  
+                                                    <tr>
+                                                        <td class="td-gray-bg">Contact Person</td>
+                                                        <td class="td-white-bg"><input type="text" id="txtContactPerson" name="txtContactPerson" class="input-width"  ></td> 
+                                                    </tr>                                                
+                                                    <tr>
+                                                        <td colspan="4" class="td-separator" align="center">                            
+                                                            <input class="button" type="button" name="butSearch" id="butSearch" value="Save" onClick="cimSaveNewCustomer('{{ path('_erplms_cim_createNewCustomer')}}');" >
+                                                            <button class="button" type="reset" onclick="return resetAnyForm();"> Clear</button>
+                                                        </td>
+                                                    </tr>
+                                                </table>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                </table>
+                                                            <!--
+                            Area To Load The List Of Customer That Has Already Been Created Search 
+                                By Like Search On Name 
+                        -->
+                        
+                       <div id="loadResultOfSearchAction"></div>
+                       <!--
+                        Detail Preview Area About The Initial Created Customer
+                       -->
+                       <div id="customerPreviewArea"></div>
+                     </td>
+                      </tr> 
+           </table>
+      </div>        
+      <!-- body of the right content end here --> 
+   </td>
+   </tr>
+
+    </table>
+     </td>        
+    </tr> 
+</table>
+

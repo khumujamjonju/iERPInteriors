@@ -1,0 +1,44 @@
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" id="tblAssetAssignedEmp">           
+    <tr>
+        <td class="td-label-title"> Assigned List  </td>
+    </tr>
+    <tr>
+        <td>
+
+            <table width="100%" align="center" border="0" cellpadding="0" id="example3"  cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Id</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Category</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Manufacturer</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Model No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Serial No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Start Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg">End Date</th>
+                    </tr>
+                </thead>
+
+                <tbody>  
+                              {%for a in record.result%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.empMasterFk.employeeId | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.empMasterFk.personFk.personName | default('')}}</td>                                       
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetCategoryFk.assetCategoryName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetRegisterFk.assetName | default('')}}</td>                                                                        
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetRegisterFk.manufacturer | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetRegisterFk.modelNo | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetRegisterFk.serialNo | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.startDate|date('d-m-Y')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.endDate|date('d-m-Y')}}</td>
+
+
+                        </tr>  {%endfor%}
+                    </tbody>
+                </table>
+            </td>
+        </tr>                                 
+    </table>
+

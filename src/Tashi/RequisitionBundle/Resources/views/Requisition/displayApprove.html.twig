@@ -1,0 +1,51 @@
+  <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+               <tr>
+                    <input id="spanCloseOpenHandlerSearchPurchaseOrder" value="0" type="hidden">
+                    <td class="td-label-title" onclick="lmsShowHideAddressResult('SearchPurchaseOrder');">Requisition List:
+                    <span style="float: right;" id="spanIdSearchPurchaseOrder" class="span_open" >&nbsp;</span></td>
+              </tr>
+                <tr id="trAddressSearchPurchaseOrder">
+                    <td>                    
+                        <table width="100%" align="center" border="0" cellpadding="0" id="example2" cellspacing="0"  class="display"  >  
+                            <thead>
+                                <tr>
+                                   <th class="tbl-grid-view-row-no-bg">SL. No.</th>
+                                    <th class="tbl-grid-view-row-no-bg">Requisition. No.</th>  
+                                    <th class="tbl-grid-view-row-no-bg">Requisition Date</th>
+                                    <th class="tbl-grid-view-row-no-bg">Description</th>
+                                    <th class="tbl-grid-view-row-no-bg">Status</th>
+                                    <th class="tbl-grid-view-row-no-bg">Action</th> 
+                                     
+                                </tr>
+                            </thead>
+
+                         <tbody>                           
+                         {%for req in details.result%}  
+                         <tr> 
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{loop.index}} </td> 
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{req.uiReqId}} </td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{req.requisitionDate | date('Y-m-d')}} </td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{req.requisitionDetails}}</td>
+                                        <td class="tbl-grid-view-row-no-bg"  style="background:{{req.reqstatusFk.statusColor~';'}}" align="center">{{req.reqstatusFk.statusMsg}}</td>
+                                         <td class="tbl-grid-view-row-no-bg" align="center">
+                                            <select id="TYPEID{{req.pkid}}" style="width:100px;">
+                                                
+                                               {%if req.reqstatusFk.statusMsg=='Approved' %}
+                                               <option value="{{path('_dispatchrequisition',{'rid': req.pkid})}}&stock">Dispatch Product</option>
+                                               {%else%} 
+                                                <option value="{{path('_loadApproveRequisition',{'rid': req.pkid})}}&aprv">Approve</option>
+                                                <option value="{{path('_updaterequisitionapprove',{'rid':req.pkid})}}&edit">Edit</option>
+                                                <option value="{{path('_cancel',{'rid':req.pkid})}}&cancel">Cancel</option>
+                                               {%endif%}
+                                                
+                                                
+                                               
+                                            </select>
+                                               <input type="button" value="Go" class="button blue" onclick="loadEditReqPage({{req.pkid}});"/>
+                                            </tr> 
+                         {%endfor%} 
+                        </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                  </table>

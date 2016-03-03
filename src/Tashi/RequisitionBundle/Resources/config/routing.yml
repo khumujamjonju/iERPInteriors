@@ -1,0 +1,4 @@
+_requisition:
+    resource: "@RequisitionBundle/Controller/RequisitionController.php"
+    type: annotation
+ 

@@ -1,0 +1,85 @@
+{%set name=''%}
+{%set mobno=''%}
+{%set id=''%}
+{%if attrib is defined%}
+    {%if attrib =='name'%}
+        {%set name=value%}
+    {%endif%}
+    {%if attrib =='mobno'%}
+        {%set mobno=value%}
+    {%endif%}
+    {%if attrib =='id'%}
+        {%set id=value%}
+    {%endif%}
+    {%set id=''%}
+{%endif%}
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="#" href="javascript:void();">Create Customer</a></li> 
+        {#<li ><a href="#" href="javascript:void();">Add Project Details</a></li>#}
+    </ul>
+</div>
+<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" cellspacing="0" cellspadding="0" class="tbl-border">         
+            <tr>
+                <td class="td-label-title" colspan="2">Create New Customer:</td>
+            </tr>
+            <tr>
+                <td>                    
+                <div id="loadFullCustomerDetailsForm">                    
+                    <form method="#" id="customerSearchForm" post="">
+                        <table width="100%" align=center border="0" cellpadding="0" cellspacing="0">                                                
+                            <tr>
+                                <td class="td-gray-bg">Mobile No<span class="mandatoryField">*</span></td>
+                                <td class="td-white-bg" >
+                                    <input type="text" id="txtcontactMobNo" name="txtcontactMobNo" class="cmnWidth" 
+                                           value="{{mobno}}" onkeypress="return IntegerOnly(event);" maxLength="10" placeholder="e.g.9856123456">
+                                   <span id="digitMessageCustomerMobileNo" class="digitMessage"></span>
+                                </td>   
+                            </tr> 
+                            <tr>
+                                <td class="td-gray-bg">Customer Name<span class="mandatoryField">*</span></td>
+                                <td class="td-white-bg"><input type="text" id="txtCustomerName" name="txtCustomerName" class="cmnWidth" value="{{name}}"></td>  
+                            </tr>                                  
+                            <tr>
+                                <td class="td-gray-bg">Contact Person<span class="mandatoryField">*</span></td>
+                                <td class="td-white-bg"><input type="text" id="txtContactPerson" name="txtContactPerson" class="cmnWidth"  ></td> 
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg" >Email ID</td>
+                                <td class="td-white-bg"><input name="emailId" id="txt_emailId"  type="text" value="{{ contactinfo.contact.personFk.emailId|default('')}}" class="cmnWidth" ></td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">About Customer</td>
+                                <td class="td-white-bg">
+                                    <textarea name="txtAbout" cols="70" rows="7" placeholder="Enter few words about the Customer"></textarea>
+                                </td> 
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg"></td>
+                                <td colspan="4" class="td-separator">                            
+                                    <input class="button" type="button" name="butSearch" id="butSearch" value="Save" onClick="cimSaveNewCustomer('{{ path('_erplms_cim_createNewCustomer')}}')" >
+                                    <button class="button" type="reset" onclick="return resetAnyForm();"> Clear</button>
+                                </td>
+                            </tr>                            
+                        </table>
+                    </form>                                                   
+                                    <!--Area To Load The List Of Customer That Has Already Been Created Search 
+                                By Like Search On Name 
+                        -->
+                        
+                        <div id="loadResultOfSearchAction"></div>
+                       <!--
+                        Detail Preview Area About The Initial Created Customer
+                       -->
+                       <div id="customerPreviewArea"></div>
+      </div>        
+      <!-- body of the right content end here --> 
+   </td>
+   </tr>
+</table>
+
+    </div>
+</div>
+

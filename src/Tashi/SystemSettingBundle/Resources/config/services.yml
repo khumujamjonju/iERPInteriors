@@ -1,0 +1,6 @@
+parameters:
+    tashi.service.systemsetting.class : Tashi\SystemSettingBundle\Service\SystemSettingService
+services:
+    tashi.systemsetting.service:
+        class:     "%tashi.service.systemsetting.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","@tashi.common.service"]

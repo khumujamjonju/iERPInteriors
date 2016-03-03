@@ -1,0 +1,18 @@
+{%for catAttrobj in CatAttrObj%}
+<tr>
+       <td class="td-gray-bg">{{catAttrobj.attributeMaster.attributeName}}</td>
+       <td class="td-white-bg">
+       <input type="text" value="" id="attrvalue" name="attrvalue" />
+       <input type="hidden" value="{{catAttrobj.pkid}}" name="catattrpkid"/>
+       <select id="unit" name="AttrUnitPkid" style="width: 100px;"  class="normal_select cmnWidth">
+         <option value="">--Select--</option>
+         {%for unitobj in unitObj%}
+            {%if catAttrobj.attributeMaster.pkid==unitobj.attributeMaster.pkid%}
+                <option value="{{unitobj.pkid}}">{{unitobj.unitMaster.unitName}}</option>
+            {%endif%}
+         {%endfor%}
+        </select>
+      </td>
+</tr>{# empty Twig template #}
+{%endfor%}
+

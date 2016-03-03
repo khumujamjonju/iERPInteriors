@@ -1,0 +1,60 @@
+
+<table width="100%" border="0" name="tabRight"> 
+    <tr> 
+        <td>
+            <ul class="tabs"> 
+                <li class="active" rel="tab1" id="subMenuId" >Search Employee</li>    <!--  right menu table name   -->        
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+                <tr>
+                    <td class="dash-board-col-mid" >
+                        <!-- body of the right content start from here -->    
+                        <table width="100%" align=center border="0" cellpadding="0" cellspacing="0" >
+                            <tr class="trMessage">
+                                <td><div class="message" id="divEmpmessage"></div></td>
+                            </tr >
+                            <tr>   
+                                <td class="td-separator" id="tbSearchCustomer">
+
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border-content" >           
+                                        <tr>
+                                        <input id="spanCloseOpenHandlerSearchCustomer" value="0" type="hidden">
+                                        <td class="td-label-title" onclick="lmsShowHideAddressResult('SearchCustomer');">Search Employee : <span style="float: right;" id="spanIdSearchCustomer" class="span_open" >&nbsp;</span></td>
+                            </tr>
+                            <tr id="trAddressSearchCustomer" >
+                                <td>
+                                    <form method="#" id="employeeSearchForm" post="">
+                                        <table width="100%" align=center border="0" cellpadding="0" cellspacing="0">  
+                                            <tr>
+                                                <td class="td-gray-bg">Employee Name</td>
+                                                <td class="td-white-bg"><input type="text" id="txtEmployeeName" name="txtEmployeeName" class="input-width" onkeypress="cimSubmitOnEnter(event, 'butSearch');"  ></td>  
+                                                <td class="td-gray-bg">Date of Birth</td>
+                                                <td class="td-white-bg"><input type="text" id="txtDateOfBirth" name="txtDateOfBirth" readonly class="input-width datepicker" onkeypress="cimSubmitOnEnter(event, 'butSearch');"  ></td>
+                                                <td class="td-gray-bg">Mobile No.</td>
+                                                <td class="td-white-bg"><input type="text" id="txtMobileNo" name="txtMobileNo" class="input-width" onkeypress="cimSubmitOnEnter(event, 'butSearch');" style="text-transform:uppercase;" ></td>     
+                                            </tr>                                  
+                                            <tr>
+                                                <td colspan="6" class="td-separator" align="center">                            
+                                                    <input class="button" type="button" name="butSearch" id="butSearch" value="Search" onClick="searchOrCreateEmployee('{{path('_searchEmployeeForEdit')}}')" >
+                                                    <button class="button" type="reset" onclick="return resetAnyForm();"> Clear</button>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>
+                        <div id="searchResult"></div>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</td>
+</tr>
+</table>

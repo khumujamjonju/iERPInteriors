@@ -1,0 +1,21 @@
+
+{% if result.key == 'S' %}
+     {# Load states list #}
+        <option value="">--Select--</option> 
+    {% for s in result.loadList %}
+        <option value="{{ s.statePk|default('') }}">{{s.stateName | default('')}}</option>
+    {% endfor %}
+{% elseif result.key == 'D' %}
+        {# Load district list #}
+        <option value="">--Select--</option>
+     {% for d in result.loadList %}
+        <option value="{{ d.pkid|default('') }}">{{d.districtName | default('')}}</option>
+     {% endfor %}
+{% elseif result.key == 'C' %}
+        {# Load city list #}
+        <option value="">--Select--</option>
+      {% for c in result.loadList %}
+         <option value="{{ c.cityPk|default('') }}">{{c.cityName | default('')}}</option>
+      {% endfor %}
+{% endif %}
+

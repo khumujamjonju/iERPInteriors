@@ -1,0 +1,40 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <td class="td-label-title">Emolument Or Deduction Detail List:</td>
+    </tr>
+    <tr>
+        <td>                    
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Sl.No.</th>    
+                        <th class="tbl-th-grid-view-row-no-bg">Name(Emolument Or Deduction)</th>    
+                        <th class="tbl-th-grid-view-row-no-bg">Type</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                    </tr>
+                </thead>
+
+                <tbody>                           
+                {%for r in result|default('')%} 
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>  
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ r.fieldAttributeName|default('') }}</td>               
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ r.attributeType|default('') }}</td>                             
+                            <td class="tbl-grid-view-row-no-bg" style="width: 300px; text-align: justify;">{{ r.description|default('') }}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <select class="normal_select" id="emolumentDeductionAction{{r.pkid|default('')}}" name="txt_payrolMasterAction" >
+                                   <option value="">Select</option>                                
+                                   <option value="{{path('_retrive_emolument_deduction_master_record',{'pkid': r.pkid|default('')})}}&upd">Edit</option>
+                                   <option value="{{path('_delete_emolument_deduction_master_record',{'pkid': r.pkid|default('')})}}&del">Delete</option> 
+                                </select> 
+                                <input class="button" name="commit" type="button" value="Go" onClick="emolumentDeductionAction(this,'{{r.pkid|default('')}}','#emolumentDeductionAction');" />  
+                            </td>                                                 
+                        </tr>                    
+                {%endfor%}
+
+                    </tbody>
+                </table>
+            </td>
+        </tr>                                 
+</table>

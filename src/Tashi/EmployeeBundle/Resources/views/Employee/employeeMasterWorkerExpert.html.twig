@@ -1,0 +1,66 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+    <tr>
+        <td class="td-label-title">Worker Expertise Form</td>
+    </tr>
+    <tr>
+        <td>                 
+            <form id="frmEmpMastWorkExpt" style="margin: 0px;">
+                <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                    <tr>
+                        <td class="td-gray-bg">Worker Expertise<span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <input type="hidden" id="workerExpertId" name="workerExpertId">
+                            <input class="cmnWidth" type="text" id="exptName" name="exptName" onkeypress="return NullonEnterKey(event);">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Description </td>
+                        <td class="td-white-bg">
+                            <textarea  id="exptDesciption" name="exptDesciption" cols="70" rows="4"></textarea> 
+                        </td>
+                    </tr>                                              
+                    <tr>
+                        <td class="td-separator" colspan="4" style="text-align: center;">
+                            <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addEmpWorkExpt('{{path('_add_emp_worker_expert')}}', this);"/>
+                            <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>
+                            <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="onCancleClick('frmEmpMastWorkExpt');" style="display:none"/>
+                        </td>  
+                    </tr>
+                </table>
+
+            </form>                               
+        </td>
+    </tr> 
+</table>
+<div id="display-list" style="margin-top: 8px;">
+    <!-- value is set null because  -->
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+        <tr>
+            <td class="td-label-title">Worker Expertise List</td>
+        </tr>
+        <tr>
+            <td>
+                <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                    <thead>
+                        <tr>
+                            <th class="tbl-th-grid-view-row-no-bg">Worker Expert Name</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                        </tr>
+                    </thead>
+                    <tbody> 
+                               {%for e in allRecord%}
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{e.expertType}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{e.description}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <a href="javascript:void();" onclick="retrieveEmpWorkerExpert('{{ path('_retrieve_emp_worker_expert',{ 'workerExpertId': e.expertTypePk})}}');">Edit</a>
+                                    | <a href="javascript:void();"  style="color:#ff0000;" onclick="deleteEmpSubModule('{{ path('_deleteEmpWorkerExpert', { 'workerExpertId': e.expertTypePk | default('')})}}', 'Worker Expertise', 'frmEmpMastWorkExpt');">Delete</a>
+                            </tr> 
+                                {%endfor%}
+                        </tbody>
+                    </table>
+                </td>
+            </tr>                                 
+        </table>
+    </div>

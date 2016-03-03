@@ -1,0 +1,45 @@
+<table width="100%" align="center" cellspacing="0" class="tbl-border">
+    <tr>
+        <input id="spanCloseOpenHandleremplist" value="0" type="hidden"/>
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('emplist');">
+            Employee List
+            <span style="float: right;" id="spanIdemplist" class="span_open" >&nbsp;</span>
+        </td>
+    </tr>
+    <tr id="trAddressemplist">
+        <td>
+            <table width="100%" align="center" id="example" cellspacing="0" class="display">  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center; width: 70px;">Sl. No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center;">Employee ID</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Name</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Designation</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Department</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center;">Br. Code</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Br. Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="width:150px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>  
+                    {%set slno=1%}
+                    {%for emp in empArr%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" width="70px" align="center">{{slno}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{emp.employeeId}}</td>
+                            <td class="tbl-grid-view-row-no-bg" style="text-align: justify;">{{emp.personFk.personName|default('')|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="left">{{emp.empJobTitleFk.jobTitleName|default('')|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="left">{{emp.departmentFk.departmentName|default('')|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{emp.branchOfficeCode.branchCode|default('')|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="left">{{emp.branchOfficeCode.branchName|default('')|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" width="150px">                                
+                                <input type="button" class="button" value="Create Account" onclick="GotoCreateAccount('{{path("_createaccount",{'employeeId':emp.employeePk})}}');">
+                            </td>
+                        </tr>
+                        {%set slno=slno+1%}
+                    {%endfor%}
+                </tbody>
+            </table>
+        </td>        
+    </tr>
+</table>

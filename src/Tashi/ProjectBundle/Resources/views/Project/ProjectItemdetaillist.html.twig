@@ -1,0 +1,112 @@
+<input type="hidden" name="inputProjId" value="{{project.pkid}}"/>
+{%set projectid=project.pkid%}
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <input id="spanCloseOpenHandlerItemList" value="0" type="hidden">
+        
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('ItemList');">Item List 
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Project ID/Order No.: {{project.orderNo}}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            Customer: {{project.customerFk.customerName|upper|default('')}}
+        <span style="float: right;" id="spanIdItemList" class="span_open" >&nbsp;</span>        
+        </td> 
+    </tr>
+    <tr id="trAddressItemList">
+        <td>
+             <table id="example2"  width="100%" border="0" cellpadding="0" cellspacing="0" class="display">
+                <thead>
+                    <tr>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">Item</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Start Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Deadline</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Product Status</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">No. of Team</th>
+                        {#<th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Worker(s)</th>#}
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Unit Price</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Quantity</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Sub-total</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Status</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if itemArr|length>0%}
+                        {%for item in itemArr%}
+                            {%set areaid=item.projectFk.areaFk.pkid%}
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" style="text-align:left;">
+                                    {%if item.itemFk.pictureFk is null%}
+                                        <img src="{{asset("bundles/common/images/noimage.png")}}" alt="image" class="prodlist"/>
+                                    {%else%}
+                                        <a href="{{asset(item.itemFk.pictureFk.path)}}" target="_blank"><img src="{{asset(item.itemFk.pictureFk.path)}}" alt="image" class="prodlist"/></a>
+                                    {%endif%}
+                                    {{item.itemFk.productCode|default('')}} - {{item.itemFk.productName|default('')}}<br/>
+                                    <span style="color:#565656; font-size:11px;">{{item.itemFk.productDesc}}</span>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{%if item.startDate is not null%}{{item.startDate|date('d-M-Y')}}{%endif%}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{%if item.expectedEndDate is not null%}{{item.expectedEndDate|date('d-M-Y')}}{%endif%}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center" style="{%if item.productStatusFk is not null %} background-color:{{item.productStatusFk.statusColor}}{%endif%}">
+                                    {%if item.productStatusFk is not null %}
+                                        {{item.productStatusFk.statusName}}
+                                    {%endif%}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{item.teamNo}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="right">{{item.unitPrice|number_format(2,'.')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{item.quantity}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{(item.unitPrice*item.quantity)|number_format(2,'.')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" style="background-color:{%if item.statusFK is not null %}{{item.statusFk.statusColor}}{%endif%}">
+                                    {%if item.statusFK is not null%}
+                                        {{item.statusFk.statusName}}
+                                    {%endif%}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" align="center" width="145px">
+
+                                    {%if item.isStarted==1%}
+                                    <select id="selItemAction{{item.pkid}}" style="width:100px;">
+                                        <option value="">--select--</option>                                    
+                                        {%if item.isStarted==1 and (item.projectFk.status.isPermanent==0 and item.statusFk.isChangeable==1)%}
+                                            <option value="{{path("_editprojitemdetail",{itemid:item.pkid})}}">View & Edit</option>
+                                            <option value="{{path("_loadprojitemservice",{itemid:item.pkid})}}">Manage Services</option>
+                                            {#<option value="{{path("_itemstatus",{itemid:item.pkid})}}">View & Update Status</option>#}
+                                            <option value="{{path("_productstatus",{itemid:item.pkid})}}">View & Update Product Status</option>
+                                            <option value="{{path("_adddailyrpt",{itemid:item.pkid})}}">Add Daily Report</option>                                        
+                                        {%elseif item.projectFk.status.isPermanent==1 or item.statusFk.isChangeable==0%}
+                                            <option value="{{path("_projitemdetail",{itemid:item.pkid})}}">View Detail</option>
+                                            <option value="{{path("_loadprojitemservice",{itemid:item.pkid})}}">View Services</option>
+                                            {#<option value="{{path("_itemstatus",{itemid:item.pkid})}}">View Status Log</option>#}
+                                            <option value="{{path("_productstatus",{itemid:item.pkid})}}">View Product Status Log</option>
+                                        {%endif%}
+                                        <option value="{{path("_viewdailyreport",{itemid:item.pkid})}}">View Daily Report</option> 
+                                    </select>
+                                        <input type="button" class="button" value="Go" onclick="ItemDetailAction('{{item.pkid}}');">
+                                </td>
+                                {%elseif item.projectFk.status.isPermanent==0%}
+                                    <input type="button" class="button" value="Add Detail" onclick="GotoAddItemDetail('{{path("_additemdetail",{'itemid':item.pkid})}}');">
+                                {%endif%}
+                            </tr>
+                        {%endfor%}
+                    {%else%}
+                        <td class="tbl-grid-view-row-no-bg" align="center" colspan="10" style="padding:10px 0;">
+                            <strong style="color:#ff0000;">No Item has been added for this Project</strong>
+                        </td>
+                    {%endif%}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="9"></td>
+                        <td>
+                            {%if project.status.isPermanent==0%}
+                                <br/>
+                                <input type="button" class="button" value="Add New Item" style="float:right;" onclick="LoadItemsForAddNewItem('{{path("_projectadditems",{'areaid':project.areaFk.pkid,'projectid':project.pkid})}}');">
+                                <div class="clear"></div>
+                            {%endif%}
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </td>
+    </tr>    
+</table>
+<br/>
+<div id="divItemDetail"></div>
+

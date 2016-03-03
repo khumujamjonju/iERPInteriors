@@ -1,0 +1,295 @@
+
+<!--Module Name :Customer
+Purpose or objective of the  page :This twig will give a form for address details 
+Links :
+Created By :ONS
+Created Date :
+Last Modified Date :
+Last Modified By :
+Test Carried Out :
+Test Carried By :
+Version :       -->
+{%set addcode=''%}
+{%set isprimary='y'%}
+{%set add1=''%}
+{%set add2=''%}
+{%set countrypk=''%}
+{%set statepk=''%}
+{%set districtpk=''%}
+{%set citypk=''%}
+{%set route=''%}
+{%set locality=''%}
+{%set block=''%}
+{%set pin=''%}
+{%set po=''%}
+{%set ps=''%}
+{%set landmark=''%}
+{%set longitude=''%}
+{%set latitude=''%}
+{%set title='Add New Address'%}
+{%set isEdit=0%}
+{%set addMasterId='0'%}
+{%set addTxnId='0'%}
+{%if addtxn is defined%}
+    {%set isEdit=1%}    
+    {%set addMasterId=addtxn.addressFk.addressPk|default('')%}
+    {%set addTxnId=addtxn.pkid|default('')%}
+    {%set addcode=addtxn.addressCode|default('')%}
+    {%set isprimary=addtxn.isPrimaryAddress|default('')%}
+    {%set add1=addtxn.addressFk.address1|default('')%}
+    {%set add2=addtxn.addressFk.address2|default('')%}
+    {%set countrypk=addtxn.addressFk.countryCodeFk.countryPk|default('')%}
+    {%set statepk=addtxn.addressFk.stateCodeFk.statePk|default('')%}
+    {%set districtpk=addtxn.addressFk.districtFk.pkid|default('')%}
+    {%set citypk=addtxn.addressFk.cityCodeFk.cityPk|default('')%}
+    {#{%set route=addtxn.addressFk.route%}
+    {%set locality=addtxn.addressFk.locality%}#}
+    {%set block=addtxn.addressFk.blockVillage|default('')%}
+    {%set pin=addtxn.addressFk.pinNumber|default('')%}
+    {%set po=addtxn.addressFk.postOffice|default('')%}
+    {%set ps=addtxn.addressFk.policeStation|default('')%}
+    {%set landmark=addtxn.addressFk.landmark|default('')%}
+    {%set longitude=addtxn.addressFk.gpsLogitude|default('')%}
+    {%set latitude=addtxn.addressFk.gpsLatitude|default('')%}
+    {%set title='View/Edit Address'%}
+{%endif%}
+<br>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+
+    <tr>
+        <td  class="td-label-title" {#id="contactAddressTitle"#}> 
+            <!--If the loading is creation ------>
+           {{title}}
+
+        </td> 
+        <td class="td-label-title">
+
+            <table width="100%" align=center border="0" style="display:none;" cellpadding="0" cellspacing="0" id="sameAsTb" >
+                <tr>   
+                    <td>                 
+                            {#<span > Same As &nbsp;</span>#}
+
+                            <select name="selectAddls" id="selectAddlsi" style="width:200px">
+                                <option value="">--select--</option>
+
+                            </select>
+                            <input type="button" value="Yes" class="button"  onclick="cimFnSelectAddress();">
+                        </td>      
+                    </tr>
+                </table>
+
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4" class="td-separator">
+               {#--------
+                 Area for capturing All the Detail information About The Address
+                ---#}
+                    <form method="post" post="#"  enctype="multipart/form-data" id="frmCreateAddress">
+                        <table width="100%" align=center border="0" cellpadding="0" cellspacing="0" class="tbl-border" >    
+                            <!--
+                                This is to capture the address type of the customer
+                            -->
+                            <input type="hidden" name="inputAddAddresscustId" value="{%if custid is defined%}{{custid}}{%endif%}" />
+                            <input type="hidden" name="inputmasterAddId" value="{{addMasterId}}" />
+                            <input type="hidden" name="inputAddTxnId" value="{{addTxnId}}" />
+                            <tr>
+                                <td class="td-gray-bg">Address Code <span class="mandatoryField" >*</span></td>
+                                <td class="td-white-bg"><input type="text" name="addCode" class="cmnWidth" id="addCode" value="{{addcode}}" onkeyup="toUpper(this.id);"  ></td>
+                             {#<td class="td-white-bg"><input type="text" name="addCode" id="addCode" size="100"  value="{{addcode}}" onkeyup="toUpper(this.id);"></td>#}
+                                    <td class="td-gray-bg">Is Primary Address</td>
+                                    <td class="td-white-bg">
+                                {#<input type="checkbox" class="input-width" name="chk_primary" value="1">#}
+                                            <div class="example">
+                                                <div style="float:left;">
+                                                    <input id="radio1" type="radio" name="radio" value="1" {%if isprimary=='y' or isprimary=='1'%}checked{%endif%} onchange="toggleIsPrimaryAdd(this.value);"><label for="radio1"><span><span></span></span>Yes</label>
+                                                </div>                                                         
+                                                <div style="float:left;">
+                                                    <input id="radio2" type="radio" name="radio" value="0" {%if isprimary=='0'%}checked{%endif%} onchange="toggleIsPrimaryAdd(this.value);"><label for="radio2"><span><span></span></span>No</label>
+                                                </div>                                                                           
+                                                <input type="hidden" id="inputisPrimaryAdd" name="inputisPrimaryAdd" value="{%if isprimary=='1' or isprimary=='y'%}1{%else%}0{%endif%}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg" >Address1 <span class="mandatoryField" >*</span>
+
+                                        </td >
+                                        <td class="tbl-grid-view-right-nilheader-rounded" colspan="3">
+                                            <textarea name="address1" id="address1" cols="112">{{add1}}</textarea>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">Address2</td>
+                                        <td class="td-white-bg" colspan="3">
+                                            <textarea name="address2" id="address2" cols="112">{{add2}}</textarea>
+                                {#<input type="text" name="address2" id="address2{{typeIdentifierForAddress}}" size="100" value="">#}
+                                        </td>                            
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg" width="20%">Country <span class="mandatoryField" >*</span></td>
+                                         <td class="td-white-bg" width="30%" >
+                                            <input type="hidden" id="urlLoadStateList" value='{{path('_erp_load_statelist')}}'/>
+                                             <div>
+                                             <select name="country" id="selcountry" onchange="loadState();" class="select-width">
+                                                 <option value="">--select--</option>
+                                                 {%for coun in country%}
+                                                    <option value="{{coun.countryPk}}" {%if coun.countryPk==countrypk%}selected{%endif%}>{{coun.countryName}}</option> 
+                                                 {%endfor%}
+
+                                             </select>
+                                             </div>
+                                         </td>
+
+                                        <td class="td-gray-bg" width="20%">State <span class="mandatoryField" >*</span></td>
+                                        {#<td class="td-white-bg">
+                                            <Select class="cmnWidth" name="state" id="state">
+                                                <option value="">--Select--</option>
+                                             {%for c in state%}
+                                                <option value="{{c.statePk}}">{{c.stateName | default(' ')}}</option>
+                                             {%endfor%}
+                                            </Select>                                        
+                                        </td>#}
+
+                                    <td  width="30%" class="td-white-bg" id="loadStateList" colspan="3">    
+                                        <input type="hidden" id="urlLoadDistrictList" value='{{path('_erp_load_districtlist')}}'/>
+                                        <select name="state" id="selstate" onchange="loadDistrict();" class="select-width">
+                                            <option value="">--select--</option>
+                                            {%if addtxn is defined%}
+                                                {%for stat in state %}
+                                                  <option value="{{stat.statePk}}" {%if stat.statePk==statepk%}selected{%endif%}>{{stat.stateName}}</option> 
+                                                {%endfor%}
+                                            {%endif%}
+                                        </select>
+                                    </td> 
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">District</td>
+                                        <!--
+                                            Here refreshing woulb be done for any change in state----
+                                        -->                                      
+
+                                        <td class="td-white-bg" id="loadDistrictList">
+                                            <input type="hidden" id="urlLoadCityList" value='{{path('_erp_load_citylist')}}'/>
+                                            <select name="district" id="seldistrict" class="select-width" onchange="loadCity();"> 
+                                               <option value="">--select--</option>
+                                                {%if addtxn is defined%}
+                                                    {%for dis in district %}
+                                                      <option value="{{dis.pkid}}" {%if dis.pkid==districtpk%}selected{%endif%}>{{dis.districtName}}</option> 
+                                                   {%endfor%} 
+                                                {%endif%}
+                                           </select> 
+                                       </td>
+                                        <td class="td-gray-bg">City/Town </td>
+                                        <td class="td-white-bg" id="tdCitylist">
+                                            <select name="city" id="selcity" class="select-width">
+                                                <option value="">--select--</option>
+                                                {%if addtxn is defined%}
+                                                    {%for c in city%}
+                                                       <option value="{{c.cityPk}}" {%if c.cityPk==citypk%}selected{%endif%}>{{c.cityName | default(' ')}}</option>
+                                                    {%endfor%}
+                                                {%endif%}
+                                            </select>
+                                        </td>
+                                    </tr>
+                                    {#<tr>
+                                        <td class="td-gray-bg">Route</td>
+                                        <td class="td-white-bg"><input type="text" class="cmnWidth" name="route" id="route"  size="60" value="{{route}}"></td>
+
+
+                                        <td class="td-gray-bg">Locality<span class="mandatoryField" >*</span></td>
+                                        <td class="td-white-bg" colspan="3">
+                                            <input type="text" class="cmnWidth" name="locality" id="locality"
+                                                   size="60" value="{{locality}}">
+                                            <br><span id="digitMessagePostalCode" class="digitMessage"></span>
+                                        </td>
+
+                                    </tr>#}
+
+                                    <tr>
+                                        <td class="td-gray-bg">Block/Village </td>
+                                        <td class="td-white-bg"><input type="text" class="cmnWidth" name="block" id="block"  size="60" value="{{block}}"></td>
+                                        <td class="td-gray-bg">Postal Code <span class="mandatoryField" >*</span></td>
+                                        <td class="td-white-bg" colspan="3">
+                                            <input type="text" class="cmnWidth" name="zipcode" id="zipcode" maxLength="6"
+                                                   size="60" value="{{pin}}" onkeyup="numberOnly(this, 'PostalCode');">
+                                            <br><span id="digitMessagePostalCode" class="digitMessage"></span>
+                                        </td>
+
+                                    </tr>
+
+                                    <tr>
+                                        <td class="td-gray-bg">Post Office </td>
+                                        <td class="td-white-bg" ><input type="text" class="cmnWidth" name="postOffice" id="postOffice" size="60" value="{{po}}"></td>
+                                        <td class="td-gray-bg">Police Station </td>
+                                        <td class="td-white-bg" colspan="3"><input type="text" class="cmnWidth" name="policeStation" id="policeStation" size="60" value="{{ps}}"></td>
+
+                                    </tr>
+                                    <tr>
+                                    </tr>
+              {#          <tr>
+                            <td class="td-gray-bg">Landmark Details </td>
+                            <td class="td-white-bg"><input type="text" name="landmark" id="landmark" value="{{landmark}}"></td>   
+                            <td class="td-gray-bg">GPS Co-ordinates</td>
+                           
+                            <td class="td-white-bg" >
+                                <table style="font-size: 12px;">
+                                    <tr>
+                                        <td width="70px">
+                                            Latitude 
+                                        </td>
+                                        <td>
+                                            <input type="text" name="gpsLatitude" id="gpsLatitude" value="{{latitude}}" onkeyup="numberOnly(this);" style="width:121px;" />                                            
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                       <td>
+                                           Longitude 
+                                       </td>
+                                       <td>
+                                           <input type="text" name="gpsLongitude" id="gpsLongitude" value="{{longitude}}" class="input-width" onkeyup="numberOnly(this);" style="width:121px;" />                                           
+                                       </td>
+                                       <td>
+                                           <button class="listbutton" type='button' name='gpsViewMap' id='gpsViewMap' onclick="addGpsLatitudeVal();">View Map</button>
+                                       </td>
+                                    </tr>
+                                    <tr>
+                                        <td style="padding-left: 54px;">
+                                           <span id="digitMessageLatitude" class="digitMessage"></span>
+                                        </td>
+                                        <td style="padding-left: 54px;">
+                                           &nbsp;&nbsp;<span id="digitMessageLongitude" class="digitMessage"></span>
+                                        </td>                                      
+                                    </tr>
+                                 </table>
+                            </td> 
+                        </tr> --#}              
+                                    <tr>
+                                        <td colspan="4" class="td-separator" align="center">                              
+                                {#---here  setter is used to determine a new address or not-------
+                                  if setter=0 means new address 
+                                  and otherwise  old ones 
+                                       --#}
+                                {%if isEdit==1%}
+                                                <input class="button" id="btnUpdate" type="button"   value="Update Address" 
+                                                       onClick="if (confirm('Confirm Address Update?')) {
+                                        cimSaveAddressDetails();
+                                    } else {
+                                        return false;
+                                    }">
+                                                <input id="urlCreateAddress" type="hidden" value="{{path('_savecust_add',{'mode':'UPD'})}}"/>
+                                {%else%}
+                                                <input class="button" type="button"   value="Save Address" id="btnSaveForm" onclick="cimSaveAddressDetails();">
+                                                <input class="button" id="btnClear" type="reset"  value="Clear" onClick="return resetAnyForm();">
+                                                <input id="urlCreateAddress" type="hidden" value="{{path('_savecust_add',{'mode':'INS'})}}"/>
+                                {%endif%}                                                                               
+                                            </td>
+                                        </tr>
+                                    </table> 
+                                </form>                                           
+                            </td>
+                        </tr>
+
+                    </table>
+
+{# empty Twig template #}

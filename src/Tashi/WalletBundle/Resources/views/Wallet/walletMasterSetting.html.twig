@@ -1,0 +1,47 @@
+
+<div class='sub-menu'>
+<ul>
+<li class='active'><a  href="javascript:void();">ATM Credit/Debit Card Entry </a></li> 
+</ul>
+</div>
+    <div class="newdashboard"> 
+        <div class="application-form"> 
+            <form id="WalletAtmDeposit">
+            
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+        <tr>
+            <td class="td-label-title">Enter Employee Details:</td>
+        </tr>
+        <tr>
+            <td>                 
+                
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                             
+                        <tr>
+                            <td class="td-gray-bg cmnWidth" style="text-align: right;">Search By Employee ID:</td>
+                            <td class="td-white-bg cmnWidth">
+                            <input class="cmnWidth" type="text" id="txt_employee" placeholder="Enter Employee ID" name="employeename" onkeypress="return disableEnterKey(event);"/>
+                            </td>
+                            <td class="td-gray-bg cmnWidth">
+                            <input type="button" class="button" id="btnSearchEmp" value="Search" onclick="return autoCompleteEmployeeAtmSearch('{{path("_searchEmpAtmwallet")}}',this);"></td>
+                            <td class="td-white-bg cmnWidth"></td>
+                        </tr>
+                    </table>
+                                          
+            </td>
+        </tr> 
+    </table>
+        <div id="divEmpAtmWalletDetails">
+            
+            
+        </div>
+            <br/> 
+    </form>   
+    </div>
+</div>
+
+
+
+
+
+
+

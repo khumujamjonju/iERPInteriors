@@ -1,0 +1,15 @@
+parameters:
+    tashi.service.stock.class : Tashi\StockBundle\Service\StockService
+#    tashi.service.product.class : Tashi\StockBundle\Service\ProductService
+    tashi.service.supplier.class: Tashi\StockBundle\Service\SupplierService
+services:
+    tashi.stock.service:
+        class:     "%tashi.service.stock.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]
+    
+#    tashi.product.service:
+#        class:     "%tashi.service.product.class%"
+#        arguments: ["@doctrine.orm.entity_manager","@session","@tashi.common.service"]#
+#    tashi.supplier.service:
+#        class:     "%tashi.service.supplier.class%"
+#        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]

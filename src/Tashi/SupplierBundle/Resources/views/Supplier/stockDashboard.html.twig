@@ -1,0 +1,51 @@
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Supplier Management</h3>
+        <div id="newmenu">
+           <ul>
+           <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_sup_dashboard')}}', 'sup_master', 'Supplier', 'Supplier Dashboard');"><a href="javascript:void();" > Dashboard</a></li>
+           <li id="search" onclick="fnLeftMenuNavigation('{{path('_search_supplier')}}', 'search', 'Search Supplier', 'Supplier Details Search');"><a href="javascript:void();">Search </a></li>
+           <li id="add_new_supplier" onclick="fnLeftMenuNavigation('{{path('_add_newdash_supplier')}}', 'add_new_supplier', 'Supplier', 'Create Supplier');"><a href="javascript:void();">Create </a></li>
+           <li id="transport" onclick="fnLeftMenuNavigation('{{path('_transportor')}}', 'transport', 'Transport', 'Create Transport');"><a href="javascript:void();">Create Transport</a></li>
+           <li id="communication" onclick="fnLeftMenuNavigation('{{path('_comsearchSupplier')}}', 'communication', 'Communication', 'Communication');"><a href="javascript:void();">Communication</a></li>
+           </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+  <div class='sub-menu'>
+            <ul>
+                <li class='active'><a href="javascript:void();"  onclick="fnMainMenuNavigation('{{path('_sup_dashboard')}}', 'supplier_master', 'Supplier', 'Supplier Dashboard');"><span>Supplier Dashboard</span></a></li>              
+            </ul>
+             
+        </div>
+     <div class="newdashboard">
+       
+        <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_search_supplier')}}', 'search', 'Search Supplier', 'Supplier Details Search');">
+        <p class="newdashparatext"><img src="{{ asset('bundles/common/images/search_128x128.png') }}">
+        <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Search</span> <br/>
+        Capturing supplier details information.
+        </p>
+        </div>        
+        <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_add_newdash_supplier')}}', 'add_new_supplier', 'Supplier', 'Create Supplier');">
+        <p class="newdashparatext"><img style="height:128px;width:135px" src="{{ asset('bundles/common/images/supplier_128x128.png') }}">
+        <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Create</span> <br/>
+        Capturing supplier details information.
+        </p>
+        </div>
+         <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_transportor')}}', 'transport', 'Transport', 'Create Transport');">
+        <p class="newdashparatext"><img style="height:128px;width:135px" src="{{ asset('bundles/common/images/supplier.png') }}">
+        <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Create Transport</span> <br/>
+        Capturing transport details information.
+        </p>
+         </div>
+         <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_comsearchSupplier')}}', 'communication', 'Communication', 'Communication');">
+        <p class="newdashparatext"><img style="height:128px;width:135px" src="{{ asset('bundles/common/images/communication_128x128.png') }}">
+        <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Communication</span> <br/>
+        Capturing communication details information.
+        </p></div>
+        <div class="clear"></div><br/>
+     </div>       
+</div>
+<input type="hidden" id="datePickerImage" value="{{asset('bundles/common/images/calendar.png') }}" />

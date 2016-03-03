@@ -1,0 +1,11 @@
+<tr id="{{obj.pkid}}">
+<td class="td-gray-bg">Category For {{obj.area}}</td>
+<td class="td-white-bg" align="left" colspan="2">
+    <select name="subcategory" class="normal_select cmnWidth"  id="pkid{{obj.pkid}}" onchange="loadsubcatdynamic_req('{{obj.pkid}}');">
+        <option value="0">--Select--</option>
+        {%for cat in catMaster%}
+            <option value="{{path('_reqappendproduct',{'catid':cat.prodCategoryFk.pkid})}}">{{cat.prodCategoryFk.categoryName}}</option>
+        {%endfor%}
+    </select>    
+ </td>
+</tr>

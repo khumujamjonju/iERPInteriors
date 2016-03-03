@@ -1,0 +1,52 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active' onclick="fnLeftMenuNavigation('{{path('_report_master_stock')}}', 'report_master_stock', 'Report Master','Stocks Report');"><a  href="javascript:void();" >Project Wallet</a></li>
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+             <tr>
+                <td class="td-label-title" colspan="4">Project Wallet:</td>
+            </tr>
+            <tr>
+                <td class="td-gray-bg">Select Resource</td>
+                <td class="td-white-bg">
+                    <select class="cmnWidth">
+                        <option value="">--select--</option>
+                    </select>
+                </td>
+                <td class="td-gray-bg">Amount</td>
+                <td class="td-white-bg"><input type="text" class="cmnWidth"></td>
+            </tr>
+             <tr>
+                <td class="td-gray-bg">Payment Type</td>
+                <td class="td-white-bg">
+                    <select class="cmnWidth">
+                        <option value="">--select--</option>
+                        <option value="">Bank</option>
+                        <option value="">Cash</option>
+                        <option value="">DD</option>
+                        <option value="">Cheque</option>
+                    </select>
+                </td>
+                <td class="td-gray-bg">Payment Date</td>
+                <td class="td-white-bg"><input type="date" class="cmnWidth"></td>
+            </tr>
+            <tr>
+                <td class="td-gray-bg">Description</td>
+                <td class="td-white-bg"><textarea name="description" cols="40" rows="4"></textarea> </td>
+                <td class="td-gray-bg">Purpose</td>
+                <td class="td-white-bg"><textarea name="purpose" cols="40" rows="4"></textarea> </td>
+            </tr>
+            <tr>              
+                <td class="td-white-bg" colspan="3" align="center">
+                    <input type="button" class="button blue" value="Save">
+                    <input type="button" class="button blue" value="Reset">
+                </td> 
+                <td>Current Balance :</td> 
+            </tr>
+        </table>      
+    </div> 
+    </div>

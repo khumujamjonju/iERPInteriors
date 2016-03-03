@@ -1,0 +1,7 @@
+parameters:
+    tashi.service.dashboard.class : Tashi\Dashboard\Service\DashboardService
+
+services:
+    tashi.dashboard.service:
+        class:     "%tashi.service.dashboard.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","@tashi.common.service"]

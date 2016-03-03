@@ -1,0 +1,45 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Purchase Management</h3>
+        <div id="newmenu">
+            <ul>
+                <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_pur_master_dashboard')}}', 'purchase_master', 'Purchase', 'Dashboard');"><a  href="javascript:void();" >Dashboard</a></li>
+                <li id="Search_id" onclick="fnLeftMenuNavigation('{{path('_search_purchase')}}', 'Search_id', 'Search Purchase', 'Search');"><a  href="javascript:void();" >Search</a></li>
+                <li id="purchase_product" onclick="fnLeftMenuNavigation('{{path('_supplier_view_for_purchase')}}', 'purchase_product', 'Purchase Master', 'Purchase Product');"><a  href="javascript:void();">Create</a></li>
+                <li id="purchase_approve" onclick="fnLeftMenuNavigation('{{path('_purchase_approve')}}', 'purchase_approve', 'Purchase Approve', 'Purchase Approve');"><a  href="javascript:void();">Approve</a></li>
+               {# <li id="payment" onclick="fnLeftMenuNavigation('{{path('_payment_details')}}', 'payment', 'Payment', 'Purchase Payment');"><a  href="javascript:void();">Payment</a></li>
+               #}</ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'><a href='#'><span>Purchase Dashboard</span></a></li>              
+        </ul>
+    </div>
+    <div class="newdashboard">    
+
+         <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_search_purchase')}}', 'Search_id', 'Search Purchase', 'Search');">
+        <p class="newdashparatext"><img src="{{ asset('bundles/common/images/search_128x128.png') }}">
+        <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Search</span> <br/>
+        Capturing supplier details information including bank details of different supplier.
+        </p></div>
+         
+        <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_supplier_view_for_purchase')}}', 'purchase_product', 'Purchase Master', 'Purchase Product');">
+        <p class="newdashparatext"><img src="{{ asset('bundles/common/images/create_128x128.png') }}">
+        <span style="color:#000;font-weight: bold;  font-size: 12px; font-family: arial; text-decoration: underline;">Create</span> <br/>
+        Used to add unit , product and purchase details information.
+        
+        
+        </p></div>
+               
+
+        <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_purchase_approve')}}', 'purchase_approve', 'Purchase Approve', 'Purchase Approve');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/approved_128x128.png') }}">
+                <span style="color:#000;font-weight: bold;  font-size: 12px; font-family: arial; text-decoration: underline;">Approve</span> <br/>        
+                Capturing purchase details information.  </p></div>
+        <div class="clear"></div><br/>  
+    </div>      
+</div>

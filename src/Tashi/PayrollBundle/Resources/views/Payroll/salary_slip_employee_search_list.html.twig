@@ -1,0 +1,91 @@
+{% set monthID = '' %}
+{% set monthName = '' %}
+{% set year = '' %}
+{%if result is defined%}
+    {% set monthID = result.monthID|default('') %} 
+    {% set monthName = result.month|default('') %}
+    {% set year = result.year|default('') %}
+{%endif%}
+<input type="hidden" id="monthID" value="{{ monthID|default('') }}" />
+<input type="hidden" id="year" value="{{ year|default('') }}" />
+<input type="hidden" id="monthName" value="{{ monthName|default('') }}" />
+
+
+<input type="hidden" value="0" class="emp_search_result_list_hide_show_key"/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >      
+    {#paramer: project_item => class name of table row (tr) to hide or show #}
+    <tr onclick="fnHideShow('emp_search_result_list');">      
+        <td class="td-label-title">
+            Salary Slip Details Of Employee For The Month Of :  <span style="margin-left: 20px;"> {{monthName|default('')}}, {{year|default('')}}</span>
+            <div class="emp_search_result_list_hide_show_icon floatRight plus"></div>
+        </td>
+    </tr>
+    <tr class="emp_search_result_list displayNone">
+        <td>                    
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                <thead class="">
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Id</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Name</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Designation</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Type</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Job Profile</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Salary Slip Status</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                    </tr>
+                </thead>
+                <tbody>                           
+                       
+                 {%for e in result.empSearchResult|default('') %}
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.employeeId | default('') }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.personFk.personName | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.empJobTitleFk.jobTitleName | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.employementTypeFk.typeName | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.jobProfile | default('')}}</td>                       
+                            {#meaning of variable use:
+                            C => Created, A => Approved, R => Reject  #}
+                            {%set flag = 0 %}
+                            {%set key = '' %}
+                            {%for a in result.empSalarySlipSearchResult|default('') %}
+                                 {%if e.employeePk|default('') == a.employeeFk.employeePk|default('') %}
+                                    {%if a.status == 'C'%}
+                                        <td class="tbl-grid-view-row-no-bg" align="center" style="background: goldenrod;"> Created </td>                                                                           
+                                        {%set flag = 1 %}
+                                        {%set key = 'C' %}
+                                    {%elseif a.status == 'A'%} 
+                                        <td class="tbl-grid-view-row-no-bg" align="center" style="background: #009900;"> Approved </td>                                         
+                                        {%set flag = 1 %}
+                                        {%set key = 'A' %}                                  
+                                    {%elseif a.status == 'R'%} 
+                                         <td class="tbl-grid-view-row-no-bg" align="center" style="background: #cd0a0a;"> Rejected </td>                                                                                      
+                                        {%set flag = 1 %}
+                                        {%set key = 'R' %}
+                                    {%endif%}                                     
+                                 {%endif%}                                      
+                            {%endfor%}
+                           {%if flag == 0 %}
+                                 <td class="tbl-grid-view-row-no-bg" align="center" style="background: #C3C3C3;"> Not Create </td>                                     
+                           {%endif%} 
+                                                                                                            
+                        <td class="tbl-grid-view-row-no-bg" align="center">                        
+                            <select class="normal_select" id="employeeSalarySlipAction{{e.employeePk|default('')}}" name="txt_employeeAction" >
+                                <option value="">--Select--</option>  
+                                {%if flag == 0 and key == ''%}
+                                    <option value="{{path('_create_emp_salary_slip',{'empID': e.employeePk|default('')})}}&create">Create</option> 
+                                {%elseif flag == 1 and key == 'C'%}
+                                    <option value="{{path('_create_emp_salary_slip',{'empID': e.employeePk|default('')})}}&viewEdit">View&Edit</option>
+                                {%elseif flag == 1 and key == 'A'%}
+                                    <option value="{{path('_create_emp_salary_slip',{'empID': e.employeePk|default('')})}}&view">View</option>
+                                {%endif%}                                                
+                            </select> 
+                            <input class="button" name="commit" type="button" value="Go" onClick="employeeSalarySlipAction(this,'{{e.employeePk|default('')}}','#employeeSalarySlipAction');" />
+                        </td>                                                 
+                    </tr>                    
+                {%endfor%}
+                       
+                </tbody>
+            </table>
+        </td>
+    </tr>                                 
+</table>

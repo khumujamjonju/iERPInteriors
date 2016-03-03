@@ -1,0 +1,45 @@
+<div class='sub-menu'>
+    <ul>      
+        <li class="active"><a href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_createaccountpage')}}', 'account_li', 'User Management','Manage User Account', 'Create New User Account', '');">Create New User Account</a></li>
+        <li id="acclist_li"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_gotosearchaccount')}}','acclist_li','User Management', 'Search Accounts','');">Search User Accounts</a></li>
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form"> 
+        <form id="FormCreateUserAccount">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+                <tr>
+                    <td class="td-label-title">Search Employee </td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td class="td-gray-bg" width="150px">Search By <span class="mandatoryField">*</span></td>
+                                <td class="td-white-bg">
+                                    <select id="selCriteria" name="selCriteria" onclick="toggleCriteriaUser(this);">
+                                        <option value='all'>All</option>
+                                        <option value='idname'>Employee ID/Name</option>
+                                    </select>
+                                    <input type="text" id="txtuidname" name="txtuidname" class="cmnWidth" placeholder="Enter User ID/ Name" style="display:none;">
+                                </td>                                
+                            </tr>                            
+                            <tr>
+                                <td class="td-gray-bg"></td>
+                                <td class="td-white-bg">
+                                    <input type="button" class="button" value="Search" onclick="searchEmployee();">
+                                    <input type="hidden" id="inputSearchEmpUrl" value="{{path("_searchemployee")}}">
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </form>
+        <br/>
+        <div id="divEmpList"></div>
+        <br/>
+        <div id="divCreateAccount"></div>
+    </div>
+</div>
+                                

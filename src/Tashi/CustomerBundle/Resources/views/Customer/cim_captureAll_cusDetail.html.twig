@@ -1,0 +1,203 @@
+{%set pkid=customerDetailInfo.customerFk.customerIdPk%}
+{%set custid=customerDetailInfo.customerFk.customerId%}
+{%set custName = customerDetailInfo.customerFk.customerName|default('')%}
+{%set about= customerDetailInfo.customerFk.about|default('')%}
+{%set contactName = customerDetailInfo.personFk.personName|default('')%}
+{%set mobileNo = primaryContactMobileInfo.mobileNo.mobileNo|default('') %}
+<div class="newdashboard">
+    <div class='sub-menu'>
+        <ul class="sub-tabs"><input type="hidden" id="showTableId" value="1"/> 
+            <li class='active' id="sub-tab1"><a href='#' href="javascript:void();" onclick="fnShowSubPartCustomerForm('1');"> Details</a></li>
+            <li id="sub-tab2"><a href="javascript:void();" onclick="fnShowSubPartCustomerForm('2');">Address Details</a></li>
+            <li id="sub-tab3"><a href="javascript:void();" onclick="fnShowSubPartCustomerForm('3');">Contact Person</a></li>            
+        </ul>
+    </div>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+              <tr>
+                    <td id="sub_table1" class="td-separator" >                      
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" align="center">                
+                            <tr>
+                                <td class="td-label-title" id="tdCustomerNedId"> NAME :&nbsp;{{custName}} </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <form method="post" post="#"  enctype="multipart/form-data" id="frmCreateCustomer">
+                                        <table width="100%" align=center border="0" cellpadding="0" cellspacing="0">
+                                            <tr>
+                                                <td class="td-gray-bg" width="150px">Customer ID</td>
+                                                <td class="td-white-bg">
+                                                    <input type="text" value="{{custid}}" readonly>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td class="td-gray-bg"> Name &nbsp;<span class="mandatoryField" >*</span></td>
+                                                <td class="td-white-bg">
+                                                    <input class="cmnWidth" type="text" id="customerName" name="customerName"  value="{{custName}}">
+                                                    <input type="hidden" name="inputUpdCustId" value="{{pkid}}" />
+                                                </td>                                                                                                
+                                            </tr>                                            
+                                            <tr>
+                                                <td class="td-gray-bg">About Customer</td>
+                                                <td class="td-white-bg">
+                                                    <textarea name="txtAbout" cols="70" rows="7" placeholder="Enter few words about the Customer">{{about}}</textarea>
+                                                </td> 
+                                            </tr>                                           
+                                            <tr>
+                                                <td class="td-separator"></td>
+                                                <td  align="left" style="padding:5px;">
+                                                        {#<button type="button" class="button" id="btnCusEdit" onclick="cimEditCusDetail();" >Edit</button>#}
+                                                        <button type="button" class="button" id="btncusUpdate"  onclick="cimEditUpdateCustDetails('{{path('_cim_updateCusDetail')}}');" >Update</button> 
+                                                        {#<button type="button" class="button" id="btnClear" onclick="cimCustUpdateCancel();">Cancel</button>#}
+                                                </td>
+                                            </tr>                                                            
+                                        </table>
+                                    </form>                                                        
+                                </td>
+                            </tr>                                                
+                        </table>
+            </td>
+  </tr>
+  
+<tr>
+    <td id="sub_table2" class="td-separator" style="display:none;">
+          <!--
+            This is the area to list all the address for the particular customer-----
+          -->
+        <div id="newListAddress_GroupId">
+            <table width="100%" align=center border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+                <tr>
+                    <td colspan="5" class="td-label-title">Address Details</td>
+                </tr>
+                <tr>
+                    <td class="tbl-grid-view-left-header-rounded" align="center">Address Code</td>
+                    <td class="tbl-grid-view-header" align="center">Address</td>
+                    <td class="tbl-grid-view-header" align="center">Is Primary Address</td>
+                    {#<td class="tbl-grid-view-header" width="10%">Status</td>#}
+                    <td class="tbl-grid-view-header" align="center">Action</td>
+                </tr>
+                {%if addressinfo|length<=0%}
+                    <tr>
+                        <td colspan="4">
+                            <br/>
+                            <p style="color:#ff0000; text-align: center; margin: 0;">No Address has been added yet</p>
+                        </td>
+                    </tr>
+                {%endif%}
+                {%set i=0%}
+                {% for address in addressinfo %}
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{address.addressCode}}</td>
+                    {#<td class="tbl-grid-view-row-no-bg" >{{address.addressFk.addressTypeFk.addressTypeName}}</td>
+                    <td class="tbl-grid-view-row-no-bg" >{{address.addressFk.addressPk}}</td>#}
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                             {{address.addressFk.address1|replace({',':' '})}}
+                             {% if address.addressFk.address2!=''%},{% endif %}
+                               {{address.addressFk.address2|replace({',':' '})}}
+                             {% if(address.addressFk.cityCodeFk!='')%},{{address.addressFk.cityCodeFk.cityName}}{% else %}{% endif %}
+                             {% if(address.addressFk.stateCodeFk!='') %},{{address.addressFk.stateCodeFk.stateName}}{% else %}{% endif %}
+                             {% if address.addressFk.pinNumber!=''%},{% endif %}
+                              {{address.addressFk.pinNumber}}.
+                        </td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                            {%if address.isPrimaryAddress==1%}Yes{%else%}No{%endif%}
+                        </td>
+                    {#<td class="tbl-grid-view-row-no-bg" >{% if address.addressFk.recordActiveFlag==1 %}Active{% else %}Inactive{% endif %}</td>#}
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                            <select id="selcimAddrAction{{i}}" style="width:120px;">
+                                <option value="">--select--</option>
+                                <option value="{{path("_cimviewaddress",{'addtxnid':address.pkid,'custid':address.customerFk.customerIdPk})}}&view">View & Edit</option>
+                                <option value="{{path("_erpcim_del_cust_address",{'addtxnid':address.pkid,'custid':address.customerFk.customerIdPk})}}&del">Remove Address</option>
+                            </select>
+                            <input type="button" class="button" value="Go" onclick="FnCimViewAddress('selcimAddrAction{{i}}');">
+                        </td>
+                    </tr>
+                    {%set i=i+1%}
+                {%endfor%}
+                <tr>
+                    <td> &nbsp; </td>
+                    <td> &nbsp; </td>
+                    <td> &nbsp; </td>
+                    <td> &nbsp; </td>
+                    <td> &nbsp; </td>
+                </tr>
+            </table>
+
+
+          </div>
+          <br>
+          <button class="button" type="button" id="btnAddTypeCustomer" style="float:right;" 
+                  onclick="FnLoadSaveAddressType('{{ path('_loadAddForm',{'custid':customerDetailInfo.customerFk.customerIdPk,'addType': 1 ,'typeIdentifierForAddress':'Customer'})}}','Customer');">Add New Address</button>
+
+          {#<a href="javascript:void(0);" style="float:right; color:#0099ff; font-size:13px;" onclick="FnLoadSaveAddressType('Customer');">Add New Address</a>#}
+          <br/>
+          <!--
+            This is the area to loaded the detail information for the particular address---
+          -->
+          <div id="addNewAddress">                                                        
+          </div>
+         </td>
+       </tr>
+       <tr>
+         <td id="sub_table3" class="td-separator" style="display:none;" >
+                <!--
+                 Area For listing all the contact persons-------------
+                 --->
+                 <div id="newListContactDetails">
+                    <table width="100%" align=center border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+                        <tr>
+                            <td colspan="6" class="td-label-title" >Contact Person Details</td>                  
+                        </tr>
+                            <tr>
+                                <td class="tbl-grid-view-header">Name</td>
+                                {#<td class="tbl-grid-view-header">Designation</td>#}
+                                <td class="tbl-grid-view-header">Mobile</td>
+                                <td class="tbl-grid-view-header">Email ID</td>
+                                <td class="tbl-grid-view-header">Phone Number</td>
+                                <td class="tbl-grid-view-header">Is Primary?</td>
+                                <td class="tbl-grid-view-header" style="text-align:center;">Action</td>
+
+                            </tr>
+                            {%if contactInfo|length>0%}
+                                {% for custContactDetails in contactInfo %}
+                                    <tr>
+                                        <td class="tbl-grid-view-row-no-bg">{{custContactDetails.contact.personFk.personName|default('')}}
+                                            {%if custContactDetails.contact.isPrimaryContact=='1'%}<span style="color:#ff0000; font-size: 11px;">*</span>{%endif%}
+                                        </td>                                    
+                                        <td class="tbl-grid-view-row-no-bg">
+                                            {{custContactDetails.mobileNo.mobileNo|default('')}}
+                                            {%if custContactDetails.contact.isPrimaryContact=='1'%}<span style="color:#ccc; font-size: 11px;">(Primary)</span>{%endif%}
+                                        </td>
+                                        <td class="tbl-grid-view-row-no-bg">
+                                            {{custContactDetails.contact.personFk.emailId|default('')}}
+                                        </td>
+                                        <td class="tbl-grid-view-row-no-bg">
+                                            {{custContactDetails.contact.personFk.telephoneNo|default('')}}
+                                        </td>
+                                        <td class="tbl-grid-view-row-no-bg">{% if custContactDetails.contact.isPrimaryContact|default('')=='1' %}Yes{%else%}No{%endif%}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center" width="100px">
+                                            {%set contactpkid=custContactDetails.contact.pkid%}
+                                            {#<input type="button" value="Edit Detail" class="button"  onclick="cimContactViewEdit('divForSearchResultContact','{{path('_contactperson',{'mode':'EDT','contactid':contactpkid,'custid':pkid})}}',function(output){});" >#}
+                                            <a href="javascript:void(0);" onclick="cimContactViewEdit('divForSearchResultContact','{{path('_contactperson',{'mode':'EDT','contactid':contactpkid,'custid':pkid})}}',function(output){});">Edit</a> | 
+                                            <a href="javascript:void(0);" style="color:#ff0000;" onclick="DeleteContactPerson('{{path('_deletecontactperson',{'contactid':contactpkid,'custid':pkid})}}');">Delete</a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            {%else%}
+                                <tr>
+                                    <td colspan="6">
+                                        <p style="margin:10px 0; color:#ff0000; text-align: center;">No Contact Found</p>
+                                    </td>
+                                </tr>
+                            {%endif%}              
+                    </table>
+                 </div>
+                <input class="button" type="button" id="button_addContact"  value="Add New" style="margin:10px auto; right:100px;" 
+                                        onclick="cimContactViewEdit('divForSearchResultContact','{{path('_contactperson',{'mode':'INS','contactid':'0','custid':pkid})}}',function(output){});"/>
+                <br>            
+                {#----------Area For Doing All the works about contact------whatever --related #}
+                <div id="divForSearchResultContact"></div>            
+         </td>
+
+        </tr>
+</table>
+</div>

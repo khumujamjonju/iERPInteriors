@@ -1,0 +1,117 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active' id="salary_payment" onclick="fnLeftMenuNavigation('{{path('_salary_payment_slip')}}', 'salary_payment', 'Payroll', 'Salary Payment');"><a  href="javascript:void();" >Salary Payment</a></li>               
+    </ul>
+</div>
+<div class="newdashboard"> 
+    <div class="application-form"> 
+        <div class="approval_list">         
+                <input type="hidden" value="0" class="approval_salary_slip_hide_show_key"/>             
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+                    <tr onclick="fnHideShow('approval_salary_slip');">
+                        <td class="td-label-title">
+                            <span>Pending Approval List Of Created Salary Slip :</span>  
+                            <div class="approval_salary_slip_hide_show_icon floatRight plus"></div>
+                        </td>
+                    </tr>
+                    <tr class="approval_salary_slip displayNone">
+                        <td class="td-cmn-white-bg">
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr>                                       
+                                        <th class="tbl-th-grid-view-row-no-bg">ID</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Name</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Dsignation</th>                                   
+                                        <th class="tbl-th-grid-view-row-no-bg">Salary</th> 
+                                        <th class="tbl-th-grid-view-row-no-bg">Created On</th> 
+                                        <th class="tbl-th-grid-view-row-no-bg">Month Of</th>                                                                                                                
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>
+                                    </tr>
+                                </thead>
+                                <tbody>                                  
+                                    {% for s in allAprovedSalarySlip|default('') %} 
+                                      <tr id="{{'approvedID'~s.salarySlipPk}}">                                      
+                                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.employeeFk.employeeId|default('') }} </td>
+                                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.employeeFk.personFk.personName|default('') }}</td>
+                                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.employeeFk.empJobTitleFk.jobTitleName | default('')}}</td> 
+                                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.netSalary| default('') }}</td> 
+                                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.createdDate | date('m-d-Y') }}</td>   
+                                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.monthFk.monthName | default('') }}, {{ s.year | default('') }}</td>                                                                                                                                                                                            
+                                          <td class="tbl-grid-view-row-no-bg" align="center" style="width: 200px;">                                                                                   
+                                              <select class="normal_select" id="paymentAction{{s.salarySlipPk|default('')}}" name="txt_paymenyAction" >
+                                                <option value="">Select</option>  
+                                                <option value="{{path('_create_emp_salary_slip',{'empID': s.employeeFk.employeePk|default('')})}}&view">View & Pay</option>                                                                                       
+                                               {# <option value="{{path('_reject_salary_slip', { 'salrySlipID': s.salarySlipPk|default('') })}}&rej">Reject</option>  #}
+                                            </select>                                                 
+                                            <input class="button" name="commit" type="button" value="Go" onclick="employeeSalarySlipPayPaymentAction(this,'{{s.salarySlipPk|default('')}}', '{{s.monthFk.monthName | default('')}}', '{{s.monthFk.pkid | default('')}}', '{{ s.year | default('') }}', '#paymentAction');" />
+                                          </td> 
+                                      </tr> 
+                                    {% endfor %}                                  
+                                </tbody>
+                            </table>                 
+                        </td>                  
+                    </tr>                  
+                </table>              
+        </div>
+        
+        <div id="salary_slip_form" style="margin-top: 10px;"></div>  
+        <div id="salary_slip_payment" style="display: none;">
+            <form id="frmPayPaymentSalarySlip">           
+              <input type="hidden" id="already_paid_salary_slip_key" value="0"/> {# use to detect already payment#}                      
+              <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+                <tr>
+                    <td class="td-label-title">
+                        Transaction details: 
+                    </td>
+                </tr>
+                <tr>
+                    <td>                 
+                        <form id="frmSearchEmployee" style="margin: 0px;">
+                            <input type="hidden" id="salary_slip_id" name="txt_salary_slip_id" />
+                            <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                                 
+                                <tr>
+                                    <td class="td-gray-bg">Select Payment Mode: <span class="necessary-field">*</span></td>
+                                    <td class="td-white-bg">
+                                        <select class="cmnWidth" id="payment_mode" name="txt_payment_mode" onchange="chagePaymentModeType(this);">
+                                            <option value="">--select--</option> 
+                                        {%for p in paymentMode|default('') %}
+                                            <option value="{{ p.pkid|default('') }}">{{ p.paymentModeName|default('') }}</option> 
+                                        {%endfor%}
+                                        </select>  
+                                    </td>
+                                    <td class="td-gray-bg">Payment Date: <span class="necessary-field">*</span></td>
+                                    <td class="td-white-bg"><input class="cmnWidth" type="date" id="payment_date" name="txt_payment_date"/></td>      
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg">Payment No/Transaction ID: <span class="necessary-field payment-no" style="display: none;">*</span></td>
+                                    <td class="td-white-bg">
+                                        <input type="hidden" class="checkKey" value="0"/>
+                                        <input class="cmnWidth" type="text" id="payment_no" name="txt_payment_no"/>
+                                    </td>
+                                    <td class="td-gray-bg">Amount: </td>
+                                    <td class="td-white-bg">
+                                        <span class="advanceAmt"></span>                                       
+                                    </td>      
+                                </tr>
+                                <tr>
+                                    <td class="td-separator" colspan="4" style="text-align: center;">          {# SP => Salary Payment#}
+                                        <input type="button" class="button blue" id="search_btn" value="Pay Now & Save" onclick="payPaymentAdvancePayment(this, 'SP','{{path('_pay_payment_advance_payment', {'key': 'SP'})}}');"/>                                 
+                                    </td>  
+                                </tr>
+                            </table>
+                        </form>                               
+                    </td>
+                </tr> 
+            </table>
+           </form>
+        </div>
+        
+        {#open/show hide table when load in first time#}
+        <script type="text/javascript">
+            fnHideShow('approval_salary_slip'); 
+        </script>   
+                 
+             
+    </div> 
+</div>

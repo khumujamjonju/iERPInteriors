@@ -1,0 +1,18 @@
+<div id="divTabs" class='sub-menu'>
+    <ul id="tabs">
+        <li id="proj_li" class="active"><a href="javascript:void(0);" onclick="ProjectNavigation('proj_li','{{path("_projectdetail",{projid:projectid})}}');">Project Detail</a></li> 
+        <li id="item_li" ><a href="javascript:void(0);" onclick="ProjectNavigation('item_li','{{path("_existingprojectitems",{projid:projectid})}}');">Item Detail</a></li>
+        <li id="service_li" ><a href="javascript:void(0);" onclick="ProjectNavigation('service_li','{{path("_additionservice",{projid:projectid})}}');">Additional Services</a></li>
+        <li id="adv_li" ><a href="javascript:void(0);" onclick="ProjectNavigation('adv_li','{{path("_searchadvancepay",{projid:projectid})}}');">Payment History</a></li>
+        <li id="exp_li" ><a href="javascript:void(0);" onclick="ProjectNavigation('exp_li','{{path("_searchexpenditure",{projid:projectid})}}');">Expenditure Detail</a></li>
+        <li id="doc_li" ><a href="javascript:void(0);" onclick="ProjectNavigation('doc_li','{{path("_searchprojdocs",{projid:projectid})}}');">Documents</a></li>
+        <li id="status_li" ><a href="javascript:void(0);" onclick="ProjectNavigation('status_li','{{path("_viewprojectstatus",{projid:projectid})}}');">Status Log</a></li>
+    </ul>
+</div>
+<form id="ProjectForm" enctype="multipart/form-data">
+<div id="divProjDetail" style="margin: 0; margin-top:-3px; padding:5px; padding-top:10px; border:1px solid #818181;">
+</div>
+</form>
+
+
+    

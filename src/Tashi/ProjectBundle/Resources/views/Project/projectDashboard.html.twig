@@ -1,0 +1,66 @@
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Project Management</h3>
+        <div id="newmenu">
+            <ul>
+                <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_pro_master_dashboard')}}', 'project_master', 'Project', 'Dashboard');"><a href="javascript:void();"> Dashboard</a></li>
+                <li id="master_setting" onclick="fnLeftMenuNavigation('{{path('_gotoaddarea')}}', 'master_setting', 'Project', 'Master Setting','Manage Project Category');"><a href="javascript:void();">Master Setting</a></li>                 
+                <li id="newproject_li" onclick="fnLeftMenuNavigation('{{path('_gotonewproject')}}', 'newproject_li', 'Project', 'New Project');"><a  href="javascript:void();">New Project</a></li>
+                <li id="searchproject_li" onclick="fnLeftMenuNavigation('{{path('_gotosearchproject')}}', 'searchproject_li', 'Project', 'Search Project');"><a  href="javascript:void();">Search </a></li>                
+           {#     <li id="project_estimation" onclick="fnLeftMenuNavigation('{{path('_project_Estimation')}}', 'project_estimation', 'Project', 'Project Estimation');"><a href="javascript:void();">Project Estimation</a></li>
+                <li id="project" onclick="fnLeftMenuNavigation('{{path('{#  _project_execution')}}', 'project', 'Project', 'Project Execution');"><a href="javascript:void();">Project Execution </a></li>   
+                <li id="project_monitor" onclick="fnLeftMenuNavigation('{{pa{#  th('_project_monitor')}}', 'project_monitor', 'Project', 'Monitor Project');"><a  href="javascript:void();" >Monitor Project</a></li>
+               <li><a id="project" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_project_reports')}}', 'Project Reports', 'Project Reports', 'Project Reports Status');">Project Status</a></li>   #}
+
+
+{#  <li><a id="project_starting_date" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_project_starting_date')}}', 'project_starting_date', 'Project Master', 'Project Starting Date');">Project Starting Date</a></li>  
+               #}
+                   
+            
+            </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'><a href='javascript:void();'><span>Project Dashboard</span></a></li>           
+        </ul>        
+    </div>
+    <div class="newdashboard">        
+    <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_gotoaddarea')}}', 'master_setting', 'Project', 'Master Setting');">
+        <p class="newdashparatext"><img src="{{ asset('bundles/common/images/master.png') }}">
+        <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Master Setting</span> <br/>
+        Manage Project Category, Project Item.  </p>
+    </div>
+    <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_gotonewproject')}}', 'newproject_li', 'Project', 'New Project');">
+        <p class="newdashparatext"><img src="{{ asset('bundles/common/images/project1.png') }}">
+        <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">New Project</span> <br/>
+        Select Customer, Project Category , Project Item, Enter Project detail and create a new Project.  </p>
+    </div>
+    <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_gotosearchproject')}}', 'searchproject_li', 'Project', 'Search Project');">
+        <p class="newdashparatext"><img src="{{ asset('bundles/common/images/search_project.png') }}">
+        <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Search</span> <br/>
+        Search Project by various criteria.  </p>
+    </div>
+        
+        
+        
+        
+    {#    <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_project_order')}}', 'project', 'Project', 'Project Order');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/project.png') }}">
+                <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Project</span> <br/>
+                Assingn a project of a customer to employee.  </p>
+        </div>
+
+        <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_customer_order')}}', 'project_starting_date', 'Project Master', 'Project Starting Date');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/startproj.png') }}">
+                <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Project Starting Date</span> <br/>
+                Set starting and completion date of a project. </p>
+        </div>      #}     
+        <div class="clear"></div> 
+    </div>    
+        
+</div>
+<input type="hidden" id="datePickerImage" value="{{ asset('bundles/common/images/calender.png') }}" />

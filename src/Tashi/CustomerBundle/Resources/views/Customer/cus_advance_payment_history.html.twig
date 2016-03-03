@@ -1,0 +1,57 @@
+<div style="text-decoration: underline; margin-bottom: 2px; text-align: center;"> Advance Payment History</div> 
+<div class="tbl-border" style="margin-top: 5px; background: #fff;">
+    <table id="example2" width="100%" align="center" border="0" cellpadding="0" cellspacing="0"  class="display">  
+        <thead class="">
+            <tr>
+                <th class="tbl-th-grid-view-row-no-bg">Sl. No.</th>
+                <th class="tbl-th-grid-view-row-no-bg">Payment Date</th> 
+                <th class="tbl-th-grid-view-row-no-bg">Payment Type</th> 
+                <th class="tbl-th-grid-view-row-no-bg">Amount</th>                                                                                               
+                <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                <th class="tbl-th-grid-view-row-no-bg">Status</th>
+                <th class="tbl-th-grid-view-row-no-bg">Action</th>
+            </tr>
+        </thead>
+        <tbody>                           
+         
+            {%for p in cusAdvPayObj|default('') %}  
+               <tr>
+                   <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                   <td class="tbl-grid-view-row-no-bg" align="center">{{ p.createdDate|default('')| date('d-m-Y')}}</td>  
+                   <td class="tbl-grid-view-row-no-bg" align="center">{{ p.paymentModeFk.paymentModeName|default('') }}</td>  
+                   <td class="tbl-grid-view-row-no-bg" align="center">{{ p.advanceAmount | default('')}}</td>   
+                   <td class="tbl-grid-view-row-no-bg" align="center" style="text-align: justify; width: 300px;">{{ p.description | default('')}}</td>
+                {% if p.paymentStatus | default('') == 'C' %}  
+                   <td class="tbl-grid-view-row-no-bg" align="center" style="background: #BAEAFD;"> WAITING APPROVAL </td>
+                   <td class="tbl-grid-view-row-no-bg" align="center">   
+                       <select class="normal_select" id="advPay{{p.advancePaymentPk|default('') }}" name="advPay{{p.advancePaymentPk|default('') }}" style="width:100px;">
+                         <option value="">Select</option>                                
+                          <option value="{{ path('_edit_advance_payment',{'advancePaymentPk': p.advancePaymentPk})}}&edit">Edit</option>  
+                          <option value="{{ path('_edit_advance_payment',{'advancePaymentPk': p.advancePaymentPk})}}&del">Delete</option>
+                        </select> 
+                        <input class="button" name="commit" type="button" value="Go" onClick="fnAdvancePaymentAction('{{p.advancePaymentPk|default('')}}',this);" />
+                   </td>
+                {% elseif  p.paymentStatus | default('') == 'A' %}
+                   <td class="tbl-grid-view-row-no-bg" align="center" style="background: #92EF92;"> APPROVED </td>
+                   <td class="tbl-grid-view-row-no-bg" align="center"> 
+                       <select class="normal_select" id="advPay{{p.advancePaymentPk|default('') }}" name="advPay{{p.advancePaymentPk|default('') }}" style="width:100px;">
+                         <option value="">Select</option>                                
+                          <option value="{{ path('_edit_advance_payment',{'advancePaymentPk': p.advancePaymentPk})}}&print">Print Preview</option>                         
+                        </select> 
+                        <input class="button" name="commit" type="button" value="Go" onClick="fnAdvancePaymentAction('{{p.advancePaymentPk|default('')}}',this);" />
+                   </td>
+                {% elseif p.paymentStatus | default('') == 'R'%}
+                   <td class="tbl-grid-view-row-no-bg" align="center" style="background: #F197A8;"> REJECTED </td>
+                   <td class="tbl-grid-view-row-no-bg" align="center"> NA  </td>
+                {% endif %}                       
+               </tr>                    
+            {%endfor%} 
+        
+        </tbody>
+    </table>
+    <br>
+    <div id="PrintArea" class="printArea"></div>
+</div>
+            
+            
+

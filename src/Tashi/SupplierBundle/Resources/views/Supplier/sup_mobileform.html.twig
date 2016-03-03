@@ -1,0 +1,64 @@
+ {%set id =0%}
+ {%if sup is defined%}
+ {%set id = sup%}
+ {%endif%}
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Supplier Mobile Details</td>
+            </tr>
+           
+            <tr>
+                <td>                 
+                    <form id="frmSupplierContactMaster" style="margin: 0px;">                     
+                        <table id="mobilemaster_id" width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <div id="displaymobilelist" style="display:none;"></div>                            
+                            <tr>        
+                                <td class="td-gray-bg">Mobile No:{%if id==0%}<span class="necessary-field">*</span>{%endif%}</td>
+                               <td class="td-white-bg cmnWidth"colspan="1">
+                               <table>
+                               <tr>
+                               <td><input class="cmnWidth" type="text" id="txt_supplier_mobile" name="txt_supplier_mobile"   
+                                          onkeypress="return IntegerOnly(event);" maxlength="10" placeholder="e.g.9856123456"> </td>
+                               <td><input type="button" class="button blue" value="+" onclick="addFieldDynamic(this,'txt_supplier_mobile');"/></td>
+                               </tr>
+                               
+                               
+                               </table>                                     
+                                </td>
+                                <td class="td-gray-bg cmnWidth">Phone No:</td>
+                                <td class="td-white-bg" >
+                                    <input type="hidden" id="comTeleId" name="comTeleId"/>
+                                    <input type="text" id="txt_supplier_phone" name="txt_supplier_phone" class="cmnWidth" 
+                                            onkeypress="return IntegerOnly(event);" maxLength="15" placeholder="e.g.0385 2457895">
+                                   <span id="digitMessageCustomerMobileNo" class="digitMessage"></span>
+                                </td>
+                                
+                                {#<td class="td-white-bg cmnWidth"colspan="1">
+                               <input class="cmnWidth" type="text" id="txt_supplier_phone" name="txt_supplier_phone">                                     
+                                </td>#} 
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg cmnWidth">Email:</td>
+                                <td class="td-white-bg cmnWidth"colspan="1">
+                                    <input class="cmnWidth" type="text" id="txt_email" name="email" onkeypress="return NullonEnterKey(event);">                                          
+                                </td>
+                                <td class="td-gray-bg cmnWidth">Website:</td>
+                                <td class="td-white-bg cmnWidth"colspan="1" >
+                                    <input class="cmnWidth" type="text" id="txt_website" name="Website">                                          
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-separator" colspan="6" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addsupplierMobileNo('{{ path('_supplier_Mobile_Detail')}}',this);"/>
+                                    {#<input type="button" class="button blue" id="btn_clear" value="Reset" onclick="AddnewsupplierMobileMaster('table_supplier_id');" style="display: none;"/>#}
+                                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="UpdatesupplierMobileDetails('{{ path('_update_mobile_Detail')}}');"/> 
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="ResetAll(this);"/>  
+                                </td>  
+                            </tr>
+                        </table>
+                    </form>                      
+                </td>
+            </tr> 
+        </table>   
+            
+          

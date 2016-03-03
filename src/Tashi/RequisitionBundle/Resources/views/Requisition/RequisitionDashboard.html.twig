@@ -1,0 +1,73 @@
+
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+{%set roleArr=app.session.get('ROLELIST')%}
+{%set myreq=0%}
+{%set searchreq=0%}
+{%set approvereq=0%}
+{%if app.session.get('PRIVILEGE')=='Su'%}
+    {%set myreq=1%}
+    {%set searchreq=1%}
+    {%set approvereq=1%}
+{%else%}
+    {%for role in roleArr%}
+        {%if role['Role']=='MyRequisition'%}
+            {%set myreq=1%}
+        {%endif%}
+        {%if role['Role']=='SearchRequisition'%}
+            {%set searchreq=1%}
+        {%endif%}
+        {%if role['Role']=='RequisitionApproval'%}
+            {%set approvereq=1%}
+        {%endif%}
+    {%endfor%}
+{%endif%}
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Requisition Management</h3>
+        <div id="newmenu">
+            <ul>
+            <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_requisitiondashboard')}}', 'requisition_master', 'Requisition', 'Dashboard');"><a  href="javascript:void();" >Dashboard</a></li>            
+            <li id="Search_requisition" style="{%if searchreq==0%}display:none;{%endif%}" onclick="fnLeftMenuNavigation('{{path('_search_requisition')}}','Search_requisition', 'Requisition', 'Search');"><a  href="javascript:void();" >Search</a></li>
+            <li id="create" onclick="fnLeftMenuNavigation('{{path('_requisition_order')}}', 'create', 'Create_Requisition', 'Requisition');"><a  href="javascript:void();">Create</a></li>
+            <li id="approve" style="{%if approvereq==0%}display:none;{%endif%}" onclick="fnLeftMenuNavigation('{{path('_approve')}}', 'approve', 'Approve', 'Requisition Approve');"><a  href="javascript:void();">List for Approval & Stock Update</a></li>
+            <li id="my_requisition" style="{%if myreq==0%}display:none{%endif%}" onclick="fnLeftMenuNavigation('{{path('_myrequisition')}}','my_requisition', 'Requisition', 'My Requisition');"><a  href="javascript:void();" >My Requisition</a></li>
+            
+            </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'><a href='#'><span>Requisition Dashboard</span></a></li>              
+        </ul>
+    </div>
+    <div class="newdashboard"> 
+        {#<div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_requisition_master_setting')}}', 'employee_master_setting', 'Employee Master','Master Setting');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/master.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;font-weight: bold;"> 
+            Master Setting</span> <br/>
+            Capturing details information on Job Title , Profile , Expert , Working type etc. </p>
+        </div>#}
+        <div class="newdashboard1" style="{%if searchreq==0%}display:none;{%endif%}" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_search_requisition')}}','Search_requisition', 'Requisition', 'Search');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/search_128x128.png') }}">
+                <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+                    Search</span><br/>searching requisition details
+
+            </p>
+            </div>
+        <div class="newdashboard1"  onclick="fnLeftMenuNavigation('{{path('_requisition_order')}}', 'create', 'Create_Requisition', 'Requisition');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/create-01_128x128.png') }}">
+                <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Create</span> <br/>
+                capturing requisition details information
+            </p>
+        </div>
+        <div class="newdashboard1" style="{%if approvereq==0%}display:none;{%endif%}" onclick="fnLeftMenuNavigation('{{path('_approve')}}', 'approve', 'Approve', 'Requisition Approve');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/approved_128x128.png') }}">
+                <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Approve & Stock Update</span> <br/>
+                Approved and stock update for requested product.
+            </p>
+        </div>       
+            
+    </div>      
+</div>

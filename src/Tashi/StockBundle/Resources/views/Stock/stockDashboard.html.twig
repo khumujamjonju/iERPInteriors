@@ -1,0 +1,45 @@
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Stock Management</h3>
+        <div id="newmenu">
+            <ul>
+                
+                        
+           <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_stock_dashboard')}}', 'stock_master', 'Stock', 'Stock Dashboard');"><a href="javascript:void();" > Dashboard</a></li>
+           {#<li id="invlist_li" onclick="fnMainMenuNavigation('{{path('_inve{#ntorylist')}}', 'invlist_li', 'Stock', 'Inventory List');"><a href="javascript:void();" > Inventory List</a></li>
+           <li id="search" onclick="fnLeftMenuNavigation('{{path('_search_supplier')}}', 'search', 'Search Supplier', 'Supplier Details Search');"><a href="javascript:void();">Search Supplier</a></li>
+           <li id="add_new_supplier" onclick="fnLeftMenuNavigation('{{path('_add_newdash_supplier')}}', 'add_new_supplier', 'Supplier', 'Create Supplier');"><a href="javascript:void();">Create Supplier</a></li>
+           <li id="attribute_li" onclick="fnLeftMenuNavigation('{{path('_gotoAttributeMaster')}}', 'attribute_li', 'Product Attriute','Product Attriute'); "><a href="javascript:void();">Product Attributes</a></li>
+           <li id="Category_id" onclick="fnLeftMenuNavigation('{{path('_prod_category')}}', 'Category_id', 'Category Master','Manage Category '); "><a href="javascript:void();">Manage Category</a></li>           
+           <li id="manage_prod_li" onclick="fnLeftMenuNavigation('{{path('_gotoprodhome')}}', 'manage_prod_li', 'Manage Product', 'Create Product');"><a href="javascript:void();">Manage Product</a></li>#}
+           <li id="manage_stock_li" onclick="fnLeftMenuNavigation('{{path('_gotostockentry')}}', 'manage_stock_li','Stock','Manage Stock','New Stock Entry');"><a href="javascript:void();">Manage Stock</a></li>
+           <li id="return" onclick="fnLeftMenuNavigation('{{path('_returnstock')}}', 'return', 'Return', 'Quantity Return');"><a  href="javascript:void();">Stock Return</a></li>
+            {#<li><a id="purchase_product" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_purchase_product')}}', 'purchase_product', 'Purchase Master', 'Purchase Product');">Purchase Product</a></li>
+           #}            
+           </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+    <div class='sub-menu'>
+            <ul>
+                <li class='active'><a href="javascript:void();"  onclick="fnMainMenuNavigation('{{path('_stock_dashboard')}}', 'stock_master', 'Stock', 'Stock Dashboard');"><span>Stock Dashboard</span></a></li>              
+            </ul>
+             
+    </div>
+    <div class="newdashboard">
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_gotostockentry')}}', 'manage_stock_li','Stock', 'Manage Stock','New Stock Entry');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/stock.png') }}">
+            <span style="color:#000;font-weight: bold;  font-size: 12px; font-family: arial; text-decoration: underline;">Manage Stock</span> <br/>        
+            Capturing stock entry details information.  </p>
+        </div>    
+        <div class="newdashboard1"  onclick="fnLeftMenuNavigation('{{path('_returnstock')}}',  'return', 'Return', 'Quantity Return');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/stockreturn128x128.png') }}">
+                <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Stock Return</span> <br/>
+                Manage stock return record and update the stock status
+            </p>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="datePickerImage" value="{{asset('bundles/common/images/calendar.png') }}" />

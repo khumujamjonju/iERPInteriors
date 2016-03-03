@@ -1,0 +1,34 @@
+ <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title"> Unit Master</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmUnitMaster" style="margin: 0px;">
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg">Unit Name:</td>
+                                <td class="td-white-bg"colspan="1">
+                                    <input class="cmnWidth" type="text" value="{{unit.unitName}}" id="txt_unit" name="txt_unit">  
+                                    <input  type="hidden" id="pkid" value="{{unit.pkid}}" name="inputUnitpkid"> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Description:</td>
+                                <td class="td-white-bg">
+                                    <textarea id="txt_Description" name="txt_Description" cols="50" rows="5">{{unit.unitDescription}}</textarea>                                    
+                                </td> 
+                            </tr>                                
+                            <tr>
+                                <td></td>
+                                <td class="td-separator">
+                                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="UpdateUnit('{{path('_updateunit')}}','frmUnitMaster');"/>
+                                    <input type="button" style="display: none;" class="button blue" id="btn_save" value="Save" onclick="createNewUnit('{{path('_createunitmaster')}}','frmUnitMaster');"/>
+                                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="cancelupdateunit();"/>  
+                                </td>  
+                            </tr>
+                        </table>
+                    </form>                               
+                </td>
+            </tr> 
+ </table>  

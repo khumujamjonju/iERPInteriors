@@ -1,0 +1,113 @@
+<div class="application-form"> 
+    <form id="frmAddStoreRack" style="margin: 0px;">
+        <table width="100%" class="tbl-border"cellspacing="0" cellspadding="0">
+            <tr>
+                <td class="td-label-title" colspan="5">Manage Rack Detail</td>
+            </tr>
+            <tr>
+                <td class="td-gray-bg">Store Name:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                            <Select class="cmnWidth" name="storename"  id="storename" onchange="cmnLoadStoreList(this, '{{path('_cmn_store_load_list', {'key': 'B'})}}', 'buildingname');">
+                                    <option value="">--Select--</option>
+                                {%for c in storename|default('') %}
+                                    <option value="{{ c.storeMasterPk|default('') }}">{{ c.storeName|default('') }}</option>
+                                {%endfor%}
+                           </Select>                                        
+                        </td>
+                <td class="td-gray-bg">Building Name:<span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="buildingname" id="buildingname" onchange="cmnLoadStoreList(this, '{{path('_cmn_store_load_list', {'key': 'F'})}}', 'floorno');">
+                                    <option value="">--Select--</option>                                                    
+                            </Select>                                        
+                        </td>
+               </tr>
+            <tr>
+                <td class="td-gray-bg">Select Floor No:<span class="necessary-field">*</span></td>
+                                                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="floorno" id="floorno" onchange="cmnLoadStoreList(this, '{{path('_cmn_store_load_list', {'key': 'R'})}}', 'roomno');">
+                                <option value="">--Select--</option>                                                   
+                            </Select>                                         
+                        </td> 
+
+                <td class="td-gray-bg">Select Room No:<span class="necessary-field">*</span></td>         
+                                                            <td class="td-white-bg">
+                            <Select class="cmnWidth" name="roomno" id="roomno">
+                                <option value="">--Select--</option>                                                       
+                            </Select> 
+                        </td> 
+                     </tr>
+            <tr>
+                <td class="td-gray-bg">Rack Name:<span class="necessary-field">*</span></td>
+                <td class="td-white-bg"><input type="text" class="cmnWidth" name="rackno" id="rackno"></td>
+                <td class="td-gray-bg">Rack Row No:<span class="necessary-field">*</span></td>
+                <td class="td-white-bg"><input type="text" class="cmnWidth" name="rackrowno" id="rackrowno"></td>
+            </tr>
+            <tr>
+                <td class="td-gray-bg">Rack Column Name:<span class="necessary-field">*</span></td>
+                <td class="td-white-bg"><input type="text" class="cmnWidth" name="rackcolumnno" id="rackcolumnno"></td>
+                <td class="td-gray-bg"></td>
+                <td class="td-gray-bg"></td>
+            </tr>
+            <tr>
+                <td class="td-separator" colspan="4" style="text-align: center;">
+                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveStoreRackMaster('{{ path('_saveStoreRack')}}', this);"/>
+                    <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="storeEditBtn('storename', 'buildingname', 'floorno', 'roomno', 'rackno', 'rackrowno', 'rackcolumnno');" style="display: none;"/>
+                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="return updateStoreRackMaster(this);" style="display: none;"/>
+                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="fnSubMenuNavigation('{{path('_building_rack')}}', 'Rack', 'Store Management', 'Rack', 'Rack Master');" style="display: none;"/>
+                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                </td>
+            </tr>                               
+        </table>
+    </form>
+
+    <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+        <input type="hidden" id="addStoreRackUpdateURL" value="">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title" colspan="5">Rack List:</td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                        <thead class="td-label-title">
+                            <tr>
+
+                                <th class="tbl-th-grid-view-row-no-bg">Store Name</th> 
+                                <th class="tbl-th-grid-view-row-no-bg">Building Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Floor No</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Rack Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Room No</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Rack Row No</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Rack Column No</th> 
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                            </tr>
+                        </thead>
+
+                        <tbody>                           
+                          {% for c in record%}
+                              {%set room=c.storeRoomMasterFk%}
+                              {%set floor=room.storeFloorMasterFk%}
+                              {%set bldg=floor.storeBuildingMasterFk%}
+                              {%set store=bldg.storeMasterFk%}
+                                <tr>                                    
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{store.storeName}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{bldg.buildingName}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{floor.storeFloorNo}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.rackName | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{room.storeRoomNo | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.rowNumber | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.columnNumber | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                        <a href="javascript:void();" onclick="retreiveStoreRack('{{path('_retrieve_addStoreRack',{'Rackid': c.storeRackPk })}}');">Edit </a> | 
+                                        <a href="javascript:void();" style="color:#ff0000;" onclick="deleteStoreRackMaster('{{path('_delete_addStoreRack',{'Rackid': c.storeRackPk })}}');">Delete </a>     
+                                    </td>                                                 
+                                </tr>
+                                  {%endfor%}                                       
+                            </tbody>                      
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>
+        </div>
+    </div> 
+

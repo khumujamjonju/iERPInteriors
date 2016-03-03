@@ -1,0 +1,48 @@
+<div class="application-form"> 
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+        <tr>
+            <td class="td-label-title">Assign Unit to Attribute</td>
+        </tr>
+        <tr>
+            <td>                 
+                <form id="frmAttrUnitInsert" style="margin: 0px;">
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                        <tr>
+                            <td class="td-gray-bg">Select Attribute:</td>
+                            <td class="td-white-bg">
+                                <select id="attriblist" name="attriblist" class="cmnWidth" onchange="loadattribute();">
+                                    <option value="">--Select--</option>
+                                    {%for att in attr%}
+                                        <option value="{{path('_loadunit',{'pkid':att.pkid})}}">{{att.attributeName}}</option>
+                                    {%endfor%}
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td id="textlable" class="td-gray-bg"> Select Unit:</td>
+                            <td class="td-white-bg">
+                                <select id="unitList" class="cmnWidth">
+                                    <option value="">--Select--</option>
+                               {%for uni in unit%}
+                                    <option value="{{path('_appendunit',{'pkid':uni.pkid})}}">{{uni.unitName}}</option>
+                               {%endfor%}
+                                </select>
+                                     <input type="hidden" name="unit" value=""/>
+                                     <input type="hidden" id="attrpkid" name="attrpkid" value=""/>
+                                <input class="button blue" onclick="addselectedunit();" type="button" id="btn_add_unit" value="add">       
+                            </td>
+                        </tr>
+                        <tbody id="attrUnitlist">
+                        </tbody>
+                    </table>
+                </form>      
+            </td>
+        </tr>
+        <tr>
+            <td class="td-separator" colspan="6" style="text-align: center;">
+                <input type="button" class="button blue" id="btn_save" value="Save" onclick="insertAttrUnit('{{path('_insertattrunit')}}');"/>
+
+            </td>  
+        </tr>
+    </table>
+</div> 

@@ -1,0 +1,23 @@
+{%if allDeductions|default('') != ''%}
+    {% for d in allDeductions %}
+        <tr>
+            <td class="td-gray-bg"> {{ d.fieldAttributeName|default('') }} </td>
+            <td class="td-white-bg">
+                <input class="cmnWidth deduction useField" type="text" id="{{ 'deduction'~d.pkid|default('') }}" name="{{ 'txt_deduction'~d.pkid|default('') }}"  onKeypress="return validationDigit('{{ 'deduction'~d.pkid|default('') }}');"  onkeyup="fnCalculateNetSalary();"
+                    {% for a in field_amount|default('')%} 
+                        {%if d.pkid == a.emolumentDeductionMasterFk.pkid|default('') %}
+                           value="{{ a.amount|default('') }}" 
+                        {%endif%}
+                    {% endfor %}
+                 />
+            </td>
+        </tr>
+    {% endfor %}
+{%elseif singleDeduction|default('') != ''%}
+         <tr>
+            <td class="td-gray-bg"> {{ singleDeduction.fieldAttributeName|default('') }} </td>
+            <td class="td-white-bg">
+                <input class="cmnWidth deduction useField" type="text" id="{{ 'deduction'~singleDeduction.pkid|default('') }}" name="{{ 'txt_deduction'~singleDeduction.pkid|default('') }}"  onKeypress="return validationDigit('{{ '#deduction'~singleDeduction.pkid|default('') }}');"  onkeyup="fnCalculateNetSalary();"/>
+            </td>
+        </tr>
+{% endif %}

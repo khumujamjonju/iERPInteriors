@@ -1,0 +1,8 @@
+parameters:
+     tashi.service.store.class : Tashi\StoreBundle\Service\StoreService
+     
+services:    
+    tashi.store.service:
+        class: "%tashi.service.store.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]
+

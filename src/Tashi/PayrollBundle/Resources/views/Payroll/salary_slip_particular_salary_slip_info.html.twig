@@ -1,0 +1,28 @@
+ <td class="tbl-grid-view-row-no-bg" align="center">
+    <input type="checkbox" class="select_adv_pay" name="txt_selected_salary_slip" value="{{ salarySlipInfo.salarySlipPk|default('') }}" onclick="checkNoOfCheckBox(this);"/>
+</td>
+<td class="tbl-grid-view-row-no-bg" align="center">{{ salarySlipInfo.employeeFk.employeeId|default('') }} </td>
+<td class="tbl-grid-view-row-no-bg" align="center">{{ salarySlipInfo.employeeFk.personFk.personName|default('') }}</td>
+<td class="tbl-grid-view-row-no-bg" align="center">{{ salarySlipInfo.employeeFk.empJobTitleFk.jobTitleName | default('')}}</td> 
+<td class="tbl-grid-view-row-no-bg" align="center">
+     {{ salarySlipInfo.netSalary| default('') }}
+     {%if salarySlipInfo.deductionAdjustmentWalletBal is defined %}
+         + {{ salarySlipInfo.deductionAdjustmentWalletBal| default('') }} (wallet) <br/>
+      <span style="margin-left: -80px;"> = {{ salarySlipInfo.netSalary| default('') + salarySlipInfo.deductionAdjustmentWalletBal| default('') }}</span>
+     {% endif %}
+     <input type="hidden" name="{{ 'txt_salary'~salarySlipInfo.salarySlipPk| default('')}}" value="{{ salarySlipInfo.netSalary| default('') }}"/>
+</td> 
+<td class="tbl-grid-view-row-no-bg" align="center">{{ salarySlipInfo.createdDate | date('m-d-Y') }}</td>   
+<td class="tbl-grid-view-row-no-bg" align="center">{{ salarySlipInfo.monthFk.monthName | default('') }}, {{ salarySlipInfo.year | default('') }}</td>                                                                                                                                                                                            
+<td class="tbl-grid-view-row-no-bg" align="center">
+    <textarea id="{{ 'description'~salarySlipInfo.salarySlipPk|default('') }}" name="{{ 'txt_description'~salarySlipInfo.salarySlipPk|default('') }}" cols="25" rows="3"></textarea>
+</td>
+<td class="tbl-grid-view-row-no-bg" align="center" style="width: 150px;">                                                                                     
+    <select class="normal_select" id="employeeSalarySlipApproveAction{{salarySlipInfo.salarySlipPk|default('')}}" name="txt_empSalarySlipApproveAction" >                                                
+           <option value="">--Select--</option>    
+           <option value="{{path('_create_emp_salary_slip',{'empID': salarySlipInfo.employeeFk.employeePk|default('')})}}&viewEdit">View&Edit</option>                                                                                                                                                 
+     </select> 
+    <input class="button" name="commit" type="button" value="Go" onClick="employeeSalarySlipApproveAction(this,'{{salarySlipInfo.salarySlipPk|default('')}}', '{{salarySlipInfo.monthFk.monthName | default('')}}', '{{salarySlipInfo.monthFk.pkid | default('')}}', '{{ salarySlipInfo.year | default('') }}', '#employeeSalarySlipApproveAction');" />
+</td>
+
+     

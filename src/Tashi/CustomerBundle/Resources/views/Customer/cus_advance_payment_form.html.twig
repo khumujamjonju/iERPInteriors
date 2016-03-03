@@ -1,0 +1,99 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <input id="spanCloseOpenHandlerSearchCustomer" value="0" type="hidden">
+        <td class="td-label-title">
+            <span>Detail For  </span>
+            <span class="cusInfo"></span>           
+            {%if key|default('') == 'advPay'%}
+                <input type="button" class="button view_his_btn" value="View Payment History" style="float: right; margin-right: 50px; margin-top: -4px;" onclick="fnShowAdvancePaymentHistory('{{path('_view_advance_payment_history',{'cusID': cusPkid|default('') })}}','history');"/>
+                <input type="button" class="button close_his_btn" value="Close" style="float: right; margin-right: 50px; margin-top: -4px; display: none;" onclick="fnCloseHistoy('#cus_advance_history', '.cus_advance_history_area');"/>&nbsp;&nbsp;
+                <input type="button" class="button view_bill" value="View Outstanding Bill" style="float: right; margin-right: 50px; margin-top: -4px;" onclick="fnShowAdvancePaymentHistory('{{path('_showoutstandingbill',{'cusID': cusPkid|default('') })}}','bill');"/>
+            {%endif%}
+        </td>
+    </tr >
+    <tr id="trAddressSearchCustomer" >
+        <td>                       
+                <table width="100%" align=center border="0" cellpadding="0" cellspacing="0">    
+                    <tr>
+                        <td class="cus_advance_history_area" style=" display: none;">      
+                            <input type="hidden" id="key" value="{{key}}"/>
+                            <div id="cus_advance_history" style="padding: 5px;">
+                                {%if key|default('') == 'viwHis'%}
+                                    <script type="text/javascript">
+                                        fnShowAdvancePaymentHistory('{{path('_view_advance_payment_history',{'cusID': cusPkid|default('') })}}');
+                                    </script>
+                                {%endif%}
+                            </div>                               
+                        </td>
+                    </tr>
+                    
+                    <tr>
+                        <td id="for_cus_advance_payment_form" style="display: none;">
+                           <form id="frmCusAdvancePayment">
+                           <input type="hidden" name="txt_page_identified_key" id="page_identified_key" />
+                           <input type="hidden" name="txt_customer_id" id="customer_id" />
+                           <input type="hidden" name="txt_Advance_payment_key" id="Advance_payment_key" />
+                           <input type="hidden" name="txt_cus_advance_payment_id" id="cus_advance_payment_id" />
+                           <table id="advance_payment_tbl" width="100%" align=center border="0" cellpadding="0" cellspacing="0">  
+                               <tr>
+                                   <td class="td-gray-bg">Amount<span class="necessary-field">*</span></td>
+                                   <td class="td-white-bg">
+                                       <input type="text" class="cmnWidth" id="advance_amount" name="txt_advance_amount" onKeypress="return validationDigit('#advance_amount');"/>
+                                   </td>
+                                   <td class="td-gray-bg">Receipt Date <span class="necessary-field">*</span></td>
+                                   <td class="td-white-bg">
+                                       <input type="date" class="cmnWidth" id="payment_date" name="txt_payment_date" value="{%if tranDate is defined%}{%if tranDate is not null%}{{tranDate.lastSelectedDate|date('Y-m-d')}}{%else%}{{"now"|date('Y-m-d')}}{%endif%}{%endif%}"/>
+                                   </td>
+                               </tr>
+                               <tr>
+                                   <td class="td-gray-bg">Payment Mode <span class="necessary-field">*</span></td>
+                                   <td class="td-white-bg">
+                                       <select class="cmnWidth" id="paymentMode" name="txt_payment_mode" onchange="if(fnFindingCashPaymentMode(this.value)){  loadAccountSource(this.value, '{{ path('_load_account_source_type') }}'); }">
+                                            <option value="">--select--</option>  
+                                         {%for p in paymentMode%}
+                                            <option value="{{ p.pkid|default('') }}">{{ p.paymentModeName|default('') }} </option>                                       
+                                         {%endfor%}
+                                      </select> 
+                                      {%for p in paymentMode%} 
+                                        <input type="hidden" id="keyToDetectCash{{ p.pkid|default('') }}" value="{{ p.ispaymentNoRequired|default('') }}"/> 
+                                      {%endfor%}
+                                   </td>
+                                   <td class="td-gray-bg">Payment No. <span class="necessary-field payment_no_necessary" style="display: none;">*</span></td>
+                                   <td class="td-white-bg">
+                                       <input type="text" class="cmnWidth" id="payment_number" name="txt_payment_number" />
+                                   </td>
+                               </tr>
+                               <tr>                               
+                                   <td class="td-gray-bg">Select Account <span class="necessary-field">*</span></td>
+                                   <td class="td-white-bg" colspan="3">
+                                       <select class="cmnWidth" id="enter_account_id" name="txt_enter_account_id" {#onchange="return loadCurrentBankBalance(this.value, '{{ path('_load_current_bank_balance') }}');"#}>
+                                            <option value="">--select--</option>                                        
+                                      </select> 
+                                      {#<span id="current_balance_field" style="margin-left: 30px; display: none;">
+                                          Current Balance(<b>&#8377;</b>):  <span id="balance" style="display: none;margin-left: 10px;"></span>
+                                      </span> #}
+                                   </td>
+                               </tr>
+                               <tr>                               
+                                   <td class="td-gray-bg">Description <span class="necessary-field">*</span></td>
+                                   <td class="td-white-bg" colspan="3">
+                                       <textarea  id="description" name="txt_description" cols="100" rows="4"></textarea>
+                                   </td>
+                               </tr>
+                               <tr>                                                                
+                                   <td class="td-white-bg" colspan="4" align="center">                                      
+                                        <input type="button" class="button" id="btn_save" value="Save" onclick="saveCusAdvancePayment(this, '{{ path('_save_advance_payment') }}');" />
+                                        <input type="button" class="button" id="btn_edit" value="Edit" onclick="editCusAdvancePayment(this);" style="display: none;"/>
+                                        <input type="button" class="button" id="btn_clear" value="Clear" onclick="return resetAnyForm();" />
+                                        <input type="button" class="button" id="btn_cancel" value="Cancel" onclick="fnCancelCusAdvancePaymentEdit(this);" style="display: none;"/>                                       
+                                        <input type="button" class="button" id="btn_close" value="Close" onclick="fnCloseEmptyElement('#cus_advance_payment_form_reload');" style="display: none;"/> 
+                                   </td>
+                               </tr>
+                           </table>
+                           </form>
+                        </td>
+                    </tr>                  
+                </table>     
+        </td>
+    </tr>
+</table>

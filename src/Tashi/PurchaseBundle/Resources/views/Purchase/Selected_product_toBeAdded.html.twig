@@ -1,0 +1,70 @@
+{%set pocode=0%}
+{%if pd is defined%}
+{%set pocode =pd%}
+{%endif%}
+<tr id="unit{{prod.pkid}}" width=100% style="border-bottom: 1px dashed #000;">
+     
+    <td class=" " style="padding:5px;">{{prod.productName }}<br/>({{prod.productCode}})
+    <input type="hidden" name="{{'productid'~prod.pkid}}" value="{{1}}"/>
+    <input type="hidden" name="pid" value="{{prod.pkid}}"/>
+    </td>   
+    <td class="" style="padding:5px;width: 40px;">
+    <input id="{{'quantityID'~prod.pkid}}" class="quantityID" style="width: 40px;" type="text" name="{{'quantity'~prod.pkid}}"  value="0" 
+    onkeyup="fnQuantityWithAmount({{prod.pkid}});"/>
+    </td>
+    {%if pocode != 0%}
+    <td class="" style="padding:5px;width: 40px;font-size: 13px;font-weight: bold;">
+    <input id="{{'dquantity'~prod.pkid}}" class="txt_dquantity" style="width: 40px;" type="text" name="{{'deliverquantity'~prod.pkid}}"  value="0" 
+    onkeyup="fnQuantityWithAmount({{prod.pkid}});"/>
+    </td>
+    {%endif%}
+    
+    
+    {#<td class="" style="padding:5px;width:40px;">
+    <input id="dquantity" class="txt_dquantity" style="width: 40px;" type="text" name="{{'deliverquantity'~prod.pkid}}"  value="0"/>
+    </td>#}
+    <td class="" style="padding:5px;">
+   <select id="unit" class="ddlb_unit" name="{{'unitid'~prod.pkid}}">
+   <option value="0">--Select--</option>
+   {%for u in unit %}
+   <option value="{{u.pkid}}">
+   {{u.unitName}}
+   </option>
+   {%endfor%}
+    </select>           
+    </td>
+    <td class="" style="padding:5px;">
+    <input type="text" class="total1" name="{{'totalprice'~prod.pkid}}" id="{{'totalprice'~prod.pkid}}" style="width:100px;"value="{{0}}"/>
+    <input type="hidden" class="total2"  id="{{'totalquoted'~prod.pkid}}" style="width:50px;" name="quotedtotal[]" value="{{0}}"/>
+   <input type="hidden" id="{{'price'~prod.pkid}}" class="total" name="{{'price'~prod.pkid}}" value="{{price.costPrice}}"/>
+    </td>    
+    <td class="" style="padding:5px;width: 50px;">
+    <input id="tax" type="text" name="{{'tax'~prod.pkid}}" value="{{0}}" class="taxtotal" style="width: 70px;" onkeyup="fnCalculateTax();"/>
+    </td> 
+    <td class="" style="padding:5px;">
+    <input type="text" name="{{'remarks'~prod.pkid}}"  value="" style="width: 100px;"/>
+    </td>
+    <td class="" style="padding:5px; width:250px;">
+        <input type="checkbox" style="width: 30px;"id="test"
+               onclick="loadProjectRelatedItems_Page('{{'project_list'~prod.pkid}}',this);"  name="{{'isrelated'~prod.pkid}}" /> 
+        <input type="hidden" class="{{'project_list'~prod.pkid}}" id="checkboxvalue" name="{{'txt_isrelated'~prod.pkid}}" value="{{0}}"/>
+
+
+        <select  class="{{'project_list'~prod.pkid}}" name="{{'project'~prod.pkid}}">
+            <option value="">--Select--</option>
+            
+          {%for p in project.detail%}
+            <option value="{{p.projectFk.pkid}}">{{p.projectFk.areaFk.area}}[{{p.projectFk.orderNo}}]</option>
+          {%endfor%}
+        </select>
+
+
+
+    </td>
+    <td class="" style="padding:5px;">
+        <a href="javascript:void(0);" onclick="$(this).parent().parent().remove()"
+           style="color:#ff0000;">Remove</a>              
+    </td>
+</tr>
+
+ 

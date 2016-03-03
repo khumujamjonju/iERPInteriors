@@ -1,0 +1,99 @@
+
+<div class='sub-menu'>
+<ul>
+<li class='active'><a  href="javascript:void();">Create Wallet</a></li> 
+{# <li id="Search_Purchase_id"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_search_purchase')}}', 'Search_Purchase_id', 'Purchase', 'Search Purchase', 'Search Purchase');"><span>Search</span></a></li> #}
+</ul>
+    </div>
+    <div class="newdashboard"> 
+        <div class="application-form"> 
+            <form id="WalletEntry">
+            
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+        <tr>
+            <td class="td-label-title">Enter Wallet Details:</td>
+        </tr>
+        <tr>
+            <td>                 
+                
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                             
+                        <tr>
+                            <td class="td-gray-bg cmnWidth" style="text-align: right;">Select An Employee:</td>
+                            <td class="td-white-bg cmnWidth">
+                            <select class="cmnWidth" name="selectedEMp">
+                            <option value="">--Select--</option>
+                            {%for w in emp%}
+                            <option value="{{w.employeePk}}">{{w.personFk.personName}}</option>
+                            {%endfor%}
+                            </select>
+                            
+                            </td>
+                            <td class="td-gray-bg cmnWidth">
+                            <input type="button" class="button" id="btnSearchEmp" value="Search" onclick="return SearchEmployee(this);"></td>
+                            <td class="td-white-bg cmnWidth"> <input type="hidden" id="inputsearchempUrl" value="{{path("_searchEmployee")}}"/></td>
+                            
+                        </tr>
+                        
+                    </table>
+                                          
+            </td>
+        </tr> 
+    </table> 
+            
+
+        <div id="divEmpDetails">
+            
+            
+        </div>
+            <br/>    
+        <div id="displayWalletDetails">
+         <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Employee Wallet Details List:</td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr>
+                                <th class="tbl-th-grid-view-row-no-bg">Sl No</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Employee Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Wallet Description</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+
+                        <tbody>                           
+                               
+                               {%for w in wallet %} <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{loop.index}} </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <input type="hidden" name="employeeid" id="txt_eid" value="{{w.empFk.employeePk}}"/>
+                                    {{w.empFk.personFk.personName}} </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{w.accDescription}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <a href="javascript:void();" onclick="RetriveWalletDetails('{{ path('_retreivewallet',{'accountid': w.accntId | default('')})}}')">Edit</a> |
+                                    <a href="javascript:void();" onclick="deleteWalletDetails('{{ path('_deleteWallet',{'accountid': w.accntId | default('')})}}');">Delete</a></td>
+                                </tr> 
+                               {%endfor%}
+                       </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>
+        </div>        
+                
+                
+                
+ 
+    </form>   
+                
+            </div>
+            </div>
+
+
+
+
+
+
+

@@ -1,0 +1,7 @@
+parameters:
+    tashi.service.invoice.class : Tashi\InvoiceBundle\Service\InvoiceService
+
+services:
+    tashi.invoice.service:
+        class:     "%tashi.service.invoice.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]

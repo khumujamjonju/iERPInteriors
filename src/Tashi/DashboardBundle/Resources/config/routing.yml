@@ -1,0 +1,3 @@
+_dashboard:
+    resource: "@TashiDashboardBundle/Controller/DashboardController.php"
+    type:     annotation

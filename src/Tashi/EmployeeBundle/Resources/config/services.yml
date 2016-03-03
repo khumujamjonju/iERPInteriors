@@ -1,0 +1,7 @@
+parameters:
+    tashi.service.employee.class : Tashi\EmployeeBundle\Service\EmployeeService
+
+services:
+    tashi.employee.service:
+        class:     "%tashi.service.employee.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]

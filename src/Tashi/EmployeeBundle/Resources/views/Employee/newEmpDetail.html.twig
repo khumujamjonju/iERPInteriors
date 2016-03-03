@@ -1,0 +1,121 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+    <tr>
+        <td class="td-label-title">Employee Details: <label id="display_txt_employeeID" style="margin-left: 20px;"></label></td>
+    </tr>
+    <tr>
+        <td class="td-separator" id="inner-sub-menu">    
+            <div class='sub-menu'>
+                <ul>
+                    {% if key == 1%}
+                        <li class='active'><a id="add_new_employee" href="javascript:void();" onclick="loadEmpDetails('{{path('_new_employee_detail')}}', '.application-form', 1);">Personal Details</a></li> 
+                    {%else%}
+                        <li class='active'><a id="add_new_employee" href="javascript:void();" onclick="loadEmpDetails('{{path('_new_employee_detail')}}', '#employee_office', 2);">Personal Details</a></li> 
+                    {%endif%}
+                      
+                    <li id="job_details"><a href="javascript:void();" onclick="if(checkPersonalDetails('#empID')){ fnInnerSubMenuNavigation('{{path('_job_details')}}', 'job_details', 'empID');}">Job Details</a></li>
+                    <li id="address_details"><a href="javascript:void();" onclick="if(checkPersonalDetails('#empID')){ fnInnerSubMenuNavigation('{{path('_employee_address_details')}}', 'address_details', 'empID');}">Address Details</a></li>  
+                    <li id="contact_details"><a href="javascript:void();" onclick="if(checkPersonalDetails('#empID')){ fnInnerSubMenuNavigation('{{path('_employee_contact_details')}}', 'contact_details', 'empID');}">Contact Details</a></li>
+                    <li id="bank_acc_detail"><a href="javascript:void();" onclick="if(checkPersonalDetails('#empID')){ fnInnerSubMenuNavigation('{{path('_employee_bank_acc')}}', 'bank_acc_detail', 'empID');}">Bank Account Details</a></li>
+                    {#<li id="bank_details"><a href="javascript:void();" onclick="if(checkPersonalDetails('#empID')){ fnInnerSubMenuNavigation('{{path('_bank_account')}}', 'bank_details', 'empID');}">Bank Account Details</a></li>#}
+                    <li id="dependant_details"><a href="javascript:void();" onclick="if(checkPersonalDetails('#empID')){ fnInnerSubMenuNavigation('{{path('_dependent_details')}}', 'dependant_details', 'empID');}">Dependent Details</a></li>
+                 {#   <li id="qualification"><a href="javascript:void();" onclick="fnInnerSubMenuNavigation('{{path('_emp_qualification')}}', 'qualification', 'empID');">Qualification</a></li>
+                    <li id="experience"><a href="javascript:void();" onclick="fnInnerSubMenuNavigation('{{path('_emp_experience')}}', 'experience', 'empID');">Experience</a></li> #}
+                </ul>
+            </div>
+            <div class="right-inner-sub-content"> 
+                <form id="emp_personal_details">
+                <div class="personal_detials" >                           
+                    <table id="emp_personal_tbl" width="100%" align="center" cellpadding="0" cellspacing="0" style="margin-top: 5px; border-top: 1px dotted #ccc; border-left: 1px dotted #ccc; border-right: 1px dotted #ccc;">                                                                                                                                            
+                        <tr>
+                            <td class="td-gray-bg">Employee ID: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg" colspan="2">
+                                <input class="cmnWidth" type="text" id="employee_id" name="txt_employee_id"/>    
+                            </td> 
+                            <td class="td-gray-bg" rowspan="4" align="center" style="border-left: 1px dotted #ccc;">
+                                <div style="border: 1px solid #ccc; padding: 3px; padding-bottom: 0px; width: 120px; border-radius: 3px;">
+                                    <img id="profile-view" src="{{ asset('bundles/common/images/unk.jpg') }}" width="120" height="130"> 
+                                    <div class="upload-profile-pic-btn" onclick="clickOnChooseFile('#emp_pro_pic');"> upload profile picture</div>
+                                </div>
+                                <input class="cmnWidth" type="file" id="emp_pro_pic" name="txt_emp_pro_pic" onchange="readURL(this, 'profile-view');" style="display: none;">
+                            </td>  
+
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">First Name: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg" colspan="2">
+                                <input class="cmnWidth" type="text" id="emp_firstname" name="txt_emp_firstname"/>                                            
+                            </td>                                                                                        
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Middle Name:</td>
+                            <td class="td-white-bg" colspan="2">
+                                <input class="cmnWidth" type="text" id="emp_middlename" name="txt_emp_middlename"/>                                         
+                            </td>                                                                                        
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Last Name: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"  colspan="2">
+                               <input class="cmnWidth" type="text" id="emp_lastname" name="txt_emp_lastname"/>                                               
+                            </td> 
+
+                        </tr>
+                        <tr>                                  
+                            <td class="td-gray-bg">Gender: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <input class="cmnRadioBtn" type="radio" class="gender" id="emp_gender_male" name="txt_emp_gender" value="M" ><span style="font-family:arial,sans-serif,helvitica;font-size: 12px;font-weight: normal;">Male </span> &nbsp;&nbsp;&nbsp;
+                                <input class="cmnRadioBtn" type="radio" class="gender" id="emp_gender_female" name="txt_emp_gender" value="F" ><span  style="font-family:arial,sans-serif,helvitica;font-size: 12px;font-weight: normal;">Female</span>
+                            </td>
+                            <td class="td-gray-bg">Marital Status:</td>
+                            <td class="td-white-bg" colspan="3">
+                                <input class="cmnRadioBtn" type="radio" id="emp_married" name="txt_emp_marital_status" value="M" ><span class="cmnText">Married </span> &nbsp;&nbsp;&nbsp;
+                                <input class="cmnRadioBtn" type="radio" id="emp_unmarried" name="txt_emp_marital_status" value="U" ><span class="cmnText">Unmarried</span>                                          
+                            </td>                        
+                        </tr>
+                        <tr>   
+                            <td class="td-gray-bg">DOB: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth datepicker" type="date" id="emp_dob" name="txt_emp_dob"/>                                     
+                            </td>
+                            <td class="td-gray-bg">Father Name: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg" colspan="3">
+                                <input type="text" class="cmnWidth"  id="father_name" name="txt_father_name"/>                                     
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Nationality:</td> 
+                            <td class="td-white-bg" >
+                                <Select class="cmnWidth" name="txt_emp_nation" id="emp_nation">
+                                    <option value="">--Select--</option>
+                                         {%for c in nationality%}
+                                            <option value="{{c.pkid}}">{{c.nationality | default(' ')}}</option>
+                                         {%endfor%} 
+                                </Select>                                    
+                            </td>
+                            <td class="td-gray-bg">Religion:</td>
+                            <td class="td-white-bg" colspan="3">
+                                <Select class="cmnWidth" name="txt_emp_religion" id="emp_religion">
+                                    <option value="">--Select--</option>
+                                         {%for c in religion%}
+                                            <option value="{{c.pkid}}">{{c.religionName | default(' ')}}</option>
+                                         {%endfor%} 
+                                </Select>                                    
+                            </td>                     
+                        </tr>
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveEmpPersonDetails(this,'{{path('_save_emp_personalDetails')}}');"/>
+                                <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="empEmpPersonalDetailBtn(this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_update" value="Update" onclick="return saveEmpPersonDetails(this,'{{path('_save_emp_personalDetails')}}');"  style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="return cancelEmpPersonDetails(this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                            </td>  
+                        </tr>
+                    </table>
+                </div>           
+              </form>
+            </div>                                                                                                           
+        </td>
+    </tr> 
+</table> 
+        

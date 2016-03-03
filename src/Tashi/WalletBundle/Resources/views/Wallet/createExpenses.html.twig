@@ -1,0 +1,50 @@
+
+<div class='sub-menu'>
+<ul>
+<li class='active'><a  href="javascript:void();">Wallet Expenses</a></li> 
+</ul>
+</div>
+    <div class="newdashboard"> 
+        <div class="application-form"> 
+            <form id="WalletExpenses">
+            
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+                <tr>
+                    <td class="td-label-title">Enter Expenses Details:</td>
+                </tr>
+                <tr>
+                    <td>                 
+
+                            <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                             
+                                <tr>
+                                    <td class="td-gray-bg cmnWidth" style="text-align: right;">Search By Employee ID:</td>
+                                    <td class="td-white-bg cmnWidth">
+                                    <input class="cmnWidth" type="text" id="txt_employee" name="employeename"  onkeypress="return disableEnterKey(event);"/>
+                                    </td>
+                                    <td class="td-gray-bg cmnWidth">
+                                    <input type="button" class="button" id="btnSearchEmp" value="Search" placeholder="First Name" 
+                                    onclick="return SearchEmployeeIDSearch('{{path("_searchEmpExpenses")}}',this);"></td>
+                                    <td class="td-white-bg cmnWidth"></td>
+                                </tr>
+                            </table>
+
+                    </td>
+                </tr> 
+            </table> 
+            
+
+        <div id="divEmpWalletDetails">
+            
+            
+        </div>
+            <br/>    
+    </form>   
+    </div>
+</div>
+
+
+
+
+
+
+

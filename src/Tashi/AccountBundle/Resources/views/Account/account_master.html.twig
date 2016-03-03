@@ -1,0 +1,94 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active' onclick="fnLeftMenuNavigation('{{path('_account_master')}}', 'master_setting', 'Account Purchase', 'Account Master');"><a  href="javascript:void();" >Account Head</a></li>
+        <li id="bank_li"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_bank_account')}}', 'bank_li', 'Bank Account', 'Master Setting', 'Manage Bank Account');"><span>Manage Bank Account</span></a></li>
+        <li id="cash_li"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_mastercash_account')}}', 'cash_li', 'Cash Account', 'Master Setting', 'Manage Cash Account');"><span>Manage Cash Account</span></a></li>
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form"> 
+        <form id="frmAccountHead" style="margin: 0px;">
+            <input type="hidden" id="acc_head_id" name="txt_acc_head_id" />
+            <table id="account_head_form_tbl" width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+                 <tr>
+                    <td class="td-label-title" colspan="4">Create Account Head:</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Select Account Type <span class="necessary-field">*</span></td>
+                    <td class="td-white-bg">
+                        <select class="cmnWidth" id="acc_type" name="txt_acc_type">
+                            <option value="">--select--</option>
+                          {%for a in accountType|default('')%}
+                            <option value="{{a.pkid|default('')}}">{{a.typeName|default('')}}</option>
+                          {%endfor%}
+                        </select>
+                    </td>               
+                </tr>   
+                <tr>
+                    <td class="td-gray-bg">Account Head Name <span class="necessary-field">*</span></td>
+                    <td class="td-white-bg"><input type="text" class="cmnWidth" id="acc_head_name" name="txt_acc_head_name" onkeypress="return NullonEnterKey(event);" /></td>             
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Description</td>
+                    <td class="td-white-bg"><textarea id="description" name="txt_description" cols="80" rows="4"></textarea> </td>              
+                </tr>
+                <tr>              
+                    <td class="td-white-bg" colspan="3" align="center">
+                        <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveAccountHead(this, '{{ path('_save_account_head')}}');"/>
+                        <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editAccountHeadField(this);" style="display: none;"/>
+                        <input type="button" class="button blue" id="btn_update" value="Update" onclick="return saveAccountHead(this, '{{ path('_save_account_head')}}');"  style="display: none;"/>
+                        <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="cancelPayrolMasterField(this);" style="display: none;"/>
+                        <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/> 
+                    </td>             
+                </tr>
+            </table>
+        </form>
+        <div id="display_list" style="margin-top: 8px;">
+               <table  width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                    <tr>
+                        <td class="td-label-title">Account Head Details:</td>
+                    </tr>
+                    <tr>
+                        <td>                    
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr>
+                                        <th class="tbl-th-grid-view-row-no-bg">Sl.No.</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Account Head Name</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Acount Type</th>                                        
+                                        <th class="tbl-th-grid-view-row-no-bg">Descriptin</th>                                        
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                                    </tr>
+                                </thead>
+
+                                <tbody>                           
+                                {%for a in allAccountHead|default('')%} 
+                                        <tr>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.headName|default('') }}</td>                                           
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.accountTypeFk.typeName|default('') }}</td>   
+                                            <td class="tbl-grid-view-row-no-bg" align="center" style="text-align: justify; width: 350px;"> {{ a.description|default('') }}</td>                                          
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                                {%if a.isReserve|default('') == 1%}
+                                                        NA
+                                                {%else%}
+                                                    <select class="normal_select" id="accHeadAction{{a.pkid|default('')}}" name="txt_accHeadAction" >
+                                                        <option value="">Select</option>                                
+                                                        <option value="{{path('_retrive_account_head_record',{'pkid': a.pkid|default('')})}}&upd">Edit</option>
+                                                        <option value="{{path('_delete_account_head_record',{'pkid': a.pkid|default('')})}}&del">Delete</option>
+                                                    </select> 
+                                                    <input class="button" name="commit" type="button" value="Go" onClick="accountHeadAction(this,'{{a.pkid|default('')}}','#accHeadAction');" />                                                  
+                                                {%endif%}
+                                            </td>                                                 
+                                        </tr>                    
+                                {%endfor%}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>                                 
+                </table>
+            </div>
+    </div> 
+  </div>
+

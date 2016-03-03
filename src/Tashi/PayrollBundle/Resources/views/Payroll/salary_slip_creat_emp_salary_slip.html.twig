@@ -1,0 +1,174 @@
+   
+<form id="frmEmployeeSalSlip">  
+    <div id="printHere">
+        {# percentage values for basic salary  and HRA of employee#}
+        <input type="hidden" name="txt_basic_calculate_pc" value="{{ payrollMaster.basicCalculationPercent|default('') }}"/>
+        <input type="hidden" name="txt_hra_calculate_pc" value="{{ payrollMaster.hrCalculationPercent|default('') }}"/>
+        {# for employee#}
+        <input type="hidden" id="empGrossSalary" name="txt_gross_sal" value="{{ empDetails.grossSalary|default('') }}" /> 
+        <input type="hidden" id="created_salary_slip_id" name="txt_created_salary_slip_id" value=""/>
+        <input type="hidden" name="txt_emp_id" id="txt_empid" value="{{empDetails.employeePk|default('')}}"/>
+        <input type="hidden" id="pageType" value="creatPage" />
+        <table width="100%" id="created_salary_form_tbl" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title salary-slip-form-tbl-title" colspan="2">Create Employee Salary Slip:</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px; background: #F8F8F8;" valign="top">
+                    <table>
+                        <tr>
+                            <td>NAME:</td>
+                            <td><span style="margin-left: 10px; font-weight: normal;">{{ empDetails.personFk.personName|default('') }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>DESIGNATION:</td>
+                            <td><span style="margin-left: 10px; font-weight: normal;">{{ empDetails.empJobTitleFk.jobTitleName|default('') }}</span></td>
+                        </tr>
+                    </table>                   
+                </td>
+                <td style="padding: 5px; background: #F8F8F8;" valign="top">
+                    <table>
+                        <tr>
+                            <td>MONTH:</td>
+                            <td><span id="monthYear" style="margin-left: 10px;font-weight: normal;"></span></td>
+                        </tr>
+                        <tr>
+                            <td>GROSS SALARY: </td>
+                            <td><span style="margin-left: 10px;font-weight: normal;">{{ empDetails.grossSalary|default('') }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>SALARY GRADE:</td>
+                            <td><span style="margin-left: 10px;font-weight: normal;">{{ empDetails.salaryGrade|default('') }}</span></td>
+                        </tr>
+                    </table>                    
+                </td>
+            </tr>
+            <tr>            
+                <td align="center" colspan="2" style="font-size: 13px; border-top: 1px dotted #ccc; background: rgb(240, 240, 240);">                 
+                    <div style="float: left; width: 49.8%;">
+                        <table id="emolumentsFormTbl" width="100%" align="center" border="0" cellpadding="0" cellspacing="0">   
+                            <tr>
+                                <td class="td-gray-bg" colspan="2" align="center" style="font-size: 13px; font-weight: bold; border-bottom: 1px dotted rgb(240, 240, 240); border-right: 1px dotted rgb(240, 240, 240); background: rgb(240, 240, 240);">
+                                    Earning
+                                </td>                                                         
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg" style="border-top: 1px dotted #ccc;">Basic ({{payrollMaster.basicCalculationPercent|default('')}}% of Gross)</td>
+                                <td class="td-white-bg" style="border-top: 1px dotted #ccc;">
+                                    {% set basic = 0%}
+                                    {% set basic = empDetails.grossSalary|default(0) * (payrollMaster.basicCalculationPercent|default(0) / 100) %}
+                                    <input class="cmnWidth inputDisable_bg earning" type="text" id="basic" name="txt_basic_sal_amt" value="{{ basic|default(0) }}" readonly/>
+                                </td>                            
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">HRA ({{payrollMaster.hrCalculationPercent|default('')}}% of Basic)</td>
+                                <td class="td-white-bg">
+                                    {% set hra = 0%}
+                                    {% set hra = basic|default(0) * (payrollMaster.hrCalculationPercent|default(0) / 100) %}
+                                    <input class="cmnWidth inputDisable_bg earning" type="text" id="hra" name="txt_hra_amt" value="{{ hra|default(0) }}" readonly/>
+                                </td>
+
+                            </tr>                           
+                            <tr>                             
+                                <td class="td-gray-bg" align="center"><b>Total Salary</b></td>
+                                <td class="td-white-bg">
+                                    <b>&#8377;.</b>&nbsp;&nbsp;<span class="earningTotal"></span>
+                                    <input class="cmnWidth" type="hidden" id="earningTotal" name="txt_earning_total"/>
+                                </td>
+                            </tr>                         
+                        </table>
+
+                    </div>
+                             
+                    <div style="float: right; width: 49.8%;">
+                        <table id="deductionsFormTbl" width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                             <tr>
+                                <td class="td-gray-bg" colspan="2" align="center" style="font-size: 13px; font-weight: bold; border-bottom: 1px dotted rgb(240, 240, 240); background: rgb(240, 240, 240);">Deduction</td>                                                         
+                            </tr>
+
+                            <tr>
+                                <td class="td-gray-bg" style="border-top: 1px dotted #ccc;">
+                                    Repayment for Advance:
+                                    (Current Due : <b>&#8377;.</b> <span class="totalDueAdvancePayment" style="font-weight: bold;">{{ totalDueAdvancePaymentAmount|default(0) }}</span>  )
+                                    <input type="hidden" id="current_due_advance_taken_amount" name="txt_current_due_advance_taken_amount" value="{{ totalDueAdvancePaymentAmount|default('') }}"/>                                   
+                                </td>
+                                <td class="td-white-bg" style="border-top: 1px dotted #ccc;">
+                                    {%if empAccountObj.deductionAdjustedAdvancePay|default('') ==0%}
+                                        <input readonly  class="cmnWidth  inputDisable_bg deduction useField"  type="text" id="repaid_advance_amt" name="txt_repaid_advance_amt" value="{{ empAccountObj.deductionAdjustedAdvancePay|default('') }}" onKeypress="return validationDigit('#repaid_advance_amt');"   onkeyup="fnCalculateNetSalary(); return checkAmount('#repaid_advance_amt', '#originalTotalDueAdvancePayment', 'advance');"/>
+                                        {%else%}
+                                        <input class="cmnWidth  deduction useField"  type="text" id="repaid_advance_amt" name="txt_repaid_advance_amt" value="{{ empAccountObj.deductionAdjustedAdvancePay|default('') }}" onKeypress="return validationDigit('#repaid_advance_amt');"   onkeyup="fnCalculateNetSalary(); return checkAmount('#repaid_advance_amt', '#originalTotalDueAdvancePayment', 'advance');"/>
+                                        {%endif%}
+                                                                     </td>                            
+                            </tr>                          
+                            <tr>                             
+                                <td class="td-gray-bg">Adjustment from Wallet:
+                                    
+                                    (Current Balance : <b>&#8377;.</b><span class="empAccountBal" style="font-weight: bold;">{{ empAccountObj.balanceAmount|default(0) }}</span> )
+                                    <input type="hidden" id="emp_current_bal" name="txt_emp_current_bal" value="{{ empAccountObj.balanceAmount|default('') }}"/>
+                                    
+                                </td>
+                                <td class="td-white-bg">
+                                    {%if empAccountObj.balanceAmount|default('')==0%}
+                                        <input readonly class="cmnWidth  inputDisable_bg deduction useField"  type="text" id="adjustment_wallet_bal" name="txt_adjustment_wallet_bal" onKeypress="return validationDigit('#adjustment_wallet_bal');"   onkeyup="fnCalculateNetSalary(); return checkAmount('#adjustment_wallet_bal', '#emp_current_bal', 'adjustFromWallet');"/>
+                                        {%else%}
+                                          <input class="cmnWidth  deduction useField"  type="text" id="adjustment_wallet_bal" name="txt_adjustment_wallet_bal" onKeypress="return validationDigit('#adjustment_wallet_bal');"   onkeyup="fnCalculateNetSalary(); return checkAmount('#adjustment_wallet_bal', '#emp_current_bal', 'adjustFromWallet');"/>      
+                                            {%endif%}
+                                    
+                                </td>
+                            </tr>                                                                                                
+                            <tr>
+                                <td class="td-gray-bg" align="center"><b>Total Deduction</b></td>
+                                <td class="td-white-bg">
+                                    <b>&#8377;.</b>&nbsp;&nbsp;<span class="deductionTotal"></span>
+                                    <input class="cmnWidth" type="hidden" id="deductionTotal" name="txt_total_deduction_amt"/>
+                                </td>
+                            </tr>                         
+                        </table>
+
+                    </div>
+                </td>
+            </tr> 
+            <tr id="addNewEmolumentDeductionFieldTr">
+                <td class="td-gray-bg" colspan="2" style="text-align: center;">                                                                                          
+                    <input class="button blue basic emolumentDeductionAddBtn" type="button" value="Add New Emolument OR Deduction Field" onclick="showPopUpForm('#modal-form-content', '{{ path('_popup_form_emolument_deduction_master') }}');"/>
+                    <div id="modal-form-content" style="display:none;"></div>                               
+                </td>
+            </tr>
+            <tr>
+                <td class="td-gray-bg" colspan="2" style="text-align: center;">                        
+                    <b style="font-size: 13px;">Net Salary (Total Salary - Total deductions): </b>                                                
+                    <b style="font-size: 13px; margin-left: 20px;">&#8377;. <span class="net_salary"></span></b>                                                        
+                    <input class="cmnWidth" type="hidden" id="net_salary" name="txt_net_sal_amt"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-separator" colspan="2" style="text-align: center;"> 
+               {%if key == 'create'%}
+                     <input type="button" class="button blue" id="btn_save" value="Create" onclick="saveCreatedSalarySlip(this, '{{path('_save_created_salary_slip')}}');"/>
+               {%elseif key == 'viewEdit'%} 
+                    <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editSalarySlipField();" style="display: none;"/>
+               {%endif%}
+               <input type="button" class="button blue" id="btn_update" value="Update" onclick="saveCreatedSalarySlip(this, '{{path('_save_created_salary_slip')}}');" style="display: none;"/> 
+               <input type="button" class="button blue" id="btn_ok" value="Cancel" onclick="fnCmnEmptyElementAndShowAnotherElement('#salary_slip_form', '.approval_salary_slip');" style="display: none;"/>
+               <input type="button" class="button blue" id="btn_print" value="Print" onclick="saveCreatedSalarySlip(this, '{{path('_save_created_salary_slip')}}');" style="display: none;"/> 
+               <input type="button" class="button" id="print" value="Print" onclick="divPrint();" style="display:none;"/> 
+              {#<input type="button" class="button" id="btn_Sendmail" name="btn_mail" value="SendMail" 
+               onclick="SendMailWithAttachment('{{path('_Payrolsendingmailwithattachment')}}');"/>#}
+                    
+                    
+                    
+                    
+                    
+                    
+                    </td>
+            </tr>
+        </table>
+        
+        
+        </div>
+        
+    <div id="imagehgh" style="width:300px;height:100px;display:none;">
+            
+           
+    </div>
+</form>

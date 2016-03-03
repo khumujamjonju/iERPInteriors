@@ -1,0 +1,99 @@
+<table width="100%" border="0" class="tbl-border" cellpadding="0" cellspacing="0">           
+    <tr>
+    <input id="spanCloseOpenHandlerprdlist" value="0" type="hidden">
+    <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('prdlist');">List of Product under '{{objcat.categoryName}}'
+        <span style="float: right;" id="spanIdprdlist" class="span_open" >&nbsp;</span>        
+    </td>
+        </tr>
+    <tr id="trAddressprdlist">
+        <td>
+            <table id="example" width="100%" align="center" id="example2" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg">#</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Product</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Description</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Manufacturer</th>
+                        <th class="tbl-th-grid-view-row-no-bg" align="right">Purchase Price</th> 
+                        <th class="tbl-th-grid-view-row-no-bg" align="right">Selling Price</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Units</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Services</th>
+                       {# <th class="tbl-th-grid-view-row-no-bg">Approval Status</th>#}
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                    </tr>
+                </thead>
+
+                <tbody>  
+                        {%for prd in obj%}
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{loop.index}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="left">
+                                    {%if prd[0].product.pictureFk is null%}
+                                        <img src="{{asset("bundles/common/images/noimage.png")}}" alt="image" class="prodlist"/>
+                                    {%else%}
+                                        <img src="{{asset(prd[0].product.pictureFk.path)}}" alt="image" class="prodlist"/>
+                                    {%endif%}
+                                    {{prd[0].product.productName|default('')}}<br/>{{prd[0].product.productCode|default('')}}</td>
+                                <td style="width: 200px;" class="tbl-grid-view-row-no-bg" align="left">{{prd[0].product.productDesc|default('')}}</td>  
+                                <td  class="tbl-grid-view-row-no-bg" align="center">{{prd[0].product.manufacturer|default('')}}</td>
+                                <td  class="tbl-grid-view-row-no-bg" align="right">{{prd[0].costPrice|number_format('2','.')|default('')}}</td>   
+                                <td  class="tbl-grid-view-row-no-bg" align="right">{{prd[0].markupPrice|number_format('2','.')|default('')}}</td>   
+                                {#<td  class="tbl-grid-view-row-no-bg" align="center">
+                                    {%set approval=prd[0].product.statusFlag|default('')%}
+                                    {%if approval=='1'%}
+                                        <span style="color:#009900;">Approved</span>
+                                    {%elseif approval=='2'%}
+                                        <span style="color:#ff0000;">Pending</span>
+                                    {%endif%}</td>#}
+                                <td class="tbl-grid-view-row-no-bg" style="text-align:justify;">
+                                    {%set units=''%}
+                                    {%for i in range(0,unitArr|length-1)%}
+                                        {%if unitArr[i].productFk.pkid==prd[0].product.pkid%}
+                                            {%set units=units~unitArr[i].unitName~', '%}                                    
+                                        {%endif%}
+                                    {%endfor%}
+                                    {{units|trim(', ')}}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" style="text-align:justify;">
+                                    {%if serviceArr|length>0%}
+                                        {%set services=''%}
+                                        {%for i in range(0,serviceArr|length-1)%}
+                                            {%if serviceArr[i].productFk.pkid==prd[0].product.pkid%}
+                                                {%set services=services~serviceArr[i].serviceName~', '%}                                    
+                                            {%endif%}
+                                        {%endfor%}
+                                        {{services|trim(', ')}}
+                                    {%endif%}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">                           
+                                    {%if actionmode is defined%}
+                                        <input type="button" class="button" value="Approve" onclick="gotoapproveproduct('{{ path('_gotoapproveprod',{'prodid': prd[0].product.pkid,'from':'xyz'})}}');">
+                                    {%else%}
+                                        <select id="prodtype{{prd[0].product.pkid}}" class="cmnWidth" style="width: 100px;">
+                                            <option value="">--Select--</option>
+                                            <option value="{{ path('_vieweditproduct',{'prodID': prd[0].product.pkid,'from':from})}}&view">View & Edit</option>
+                                            {#<option value={{path('_add_subcategory_product',{'pkid':prd.pkid})}}>Add New Stock</option>
+                                            <option value="{{ path('_editUpdateproduct',{'prodID': prd[0].product.pkid})}}">Edit</option>#}
+                                            <option value="{{ path('_delproduct',{'prodid': prd[0].product.pkid,'from':from})}}&del">Delete</option>
+                                        </select>
+                                        <input class="button blue" onclick="ViewProductDetail('{{prd[0].product.pkid}}','create','{{from}}');" type="button" id="btn_go" value="Go">
+                                    {%endif%}                               
+                                </td>
+                            </tr>            
+                       {%endfor%}
+                </tbody>
+            </table>
+        </td>
+        </tr> 
+    </table> 
+                <br/>
+    {%if actionmode is not defined%}
+        <input class="button blue" onclick="GotoCreateNewProd('{{path('_gotonewproduct',{'catid':objcat.pkid})}}');" 
+               type="button" id="btn_go" value="Add New Product" style="float:right;">
+    {%endif%}
+    
+<div id="categoryarea">
+</div>
+<div id="editArea">
+</div>{# empty Twig template #}
+{# empty Twig template #}

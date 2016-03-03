@@ -1,0 +1,179 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+    <tr>
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('SearchStk');" style="cursor:pointer;">Filter  
+            <input id="spanCloseOpenHandlerSearchStk" value="1" type="hidden"/>
+                        <span style="float: right;" onclick="lmsShowHideAddressResult('SearchStk');" id="spanIdSearchStk" class="span_close" >&nbsp;</span>
+        </td>
+    </tr>
+    <tr id="trAddressSearchStk" style="display:none;">
+        <td>
+            <form id ="SearchStockForm">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" >
+                    <tr>
+                        <td class="td-gray-bg" width="150px">Filter By</td>
+                        <td class="td-white-bg" width="150px">
+                            <select id="selSearchStkBy" name="selSearchStkBy" onchange="toggleStkSearchCriteria(this.value);">
+                                {#<option value='prod'>Product Code/Name</option>
+                                <option value='purchase'>Purchase Order Number</option>
+                                <option value='location'>Stock Location</option>
+                                <option value='quantity'>Stock Quantity</option>
+                                <option value='expdate'>Expiry Date</option>#}
+                                <option value='all'>All</option>
+                                <option value='sku'>SKU</option>
+                                <option value='qty'>Quantity</option>
+                                <option value='val'>Stock Value</option>
+                                <option value='re'>Require Reorder</option>
+                            </select>
+                        </td>
+                        <td class="td-white-bg">
+                            <input type="text" class="cmnWidth" name="txtProd" id="txtProd" onkeypress="return NullonEnterKey(event);" style="display:none;">
+                            <div id="divRange" style="display:none;">
+                                Between <input type="text" name="txtFrom" id="txtFrom" onkeypress="return isValidNumber(event);" style="width: 70px; text-align: center;" placeholder="From">
+                                And <input type="text" name="txtTo" id="txtTo" onkeypress="return isValidNumber(event);" style="width: 70px; text-align: center;" placeholder="To">
+                            </div>
+                        </td>
+                    </tr>                    
+                    <tr>
+                        <td class="td-gray-bg"></td>
+                        <td class="td-white-bg" colspan="2">
+                            <input type="button" class="button" value="Filter" onclick="SearchStock();"/>
+                            <input type="hidden" id="inputsearchstockURL" value="{{path("_searchstock")}}">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+</table>
+<br/>
+<div id="divStkSearchResult">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+        <tr>
+            <td class="td-label-title" onclick="lmsShowHideAddressResult('stksearchres');" style="cursor:pointer;">{{title}}   
+                <input id="spanCloseOpenHandlerstksearchres" value="0" type="hidden"/>
+                <span style="float: right;" onclick="lmsShowHideAddressResult('stksearchres');" id="spanIdstksearchres" class="span_open" >&nbsp;</span>
+            </td>
+        </tr>
+        <tr id="trAddressstksearchres">
+            <td>
+                <br/>
+                <table width="100%" align="center" id="example" cellspacing="0" class="display">  
+                    <thead>
+                        <tr> 
+                            <th class="tbl-th-grid-view-row-no-bg">Stock ID</th>
+                            <th class="tbl-th-grid-view-row-no-bg">SKU</th>    
+                            <th class="tbl-th-grid-view-row-no-bg">Location</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Product</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Price</th>                         
+                            <th class="tbl-th-grid-view-row-no-bg">Quantity</th>  
+                            <th class="tbl-th-grid-view-row-no-bg">Unit</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Stock Value</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Reorder</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Reorder Value</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Entry Date</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>  
+                        {%set totQty=0%}
+                        {%set totReQty=0%}
+                        {%set totvalue=0%}
+                        {%set totRevalue=0%}
+
+                        {%for stock in stockArr%}
+                            {%set totQty=totQty+stock.quantity%}                        
+                            <tr>                    
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{stock.pkid}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="left">
+                                    {{stock.productFk.sku|default('')}}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" align="left">
+                                    {%set bin=stock.binFk|default('')%}
+                                    {%set rack=bin.rackFk|default('')%}
+                                    {%set room=rack.storeRoomMasterFk|default('')%}
+                                    {%set floor=room.storeFloorMasterFk|default('')%}
+                                    {%set bldg=floor.storeBuildingMasterFk|default('')%}
+                                    {%set store=bldg.storeMasterFk|default('')%}
+                                    <strong>Bin No.:</strong>{{bin.binNo|default('')}}<br>
+                                    <strong>Rack:</strong>{{rack.rackName|default('')}},Row: {{rack.rowNumber|default('')}}, Col: {{rack.columnNumber|default('')}}<br>
+                                    <strong>Room No:</strong>{{room.storeRoomNo|default('')}}<br>
+                                    <strong>Floor:</strong>{{floor.storeFloorNo|default('')}}<br>
+                                    <strong>Building:</strong>{{bldg.buildingName|default('')}}<br>
+                                    <strong>Store Name:</strong>{{store.storeName|default('')}}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" align="left">
+                                    {{stock.productFk.productName|default('')}}-{{stock.productFk.productCode|default('')}}
+                                </td>  
+                                <td class="tbl-grid-view-row-no-bg" align="right">
+                                    {{stock.PriceFk.costPrice|number_format('2','.','')|default('')}}
+                                    {#<input type="hidden" id="price{{stock.pkid}}" value="{{stock.prdPriceFk.costPrice}}">#}
+                                </td>   
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{stock.quantity}}</td>  
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{stock.unitFk.unitName|default('')}}</td> 
+                                <td class="tbl-grid-view-row-no-bg" align="right">
+                                    {{(stock.quantity*stock.PriceFk.costPrice|default(''))|number_format('2','.','')}}
+                                    {%set totvalue=totvalue+(stock.quantity*stock.PriceFk.costPrice)%}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">
+                                    {%if stock.quantity<stock.reorderQty%}
+                                        {{stock.reorderQty}}
+                                        {%set totReQty=totReQty+stock.reorderQty%}
+                                    {%endif%}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" align="right">
+                                    {%if stock.quantity<stock.reorderQty%}
+                                        {{(stock.reorderQty*stock.PriceFk.costPrice)|number_format('2','.','')}}
+                                        {%set totRevalue=totRevalue+(stock.reorderQty*stock.PriceFk.costPrice)%}
+                                    {%endif%}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">
+                                        {{stock.recordInsertDate|date('d-M-Y')}}
+                                </td>
+                                <td>
+                                    {#<select id="selStkAction{{stock.pkid}}">
+                                        <option value="">-select--</option> 
+                                        <option value="{{path("_gotovieweditstock",{'stockid':stock.pkid})}}&edt">View & Edit</option>
+                                        <option value="{{path("_deletestock",{'stockid':stock.pkid})}}&del">Delete Stock</option>
+                                    </select>                                
+                                    <input type="button" class="button" value="Go" onclick="stockActions('selStkAction{{stock.pkid}}');"/>#}
+                                    <a href="javascript:;" onclick="stockActions('{{path("_gotovieweditstock",{'stockid':stock.pkid})}}','');">Edit</a>|
+                                    <a href="javascript:;" onclick="stockActions('{{path("_deletestock",{'stockid':stock.pkid})}}','del');" style="color:#ff0000;">Delete</a>
+                                </td>                    
+                            </tr>
+                        {%endfor%}               
+                    </tbody>
+                </table>
+            </td>
+        </tr>
+    </table>
+</div>
+<br>
+<table width="100%" border="0" class="tbl-border">
+    <tr>
+        <td class="td-label-title">
+            Total
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" align="center" cellspacing="0">
+                <thead>
+                    <tr>                        
+                        <th class="tbl-th-grid-view-row-no-bg">TOTAL ITEM IN STOCK</th>
+                        <th class="tbl-th-grid-view-row-no-bg">TOTAL STOCK VALUE</th>
+                        <th class="tbl-th-grid-view-row-no-bg">TOTAL REORDER VALUE</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr> 
+                        <td class="tbl-grid-view-row-no-bg" align="center"><strong>{{totQty}}</strong></td>                        
+                        <td class="tbl-grid-view-row-no-bg" align="center"><strong>{{totvalue|default('0')|number_format('2','.','')}}</strong></td>
+                        <td class="tbl-grid-view-row-no-bg" align="center"><strong>{{totRevalue|default('0')|number_format('2','.','')}}</strong></td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+                    <br>
+<div id="divStkDetail"></div>

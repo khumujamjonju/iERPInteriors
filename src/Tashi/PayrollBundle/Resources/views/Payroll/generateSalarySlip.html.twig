@@ -1,0 +1,197 @@
+<div class="sub-menu">
+    <ul>
+        <li class='active' id="asset_register" onclick="fnLeftMenuNavigation('{{path('_generate_salary_slip')}}', 'empp_salary', 'Payroll', 'Generate Salary Slip');"><a href="javascript:void();" >Generate Salary Slip</a></li>               
+    </ul>
+</div>
+<div class="newdashboard"> 
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Search Employee</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmEmpJobProfile" style="margin: 0px;">
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg">Select Month</td>
+                                <td class="td-white-bg">
+                                    <input type="date" class="cmnWidth">
+                                </td>
+                                <td class="td-gray-bg">Select Employe Type</td>
+                                <td style="" class="td-white-bg">
+                                    <select class="cmnWidth" id="txt_emp_salary_type" name="txt_emp_salary_type">
+                                        <option>--Select--</option>
+                                        <option>Contrator</option>
+                                        <option>Official</option>
+                                        <option>Labouror</option>
+                                    </select>  
+                                </td> 
+                            </tr>
+                            <tr>                               
+                                <td style="" class="td-white-bg" colspan="4" align="center">                                      
+                                    <input type="button" class="button blue" id="btn_save" value="Search" onclick="">      
+                                </td>                           
+                            </tr>                        
+                        </table>                                                                                                     
+                    </form>                               
+                </td>
+            </tr> 
+        </table>
+            
+        <div class="stylecommonfirst">
+            <div id="display-list" class="stylecommonborder" style="margin-top: 8px;">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+                    <tr>
+                        <td class="td-label-title">
+                            <span>Salary Slip Details: </span>
+                            <span style="margin-left: 50px;">Employee Type: Contractor</span>
+                            <span style="margin-left: 50px;">Month: Feb</span>
+                            <span style="margin-left: 50px;">Year: 2015</span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-cmn-white-bg">
+                             <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                                <thead>
+                                    <tr>
+                                        <th class="tbl-th-grid-view-row-no-bg">Employee ID</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Employee Name</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Designation</th> 
+                                        <th class="tbl-th-grid-view-row-no-bg">Calculation</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Status</th>  
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                                    </tr>
+                                </thead>
+                                <tbody>                                                      
+                                    <tr>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Emp-123</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Tomba</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Clerk</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Daily</td>  
+                                        <td class="tbl-grid-view-row-no-bg" align="left"></td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center" style="width: 150px;">
+                                            <select class="cmnShorterWidth" id="txt_emp_salary_type" name="txt_emp_salary_type">
+                                                <option>--Select--</option>
+                                                <option>Create</option>                                                                                       
+                                            </select>   
+                                            <input type="button" class="button blue" id="btn_save" value="Go" onclick=""> 
+                                        </td> 
+                                    </tr>  
+                                    <tr>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Emp-124</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Chaoba</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Marketing</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Monthly</td>  
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Created</td>
+                                       <td class="tbl-grid-view-row-no-bg" align="center" style="width: 150px;">
+                                            <select class="cmnShorterWidth" id="txt_emp_salary_type" name="txt_emp_salary_type">
+                                                <option>--Select--</option>
+                                                <option>View</option> 
+                                                <option>Edit</option>
+                                            </select>   
+                                            <input type="button" class="button blue" id="btn_save" value="Go" onclick=""> 
+                                        </td>
+                                    </tr> 
+                                    <tr>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Emp-125</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Tombi</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Odit</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Monthly</td>  
+                                        <td class="tbl-grid-view-row-no-bg" align="left">Paid</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center" style="width: 150px;">
+                                            <select class="cmnShorterWidth" id="txt_emp_salary_type" name="txt_emp_salary_type">
+                                                <option>--Select--</option>
+                                                <option>View</option>                                                                                           
+                                            </select>   
+                                            <input type="button" class="button blue" id="btn_save" value="Go" onclick=""> 
+                                        </td>
+                                    </tr>
+                                </tbody>                                
+                            </table>                             
+                        </td>                  
+                    </tr>                                   
+                </table>              
+            </div> 
+        </div>
+            
+      <div style="margin-top: 20px;">                             
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+                <tr>
+                    <td class="td-label-title">                      
+                        <span>Employee ID: Emp-123</span> 
+                        <span style="margin-left: 20px;">Employee Name: Tomba</span>
+                        <span style="margin-left: 20px;">Type: Contractor</span>
+                    </td>
+                </tr>                                   
+                <tr>
+                    <td class="td-separator">                       
+                        <div class="emp_salary_info">
+                            <div>
+                            <label style="margin: 10px;">Salary Details :</label>
+                            <table width="100%" align="center" cellpadding="0" cellspacing="0" style="margin-top: 5px; border-top: 1px dotted #ccc; border-left: 1px dotted #ccc; border-right: 1px dotted #ccc;">                                                                                                                                            
+                                <tr>
+                                    <td class="td-gray-bg"  style="width: 25%;">Calculation Type</td>
+                                    <td class="td-white-bg" style="width: 25%;">Daily</td>
+                                    <td class="td-gray-bg" style="width: 25%;">Basic Pay</td>
+                                    <td class="td-white-bg" style="width: 25%;">300</td> 
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg">TA</td>
+                                    <td class="td-white-bg"></td>
+                                    <td class="td-gray-bg">DA</td>
+                                    <td class="td-white-bg"></td> 
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg">EPF</td>
+                                    <td class="td-white-bg"></td>
+                                    <td class="td-gray-bg">ESI</td>
+                                    <td class="td-white-bg"></td> 
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg">TDS</td>
+                                    <td class="td-white-bg"></td>
+                                    <td class="td-gray-bg">Medical Insurance</td>
+                                    <td class="td-white-bg"></td> 
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg">Allowance</td>
+                                    <td class="td-white-bg"></td>
+                                    <td class="td-gray-bg">Effective Start Date (ESD)</td>
+                                    <td class="td-white-bg"></td> 
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg">Effective End Date (EED)</td>
+                                    <td class="td-white-bg" colspan="3"></td>                                                  
+                                </tr>                                 
+                            </table>
+                            </div>
+                          <div class="emp_salary_cal" style="margin-top: 10px;">
+                            <label style="margin: 10px;">Salary Calculation :</label>
+                            <table width="100%" align="center" cellpadding="0" cellspacing="0" style="margin-top: 5px; border: 1px dotted #ccc;">                                                                                                                                            
+                                <tr>
+                                    <td class="td-gray-bg">Start Date</td>
+                                    <td class="td-white-bg"><input type="date"></td>
+                                    <td class="td-gray-bg">End Date</td>
+                                    <td class="td-white-bg"><input type="date"></td> 
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg">Quantity</td>
+                                    <td class="td-white-bg"><input type="text"></td>
+                                    <td class="td-gray-bg">Amount</td>
+                                    <td class="td-white-bg"></td> 
+                                </tr>
+                                <tr>
+                                    <td class="td-separator" colspan="4" style="text-align: center;">
+                                        <input type="button" class="button blue" id="btn_save" value="Create" />                                                      
+                                    </td>
+                                </tr>
+                           </table>
+                          </div>
+                        </div>                       
+                    </td>
+                </tr>                                 
+            </table>
+        </div>                
+    </div> 
+</div> 

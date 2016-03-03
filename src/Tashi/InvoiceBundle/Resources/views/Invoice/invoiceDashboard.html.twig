@@ -1,0 +1,61 @@
+
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Invoice Management</h3>
+        <div id="newmenu">
+            <ul>                        
+                <li class="active" id="invoice_master_dashboard" onclick="fnMainMenuNavigation('{{path('_invoice_master_dashboard')}}', 'invoice_master', 'Invoice','Dashboard');"><a  href="javascript:void();" >  Dashboard</a></li>
+                <li id="create_invoice" onclick="fnLeftMenuNavigation('{{path('_gotonewinvoice')}}', 'create_invoice', 'Invoice', 'Create Invoice');"><a  href="javascript:void();" >Create </a></li>
+                <li id="invoice_approval" onclick="fnLeftMenuNavigation('{{path('_invoiceapproval')}}', 'invoice_approval', 'Invoice', 'Approve Invoice');"><a  href="javascript:void();" > Approval</a></li>
+                <li id="search_invoice" onclick="fnLeftMenuNavigation('{{path("_gotosearchinv")}}', 'search_invoice', 'Invoice','Search Invoice');"><a  href="javascript:void();" >Search </a></li>                
+            </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'><a href='#'><span>Invoice Dashboard</span></a></li>
+        </ul>
+    </div>
+     <div class="newdashboard">
+         <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_gotonewinvoice')}}', 'create_invoice', 'Invoice','Invoice Create');">
+            <p class="newdashparatext" ><img src="{{ asset('bundles/common/images/invoice128.png') }}">
+            <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Create </span> <br/>
+            Create Project Invoices </p>
+         </div>
+         
+         <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_invoiceapproval')}}', 'invoice_approval', 'Invoice','Approve Invoice');">
+            <p class="newdashparatext" ><img src="{{ asset('bundles/common/images/invoice_approve128.png') }}">
+                <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Approve </span> <br/>
+            Search unapproved invoices using various criteria and approve.
+            </p>
+            
+        </div>
+         <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path("_gotosearchinv")}}', 'search_invoice', 'Invoice','Search Invoice');">
+            
+             <p class="newdashparatext"><img src="{{ asset('bundles/common/images/invoice_search128.png') }}">
+          <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Search </span> <br/>
+          Searching Invoice list.</p>
+        
+        
+        </div>
+         
+         
+         
+         
+         
+          
+         
+          
+         
+         
+         
+        
+        <div class="clear"></div> 
+    </div> 
+    
+    
+        
+</div>

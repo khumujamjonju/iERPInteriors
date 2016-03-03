@@ -1,0 +1,58 @@
+<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <input id="spanCloseOpenHandlerSearchCustomer" value="0" type="hidden">
+                <td class="td-label-title" onclick="lmsShowHideAddressResult('SearchCustomer');">Search Supplier : <span style="float: right;" id="spanIdSearchCustomer" class="span_open" >&nbsp;</span></td>
+            </tr >
+            <tr id="trAddressSearchCustomer" >
+                <td>
+                    <form method="#" id="customerSearchForm" post="">
+                        <table width="100%" align=center border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg">Supplier Name</td>
+                                <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="txt_unit" name="supname"  onkeypress="cimSubmitOnEnter(event, 'butSearch');"  >
+                                
+                                </td>  
+                                <td class="td-gray-bg">Person First Name:</td>
+                                <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="txt_person" name="person" onkeypress="cimSubmitOnEnter(event, 'butSearch');"  >
+                                
+                                </td>
+                                <td class="td-gray-bg">Mobile No.</td>
+                                <td class="td-white-bg" colspan="5">
+                                <input class="cmnWidth" type="text" id="txt_unit" name="mobile" 
+                                onkeypress="return IntegerOnly(event);" maxlength="10" placeholder="e.g.9856123456">
+                                
+                                </td>
+                            </tr>                                  
+                            <tr>
+                                <td colspan="6" class="td-separator" align="center">                            
+                                    <input class="button" type="button" name="butSearch" id="butSearch" value="Search" onClick="SearchForSupplier();" >
+                                    <button class="button" type="reset" onclick="return resetAnyForm();"> Clear</button>
+                                    <input type="hidden" id="inputsearchUrl" value="{{ path('_erplms_cim_search_supplier_viewinformation')}}">
+                                </td>
+                            </tr>
+                        </table>
+
+                    </form>
+                </td>
+            </tr>
+        </table>                                   
+        <br/>                                 
+        <div id="idforDisplay"></div>
+        <br/> 
+       <form id="UpdateSupplierForm">
+           <input id="supplierID" type="hidden" value=""/>
+       <div id="EditArea">
+       
+        
+        
+        
+        
+       </div> 
+      </form>
+    </div>
+</div>
+                                                                

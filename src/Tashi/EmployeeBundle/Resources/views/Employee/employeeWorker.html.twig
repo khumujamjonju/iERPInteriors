@@ -1,0 +1,7 @@
+{# set hidden office emloyee id to null when click on worker tab  #}
+<script type="text/javascript"> $('#empID').val(''); </script>
+ {# hidden value for worker employee ID #}
+<input type="hidden" id="employeeID" value="{{ empID|default('')}}" /> 
+<div id="empWorkerDetail">
+    <script type="text/javascript"> loadWorkerDetails('{{path('_load_emp_worker')}}'); </script>
+</div>

@@ -1,0 +1,23 @@
+{%if allEmoluments|default('') != ''%}
+    {% for e in allEmoluments %}       
+            <tr>
+                <td class="td-gray-bg"> {{ e.fieldAttributeName|default('') }} </td>
+                <td class="td-white-bg">
+                    <input class="cmnWidth earning useField" type="text" id="{{ 'earning'~e.pkid|default('') }}" name="{{ 'txt_earning'~e.pkid|default('') }}"  onKeypress="return validationDigit('{{ '#earning'~e.pkid|default('') }}');"  onkeyup="fnCalculateNetSalary();"
+                    {% for a in field_amount|default('')%} 
+                        {%if e.pkid == a.emolumentDeductionMasterFk.pkid|default('') %}
+                           value="{{ a.amount|default('') }}" 
+                        {%endif%}
+                    {% endfor %}
+                    />
+                </td>
+            </tr>       
+    {% endfor %}
+{%elseif singleEmolument|default('') != ''%}
+         <tr>
+            <td class="td-gray-bg"> {{ singleEmolument.fieldAttributeName|default('') }} </td>
+            <td class="td-white-bg">
+                <input class="cmnWidth earning useField" type="text" id="{{ 'deduction'~singleEmolument.pkid|default('') }}" name="{{ 'txt_earning'~singleEmolument.pkid|default('') }}"  onKeypress="return validationDigit('{{ 'deduction'~singleEmolument.pkid|default('') }}');"  onkeyup="fnCalculateNetSalary();"/>
+            </td>
+        </tr>
+{% endif %}

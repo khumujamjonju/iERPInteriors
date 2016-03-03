@@ -1,0 +1,217 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="javascript:void();">Contra Transaction</a></li>  
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Please fill the following detail carefully</td>
+            </tr>
+            <tr>
+                <td>
+                    <form id="frmBankDepositWidrawal" style="margin: 0px;">
+                        <input type="hidden" id="bank_deposite_withdrawal_id" name="txt_bank_deposite_withdrawal_id" />
+                        <input type="hidden" id="inputTranType" name="inputTranType" value="">
+                        <table id="bank_deposit_withdrawal_form_tbl" width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                   
+                            <tr>   
+                                <td class="td-gray-bg" width="200px">
+                                    Select Transaction Type
+                                </td>                      
+                                <td class="td-white-bg" colspan="3">
+                                    <div class="tableElementEmulation">
+                                        <ul class="trElementEmulation">                                              
+                                            {%for trantype in tranTypeArr%}
+                                                {%if loop.index==1%}
+                                                    <script type="text/javascript">$('#inputTranType').val('{{trantype.custom1}}');</script>
+                                                {%endif%}
+                                                <li class="tdElementEmulation" style="width:auto;">
+                                                    <div class="example">
+                                                        <div style="float:left;">
+                                                            <input id="radio{{trantype.custom1}}" type="radio" name="radioTranType" value="{{trantype.custom1}}" {%if loop.index==1%}checked{%endif%} onchange="toggleTranType(this,'{{path("_retreivecashbal")}}');"><label for="radio{{trantype.custom1}}" style="font-weight:bold;"><span><span></span></span>{{trantype.transactionType}}</label>
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                            {%endfor%}                                            
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr id="trRcptNo" style="display:none;">
+                                <td class="td-gray-bg">Receipt No.:</td>
+                                <td class="td-white-bg"  align="left" colspan="3"><b id="bRcptNo"></b></td>                       
+                            </tr>
+                            <tr id="trCashBal" >
+                                <td class="td-gray-bg">Current Cash Balance</td>
+                                <td class="td-white-bg"  align="left" colspan="3"><b id="bCashBalance">&#8377; {{cashAccountDetails.currentAmount|default(0)|number_format('2','.','')}}</b></td>                       
+                            </tr>
+                            <tr id="trSourceBank" style="display:none;">
+                                <td class="td-gray-bg">Select Source Bank <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"  align="left" colspan="3">
+                                    <select id="sourceBank" name="sourceBank" class="cmnWidth" onChange="return loadCurrentBankSatatus(this, 'BA','source');">
+                                        <option value="">--select--</option>
+                                        {%for b in companyBanks|default('')%}
+                                           <option value="{{path('_load_current_bank_status',{'accid':b.bankFk.bankPk}) }}&{{b.bankFk.bankPk}}"> {{ b.bankFk.bankName|default('') }}({{ b.bankFk.accountNumber|default('') }}) </option>  
+                                        {%endfor%}
+                                    </select>   &nbsp;
+                                    Balance: <b id="spanSourceBalance">0.00</b><input type="hidden" id="txtSourceBalance" name="txt_current_balance" value="0"/>                                    
+                                </td>                       
+                            </tr>
+                            <tr id="trTargetBank">
+                                <td class="td-gray-bg">Select Target Bank <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" align="left" colspan="3">
+                                    <select id="targetBank" name="targetBank" class="cmnWidth" onChange="return loadCurrentBankSatatus(this, 'BA','target');">
+                                        <option value="">--select--</option>
+                                        {%for b in companyBanks|default('')%}
+                                           <option value="{{path('_load_current_bank_status',{'accid':b.bankFk.bankPk}) }}&{{b.bankFk.bankPk}}"> {{ b.bankFk.bankName|default('') }}({{ b.bankFk.accountNumber|default('') }}) </option>  
+                                        {%endfor%}
+                                    </select> &nbsp;  
+                                    Balance: <b id="spanTargetBalance">0.00</b><input type="hidden" id="txtTargetBalance" name="txt_current_balance" value="0"/>                                    
+                                </td>                                
+                                <td class="td-white-bg" align="left">
+                                    <input type="hidden" id="current_balance" name="txt_current_balance"/>
+                                </td>                             
+                            </tr>
+                            <tr>   
+                                <td class="td-gray-bg"><label class="deposit_withdraw_amt">Amount</label> <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"><input type="text" class="cmnWidth" id="deposit_withdrawal_amount" name="txt_deposit_withdrawal_amount" onKeypress="return validationDigit('#deposit_widradeposit_withdrawal_amount"wal_amount');" value="0.00"/></td>
+                            </tr>
+                            <tr>   
+                                <td class="td-gray-bg"><label class="deposit_withdraw_amt">Confirm Amount</label> <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"><input type="text" class="cmnWidth" id="deposit_withdrawal_cnfirm_amount" onKeypress="return validationDigit('#deposit_widrawal_amount');"  value="0.00"/></td>
+                            </tr>
+                            {#<tr id="paymentModeField">
+                                <td class="td-gray-bg">Transaction Mode <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <select class="cmnWidth" id="paymentMode" name="txt_payment_mode" onchange="fnFindingCashPaymentMode(this.value);">
+                                         <option value="">--select--</option>  
+                                      {%for p in paymentMode|default('')%}
+                                         {%if p.pkid|default('') != 1%} 
+                                             <option value="{{ p.pkid|default('') }}">{{ p.paymentModeName|default('') }} </option>  
+                                         {%endif%}
+                                      {%endfor%}
+                                   </select> 
+                                   {%for p in paymentMode|default('')%} 
+                                     <input type="hidden" id="keyToDetectCash{{ p.pkid|default('') }}" value="{{ p.ispaymentNoRequired|default('') }}"/> 
+                                   {%endfor%}
+                                </td>
+                            </tr>#}
+                            <tr>
+                                <td class="td-gray-bg"><label class="deposit_withdraw_date">Transaction Date</label>  <span class="necessary-field">*</span></td>
+                                <td style="" class="td-white-bg"><input class="cmnWidth" type="date" id="deposit_withdrawal_date" name="txt_deposit_withdrawal_date" value="{%if tranDate is not null%}{{tranDate.lastSelectedDate|date('Y-m-d')}}{%else%}{{"now"|date('Y-m-d')}}{%endif%}" /></td>                                
+                            </tr> 
+                            {#<tr>
+                                <td class="td-gray-bg"><label class="deposit_withdraw_date">Payment No./Cheque No./DD No.</label></td>
+                                <td class="td-white-bg"><input type="text" class="cmnWidth" id="payment_number" name="txt_payment_number"/></td>                                
+                            </tr>#}
+                            <tr>
+                                <td class="td-gray-bg"><label class="deposit_withdraw_date">Transaction By</label>  <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"><input type="text" id="deposit_withdrawal_by" name="txt_deposit_withdrawal_by"  class="cmnWidth" /></td>                                
+                            </tr>  
+                            <tr>
+                                <td class="td-gray-bg">Proof</td>
+                                <td style="" class="td-white-bg">
+                                    <div id="divFile">
+                                        <input class="cmnWidth" type="file" id="deposit_withdrawal_reciept" name="txt_deposit_withdrawal_reciept">  
+                                        <a id="cancel_a" href="javascript:;" style="font-size: .9em; display:none;" onclick="cancelChangeProof();">Cancel</a>
+                                        <p style="color:#666666; font-size: .9em; margin:0;">*.jpg, *.jpeg,.png, *.gif, *.bmp</p>
+                                    </div>                                    
+                                    <div id="file_control_btn" style="float: left; display: none;"></div>
+                                </td>                                 
+                            </tr>
+                            <tr>   
+                                <td class="td-gray-bg">Description <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <textarea id="description" name="txt_description" cols="106" rows="4"></textarea>
+                                </td>                                                             
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg"></td>
+                                <td style="" class="td-white-bg">                                    
+                                    <input type="button" class="button blue" id="btn_save" value="Submit" onclick="ManageContraTransaction('{{path('_contratransaction',{'action':'INS'})}}', this);"/>
+                                    <input type="button" class="button blue" id="btn_edit" value="Submit" onclick="ManageContraTransaction('{{path('_contratransaction',{'action':'EDT'})}}', this);" style="display:none;"/>
+                                    <input type="button" id="btnCancel" class="button blue"  value="Cancel" onclick="fnLeftMenuNavigation('{{path('_bank_deposit_widrawal')}}', 'bank_deposit_withdrawal', 'Account Sales', 'Bank Transaction');" style="display:none;"/>
+                           {#         <input type="button" class="button blue" id="btn_save" value="Submit" onclick="saveBankDepositWithdrawalHistory('{{path('_save_bank_deposit_withdrawal')}}', this);"/>
+                                    <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editBankDepositWithdrawalHistoryFields(this);" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="saveBankDepositWithdrawalHistory('{{path('_save_bank_deposit_withdrawal')}}', this);"  style="display: none;"/>    #}          
+                                    {#<input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();$()"/>  #}
+                                 {#   <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="cancelBankDepositWithdrawalHistory(this);"  style="display: none;"/> #}  
+                                </td>                           
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <br>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+            <tr>
+                <td class="td-label-title">Last 10 Transactions</td>
+            </tr>
+            <tr>
+                <td id="tdTranList">
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                        <thead>
+                            <tr>
+                                <th class="tbl-th-grid-view-row-no-bg">Date</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Reciept No.</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Remarks</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Transaction Type</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Source Bank</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Target Bank</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Transaction By</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Amount</th>                                                
+                                <th class="tbl-th-grid-view-row-no-bg">Proof</th>  
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                           
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            {%for tran in tranArr|default('')%} 
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center" style="width:80px;">{{tran.transactionDate|date('d-M-Y')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{tran.receiptNo}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{tran.remarks}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{tran.transactionTypeFk.transactionType|default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{%if tran.sourceFk is not null%}
+                                            {{tran.sourceFk.bankName|default('')}}<br>
+                                            {{tran.sourceFk.accountNumber|default('')}}
+                                        {%else%}
+                                            NA
+                                        {%endif%}
+                                    </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{%if tran.targetFk is not null%}
+                                            {{tran.targetFk.bankName|default('')}}<br>
+                                            {{tran.targetFk.accountNumber|default('')}}
+                                        {%else%}
+                                            NA
+                                        {%endif%}
+                                    </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{tran.transactionBy|upper}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="right">{{tran.amount|number_format('2','.','')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                        {%if tran.proofFk is not null%}
+                                            {%set filename=tran.proofFk.originalName%}
+                                            <a href="{{asset(tran.proofFk.path)}}" target="_blank">
+                                                {%if filename|length>10%}
+                                                    {%set filename=filename|slice(1,10)~'..'%}
+                                                {%endif%}
+                                                {{filename}}.{{tran.proofFk.docType}}</a>
+                                        {%else%}
+                                            NA
+                                        {%endif%}
+                                    </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center" style="width:70px;">
+                                        <a href="javascript:;" onclick="contraAction('{{path("_retrievecontratransaction",{'pkid':tran.pkid})}}','upd');" onclick="">Edit</a> |
+                                        <a href="javascript:;" style="color:#ff0000;" onclick="contraAction('','del');">Delete</a>
+                                    </td>
+                                </tr>                            
+                            {%endfor%}
+                        </tbody>                                
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

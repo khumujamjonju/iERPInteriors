@@ -1,0 +1,90 @@
+
+</br>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" id="assignedAssetDisplaySearch">                       
+    <tr>
+        <td class="td-label-title"> Assigned Details</td>
+    </tr>
+    <tr>
+        <td>                 
+            {#<form id="frmAssetStatusUpdate" style="margin: 0px;">#}
+                <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0"> 
+                    <tr>
+                        <td>
+
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example3"  cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr>
+                                        <th class="tbl-th-grid-view-row-no-bg">ID</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Category</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Name</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Manufacturer</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Model No</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Expiry Date</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Warranty Date</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Status</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Purchase Order No.</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Location</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                         
+                                    </tr>
+                                </thead>
+
+                                <tbody>                           
+                                    {% for c in projArr%}
+                                        <tr>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetRegisterPk | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetCategoryMasterFk.assetCategoryName | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetName | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.manufacturer | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.modelNo | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetDescription | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                            {%if c.expiryDate == ""%}
+                                                {{ '' }}
+                                            {%else%}
+                                                 {{c.expiryDate |date('d-m-Y')}}
+                                            {%endif%}
+                                        </td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">
+                                        {%if c.warranty == ""%}
+                                                {{ '' }}
+                                            {%else%}
+                                                 {{c.warranty |date('d-m-Y')}}
+                                            {%endif%}
+                                        </td>
+                                            
+                                            {#<td class="tbl-grid-view-row-no-bg" align="center">{{c.expiryDate |date('d-m-Y')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.warranty |date('d-m-Y')}}</td>#}
+                                            <td class="tbl-grid-view-row-no-bg" style="color:{{c.status.statusColor|default('')}}" align="center">
+                                                                                                            {{c.status.statusName|default('')}}
+                                            </td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.purchaseOrderNo | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.location | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center" width="145px">
+                                                    <select id="selaction{{c.assetRegisterPk}}" style="width:100px;">
+                                                        <option value="">--select--</option>                                    
+                                                    {%if c.status.isRecoverable==0 %}
+                                                        <option value="{{path("_assetdetailindex",{asetid:c.assetRegisterPk})}}">View Detail</option>
+                                                    {%elseif c.status.isRecoverable==1 %}
+                                                        <option value="{{path("_assetdetailindex",{asetid:c.assetRegisterPk})}}">View Detail</option>
+                                                        <option value="{{path("_assetstatus",{asetid:c.assetRegisterPk})}}">Update Status</option>
+                                                    {%endif%}
+                                                    </select>
+                                                    <input type="button" class="button" value="Go" onclick="ViewAssetDetail('{{c.assetRegisterPk}}');"/>
+                                                </td> 
+                                            </tr>
+                                      {%endfor%}    
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </table>                               
+            </td>
+        </tr> 
+    </table>
+    <div id="divAssetindex"></div>
+
+
+
+
+

@@ -1,0 +1,35 @@
+ <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Employee Wallet Details List:</td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr>
+                                <th class="tbl-th-grid-view-row-no-bg">Sl No</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Employee Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Bank Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+
+                        <tbody>                           
+                               
+                                {%for w in wallet %} 
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{loop.index}} </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <input type="hidden" name="employeeid" id="txt_eid" value="{{w.empFk.employeePk}}"/>
+                                    {{w.empFk.personFk.personName}} </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{w.atmname}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <a href="javascript:void();" onclick="RetriveATMDetails('{{ path('_retreiveatm',{'atmid': w.pkid | default('')})}}')">Edit</a> |
+                                    <a href="javascript:void();" onclick="deleteWalletATMDetails('{{ path('_deleteWalletAtm',{'atmid': w.pkid | default('')})}}')">Delete</a></td>
+                                </tr> 
+                               {%endfor%}  
+                       </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>

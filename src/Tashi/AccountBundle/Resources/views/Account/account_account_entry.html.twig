@@ -1,0 +1,123 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active' onclick="fnLeftMenuNavigation('{{path('_account_entry')}}', 'master_setting', 'Account Purchase', 'Account Master');"><a  href="javascript:void();" >Account Entry</a></li>      
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form"> 
+        <form id="frmAccountEntry" style="margin: 0px;">
+            <input type="hidden" id="acc_id" name="txt_acc_id" />
+            <table id="account_entry_form_tbl" width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+                 <tr>
+                    <td class="td-label-title" colspan="4">Account Entry Form:</td>
+                </tr>    
+                <tr>
+                  {#  <td class="td-gray-bg">Select Account Type <span class="necessary-field">*</span></td>
+                    <td class="td-white-bg">
+                        <select class="cmnWidth" id="acc_type" name="txt_acc_type" onChange="return loadAccountCommonList(this,'#acc_head', '{{ path('_load_account_common_list') }}');">
+                            <option value="">--select--</option>
+                          {%for a in accountTypes|default('')%}                            
+                                <option value="{{a.pkid|default('')}}">{{a.typeName|default('')}}</option>
+                          {%endfor%}
+                        </select>                       
+                    </td> #}
+                    <td class="td-gray-bg">Select Account Head <span class="necessary-field">*</span></td>
+                    <td class="td-white-bg">
+                        <select class="cmnWidth" id="acc_head" name="txt_acc_head">
+                            <option value="">--select--</option>  
+                           {%for a in accountHeads|default('')%}                                
+                                    <option value="{{a.pkid|default('')}}">{{a.headName|default('')}}</option>                               
+                           {%endfor%}
+                        </select>                       
+                    </td>                                                                 
+                    <td class="td-gray-bg">Amount <span class="necessary-field">*</span></td>
+                    <td class="td-white-bg"><input type="text" class="cmnWidth" id="ammount" name="txt_ammount" onKeypress="return validationDigit('#ammount');"/></td>  
+                </tr> 
+                
+                <tr>
+                    <td class="td-gray-bg">Payment Mode <span class="necessary-field">*</span></td>
+                    <td class="td-white-bg">
+                        <select class="cmnWidth" id="paymentMode" name="txt_payment_mode" onchange="if(fnFindingCashPaymentMode(this.value)){  loadAccountSource(this.value, '{{ path('_load_account_source_type') }}'); }">
+                            <option value="">--select--</option>  
+                                         {%for p in paymentMode%}
+                            <option value="{{ p.pkid|default('') }}">{{ p.paymentModeName|default('') }} </option>                                       
+                                         {%endfor%}
+                        </select> 
+                     {%for p in paymentMode%} 
+                        <input type="hidden" id="keyToDetectCash{{ p.pkid|default('') }}" value="{{ p.ispaymentNoRequired|default('') }}"/> 
+                     {%endfor%}
+                    </td>
+                    <td class="td-gray-bg">Payment No. <span class="necessary-field payment_no_necessary" style="display: none;">*</span></td>
+                    <td class="td-white-bg">
+                        <input type="text" class="cmnWidth" id="payment_number" name="txt_payment_number"/>
+                    </td>
+                </tr>
+                <tr>                               
+                    <td class="td-gray-bg">Select Source Account <span class="necessary-field">*</span></td>
+                    <td class="td-white-bg" colspan="3">
+                        <select class="cmnWidth" id="enter_account_id" name="txt_enter_account_id" onchange="return loadCurrentBankBalance(this.value, '{{ path('_load_current_bank_balance') }}');">
+                            <option value="">--select--</option>                                        
+                        </select> 
+                        <span id="current_balance_field" style="margin-left: 30px; display: none;">
+                            Current Balance(<b>&#8377;</b>):  <span id="balance" style="margin-left: 10px;"></span>
+                        </span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Entry Date <span class="necessary-field">*</span></td>
+                    <td class="td-white-bg" colspan="3">
+                        <input class="cmnWidth" type="date" id="entry_date" name="txt_entry_date" value="{%if tranDate is not null%}{{tranDate.lastSelectedDate|date('Y-m-d')}}{%else%}{{"now"|date('Y-m-d')}}{%endif%}" /> 
+                    </td>              
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Description <span class="necessary-field">*</span></td>
+                    <td class="td-white-bg" colspan="3"><textarea id="description" name="txt_description" cols="103" rows="4"></textarea> </td>              
+                </tr>
+                <tr>              
+                    <td class="td-white-bg" colspan="4" align="center">
+                        <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveAccountEntry(this, '{{ path('_save_account_entry')}}');"/>
+                        <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editAccounEntryField(this);" style="display: none;"/>
+                        <input type="button" class="button blue" id="btn_update" value="Update" onclick="return saveAccountEntry(this, '{{ path('_save_account_entry')}}');"  style="display: none;"/>
+                        <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="cancelAccoundEntryField(this);" style="display: none;"/>
+                        <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/> 
+                    </td>             
+                </tr>
+            </table>
+        </form>
+        <div id="account_entry_detail" style="margin-top: 8px;">
+            <table  width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+                <tr>
+                    <td class="td-label-title">Showing Account Entry Detail Of :
+                        <select id="month" onchange="return loadAccountEntryDetail('{{path('_load_account_entry_details')}}', this);">
+                            <option value="">--select--</option>
+                          {%for m in month|default('')%}
+                              <option value="{{m.pkid|default('')}}" {%if m.pkid|default('') == currentMonth|default('')%} selected {%endif%}>{{m.monthName|default('')}}</option>
+                          {%endfor%}
+                        </select>
+                        <input type="text" id="year" value="{{ currentYear|default('') }}" placeholder="year" size="13" onKeypress="return validationDigit('#year');"/> 
+                      {#  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Or Show  any period of date: 
+                        <input class="inputDisable_bg" type="date" id="periodDate"  size="13" onchange="return loadAccountEntryAnyPeriod(this, '{{ path('_load_account_entry_any_peroid') }}');"/> #}
+                    </td>
+                </tr>
+                <tr>
+                    <td id="account_entry_income_list">         
+                           {%include account_income_list_twig%}                                                                                              
+                        </td>
+                    </tr>                   
+                    <tr>
+                    <td id="account_entry_expense_list">    
+                            {%include account_expense_list_twig%}                                                                           
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="account_entry_contra_list">    
+                            {%include account_contra_list_twig%}                                                                           
+                            </td>
+                        </tr> 
+                </table>
+        </div>
+    </div> 
+  </div>
+

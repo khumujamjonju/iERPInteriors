@@ -1,0 +1,76 @@
+<!Doctype html>
+<html>
+<head>
+    <link rel="stylesheet" type="text/css" href="{{ asset('bundles/common/css/theme.css') }}" >
+    <script type="text/javascript" src="{{ asset('bundles/authentication/js/auth.js') }}"></script>
+    <title>Login page | For Tashi Interiors...</title>
+        <style>
+        body
+        {
+         background: #e6e4e4;
+        }
+        </style>
+        <script type="text/javascript">
+            $(document).ready(function()
+            {
+                $('#tb_username').focus();
+            });
+        </script>
+</head>
+<body>
+
+<div class="pagewrapper1">
+    <div class="heading"></div>
+    <div class="content1">
+    
+        <div class="leftbox">
+           <form name="frmLogin" class="frmLogin" method="post" action="{{ path('_auth') }}" autocomplete="on">
+            <input type="hidden" name="token" id="token" value="{{csrf_token}}"/>    
+            <input type="hidden" name="ranStr" id="ranStr" value="{{salt}}"/> 
+            <div class="label-login-err">{% if msg != '' %}* {{msg}}{% endif %}</div>
+            <table class="tablestyle">              
+                <tr>
+                    <td class="tablestyle1"><img src="{{ asset('bundles/common/images/use.png') }}" width="100" height="60"></td>
+                    <td class="tablestyle2" id="logintext" >user Login</td>
+                </tr> 
+                <tr>
+                    <td class="tablestyle1">User Name: </td>
+                    <td class="tablestyle2"><input type="text" id="tb_username" name="username" style="width:150px; padding:5px; border:none; border-radius: 0; color:#333; font-size: 13px;" value="" autofocus="autofocus"></td>
+                </tr>
+      
+                <tr>
+                    <td class="tablestyle1">Password: </td>
+                    <td class="tablestyle2"><input type="password" id="tb_password" name="password" style="width:150px;padding:5px;border:none; border-radius: 0; font-size: 13px;"  value=""> </td>
+                </tr>
+
+                <tr>
+                    <td class="tablestyle1"></td>
+                    <td class="tablestyle2"><input class="login" type="submit" value="Login" id="btn_login" onclick="return jFunctSubmit();"> </td>
+                </tr>
+                <tr>
+                    <td class="tablestyle1"></td>
+                    <td class="tablestyle2"><a href="{{path("_forgotpassword")}}" style="color:#648c37;" title="Click here to reset your password">Forgot Password?</a></td>
+                </tr>
+            </table>
+           </form>
+        </div>
+    
+        <div class="rightbox">
+        <br><br><br><br>
+            <h1 class="welcome">Enterprise Resource Planning
+                <br> <span class="spantext1">  Management Software (ERP).</span></h1>
+                 <br>
+            <p class="paratext">
+           ERP is short for enterprise resource planning.<br><br>
+           Enterprise resource planning (ERP) is business process management software that allows an organization to use a system of integrated applications to manage the business and automate many back office functions related to technology, services and human resources. ERP software integrates all facets of an operation, including product planning, development, manufacturing, sales and marketing.
+           ERP software is considered an enterprise application as it is designed to be used by larger businesses and often requires dedicated teams to customize and analyze the data and to handle upgrades and deployment. In contrast, Small business ERP applications are lightweight business management software solutions, customized for the business industry you work in.
+            </p>
+        </div>
+        <div class="clear"></div>
+    </div>
+    
+</div>
+
+</body>
+</html>
+

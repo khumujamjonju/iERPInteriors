@@ -1,0 +1,96 @@
+{# advanceRecieptDetails  companyDetails #}
+<div id="printHere" style="margin-top: 10px; border: 3px dotted #ccc;">
+    <table width="100%">
+        <tr>
+            <td>
+                <table width="100%">
+                    <tr>
+                        <td align="center" style="padding: 5px; font-size: 15px;background: lightblue; font-style: italic;">Received with thanks from </td>                               
+                    </tr>
+                    <tr>                     
+                        <td style="font-size: 14px;">{{ cusInfo.customerFk.customerName|default('') }}</td>
+                    </tr>
+                    <tr>                       
+                        <td>
+                            {{ cusInfo.addressFk.address1|default('') }}, <br/>
+                            {{ cusInfo.addressFk.districtFk.districtName|default('') }}, 
+                            {{ cusInfo.addressFk.cityCodeFk.cityName|default('') }},
+                            {{ cusInfo.addressFk.stateCodeFk.stateName|default('') }} - {{ cusInfo.addressFk.pinNumber|default('')}} <br/>
+                            {{ cusInfo.addressFk.countryCodeFk.countryName|default('') }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td align="center">
+                <table>
+                    <tr>
+                        <td colspan="2" align="center" style="font-size: 25px; padding: 5px 0 15px; color: #2D76CB;">Receipt</td>                               
+                    </tr>
+                    <tr>
+                        <td>Date:</td>
+                        <td>{{ advanceRecieptDetails.receiptDate|default('')|date('d/m/Y') }}</td>
+                    </tr>
+                    <tr>
+                        <td>Receipt No:</td>
+                        <td>{{ advanceRecieptDetails.receiptNo|default('') }}</td> 
+                    </tr>
+                    <tr>
+                        <td>Customer ID:</td>
+                        <td>
+                            {{ cusInfo.customerFk.customerId|default('') }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <table width="100%">
+                    <tr>
+                        <td colspan="2" align="center" style="padding: 5px; font-size: 15px; background: lightblue;">Bill From </td>                               
+                    </tr>
+                    <tr>
+                        <td style="font-size: 14px;">{{ companyDetails.companyName|default('') }}</td>                      
+                    </tr>
+                    <tr>
+                        <td>
+                            {{ companyAddress.addressFk.address1|default('') }}, <br/>
+                            {{ companyAddress.addressFk.districtFk.districtName|default('') }}, 
+                            {{ companyAddress.addressFk.cityCodeFk.cityName|default('') }},
+                            {{ companyAddress.addressFk.stateCodeFk.stateName|default('') }} - {{ companyAddress.addressFk.pinNumber|default('')}} <br/>
+                            {{ companyAddress.addressFk.countryCodeFk.countryName|default('') }}  <br/>
+                            contact no: {{ companyContact.number|default('') }}<br/>
+                            email : {{ companyEmail.email|default('') }}                                                                         
+                       </td>                      
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <table cellspacing="0" width="100%" style="border: 1px solid #222;">
+                    <tr>
+                        <th align="center" style="padding: 5px;font-size: 15px; border-bottom:1px solid #222; background: lightblue;">Description </th> 
+                        <th align="center" style="padding: 5px; font-size: 15px; border-bottom:1px solid #222; background: lightblue;">Amount </th> 
+                    </tr>
+                    <tr>
+                        <td style="padding: 5px 100px;">
+                            Collect Payment <br/>
+                            [ Payment mode : {{ advanceRecieptDetails.advancePaymentFk.paymentModeFk.paymentModeName|default('') }} ] <br/>
+                          {%if advanceRecieptDetails.advancePaymentFk.paymentModeFk.pkid|default('') != 1%}
+                            [ Payment no : {{ advanceRecieptDetails.advancePaymentFk.paymentNo|default('') }} ]
+                          {%endif%}                       
+                        </td>
+                        <td align="right" style="border-left: 1px solid #222; padding: 5px 100px;"><b style="margin-right: 5px;">&#8377;</b>{{ advanceRecieptDetails.advancePaymentFk.advanceAmount|default('') }}</td>
+                    </tr>
+                    <tr>                                
+                        <td colspan="2" align="right" style="border-top: 1px solid #222; padding: 5px 100px;"> 
+                            <span style="margin-right: 90px;">Total</span> <b style="margin-right: 5px;">&#8377;</b>{{ advanceRecieptDetails.advancePaymentFk.advanceAmount|default('') }}
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+<div style="margin: 10px 0 10px 50%;"><input type="button" class="button" id="print" value="Print" onclick="divPrint();"/></div>
+</div>

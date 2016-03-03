@@ -1,0 +1,62 @@
+<input type="hidden" value="0" class="emp_search_result_list_hide_show_key"/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >      
+    {#paramer: project_item => class name of table row (tr) to hide or show #}
+    <tr onclick="fnHideShow('emp_search_result_list');">      
+        <td class="td-label-title">
+            Employee List: <div class="emp_search_result_list_hide_show_icon floatRight plus"></div>
+        </td>
+    </tr>
+    <tr class="emp_search_result_list displayNone">
+        <td>                    
+            <table width="100%" align="center" border="0" cellpadding="0" id="example2" cellspacing="0"  class="display">  
+                <thead class="">
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Id</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Name</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Designation</th>                                               
+                        <th class="tbl-th-grid-view-row-no-bg">Department</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Contact No</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Office Email</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Personal Email</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                    </tr>
+                </thead>
+                <tbody>                           
+                       
+                 {%for e in employee.searchResult%}
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.employeeId }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.personFk.personName | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.empJobTitleFk.jobTitleName | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.departmentFk.departmentName | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                        <select style="width: 130px;">                           
+                        {%for c in mob.searchResult|default('')%}
+                          {%if c.personFk.personPk|default('') == e.personFk.personPk|default('')%}
+                            <option value="">{{c.mobileNoFk.mobileNo|default('') }}</option>
+                          {%endif%}
+                        {%endfor%}
+                            
+                        </select>     
+                        </td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.personFk.emailIdOffice | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ e.personFk.emailId | default('')}}</td>                                     
+                        <td class="tbl-grid-view-row-no-bg" align="center" width="100px">     
+                            <a href="javascript:;" onclick="employeeAction('{{path('_particular_emp_detail',{'empID': e.employeePk|default('')})}}','upd','');">Edit</a> | 
+                            <a href="javascript:;" style="color:#ff0000;" onclick="employeeAction('{{path('_delete_Particular_emp_detail',{'empID': e.employeePk|default('')})}}','del',this);">Delete</a>
+                            {#<select id="employeeAction{{e.employeePk|default('')}}" name="txt_employeeAction">
+                                <option value="">Select</option>                                
+                                <option value="{{path('_particular_emp_detail',{'empID': e.employeePk|default('')})}}&upd">Edit</option>
+                                <option value="{{path('_delete_Particular_emp_detail',{'empID': e.employeePk|default('')})}}&del">Delete</option>
+                            </select> 
+                            <input class="button" name="commit" type="button" value="Go" onClick="employeeAction(this,'{{e.employeePk|default('')}}','#employeeAction');" />
+                            #}
+                        </td>                                                 
+                    </tr>                    
+                {%endfor%}
+                       
+                </tbody>
+            </table>
+        </td>
+    </tr>                                 
+</table>

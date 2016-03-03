@@ -1,0 +1,157 @@
+<div class="contact_detials">
+    <div id="emp_contact_details_list" style="margin-bottom: 10px;">
+            {# logic: this hidden input field value is the key to show hide. 
+                          value 0(zero): to show tr with class name project_item
+                          value 1(one): to hide tr with class name project_item
+                   note: also this hidden field class name the first part 'project_item' is same as the tr row  class name
+                         so that it will distinct.
+                #}
+                <input type="hidden" value="0" class="emp_contact_detail_hide_show_key"/>
+            <table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">   
+                {#paramer: project_item => class name of table row (tr) to hide or show #}
+                <tr onclick="fnHideShow('emp_contact_detail');">
+                    <td class="td-label-title">
+                         {# this div show the icon plus and minus, 
+                                 and its class name is same as first part tr of hide/show #}
+                        Contact Details : <div class="emp_contact_detail_hide_show_icon floatRight plus"></div>
+                    </td>
+                </tr>
+                <tr class="emp_contact_detail displayNone">
+                    <td>                    
+                        <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                            <thead class="">
+                                <tr>
+                                    <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Mobile</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Phone</th>  
+                                    <th class="tbl-th-grid-view-row-no-bg">Private Email</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Office Email</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg">Website</th>                                                                     
+                                    <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                                </tr>
+                            </thead>
+                            <tbody>                           
+                                    {# contactFlag check existing contact detials#}
+                                    {% set contactFlag = 0  %}
+                                    {% if  cmnPerMobTxnObj|default('') == '' %}
+                                        {% set contactFlag = 0  %}  
+                                    {%else%}
+                                        {% set contactFlag = 1  %}  
+                                    {%endif%}
+                          {%if contactFlag == 1 %}       
+                                <tr>                                   
+                                    <td class="tbl-grid-view-row-no-bg" align="center"> 1 </td>                                   
+                                    <td class="tbl-grid-view-row-no-bg" align="center">                                        
+                                        {%if cmnPerMobTxnObj is defined%}
+                                            {%if cmnPerMobTxnObj|default('') != ''%}  
+                                               <select>
+                                                {% for m in cmnPerMobTxnObj %}                                                     
+                                                        <option>{{ m.mobileNoFk.mobileNo|default('') }}</option>                                                                                                 
+                                               {% endfor %}  
+                                               </select>
+                                            {%endif%}
+                                        {%endif%}
+                                    </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ personObj.telephoneNo|default('') }}</td>  
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ personObj.emailId|default('') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ personObj.emailIdOffice|default('') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ personObj.website|default('') }}</td>                                                                  
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                        <a href="javascript:void();" onclick="retriveContactDetails('{{ path('_retrive_contact_emp_details', {'personID': personObj.personPk|default('') }) }}', '#contactDetail');">Edit</a> | 
+                                        <a href="javascript:void();"  style="color:#ff0000;" onclick="deleteContactDetails(this, '{{ path('_delete_contact_emp_details', {'personID': personObj.personPk|default('') }) }}');">Delete</a>
+                                    </td>                                                 
+                                </tr>                    
+                         {%endif%}
+
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>
+    </div>
+        
+    <div id="add_contact_btn_div" style="margin-left: 5px;"> 
+        <input type="button" class="button blue" id="add_contact_btn" value="Add Contact Details" onclick="showHideBtnOrForm(this,'empAddressDetailDiv');"/> 
+    </div>  
+        <div id="empAddressDetailDiv" style="margin-top: 10px; display: none;">
+            <form id="contactDetail">
+                <input type="hidden" value="0" class="emp_contact_detail_form_hide_show_key"/>
+                <table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">   
+                    {#paramer: project_item => class name of table row (tr) to hide or show #}
+                    <tr onclick="fnHideShow('emp_contact_detail_form');">
+                        <td class="td-label-title">
+                         {# this div show the icon plus and minus, 
+                                 and its class name is same as first part tr of hide/show #}
+                                Contact Details : <div class="emp_contact_detail_form_hide_show_icon floatRight plus"></div>
+                        </td>
+                    </tr>
+                    <tr class="emp_contact_detail_form displayNone">
+                        <td> 
+                            <table width="99%" border="0" cellpadding="0" cellspacing="0" style=" margin: 0 auto;">   
+                                <tr>
+                                    <td class="td-gray-bg">Official Email:</td>
+                                    <td class="td-white-bg">
+                                        <input class="cmnWidth cmnField" type="text" id="emp_official_email" name="txt_emp_official_email" value=""/>                       
+                                    </td> 
+                                    <td class="td-gray-bg">Private Email:</td>
+                                    <td class="td-white-bg">
+                                        <input class="cmnWidth cmnField" type="text" id="emp_private_email" name="txt_emp_private_email" value=""/>                                
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg" valign="top">Phone No:</td>
+                                    <td class="td-white-bg" valign="top">
+                                        <input class="cmnWidth cmnField" type="text" id="contact_phone" name="txt_emp_contact_phone" value="" onKeypress="return validationDigit('#contact_phone');"/>                                                                                 
+                                    </td> 
+                                    <td class="td-gray-bg">Website:</td>
+                                    <td class="td-white-bg">
+                                        <input class="cmnWidth cmnField" type="text" id="emp_website" name="txt_emp_website" value=""/>                                
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg" valign="top">Mobile No: <span class="necessary-field">*</span></td>
+                                    <td class="td-white-bg" valign="top" colspan="3" style="width: 500px;">
+                                        {#this hidden detect whose contact no is ie.employee or dependent#}
+                                        <input type="hidden" id="keyToDetectWhoseNos" name="txt_keyToDetectWhoseNos" value="E" />
+                                        <div id="contact_mobiles">                               
+                                            <table>
+                                                <tr>
+                                                    <td> <input class="cmnWidth cmnField" type="text" id="emp_contact_mobile" name="txt_emp_contact_mobile"  onkeypress="return IntegerOnly(event);" maxlength="10"/>  </td>
+                                                    <td><input type="button" class="button blue cmnField" value="Add" onclick="addFieldDynamic(this,'txt_emp_contact_mobile');"/></td>
+                                                </tr> 
+                                            </table> 
+                                       </div>
+                                       
+                                    </td>                                    
+                                </tr>
+
+                                <tr>
+                                    <td class="td-separator td-white-bg" colspan="4" style="text-align: center;">
+                                        {#  parameter in the url:
+                                            mode I: Insert, mode U: Update  #}
+                                        <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveEmpContactDetails('{{ path('_save_employee_contact_details',{'mode' : 'I'} ) }}', this, 'I');"/>
+                                        <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="showEnableFields('#contactDetail');" style="display: none;"/>
+                                        <input type="button" class="button blue" id="btn_update" value="Update" onclick="return saveEmpContactDetails('{{ path('_save_employee_contact_details',{'mode' : 'U'} ) }}', this, 'U');"  style="display: none;"/>
+                                        <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/> 
+                                        <input type="button" class="button blue" id="btn_cancel_adding" value="Cancel" onclick="showHideBtnOrForm(this,'add_contact_btn_div'); cancelContactDetailFields(this);"/>                
+                                    </td>  
+                                </tr>
+                            </table> 
+                       </td>
+                </tr>
+            </table>
+            {%if contactFlag == 1%}                
+                 <input type="hidden" id="contactPersonID" name="txt_contact_person_id" value="{{ personObj.personPk|default('') }}"/> 
+            {%else%}
+                  <input type="hidden" id="contactPersonID" name="txt_contact_person_id" value=""/> 
+            {%endif%}
+        </form>
+       {# firstly show table #}
+       <script type="text/javascript">
+         fnHideShow('emp_contact_detail');
+         fnHideShow('emp_contact_detail_form');
+      </script>
+    </div> 
+    
+</div>  
+

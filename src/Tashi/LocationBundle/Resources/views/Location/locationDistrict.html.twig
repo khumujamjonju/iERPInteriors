@@ -1,0 +1,89 @@
+<div class="application-form"> 
+    <table width="100%" class="tbl-border" cellspacing="0" cellspadding="0">
+        <tr>
+            <td class="td-label-title" colspan="5">Manage District Detail:</td>
+        </tr>
+        <tr>
+            <td>
+
+                <form id="frmDistrictDetails" style="margin: 0px;">
+                    <table width="100%" cellspacing="0" cellspadding="0">
+                        <tr>
+                            <td class="td-gray-bg">Country Name<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <Select class="cmnWidth" name="txt_country" id="country" onchange="cmnsLoadLocationList(this, '{{path('_cmn_load_list', {'key': 'S'})}}', 'states');">
+                                    <option value="">--Select--</option>
+                                    {%for c in country|default('') %}
+                                        <option value="{{ c.countryPk|default('') }}">{{ c.countryName|default('') }}</option>
+                                    {%endfor%}
+                                </Select>                                        
+                            </td>
+                            <td class="td-gray-bg">State Name<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <Select class="cmnWidth" name="txt_state" id="states" onchange="cmnsLoadLocationList(this, '{{path('_cmn_load_list', {'key': 'D'})}}', 'districts');">
+                                    <option value="">--Select--</option>                                                    
+                                </Select>                                        
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">District Name<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"><input type="text" class="cmnWidth" id="txt_district" name="districts"></td>
+                            <td class="td-gray-bg">District Code</td>
+                            <td class="td-white-bg"><input type="text" class="cmnWidth" id="txt_district_code" name="districtcode" ></td>
+                        </tr>
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addDistrictMaster('{{ path('_adddistrict')}}', this);"/>
+                                <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="locEditBtn('country', 'states', 'txt_district', 'txt_district_code');" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_update" value="Update" onclick="return updateDistrictMaster(this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="fnSubMenuNavigation('{{path('_masterdistrict')}}', 'district', 'District Master', 'Distric Details', 'Create District');" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                            </td>
+                        </tr>
+                    </table>
+                    <input type="hidden" id="districtUpdateURL" value="{{path('_update_district')}}">
+                    <input type="hidden" name="inputdid" id="inputdid" value=""/>
+                </form> 
+            </td>
+        </tr>
+    </table>
+
+    <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+        <input type="hidden" id="districtUpdateURL" value="{{path('_update_district')}}">
+            <input type="hidden" name="inputdid" id="inputdid" value=""/>          
+            <tr>
+                <td class="td-label-title">District List:</td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr> 
+                                <th class="tbl-th-grid-view-row-no-bg">Country Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">State Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">District Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">District Code</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+
+                        <tbody>                           
+                                {%for dis in district%}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{dis.countryFk.countryName | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{dis.stateFk.stateName | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{dis.districtName}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{dis.districtCode}}</td>  
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                        <a href="javascript:void();" onclick="retriveDistrictMaster('{{path('_retreive_district_id',{'did': dis.pkid })}}');">Edit</a> | 
+                                        <a href="javascript:void();" onclick="deleteDistrictMaster('{{path('_delete_district',{'did': dis.pkid })}}');" style="color:#ff0000;">Delete</a></td>
+                                </tr> 
+                            {%endfor%}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>
+        </div>
+    </div> 
+</div>

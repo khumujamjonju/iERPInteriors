@@ -1,0 +1,47 @@
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="#" href="javascript:void();">Search Customer</a></li> 
+        {#<li ><a href="#" href="javascript:void();">Add Project Details</a></li>#}
+    </ul>
+</div>
+<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <input id="spanCloseOpenHandlerSearchCustomer" value="0" type="hidden">
+                <td class="td-label-title" onclick="lmsShowHideAddressResult('SearchCustomer');">Search Customer<span style="float: right;" id="spanIdSearchCustomer" class="span_open" >&nbsp;</span></td>
+            </tr >
+            <tr id="trAddressSearchCustomer" >
+                <td>
+                    <form method="#" id="customerSearchForm" post="">
+                        <table width="100%" align=center border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg">Customer Name</td>
+                                <td class="td-white-bg"><input type="text" id="txtCustomerName" name="txtCustomerName" class="input-width" onkeypress="cimSubmitOnEnter(event, 'butSearch');"  ></td>  
+                                <td class="td-gray-bg">Customer ID</td>
+                                <td class="td-white-bg"><input type="text" id="txtCustomerId" name="txtCustomerId" class="input-width" onkeypress="cimSubmitOnEnter(event, 'butSearch');"  ></td>
+                                <td class="td-gray-bg">Mobile No.</td>
+                                <td class="td-white-bg" colspan="5"><input type="text" id="txtMobileNo" name="txtMobileNo" class="input-width" onkeypress="return IntegerOnly(event); cimSubmitOnEnter(event, 'butSearch');"></td>
+                            </tr>                                  
+                            <tr>
+                                <td colspan="6" class="td-separator" align="center">                            
+                                    <input class="button" type="button" name="butSearch" id="butSearch" value="Search" onClick="cimSearchForCustomer();" >
+                                    <button class="button" type="reset" onclick="return resetAnyForm();"> Clear</button>  
+                                                                                                                                {# key N => normal search#}
+                                    <input type="hidden" id="inputsearchUrl" value="{{ path('_erplms_cim_search_customer_viewinformation', {'key' : 'N'})}}">
+
+                                </td>
+                            </tr>
+                        </table>
+
+                    </form>
+                </td>
+            </tr>
+        </table>                                   
+        <br/>                                 
+        <div id="idforDisplay"></div>
+        <br/>
+        <div id="EditArea"></div> 
+    </div>
+</div>
+                                                                

@@ -1,0 +1,35 @@
+<table width="100%" align="center" id="example" cellspacing="0" class="display">  
+    <thead>
+        <tr> 
+            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center; width: 70px;">Sl.no</th> 
+            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Module</th>
+            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Activity Name</th> 
+            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Description</th>
+            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Function Name</th>
+            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Controller Path</th>            
+            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="width:150px;">Action</th>
+        </tr>
+    </thead>
+    <tbody>  
+        {%set slno=1%}
+        {%for activity in activityArr%}
+            <tr>
+                <td class="tbl-grid-view-row-no-bg" width="70px">{{slno}}</td>
+                <td class="tbl-grid-view-row-no-bg" style="text-align: justify;">{{activity.moduleFk.moduleName|default('')}}</td>
+                <td class="tbl-grid-view-row-no-bg" align="left">{{activity.activityName}}</td>
+                <td class="tbl-grid-view-row-no-bg" style="text-align: justify;">{{activity.description|raw}}</td>
+                <td class="tbl-grid-view-row-no-bg" style="text-align: justify;">{{activity.functionName}}</td>
+                <td class="tbl-grid-view-row-no-bg" style="text-align: justify;">{{activity.controllerPath}}</td>                
+                <td class="tbl-grid-view-row-no-bg" width="150px">
+                    <select id="selAcitivityAction{{activity.pkid}}">
+                        <option value="">--select--</option>
+                        <option value="{{path("_gotoeditactivity",{'activityid':activity.pkid})}}&edt">Edit</option>
+                        <option value="{{path("_deleteactivity",{'activityid':activity.pkid})}}&del">Delete</option>
+                    </select>
+                    <input type="button" class="button" value="Go" onclick="activityAction('selAcitivityAction{{activity.pkid}}');">
+                </td>
+            </tr>
+            {%set slno=slno+1%}
+        {%endfor%}
+    </tbody>
+</table>

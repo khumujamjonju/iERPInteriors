@@ -1,0 +1,198 @@
+
+ 
+
+<div style="margin-top: 5px;">
+
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+        <tr>
+        <input id="spanCloseOpenHandlerUpdateRequisition" value="0" type="hidden">
+        <td class="td-label-title" colspan="4" onclick="lmsShowHideAddressResult('UpdateRequisition');">
+            <label id="generatedpo">Requisition Details For {{ro.employeeFk.personFk.personName | default(' ')}} </label>
+        <span style="float: right;" id="spanIdUpdateRequisition" class="span_open" >&nbsp;</span>
+        </td>
+        <input id="rid" type="hidden" value="{{ro.pkid}}"><input id="eid" type="hidden" value="{{ro.employeeFk.employeePk}}">
+        </tr>
+
+
+
+        <tr id="trAddressUpdateRequisition" >
+        <td>
+                <div id="divPrdWithoutPO">
+                    <form id="PO">
+                          <table width="100%" align="center" border="0"  cellpadding="0" cellspacing="0" class="tbl-border">
+                            
+                             <tbody>
+                                <tr>
+                                    <td width="200px" class="td-gray-bg">Select Project Area</td>
+                                    <td class="td-white-bg" align="left" colspan="2">
+                                        <select id="pkid"  class="normal_select cmnWidth" name="category" onchange="LoadSubCategory1(this.id);">
+                                            <option value="0">--Select--</option>
+                                            {%for a in area%}
+                                            <option value="{{path('_orderappendprdsubcat',{'pkid':a.pkid})}}#}">{{a.area}}</option>
+                                            {%endfor%}
+                                        </select>   
+                                        <input type="hidden" name="searchvalue" value="" id="searchvalue"/>
+                                    </td>
+                                </tr>
+                            </tbody>
+                            
+                            
+                            <tbody id="tbodyDynamic">
+                            </tbody>
+                            
+                            <tbody>
+                                <tr>
+                                    <td width="200px" class="td-gray-bg">Select Product</td>
+                                    <td class="td-white-bg" align="left" id="prdproductList" width="200px">
+                                        <select id="selStkPrdList" name="selStkPrdList"  class="normal_select cmnWidth">
+                                            <option value="0">--Select--</option>                                    
+                                        </select>
+                                    </td>
+                                    <td class="td-white-bg" align="left">
+                                        
+                                         <input class="button blue" onclick="SelectProductIdforReqEntry1('{{path('_selectedappend')}}', this);" type="button" value="Select">
+                                        
+                                          
+                                    </td>
+                                </tr>
+                            </tbody>
+                            
+                            <tbody>
+                            
+                        </table>     
+                    </form>           
+                </div>
+                <input type="hidden" id="inputstkdetailUrl" value=" "/>
+                <input type="hidden" id="inputProductCode" name="inputProductCode">
+
+
+
+                <div id="result_po" style="margin-top: 5px;">
+
+                    <table id="display_product" class="tab_price"  width="99%">
+                        <tr style="padding:5px;background:#EFEFEF;">
+                            <td  style="padding:5px;background:#EFEFEF;">Product Name <br/>(Code)</td>
+                            <td  style="padding:5px;background:#EFEFEF;">Requisition Qtny</td>
+                            <td  style="padding:5px;background:#EFEFEF;">Unit</td>
+                            <td  style="padding:5px;background:#EFEFEF;width: 200px;">Purpose</td>
+                            <td  style="padding:5px;background:#EFEFEF;">Remarks</td>
+                            <td  style="padding:5px;background:#EFEFEF;">Action</td>
+                        </tr>
+                       {%for a in all.result%}
+                        
+                           
+                        <tr id="unit{{a.productFk.pkid}}" width=100% style="border-bottom: 1px dashed #000;">
+
+                            <td class=" " style="padding:5px;">{{a.productFk.productName}} <br/>{{a.productFk.productCode}})
+                                <input type="hidden" name="{{'productid'~a.productFk.pkid}}" value="{{0}}"/> 
+                                <input type="hidden" name="pid" value="{{a.productFk.pkid}}"/>
+                                <input type="hidden" name="{{'prodetailid'~a.productFk.pkid}}" value="{{a.pkid}}"/>
+                            </td>   
+                            <td class="" style="padding:5px;width: 40px;">
+                                <input id="quantity" class="txt_quantity" style="width: 40px;" type="text" name="{{'quantity'~a.productFk.pkid}}"  value="{{a.quantity}}"/>
+                            </td>
+                           
+                            <td class="" style="padding:5px;">
+                                <select id="unit" class="ddlb_unit" name="{{'unitid'~a.productFk.pkid}}">
+                                    <option value="0">--Select--</option>
+                               {%for s in all.result%}
+                                    {%if s.unitFk.pkid == a.unitFk.pkid%}
+                                    <option value="{{s.unitFk.pkid}}" selected="selected">
+                                {{s.unitFk.unitName}}
+                                </option> 
+                                {%else %}
+                                 {%endif%}
+                              {%endfor%}
+                                    </select>           
+                                </td>
+                                <td class="" style="padding:5px; width:300px;">
+                                    <select style="width:120px;"  class="{{'purpose_list'~a.productFk.pkid}}" name="{{'purpose'~a.productFk.pkid}}" id="selSearchPurpose" onchange="CriteriaPurposeSearch(this.id);">
+                                        <option value="">--Select--</option>
+                                        {%for p in project%}
+                                        {%if p.pkid == a.purposeFk.pkid%}
+                                        <option value="{{p.pkid}}" selected="selected">{{p.purposeType}}</option>
+                                        {%else%}
+                                        {%endif%}
+                                        {%endfor%}
+                                    </select>
+
+                                        <input type="text" name="{{'txt_code'~a.productFk.pkid}}" id="{{'officeuse'~a.productFk.pkid}}" value="{{a.purposeCode}}"> 
+                                        
+                                </td>    
+                                    
+                                    <td class="" style="padding:5px;">
+                                        <input type="text" name="{{'remarks'~a.productFk.pkid}}" value="{{a.remarks}}" style="width: 100px;"/>
+                                    </td>
+                                    
+                                    <td class="" style="padding:5px;">
+                                              
+                                    </td>
+                                </tr>
+                        
+                        
+                        
+                        
+                        {%endfor%}    
+                        
+                        
+                        
+                        
+
+                    </table>
+</div> <br/>
+            </td>
+
+
+
+
+
+
+
+
+        </tr> 
+
+ <table id="trSavePO"  width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border"  id="purtable" style="margin-top: 5px;"> 
+     
+     <tr>
+        <input id="spanCloseOpenHandlerSHowdetails" value="0" type="hidden">
+        <td class="td-label-title" colspan="4" onclick="lmsShowHideAddressResult('SHowdetails');">
+            <label id="generatedpo">Purchase Order Entry Details </label>
+            <span style="float: right;" id="spanIdSHowdetails" class="span_open" >&nbsp;</span>
+        </td>
+       
+        </tr>
+        
+ <tr id="trAddressSHowdetails">
+            <td>                    
+                <table width="100%" cellpadding="0" cellspacing="0" class="tbl-border">
+                    <tr>
+                        <td class="td-gray-bg">Select Required Date:</td>
+                        <td class="td-white-bg">
+                            <input type="date" class="cmnWidth" name="reqdate" value="{{ro.requisitionDate|date('Y-m-d')}}" >
+                        </td>
+                        <td class="td-gray-bg"> </td>
+                        <td class="td-white-bg"></td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Enter Description:</td>
+                        <td class="td-white-bg" colspan="3">
+                            <textarea style="width:99%;" name="description">{{ro.requisitionDetails}}</textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-white-bg" colspan="3" style="text-align: center;">
+                        <input type="button" class="button blue" id="btn_save" value="Update" 
+                        onclick="return UpdateRequisitionDetails('{{path('_update_reqdetails')}}',this);"></td>
+                    </tr>
+
+                </table>
+
+            </td>
+        </tr>
+ 
+ </table>
+        
+
+    </table>
+
+</div> 

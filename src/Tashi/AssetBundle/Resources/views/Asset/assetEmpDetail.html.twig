@@ -1,0 +1,39 @@
+
+<div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" id="tblAssetAssignedEmpAfterSearch">           
+    <tr>
+        <td class="td-label-title"> Assigned List  </td>
+    </tr>
+    <tr>
+        <td>
+            {#<input type="text" name="inputItemId" id="inputassetId" value="{{asetId.assetRegisterPk|default('')}}"/>#}
+            <table width="100%" align="center" border="0" cellpadding="0" id="example3"  cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Category</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Manufacturer</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Model No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Serial No.</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                 {%if empAssignedasset|default('') == ''%}
+                        <tr><td colspan="5" align="center">No Asset Asign for these employee</td></tr>
+                 {%else%}
+                 {%for a in empAssignedasset|default('')%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetCategoryFk.assetCategoryName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetRegisterFk.assetName | default('')}}</td>                                                                        
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetRegisterFk.manufacturer | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetRegisterFk.modelNo | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetRegisterFk.serialNo | default('')}}</td>
+                        </tr>  
+                  {%endfor%}
+                 {%endif%}
+                    </tbody>
+                </table>
+            </td>
+        </tr>                                 
+    </table>
+        </div>

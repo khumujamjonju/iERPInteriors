@@ -1,0 +1,68 @@
+<form id="empWorkerWageFrm">
+    <input type="hidden" name="txt_key" value="{{key}}"/>
+    <input type="hidden" id="worker_pkid" name="txt_worker_pkid" {%if wageDetails is defined%} value="{{ wageDetails.employeeFk.employeePk|default('') }}" {% endif %}/>
+    <input type="hidden" id="wage_details_pkid" name="txt_wage_details_pkid" {%if wageDetails is defined%} value="{{ wageDetails.pkid|default('') }}" {% endif %}/>
+    <table id="empWorkerWageFrmTbl" width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+        <tr>
+            <td class="td-label-title">Wages For Worker ID: <span id="emp_worker_info">{%if wageDetails is defined%} {{ wageDetails.employeeFk.employeeId|default('')~' ,'~wageDetails.employeeFk.personFk.personName|default('') }} {% endif %}</span></td>
+        </tr>
+        <tr>
+            <td>
+                <input type="hidden" value="0" class="approval_salary_slip_hide_show_key"/>                                   
+                <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                      
+                    <tr>
+                        <td class="td-gray-bg">Wage Type</td>
+                        <td class="td-white-bg">
+                            <span class="wage_type">{%if wageDetails is defined%} {{ wageDetails.wageTypeFk.salaryType|default('') }} {% endif %}</span>
+                            <input type="hidden" id="wage_type_id" name="txt_wage_type_id" {%if wageDetails is defined%} value="{{ wageDetails.wageTypeFk.salaryTypePk|default('') }}" {% endif %}/>
+                        </td>
+                        <td class="td-gray-bg">Wage (<b>&#8377;.</b>)</td>
+                        <td class="td-white-bg" style="width: 200px;"> 
+                            <span class="wage_type_amount">{%if wageDetails is defined%} {{ wageDetails.wageTypeAmount|default('') }} {% endif %}</span>
+                            <input type="hidden" id="wage_type_amount" name="txt_wage_type_amount" {%if wageDetails is defined%} value="{{ wageDetails.wageTypeAmount|default('') }}" {% endif %}/></td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg"><span class="total_wage_title">{%if wageDetails is defined%} No of {{ wageDetails.wageTypeFk.salaryType|default('') }} {% endif %} </span><span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <input class="cmnWidth" type="text" id="total_wage_type" name="txt_total_wage_type" {%if wageDetails is defined%} value="{{ wageDetails.totalWageType|default('') }}" {% endif %} onKeypress="return validationDigit('#total_wage_type');" onKeyup="calculateTotalWageAmount(this);"/>
+                        </td>
+                        <td class="td-gray-bg">Total Wage (<b>&#8377;.</b>)</td>
+                        <td class="td-white-bg">
+                            <span class="net_wage">{%if wageDetails is defined%}  {{ wageDetails.netWage|default('') }} {% endif %}</span> 
+                            <input type="hidden" id="net_wage" name="txt_net_wage" {%if wageDetails is defined%}  value="{{ wageDetails.netWage|default('') }}" {% endif %}/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg" rowspan="2" style="width: 200px;">Working Date <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg" colspan="3">
+                            {%set checkFlag = 1%}  
+                            {%if wageDetails is defined%} 
+                                    {%if wageDetails.isWageDateSingle|default('') == 2%}  {%set checkFlag = 2%}     {% endif %}
+                            {% endif %}
+                            <input  type="radio" class="wage_date_single" name="txt_working_date_option" {%if checkFlag == 1%}  checked   {% endif %} value="single" onclick="chooseWageDateOption('working_date_single', 'working_date_multiple', 'single');"/>Single
+                            <input  type="radio" class="wage_date_multiple" name="txt_working_date_option" {%if checkFlag == 2%}  checked   {% endif %} value="multiple" onclick="chooseWageDateOption('working_date_single', 'working_date_multiple', 'multiple');" style="margin-left: 30px;"/>Multiple
+                        </td>                       
+                    </tr>
+                    <tr id="working_date_single" {%if checkFlag == 1%}  style="display: block;"  {%else%} style="display: none;" {% endif %}>                   
+                        <td class="td-white-bg" colspan="3">
+                            <input class="cmnWidth" type="date" id="working_date" name="txt_working_date" {%if wageDetails is defined%} {%if checkFlag == 1%} value="{{wageDetails.workingDateFrom|default('')|date('Y-m-d')}}"  {% endif %}{% endif %}/>
+                        </td>                     
+                    </tr>
+                    <tr id="working_date_multiple" {%if checkFlag == 2%}  style="display: block;"  {%else%} style="display: none;" {% endif %}>                     
+                        <td class="td-white-bg" colspan="3">
+                            From   <input class="cmnWidth" type="date" id="working_date_from" name="txt_working_date_from" {%if wageDetails is defined%} {%if checkFlag == 2%} value="{{wageDetails.workingDateFrom|default('')|date('Y-m-d')}}"  {% endif %}{% endif %}/>
+                            <span style="margin-left: 20px;">To <input class="cmnWidth" type="date" id="working_date_to" name="txt_working_date_to" {%if wageDetails is defined%} {%if checkFlag == 2%} value="{{wageDetails.workingDateTo|default('')|date('Y-m-d')}}"  {% endif %}{% endif %}/></span>
+                        </td>                      
+                    </tr>
+                    <tr>
+                        <td class="td-separator" colspan="4" style="text-align: center;">
+                            <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveWorkerWage(this, '{{ path('_save_worker_wage')}}');"/>
+                            <input type="button" class="button blue" id="btn_update" value="Update" onclick="return saveWorkerWage(this, '{{ path('_save_worker_wage')}}');" style="display: none;"/>                     
+                            <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editWorkerWage(this);" style="display: none;"/>                            
+                        </td>  
+                    </tr>
+                </table>                  
+            </td>
+        </tr>
+    </table>
+</form>

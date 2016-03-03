@@ -1,0 +1,6 @@
+_project:
+    resource: "@TashiProjectBundle/Controller/ProjectController.php"
+    type:     annotation
+_category:
+    resource: "@TashiProjectBundle/Controller/MasterController.php"
+    type:     annotation

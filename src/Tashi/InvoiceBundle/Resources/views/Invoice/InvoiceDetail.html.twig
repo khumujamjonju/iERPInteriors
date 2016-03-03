@@ -1,0 +1,220 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0">           
+    <tr>
+        <input id="spanCloseOpenHandlerCreateInvoice" value="0" type="hidden">
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('CreateInvoice');"> Invoice Detail    
+        </td>
+    </tr>
+    <tr>
+        <td width="98%" >
+            <input type="hidden" name="inputInvoiceid" value="{{invoice.pkid}}"/>
+            <br/>
+            <div style="padding:5px;">
+                <h1 style="margin:0;">{{company.companyName}}</h1>
+                {%if company.slogan is not null and company.slogan!=''%}<h2 style="margin:5px; background: none;">{{company.slogan}}</h2>{%endif%}<br/>
+                <p style="margin:0;">{{cmpaddress|raw}}</p>
+                <p style="margin:0;">Mobile No:                   
+                    {%set i=0%}
+                    {%for mob in mobArr%}
+                        mob.number {%if i==mobArr|length-1%}.{%else%},{%endif%}
+                        {%set i=i+1%}
+                    {%endfor%}
+                </p>                
+                <p style="margin:0;">Tel:                                    
+                    {%set i=0%}
+                    {%for phone in phoneArr%}
+                        phone.phoneNo {%if i==phoneArr|length-1%}.{%else%},{%endif%}
+                        {%set i=i+1%}
+                    {%endfor%}
+                </p>
+                {#{%if company.telNo is not null and company.telNo!=''%}<p style="margin:0;">Tel: {{company.telNo}}</p>{%endif%}#}
+                <p style="margin:0;">Fax: 
+                    {%set i=0%}
+                    {%for fax in faxArr%}
+                        fax.faxno {%if i==faxArr|length-1%}.{%else%},{%endif%}
+                        {%set i=i+1%}
+                    {%endfor%}
+                </p>
+                {#{%if company.faxNo is not null and company.faxNo!=''%}<p style="margin:0;">Fax: {{company.faxNo}}</p>{%endif%}#}
+                <p style="margin:0;">Email:
+                    {%set i=0%}
+                    {%for email in emailArr%}
+                        email.email {%if i==emailArr|length-1%}.{%else%},{%endif%}
+                        {%set i=i+1%}
+                    {%endfor%}
+                </p>
+                {#{%if company.email is not null and company.email!=''%}<p style="margin:0;">Email: {{company.email}}</p>{%endif%}#}
+                {%if company.website is not null and company.website!=''%}<p style="margin:0;">{{company.website}}</p>{%endif%}<br/>
+                {%if company.vatNo is not null and company.vatNo!=''%}<span style="margin:0;">VAT No:{{company.vatNo}}</span>{%endif%}
+                {%if company.registrationNo is not null and company.registrationNo!=''%}<span style="margin:0;">&nbsp;&nbsp;Company Regd. No: {{company.registrationNo}}</span>{%endif%}
+            </div>
+            <table  style="width:98%;">
+                <tr>
+                    <td>                
+                    </td>
+                    <td width="120px">                
+                        {%if invoice.approvalFlag==1%}
+                            <div style="padding:5px 10px; border:2px solid #009900; width:120px; color:#009900; text-align: center;">
+                                APPROVED
+                            </div>
+                        {%else%}
+                            <div style="padding:5px 10px; border:2px solid #FF0000; width:120px; color:#FF0000; text-align: center;">
+                                UNAPPROVED
+                            </div>
+                        {%endif%}
+                    </td>
+                    <td width="200px" align="right">
+                        Invoice No. <strong>{{invoice.invoiceNo}}</strong>
+                    </td>
+                </tr>
+                <tr>
+                    <td> 
+                        <hr style="width:100%; border:none; border-top:1px solid #999;"/>                
+                    </td>
+                    <td width="120px">                
+                        <p style="padding:5px 10px; vertical-align: middle; font-size: 20px; text-align: center;">
+                            Invoice
+                        </p>                
+                    </td>
+                    <td width="200px" align="right">
+                        <hr style="width:100%; border:none; border-top:1px solid #999;"/>
+                    </td>
+                </tr>
+            </table><br>
+            <table width="100%">
+                <tr>
+                    <td width="60%">           
+                        Bill To
+                        <div style="border: 1px solid #333; text-align: justify; vertical-align:top; font-weight: normal; max-width:400px; padding:5px;">
+                            {{billaddress|raw}}
+                        </div>
+                    </td>
+                    <td width="40%"> 
+                        Ship To
+                        <div style="border: 1px solid #333; text-align: justify; vertical-align:top; font-weight: normal; max-width:400px; padding:5px;">
+                            {{shipaddress|raw}}
+                        </div>
+                    </td>
+                </tr>
+            </table><br/>
+            <table width="100%" class="simple">
+                <tr>
+                    <td align="left" width="90px" class="bold">Date</td>
+                    <td align="left">{{invoice.invoiceDate|date('d-M-Y')}}</td>
+                    <td align="left" width="90px" class="bold">Order No.</td>
+                    <td align="left">{{invoice.projectFk.orderNo|upper}}</td>
+                    <td align="left" width="90px"class="bold">Sales Rep.</td>
+                    <td align="left">{{invoice.salesRepFk.personFk.personName|default|upper}}</td>
+                </tr>
+                <tr>
+                    <td align="left" width="90px" class="bold">Shipping Date</td>
+                    <td align="left">{{invoice.shippingDate|date('d-M-Y')|default('')}}</td>
+                    <td align="left" width="90px"class="bold">Shipping Term</td>
+                    <td align="left">{{invoice.shippingTerm}}</td>
+                    <td align="left" width="90px"class="bold">Payment Term</td>
+                    <td align="left" class="leftborder">
+                        {%for i in range(0,payterm|length-1,1)%}
+                            {{payterm[i].paymodeFk.paymentModeName|upper}} {%if i!=payterm|length-1%}/{%endif%}
+                        {%endfor%}
+                    </td>
+                </tr>
+            </table><br/>
+            <table width="100%" cellspacing="0" cellpading="0" class="simple">
+                <thead>
+                    <tr>
+                        <th>Item</th>
+                        <th style="text-align:left;">Description</th>
+                        <th>Unit</th>
+                        <th style="text-align:right;">Unit Price</th>
+                        <th>Quantity</th>
+                        <th style="text-align:right;">Tax</th>
+                        <th style="text-align:right;">Total</th>
+                    </tr>            
+                </thead>
+                <tbody>
+                    {%for item in itemArr%}
+                        <tr>
+                            <td>{%if item.itemFk is not null%}
+                                    {%if item.itemFk.itemFk is not null%}
+                                        {{item.itemFk.itemFk.productName|upper ~"-"~ item.itemFk.itemFk.productCode|upper}}
+                                    {%elseif item.itemFk.serviceFk is not null%}
+                                        {{item.itemFk.serviceFk.serviceName|default('') }}
+                                    {%elseif item.itemFk.itemFk is null and item.itemFk.serviceFk is null%}
+                                        {{item.itemFk.itemName|default('') }}
+                                    {%endif%}
+                                {%elseif item.expenseFk is not null%}
+                                    {{item.expenseFk.particulars|default('') }}
+                                {%endif%}
+                            </td>
+                            <td width="300px" style="text-align: justify">{{item.description}}</td>
+                            <td >{{item.unit}}</td>
+                            <td align="right">
+                                {%set price=0%}
+                                {%if item.markupPrice is null or item.markupPrice==0%}
+                                    {%set price=item.unitPrice%}
+                                {%else%}
+                                    {%set price=item.markupPrice%}
+                                {%endif%}
+                                {{price|number_format(2,'.',',')}}
+                            </td>
+                            <td>{{item.quantity}}</td>
+                            <td align="right">
+                                {%set taxpc=item.taxPc|number_format(2,'.','')|default(0)%}
+                                {%set taxamt=item.taxAmt|number_format(2,'.','')|default(0)%}
+                                {%if taxamt>0%}
+                                    {{taxamt}}({{taxpc}}%)
+                                {%else%}
+                                    {{taxamt}}
+                                {%endif%}
+                            </td>
+                            <td align="right">{{item.total|number_format(2,'.',',')}}</td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+                <tfoot>
+                    <tr class="topborder">
+                        <td class="right bold" colspan="6" style="padding:7px;">Sub-total(&#8377;)</td>
+                        <td class="right bold" style="padding:7px;">{{invoice.subTotal|number_format(2,'.',',')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right bold" colspan="6" style="padding:7px;">Tax(&#8377;)</td>
+                        <td class="right bold" style="padding:7px;">{{invoice.taxAmt|number_format(2,'.',',')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right bold" colspan="6" style="padding:7px;">Discount(&#8377;)</td>
+                        <td class="right bold" style="padding:7px;">{{invoice.discount|number_format(2,'.',',')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right bold" colspan="6" style="padding:7px;">Total(&#8377;)</td>
+                        <td class="right bold" style="padding:7px;">{{invoice.total|number_format(2,'.',',')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right bold" colspan="6" style="padding:7px;">Deposit(&#8377;)</td>
+                        <td class="right bold" style="padding:7px;">{{invoice.deposit|number_format(2,'.',',')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="right bold" colspan="6" style="padding:7px;">Balance(&#8377;)</td>
+                        <td class="right bold" style="padding:7px;">{{invoice.balance|number_format(2,'.',',')}}</td>
+                    </tr>
+                </tfoot>
+            </table>
+            <br>
+            Notes:
+            <p style="border:1px solid #999; text-align:justify; padding:5px; min-height: 50px; vertical-align: top; font-weight: normal; min-height: 50px;">{{invoice.notes}}</p>
+        </td>
+    </tr>
+    <tr>
+        <td align="center">
+            {%if ref=='PRINT'%}
+                <div id="divPrint" style="display:none;"></div>
+                <input type="button" class="button" value="Print" onclick="CallPrint('divPrint');"/>&nbsp;&nbsp;
+                <input type="button" class="button" value="Cancel" onclick="CancelInvoiceApproval();"/>
+            {%endif%}
+            {%if ref=='APR'%}
+                <input type="button" class="button" value="Approve" onclick="ApproveInvoice('{{path("_approbeinvoice",{'invoiceid':invoice.pkid})}}');"/>&nbsp;&nbsp;
+                <input type="button" class="button" value="Cancel" onclick="CancelInvoiceApproval();"/>
+            {%endif%}
+        </td>
+    </tr>
+</table>
+                
+

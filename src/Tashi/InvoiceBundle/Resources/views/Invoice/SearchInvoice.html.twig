@@ -1,0 +1,65 @@
+<div class='sub-menu'>
+     <ul>
+         <li class='active'><a href='#' href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_gotosearchinv')}}', 'search_invoice', 'Invoice','Search Invoice');">Search Invoice</a></li> 
+
+     </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form"> 
+        <div id="divnewProj" class="application-form"> 
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+                <tr>
+                    <td class="td-label-title">Search Criteria</td>
+                </tr>
+                <tr>
+                    <td>
+                        <form id="frmSearchInvoice">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="td-gray-bg" width="130px">Search Invoice By</td>
+                                    <td class="td-white-bg">
+                                        <select id="selSearchInvCriteria" name="selSearchInvCriteria" onchange="toggleSearchInvCriteria(this.id);" class="cmnWidth">
+                                            {#<option value="cate">Category</option>#}
+                                            <option value="all">All</option>
+                                            <option value="invno">Invoice Number</option>
+                                            <option value="ordno">Project ID/Order No.</option>
+                                            <option value="cname">Customer</option>
+                                            <option value="date">Invoice Date</option>
+                                            <option value="status">Status</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr id="trcriteria" style="display:none;">
+                                    <td class="td-gray-bg" id="tdtitle"></td>
+                                    <td id="tdsearchcriteria" class="td-white-bg">
+                                        <input type="hidden" name="searchvalue" value="" id="searchvalue"/>                                        
+                                        <input type="text" id="txtCriteria" name="txtCriteria" style="display:none;" class="cmnWidth" onkeypress="return NullonEnterKey(event);">
+                                        <div id="divDate" style="display:none;">
+                                            <input type="date" id="txtinvdate" name="txtinvdate" value="{{"now"|date('Y-m-d')}}"> &nbsp;                                            
+                                        </div>
+                                        <select id="selInvStatus" name="selInvStatus" style="display:none;" class="cmnWidth">
+                                            <option value="">--select--</option>                                            
+                                            <option value="1">Approved</option>
+                                            <option value="0">Unapproved</option>
+                                        </select>
+                                        <input type="hidden" name="inputcatid">                            
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg"></td>
+                                    <td class="td-white-bg">
+                                        <input type="button" class="button" value="Search" onclick="SearchInvoice();">
+                                        <input type="hidden" id="inputsearchinvoiveUrl" value="{{path("_searchinvpice")}}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div id="divInvoiceList"></div>
+                        </form>
+                    </td>
+                </tr>
+            </table>
+         <br/>
+         
+     </div>     
+    </div> 
+</div>

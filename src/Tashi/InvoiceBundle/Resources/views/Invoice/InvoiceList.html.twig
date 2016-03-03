@@ -1,0 +1,72 @@
+<table width="100%" border="0" class="tbl-border" cellpadding="0" cellspacing="0" >           
+    <tr>
+    <input id="spanCloseOpenHandlerinvoicelist" value="0" type="hidden">
+    <td class="td-label-title" onclick="lmsShowHideAddressResult('invoicelist');">Invoice List
+        <span style="float: right;" id="spanIdinvoicelist" class="span_open" >&nbsp;</span>        
+    </td>
+        </tr>
+    <tr id="trAddressinvoicelist">
+        <td>
+            <table id="example2" width="100%" align="center" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Invoice No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Order No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Customer</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Invoice Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right;">Amount</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right;">Balance</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Approval Status</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Payment Status</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Action</th> 
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if invoiceArr|length>0%}
+                        {%for invoice in invoiceArr%}                        
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{invoice.invoiceNo}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{invoice.projectFk.orderNo}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{invoice.projectFk.customerFk.customerName|upper}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{invoice.invoiceDate|date('d-M-Y')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="right">{{invoice.total|number_format(2,'.','')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="right">{{invoice.balance|number_format(2,'.','')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" style="color:{%if invoice.approvalFlag==1%}#009900{%else%}#ff0000{%endif%};" align="center">
+                                    <strong>{%if invoice.approvalFlag==1%}Approved{%else%}Pending{%endif%}</strong>
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" style="color:{%if invoice.isDue==0%}#009900{%else%}#ff0000{%endif%};" align="center">
+                                    <strong>{%if invoice.isDue==0%}Paid{%else%}Due{%endif%}</strong>
+                                </td>                            
+                                <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <select id="selInvoiceAction{{invoice.pkid}}">
+                                        <option value="">--select--</option>
+                                        <option value="{{path("_invoicedetail",{'invoiceid':invoice.pkid,'ref':'VIEW'})}}&view">View Detail</option>
+                                        {%if invoice.approvalFlag==0%}
+                                            <option value="{{path("_gotoeditinvoice",{'invoiceid':invoice.pkid,'ref':'EDIT'})}}&edit">Edit Invoice</option>
+                                        {%endif%}
+                                        <option value="{{path("_invoicepaymenthistory",{'invoiceid':invoice.pkid})}}&payment">View Payment History</option>
+                                        <option value="{{path("_invoicedetail",{'invoiceid':invoice.pkid,'ref':'PRINT'})}}&print">Print Invoice</option>
+                                        {%if invoice.approvalFlag==0%}
+                                            <option value="{{path("_deleteinvoice",{'invoiceid':invoice.pkid,'ref':ref})}}&del">Delete/Cancel</option>
+                                        {%endif%}
+                                    </select>
+                                    <input type="button" class="button" value="Go" onclick="InvoiceAction('{{invoice.pkid}}','divInvoicedetail','{{ref}}');"/>
+                                </td>                                
+                            </tr>
+                        {%endfor%}
+                    {%else%}
+                        <tr>
+                            <td colspan="9" align="center">
+                                <strong style="color:#ff0000;">No Invoice Found.</strong>
+                            </td>
+                        </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+<div id="divInvoicedetail">
+
+</div>

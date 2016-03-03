@@ -1,0 +1,74 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0">        
+    <tr>
+        <td align="center">
+            {# Advance details #}
+            <div style="float: left;text-align: center; width: 67.3%;">
+                <div style="text-decoration: underline; margin-bottom: 5px;"> Advance Details</div> 
+                <div>
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0"  class="display tbl-border">  
+                        <thead class="">
+                            <tr>
+                                <th class="tbl-th-grid-view-row-no-bg" style="background: rgb(217, 231, 251);">Sl. No.</th>
+                                <th class="tbl-th-grid-view-row-no-bg" style="background: rgb(217, 231, 251);">Payment Date</th>  
+                                <th class="tbl-th-grid-view-row-no-bg" style="background: rgb(217, 231, 251);">Amount</th>                                
+                                <th class="tbl-th-grid-view-row-no-bg" style="background: rgb(217, 231, 251);">Amount Re-Paid</th>
+                                <th class="tbl-th-grid-view-row-no-bg" style="background: rgb(217, 231, 251);">Due Amount</th>
+                                <th class="tbl-th-grid-view-row-no-bg" style="background: rgb(217, 231, 251);">Status</th>
+                                <th class="tbl-th-grid-view-row-no-bg" style="background: rgb(217, 231, 251);">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody>                           
+                       {%if empAdvPaymentDetails|default('') == ''%}
+                                <tr><td class="tbl-grid-view-row-no-bg" colspan="7" align="center" style="color: red;">No Record Available</td></tr>
+                       {%else%}
+                         {%for p in empAdvPaymentDetails|default('') %}  
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ p.createdDate|default('')| date('d-m-Y')}}</td>  
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ p.advanceAmount | default('')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ p.totalCollection | default('')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ p.dueAmount | default('')}}</td>
+                             {% if p.dueAmount | default('') == 0 %}  
+                                <td class="tbl-grid-view-row-no-bg" align="center" style="background: #009900;"> PAID </td>
+                             {% else %}
+                                <td class="tbl-grid-view-row-no-bg" align="center" style="background: #F96969;"> DUE </td>
+                             {% endif %}
+                                <td class="tbl-grid-view-row-no-bg" align="center" style="text-align: justify; width: 250px;">{{ p.description | default('')}}</td>
+                            </tr>                    
+                      {%endfor%} 
+                    {%endif%} 
+                        </tbody>
+                    </table>
+                </div>
+            </div> 
+            {# collection details #}
+            <div style="float: right;text-align: center; width: 32%;">
+                <div style="text-decoration: underline; margin-bottom: 5px;">Collection Details</div>
+                <div>
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0"  class="display tbl-border">  
+                        <thead class="">
+                            <tr>
+                                <th class="tbl-th-grid-view-row-no-bg" style="background: rgb(217, 231, 251);">Sl. No.</th>
+                                <th class="tbl-th-grid-view-row-no-bg" style="background: rgb(217, 231, 251);">Payment Date</th> 
+                                <th class="tbl-th-grid-view-row-no-bg" style="background: rgb(217, 231, 251);">Paid Amount</th>                                                                                                                                                  
+                            </tr>
+                        </thead>
+                        <tbody>                           
+                       {%if rePayment|default('') == ''%}
+                                <tr><td class="tbl-grid-view-row-no-bg" colspan="3" align="center" style="color: red;">No Record Available</td></tr>
+                       {%else%}
+                         {%for r in rePayment|default('') %}  
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ r.paymentDate|default('')|date('d-m-Y') }}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{ r.paymentAmount| default('')}}</td>                                                                                                                                                    
+                            </tr>                    
+                      {%endfor%} 
+                     {%endif%} 
+                        </tbody>
+                    </table>
+                </div>
+            </div>           
+        </td>
+    </tr>                                 
+</table>

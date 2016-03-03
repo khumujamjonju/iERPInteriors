@@ -1,0 +1,6 @@
+parameters:
+     tashi.service.account.class : Tashi\AccountBundle\Service\AccountService     
+services:    
+    tashi.account.service:
+      class: "%tashi.service.account.class%"
+      arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service","@mailer","@knp_snappy.pdf",@twig]

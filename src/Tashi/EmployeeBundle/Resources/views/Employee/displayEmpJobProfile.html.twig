@@ -1,0 +1,32 @@
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <td class="td-label-title">Job Profile List</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Job Profile Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                    </tr>
+                </thead>
+
+                   <tbody>  
+                    {%for a in allRecord%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.jobProfileName}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.description}}</td>
+                           <td class="tbl-grid-view-row-no-bg" align="center">  <a href="javascript:void();" onclick="retriveEmpJObProfile('{{ path('_retrive_emp_job_profile',{ 'jobProfileId': a.jobProfilePk})}}');">Edit</a> |
+                                         <a href="javascript:void();"  style="color:#ff0000;" onclick="deleteEmpJobProfileMaster('{{ path('_deleteEmpJobProfile',{ 'jobProfileId': a.jobProfilePk})}}');">Delete</a>
+                                           
+                       </td> 
+                        </tr>                    
+                    {%endfor%}
+                   </tbody>
+               </table>
+           </td>
+      </tr>                                 
+</table>

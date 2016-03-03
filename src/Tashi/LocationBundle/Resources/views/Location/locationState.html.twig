@@ -1,0 +1,83 @@
+<div class="application-form"> 
+    <table width="100%" class="tbl-border" cellspacing="0" cellspadding="0">
+        <tr>
+            <td class="td-label-title" colspan="5">Manage State Detail:</td>
+        </tr>
+        <tr><td>
+
+                <form id="frmStateDetails" style="margin: 0px;">
+                    <table width="100%" cellspacing="0" cellspadding="0">  
+                        <tr>
+                            <td class="td-gray-bg">Country Name<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                    <Select class="cmnWidth" name="country" id="country">
+                        <option value="">--Select--</option>
+                        {%for c in result%}
+                        <option value="{{c.countryPk}}">{{c.countryName | default(' ')}}</option>
+                        {%endfor%}
+                    </Select>
+                </td>
+                            
+                            <td class="td-gray-bg"></td>
+                            <td class="td-gray-bg"></td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">State Name<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"><input type="text" class="cmnWidth" id="statename" name="state"></td>
+                            <td class="td-gray-bg">State Code</td>
+                            <td class="td-white-bg"><input type="text" class="cmnWidth" id="statecode" name="statecode"></td>
+                        </tr>
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveStateMaster('{{ path('_add_state_details')}}',this);"/>
+                                <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="locEditBtn('country','statename', 'statecode');" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_update" value="Update" onclick="return updateStateMaster(this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="fnSubMenuNavigation('{{path('_masterstate')}}', 'state', 'State Master', 'State Details', 'Create State');" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                            </td>
+                        </tr>
+                    </table>                            
+                    <input type="hidden" id="stateUpdateURL" value="{{path('_update_state')}}">
+                    <input type="hidden" name="inputsid" id="inputsid" value=""/>
+                </form> 
+            </td>
+        </tr>
+    </table>
+        
+    <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+        <input type="hidden" id="stateUpdateURL" value="{{path('_update_state')}}">
+            <input type="hidden" name="inputsid" id="inputsid" value=""/>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">State List:</td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr> 
+                                <th class="tbl-th-grid-view-row-no-bg">Country Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">State Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">State Code</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                         {%for r in result1 %}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{r.countryCodeFk.countryName | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{r.stateName}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{r.stateCode}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                        <a href="javascript:void();" onclick="retriveStateMaster('{{path('_retreive_stateid',{'sid': r.statePk })}}');" >Edit</a>| 
+                                        <a href="javascript:void();" onclick="deleteStateMaster('{{path('_delete_state',{'sid': r.statePk })}}');" style="color:#ff0000;">Delete</a></td>                                                 
+                                </tr> 
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>
+        </div>
+    </div> 
+</div>

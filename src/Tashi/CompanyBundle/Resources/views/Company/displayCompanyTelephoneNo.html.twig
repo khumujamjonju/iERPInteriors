@@ -1,0 +1,28 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <td class="td-label-title">Telephone Number List:</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg">Telephone Number</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                               
+                    </tr>
+                </thead>
+                <tbody>
+                             {% for jt in allRecord.result%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{jt.phoneNo | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <a href="javascript:void();" onclick="retrieveCompanyTelephone('{{ path('_retrieve_company_telephone',{ 'comTeleId': jt.pkid | default('')})}}');">Edit</a> |
+                                <a href="javascript:void();"  style="color:#ff0000;" onclick="deleteCompanyTelephoneModule('{{ path('_delete_company_telephone',{ 'comTeleId': jt.pkid | default('')})}}','Telephone');">Delete</a>
+                            </td>                                             
+                        </tr>
+                                  {%endfor%}
+                    </tbody>
+                </table>
+            </td>
+        </tr>                                 
+    </table>

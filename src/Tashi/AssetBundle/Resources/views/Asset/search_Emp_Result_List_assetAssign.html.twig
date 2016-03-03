@@ -1,0 +1,45 @@
+
+
+<table width="100%" border="0" class="tbl-border" cellpadding="0" cellspacing="0">  
+    <tr>  
+        <input id="spanCloseOpenHandleremplist" value="0" type="hidden">
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('emplist');">Employee List: 
+            <span style="float: right;" id="spanIdemplist" class="span_open" >&nbsp;</span>
+        </td>
+    </tr>
+    <tr id="trAddressemplist">
+        <td>                    
+            <table width="100%" align="center" border="0" cellpadding="0" id="example3" cellspacing="0"  class="display">  
+                <thead class="">
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Id</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Name</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Designation</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Type</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Employee Job Profile</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                    </tr>
+                </thead>
+                <tbody>                           
+                       
+                 {%for a in employee.searchResult%}
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.employeeId }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.personFk.personName | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.empJobTitleFk.jobTitleName | default('')}}</td>                        
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.employementTypeFk.typeName | default('')}}</td>                                                                        
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.jobProfile | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                                <input type="button" class="button blue" id="assignAsset" value="Assign" onclick="assignAssetToEmployeeSearch('{{path('_assignAssetToEmployee',{'empName': a.personFk.personName ,'empId': a.employeeId,'employeePk':a.employeePk})}}');"/>
+                        </td>                                                 
+                    </tr>                    
+                {%endfor%}
+                       
+                </tbody>
+            </table>
+        </td>
+    </tr>                                 
+</table>
+<div id="divAssetEmpindex"></div>
+</br>
+</br>

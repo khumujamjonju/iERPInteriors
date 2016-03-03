@@ -1,0 +1,21 @@
+<td class="td-gray-bg">Select Source Account <span class="necessary-field">*</span></td>
+<td class="td-white-bg" colspan="3">
+    <select class="cmnWidth" id="source_id" name="txt_source_id" onchange="return loadCurrentBankBalance(this.value, '{{ path('_load_current_bank_balance') }}');">           
+            {%if source_type|default('') == 1%}
+                <option value="">--select--</option>  
+                {#bank account list#}
+                {%for a in result|default('')%}      
+                    {%if bank_account_id|default('') != a.bankFk.bankPk|default('')%} 
+                        <option value="{{ a.bankFk.bankPk|default('') }}">{{ a.bankFk.bankName|default('') }}({{ a.bankFk.accountNumber|default('') }}) </option>                
+                    {%endif%}  
+                {%endfor%}
+            {%elseif source_type|default('') == 2%}
+                {#cash account list#}               
+                 <option value="{{ result.pkid|default('') }}">Cash Account</option>   
+            {%endif%}
+    </select>
+    <span id="current_balance_field" style="margin-left: 30px; display: none;">
+        Current Balance(<b>&#8377;</b>):  <span id="balance" style="margin-left: 10px;"></span>
+        <input type="hidden" class="balance"/>
+    </span> 
+</td>                                                             

@@ -1,0 +1,50 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+    <tr>        
+        <td class="td-label-title">Reactivate Account</td>
+    </tr>
+    <tr>
+        <td>
+            <form id="FormReActivateAccount">
+                <input type="hidden" name="inputAccId" value="{{account.userIdPk}}">
+                <table width="100%" cellspacing="0"> 
+                    <tr>
+                        <td class="td-gray-bg" width="150px">Employee Id</td>
+                        <td class="td-white-bg">
+                            {{account.userFk.employeeId|default('')|upper}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg" width="150px">Employee Name</td>
+                        <td class="td-white-bg">
+                            {{account.userFk.personFk.personName|default('')|upper}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg" width="150px">User Name</td>
+                        <td class="td-white-bg">
+                            {{account.userName|default('')|upper}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg" width="150px">Effective Date</td>
+                        <td class="td-white-bg">
+                           {{account.startDate|date('d-M-Y')}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg" width="150px">Expiry Date</td>
+                        <td class="td-white-bg">                           
+                            <input type="date" id="txtExpDate" name="txtExpDate" value="{%if account.endDate is not null%}{{account.endDate|date('Y-m-d')}}{%endif%}">                           
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg"></td>
+                        <td class="td-white-bg">
+                           <input type="button" class="button" value="Activate" onclick="ReactivateAccount('{{path("_reactivateaccount")}}');">                        
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+</table>

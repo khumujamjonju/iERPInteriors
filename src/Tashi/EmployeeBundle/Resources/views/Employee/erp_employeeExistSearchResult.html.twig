@@ -1,0 +1,50 @@
+<script type="text/javascript" src="{{ asset('bundles/order/js/table.js') }}"></script>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border-content" >           
+                                        <tr>
+                                       
+                                        <td class="td-label-title">Employee List</td>
+                            </tr>
+                            <tr >
+                                <td>
+                                        <table id="example" class="display" width="100%" align=center border="0" cellpadding="0" cellspacing="0">  
+                                            <thead>
+                                                <tr class="td-gray-bg">
+                                                    <th>Employee ID/No.</th>
+                                                    <th>Employee Name</th>
+                                                    <th>Employment Type</th>
+                                                    <th>Designation</th>
+                                                    <th>Mobile Number</th>
+                                                    <th>Date Of Birth</th>
+                                                    <th>Action</th>
+                                                </tr>
+                                            </thead>
+                                            {% for i in employee %}
+                                            <tr>
+                                                <td class="td-white-bg" align="center">{{i.employeeId}}</td>
+                                                <td class="td-white-bg" align="center">{{i.personFk.personName}}</td>
+                                                <td class="td-white-bg" align="center">{{i.employementTypeMaster.typeName}}</td>
+                                                <td class="td-white-bg" align="center">{{i.empDesignation}}</td>
+                                                <td class="td-white-bg centered-cell">{{i.personFk.mobileNo}}</td>
+                                                {%set dob=i.personFk.dateOfBirth%}
+                                                <td class="td-white-bg centered-cell">{{dob|date('jS')}}{{dob|date(' M,Y')}}</td>
+                                                <td class="td-white-bg centered-cell">
+                                                    <input type="hidden" id="actionUrl" value="{{path('_showEmployeeDetails')}}">
+                                                    <select style="width:100px;">
+                                                        <option value="">--Select--</option>
+                                                        <option value="viw+{{i.personFk.pkid}}">View</option>
+                                                        <option value="edt+{{i.personFk.pkid}}">Edit</option>
+                                                    </select>
+                                                        <button type="button" class="button" onclick="searchGoAction(this,'ajaxLoadPage');">Go</button>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+                                            {% if employee|length<1 %}
+                                            <tr>
+                                                <td class="td-white-bg centered-cell" colspan="4">--No result found--</td>
+                                            </tr>
+                                            {% endif %}
+                                        </table>
+                                    </form>
+                                </td>
+                            </tr>
+                        </table>

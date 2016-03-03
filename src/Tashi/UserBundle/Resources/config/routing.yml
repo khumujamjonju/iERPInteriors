@@ -1,0 +1,3 @@
+_usermgt:
+    resource: "@TashiUserBundle/Controller/UserController.php"
+    type:     annotation

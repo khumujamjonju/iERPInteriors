@@ -1,0 +1,87 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+    <tr>
+        <td class="td-label-title" style="cursor:pointer;">Inventory List</td>
+    </tr>
+    <tr>
+        <table width="100%" align="center" id="example2" cellspacing="0"> 
+            <tr>
+                <td class="td-gray-bg" width="200px">Total Inventory Value</td>
+                <td class="td-white-bg">
+                    INR
+                </td>
+                <td class="td-gray-bg" width="200px">Bin Count</td>
+                <td class="td-white-bg">0</td>
+                <td class="td-gray-bg" width="200px">Inventory Items</td>
+                <td class="td-white-bg"></td>
+            </tr>
+        </table>
+    </tr>
+    <tr>
+        <td>
+            <br/>
+            <table width="100%" align="center" id="example" cellspacing="0">  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg">SKU</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                        <th class="tbl-th-grid-view-row-no-bg">BIN#</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Location</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Unit</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Qty.</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">ReOrder Qty.</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Cost</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Inventory Value</th>
+                        <th class="tbl-th-grid-view-row-no-bg">ReOrder</th>
+                    </tr>
+                </thead>
+                <tbody>  
+                    {%for stock in stockArr%}
+                        <tr>                    
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{stock.pkid}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                {%if stock.purchaseorderFk!=null%}
+                                    {{stock.purchaseorderFk.uiOrderId}}
+                                {%else%}
+                                    NA
+                                {%endif%}
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="left">
+                                {{stock.productFk.productName}}<br/> {{stock.productFk.productCode}}<br/>
+                                <span style="font-size:11px; color:#666666;">{{stock.productFk.productDesc}}</span>
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="left">
+                                <strong>Store: </strong> {{stock.storeFk.storeName}}
+                                {%if stock.buildingFk != null%}<br/><strong>Building: </strong>{{stock.buildingFk.buildingName|raw}}{%endif%}
+                                {%if stock.floorFk != null%}<br/><strong>Floor: </strong>{{stock.floorFk.storeFloorNo|raw}}{%endif%}
+                                {%if stock.roomFk != null%}<br/><strong>Room: </strong>{{stock.roomFk.storeRoomNo|raw}}{%endif%}
+                                {%if stock.rackFk != null%}<br/><strong>Rack: </strong>{{stock.rackFk.rackName|raw}}{%endif%}
+                            </td>  
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{stock.Quantity}}</td>   
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{stock.manufacturingDate|date('d/m/Y')}}</td>  
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{stock.expiryDate|date('d/m/Y')}}</td> 
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                {%if stock.alertQty == null%}
+                                    {{NA}}
+                                {%elseif stock.alertQty>= stock.quantity%}
+                                    <strong style="color:#ff0000;">LOW</strong>
+                                {%else%}
+                                    <strong style="color:#009900;">OK</strong>
+                                {%endif%}
+                            </td>
+                            <td>
+                                <select id="selStkAction{{stock.pkid}}">
+                                    <option value="">-select--</option> 
+                                    <option value="{{path("_gotovieweditstock",{'stockid':stock.pkid})}}&edt">View & Edit</option>
+                                    <option value="{{path("_deletestock",{'stockid':stock.pkid})}}&del">Delete Stock</option>
+                                </select>
+                                <input type="button" class="button" value="Go" onclick="stockActions('selStkAction{{stock.pkid}}');"/>
+                            </td>                    
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+<div id="divStkDetail"></div>

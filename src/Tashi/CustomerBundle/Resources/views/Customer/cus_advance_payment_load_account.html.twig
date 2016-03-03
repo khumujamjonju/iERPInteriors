@@ -1,0 +1,8 @@
+{%if paymentModeID|default('') == 1%} 
+    <option value="{{selectedAccount.pkid|default('')}}">Cash Account</option>
+{%else%}
+    <option value="">Select</option>
+   {%for a in selectedAccount|default('')%} 
+    <option value="{{a.bankFk.bankPk|default('')}}">{{a.bankFk.bankName|default('')}}({{a.bankFk.accountNumber|default('')}})</option> 
+   {%endfor%}
+{%endif%}

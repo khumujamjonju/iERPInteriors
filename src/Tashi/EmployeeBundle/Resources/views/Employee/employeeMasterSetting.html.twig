@@ -1,0 +1,155 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href='#' href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_emp_master_setting')}}', 'employee_master_setting', 'Employee Master', 'Master Setting');"><span>Designation</span></a></li>
+        <li id="emp_worker_expert"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_emp_worker_expert')}}', 'emp_worker_expert', 'Employee Master', 'Master Setting', 'Worker Expert');"><span>Worker Expertise</span></a></li>
+        <li id="wage_type"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_emp_working_salary_type')}}', 'wage_type', 'Employee Master', 'Master Setting', 'Wage Type');"><span>Wages Type</span></a></li>     
+        <li id="emp_department"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_emp_employee_department')}}', 'emp_department', 'Employee Master', 'Master Setting', 'Department');"><span>Department</span></a></li>
+        <li id="branch_office"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_branch_office')}}', 'branch_office', 'Employee Master', 'Master Setting', 'Branch Office');"><span>Branch Office</span></a></li>
+        <li id="nationality_master"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_emp_nationality')}}', 'nationality_master', 'Employee Master', 'Master Setting', 'Nationality Master');"><span>Nationality Master</span></a></li>
+        <li id="religion_master"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_emp_religion')}}', 'religion_master', 'Employee Master', 'Master Setting', 'Religion Master');"><span>Religion Master</span></a></li>
+    </ul>
+</div>
+<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" cellspacing="0" cellspadding="0" class="tbl-border">         
+            <tr>
+                <td class="td-label-title" colspan="2">Designation Form</td>
+            </tr>
+            <tr>
+                <td> <form id="frmEmpJobTitle" style="margin: 0px;" onsubmit="return;">
+                        <table width="100%" cellspacing="0" cellspadding="0">                       
+                            <tr>
+                                <td class="td-gray-bg">Designation:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input type="hidden" id="jobTitleId" name="jobTitleId"/>
+                                    <input type="text" class="cmnWidth" id="job_title_name" name="job_title_name" onkeypress="return NullonEnterKey(event);">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Description:</td>
+                                <td class="td-white-bg">
+                                    <textarea cols="70" rows="4" id="job_title_des" name="job_title_des"></textarea> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-separator" colspan="4" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addUpdateJobTitleMaster('{{ path('_add_update_emp_job_title')}}', this);"/>
+                                    <!--input type="button" class="button blue" id="btn_update" value="Update" onclick="return addUpdateJobTitleMaster('{{ path('_add_update_emp_job_title')}}', this);" style="display: none;"/-->
+                                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="onCancleClick('frmEmpJobTitle');" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                    <tr>
+                        <td class="td-label-title">Designation List:</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr> 
+                                        <th class="tbl-th-grid-view-row-no-bg">Designation Name</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                               
+                                    </tr>
+                                </thead>
+                                <tbody>
+                             {% for jt in allRecord%}
+                                        <tr>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{jt.jobTitleName | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{jt.description | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                                <a href="javascript:void();" onclick="retrieveEmpJobTitle('{{ path('_retrieve_emp_job_title',{ 'empJobTitleId': jt.jobTitlePk | default('')})}}');">Edit</a> |
+                                                <a href="javascript:void();"  style="color:#ff0000;" onclick="deleteEmpSubModule('{{ path('_delete_emp_job_title',{ 'empJobTitleId': jt.jobTitlePk | default('')})}}','Designation', 'frmEmpJobTitle');">Delete</a>
+                                            </td>                                                 
+                                        </tr>
+                                  {%endfor%}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>                                 
+                    </table>
+                </div>   
+            </div>
+        </div> 
+
+    {#<div class="newdashboard">  
+        <div class="application-form"> 
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+                <tr>
+                    <td class="td-label-title">Designation</td>
+                </tr>
+                <tr>
+                    <td>                 
+                        <form id="frmEmpJobTitle" style="margin: 0px;">
+                            <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                                <tr>
+                                    <td class="td-gray-bg">Name</td>
+                                    <td class="td-white-bg">
+                                        <input class="cmnWidth" type="text" id="job_title_name" name="job_title_name">                                     
+                                    </td>
+                                    <td class="td-gray-bg">Description</td>
+                                    <td class="td-white-bg">
+                                        <input class="cmnWidth" type="text" id="description" name="description">                                          
+                                    </td>                                                          
+                                </tr>                                              
+                                <tr>
+                                    <td class="td-separator" colspan="4" style="text-align: center;">
+                                        <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addEmpJObTitle('{{ path('_add_emp_job_title')}}',this);"/>
+                                        <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="commonEditBtn('job_title_name', 'description');" style="display: none;"/>
+                                        <input type="button" class="button blue" id="btn_update" value="Update" onclick="return updateEmpJObTitle(this);" style="display: none;"/>
+                                        <input type="button" class="button blue" id="btn_update" value="Update" onclick="return addEmpJObTitle('{{ path('_add_emp_job_title')}}',this);"  style="display: none;"/>
+                                        <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="commonCancelBtn('job_title_name', 'description','jobTitleId');" style="display: none;"/>
+                                        <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                    </td>  
+                                </tr>
+                            </table>
+                                 <input type="hidden" id="jobTitleId"  name="jobTitleId" value="">
+                        </form>                               
+                    </td>
+                </tr> 
+            </table>
+            <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+            <input type="hidden" id="jobTitleUpdateURL" value="">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >          
+                <tr>
+                        <td class="td-label-title">Job Titles List</td>
+                    </tr>
+                    <tr>
+                        <td>                    
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr>
+                                        <th class="tbl-th-grid-view-row-no-bg">Job Title</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                                    </tr>
+                                </thead>
+
+                                <tbody>                           
+                                {%for a in allRecord%}
+                                        <tr>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.jobTitleName}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.description}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                                <a href="javascript:void();" onclick="retriveEmpJobTitle('{{ path('_retrive_emp_job_title',{ 'jobTitleID': a.jobTitlePk })}}');">Edit</a> |
+                                                 <a href="javascript:void();" onclick="deleteEmpJobTitleMaster('{{ path('_deleteEmpJobTitle',{ 'jobTitleID': a.jobTitlePk })}}');">Delete</a>
+                                            </td>                                                 
+                                        </tr>                    
+                                {%endfor%}
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>                                 
+                    </table>
+                </div> 
+            </div> 
+        </div>#}

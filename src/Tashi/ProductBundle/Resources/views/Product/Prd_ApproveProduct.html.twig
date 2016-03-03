@@ -1,0 +1,67 @@
+{% set prodName=result.product.productName|default('') %}
+{% set prodCode= result.product.productCode|default('') %}
+{% set prodBar= result.product.productBarcode|default('') %}
+{% set Markupprice= result.markupPrice|default('0.00') %}
+{% set Cprice= result.costPrice|default('0.00') %}
+{% set prodDesc= result.product.productDesc|default('') %}
+{% set prodpkid= result.product.pkid %}
+    
+<table style="width:100%; margin-top: 5px;" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+    <input id="spanCloseOpenHandlerapproveprod" value="0" type="hidden">    
+    <td class="td-label-title"  onclick="lmsShowHideAddressResult('approveprod');"> Approve Product
+    <span style="float: right;" id="spanIdCreateNewProduct" class="span_open" >&nbsp;</span></td>
+</tr>
+<tr id="trAddressapproveprod">
+    <td>
+        <form method="post" id="frmApproveProduct">
+            <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                <tr>
+                    <td class="td-gray-bg ">Product Code<span class="necessary-field">*</span></td>
+                    <td class="td-white-bg">   <input type="text" value="{{prodCode}}" id="prodCodeIns" name="prodCode" readonly />
+                        <input type="hidden" value="{{prodpkid}}" name="prodPkid">
+                    </td>
+                 </tr>
+                 <tr>
+                    <td class="td-gray-bg">Product Name<span class="necessary-field">*</span></td>
+                    <td class="td-white-bg">
+                        <input type="text" value="{{prodName}}" id="prodNameIns" name="prodName" readonly/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg ">Product Bar Code</td>
+                    <td class="td-white-bg">   
+                    <input type="text" value="{{prodBar}}" id="prodBarCodeIns" name="prodBarCodeIns" readonly/>
+                    </td>
+                 </tr>
+                <tr>
+                    <td class="td-gray-bg">Cost Price</td>
+                    <td class="td-white-bg"><input type="text" value="{{Cprice}}" onkeyup="isMoney(this.id);" onblur="formatMoney(this.id);" id="costprice" name="costprice" class="money" readonly/> </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Markup Price</td>
+                    <td class="td-white-bg"><input type="text" value="{{Markupprice}}" id="markupprice" name="markupprice" onkeyup="isMoney(this.id);" onblur="formatMoney(this.id);" class="money" readonly/> </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" rowspan="3">Product Description</td>
+                    <td class="td-white-bg" rowspan="3" >
+                        <textarea name="prodDescIns" id="prodDescIns" cols="40" rows="5" readonly>{{prodDesc}}</textarea>
+                        <input type="hidden" rowspan="3" value="{{catobj.pkid}}" id="CatIns"  name="CatIns"/>
+                        <input type="hidden" value="" id="attrvalue" name="attrvalue"/>
+                        <input type="hidden" value="" name="catattrpkid"/>
+                        <input type="hidden" id="unit" value="" name="AttrUnitPkid" style="width: 100px;"></td>
+                </tr>
+                <tbody id="tbodyDynamic">
+                </tbody>
+                <tbody id="attributearea">                         
+                </tbody>
+                <tr> 
+                    <td>
+                    <td colspan="3" class="td-gray-bg">   
+                            <input type="button" class="button" name="btnApprove"  value="Approve" id="newStudSave"  onclick="ApproveProduct('{{path("_approveproduct",{'prodid':prodpkid,'from':from})}}','{{from}}');" />
+                            <input type="button" class="button" name="btnCancel" id="butReset" value="Cancel" onclick="cancelprodapproval();">                            
+                        </td>
+                    </tr>                                             
+                </table>
+            </form> 
+</table> 

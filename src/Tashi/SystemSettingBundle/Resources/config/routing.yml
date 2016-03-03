@@ -1,0 +1,3 @@
+_systemsetting:
+    resource: "@TashiSystemSettingBundle/Controller/SystemSettingController.php"
+    type:     annotation

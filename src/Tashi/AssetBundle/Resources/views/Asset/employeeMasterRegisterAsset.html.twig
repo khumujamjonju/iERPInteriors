@@ -1,0 +1,197 @@
+
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href='#' href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_asset_register')}}', 'asset_register', 'Asset Register', 'Asset Master Register');"><span>Register</span></a></li>
+    </ul>
+</div>
+<div class="newdashboard"> 
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" id="assetregistertable">                       
+            <tr>
+                <td class="td-label-title">Office Asset</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmAssetRegister" style="margin: 0px;">
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                           <tr>
+                               <td class="td-gray-bg"colspan="4" style="text-align:center;">Select Asset Category:<span class="necessary-field">*</span>
+                                    <Select class="cmnWidth" name="assetCategory" id="assetCategory" style="margin-left: 50px;">
+                                        <option value="">--Select--</option>
+                                          {%if assetCategory is defined%}
+                                             {%for c in assetCategory%}
+                                                <option value="{{c.assetMasterPk}}">{{c.assetCategoryName | default(' ')}}</option>
+                                             {%endfor%}  
+                                          {%endif%}
+                                    </Select>                          
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Asset Name:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="assetname" name="assetname">                                          
+                                </td>  
+                                <td class="td-gray-bg">Model No:</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="txt_asset_modelno" name="txt_asset_modelno">                                          
+                                </td>  
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Manufacturer:</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="assetmaker" name="assetmaker">                                     
+                                </td>
+                                <td class="td-gray-bg"> Product Serial No:</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="asset_prod_serial" name="asset_prod_serial">                                          
+                                </td>                                                  
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Manufacturing Date:</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="date" id="txt_asset_Manuf_date" name="txt_asset_Manuf_date">                                     
+                                </td>
+                                <td class="td-gray-bg">Expiry Date:</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="date" id="txt_asset_expiry" name="txt_asset_expiry">                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Purchase Order No:</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="txt_asset_po_no" name="txt_asset_po_no">                                          
+                                </td> 
+                                <td class="td-gray-bg">Bar Code No.:</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="txt_asset_BarCode" name="txt_asset_BarCode">                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Purchase Price:</td>
+                                <td class="td-white-bg">
+                                    <input type="text" value="0.00" onblur="DefaultDecimalValue(this);" id="txt_asset_purPrice" name="txt_asset_purPrice" class="money"/> </td>
+                                    {#<input class="cmnWidth" type="text" id="txt_asset_purPrice" name="txt_asset_purPrice"> #}                                         
+                                </td> 
+                                <td class="td-gray-bg">Purchase Date:</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="date" id="txt_asset_purDate" name="txt_asset_purDate">                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Waranty:</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="date" id="txt_asset_waranty" name="txt_asset_waranty">                                          
+                                </td> 
+                                <td class="td-gray-bg">Location:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="txt_asset_location" name="txt_asset_locatioin">                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Description:</td>
+                                <td class="td-white-bg" colspan="3">
+                                    <textarea class="cmnWidth" rows="2"  id="txt_asset_description" name="txt_asset_description"> </textarea>                                         
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Upload Asset Photo:</td>
+                                <td class="td-white-bg">
+                                    <div style="border: 1px solid #ccc; padding: 3px; padding-bottom: 0px; width: 120px; border-radius: 3px;">
+                                        <img id="profile-view" src="{{ asset('bundles/common/images/OFFICE ASSET.ico') }}" width="120" height="130"> 
+                                        <div class="upload-profile-pic-btn" onclick="clickOnChooseFile('#emp_pro_pic');"> upload asset photo</div>
+                                    </div>
+                                        <input class="cmnWidth" type="file" id="emp_pro_pic" name="txt_emp_pro_pic" onchange="readURL(this, 'profile-view');" style="display: none;">
+                                </td>
+                                {#<td class="td-gray-bg" rowspan="4" align="center" style="border-left: 1px dotted #ccc;">
+                                <div style="border: 1px solid #ccc; padding: 3px; padding-bottom: 0px; width: 120px; border-radius: 3px;">
+                                    <img id="profile-view" src="{{ asset('bundles/common/images/unk.jpg') }}" width="120" height="130"> 
+                                    <div class="upload-profile-pic-btn" onclick="clickOnChooseFile('#emp_pro_pic');"> upload profile picture</div>
+                                </div>
+                                <input class="cmnWidth" type="file" id="emp_pro_pic" name="txt_emp_pro_pic" onchange="readURL(this, 'profile-view');" style="display: none;">
+                            </td>#}
+                                
+                                
+                                {#<td class="td-white-bg">
+                                    <input class="cmnWidth" type="file" id="txt_asset_asset_photo" name="txt_asset_asset_photo">                                     
+                                </td>
+                                <td class="td-gray-bg"></td>#}
+                                                                                          
+                            </tr>                 
+                            <tr>
+                                <td class="td-separator" colspan="4" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveAssetRegisterMaster('{{ path('_saveAssetRegister')}}', this, 'assetregistertable');"/>
+                                    <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="AsetEditBtn(this);" style="display:none;"/>                                       
+                                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="return saveAssetRegisterMaster('{{ path('_saveAssetRegister')}}', this, 'assetregistertable');" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="assetCancel('assetregistertable', 'assetRegisterId');" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>
+                            </tr>
+                        </table>
+                        <input type="hidden" id="assetRegisterId" name="assetRegisterId" value="">
+                    </form>                               
+                </td>
+            </tr> 
+        </table>
+        <div id="display-list" style="margin-top: 8px;">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" id=displayAsset >           
+                <tr>
+                    <td class="td-label-title">Office Asset List</td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                            <thead>
+                                <tr> 
+                                    <th class="tbl-th-grid-view-row-no-bg">Asset ID</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Category</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Asset Name</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Makker</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Model No</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Expiry Date</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Warranty Date</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Purchase Order No.</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Location</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Action</th>                                               
+                                </tr>
+                            </thead>
+                            <tbody>                           
+                               {% for c in record%}
+                                    <tr>
+
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetRegisterPk | default('')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetCategoryMasterFk.assetCategoryName | default('')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetName | default('')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{c.manufacturer | default('')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{c.modelNo | default('')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetDescription | default('')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">
+                                            {%if c.expiryDate == ""%}
+                                                {{ '' }}
+                                            {%else%}
+                                                 {{c.expiryDate |date('d-m-Y')}}
+                                            {%endif%}
+                                        </td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">
+                                        {%if c.warranty == ""%}
+                                                {{ '' }}
+                                            {%else%}
+                                                 {{c.warranty |date('d-m-Y')}}
+                                            {%endif%}
+                                        </td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{c.purchaseOrderNo | default('')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{c.location | default('')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">
+                                            <a href="javascript:void();" onclick="retriveAssetRegisterMaster('{{path('_retrieveAssetRegister',{'ARid': c.assetRegisterPk})}}');">Edit </a> | 
+                                            <a href="javascript:void();" onclick="deleteAssetRegisterMaster('{{path('_deleteAssetRegister',{'ARid': c.assetRegisterPk })}}', 'assetregistertable');">Delete </a>
+                                        </td>                                                 
+                                    </tr>
+                          {%endfor%}   
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>                                 
+                </table>
+            </div> 
+        </div>
+    </div>

@@ -1,0 +1,35 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active' onclick="fnLeftMenuNavigation('{{path('_worker_wage')}}', 'worker_wage', 'Payroll', 'Creat Worker Wage');"><a href="javascript:void();" >Create Worker Wage</a></li>               
+    </ul>
+</div>
+<div class="newdashboard"> 
+    <div class="application-form">  
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Search Worker </td>
+            </tr>
+            <tr>
+                <td>
+                    <input type="hidden" value="0" class="approval_salary_slip_hide_show_key"/>                                   
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                      
+                            <tr>
+                                <td class="td-gray-bg" align="center">Worker ID / Name</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="worker_data" name="txt_worker_data"/>
+                                    <input type="button" class="button blue" id="search_btn" value="Searh" onclick="return searchWorkerToCreateWage(this, '{{path('_search_worker_to_create_wage')}}');"/>  
+                                </td>
+                           </tr>                                                                             
+                        </table>                  
+                </td>
+            </tr>
+        </table>
+        <div id="search_result" style="margin-top: 10px;"></div>
+        <div id="worker_wage_form" style="margin-top: 10px;"></div>
+        {#open/show hide table when load in first time#}
+        <script type="text/javascript">
+            fnHideShow('approval_salary_slip'); 
+        </script>     
+    </div> 
+</div>

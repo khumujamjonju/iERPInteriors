@@ -1,0 +1,241 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="javascript:void();">Bank Deposit / WithDrawal</a></li>  
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Bank Deposit / Withdrawal Entry Form</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmBankDepositWidrawal" style="margin: 0px;">
+                        <input type="hidden" id="bank_deposite_withdrawal_id" name="txt_bank_deposite_withdrawal_id" />
+                        <table id="bank_deposit_withdrawal_form_tbl" width="100%" align="center" border="0" cellpadding="0" cellspacing="0"> 
+                            <tr>   
+                                <td class="td-gray-bg" colspan="4" align="center">
+                                    <input type="radio" class="cmnWidth radioBtnKey" id="deposit_key" name="deposit_withdrawal_key" value="D" checked disabled  onclick="changeFieldText(this, '#withdrawal_key');"/> Deposit
+                                    <input type="radio" class="cmnWidth radioBtnKey" id="withdrawal_key" name="deposit_withdrawal_key" value="W"  onclick="changeFieldText(this, '#deposit_key');" style="margin-left: 30px;"/> Withdrawal
+                                    <input type="hidden" class="deposit_withdrawal_key" name="txt_deposit_withdrawal_key" value="D"/>
+                                </td>                                                            
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Select Bank <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <select id="bank" name="txt_bank" class="cmnWidth" onChange="return loadCurrentBankSatatus(this, '{{ path('_load_current_bank_status') }}', 'BA');">
+                                        <option value="">--select--</option>
+                                     {%for b in companyBanks|default('')%}
+                                        <option value="{{ b.bankFk.bankPk|default('') }}"> {{ b.bankFk.bankName|default('') }}({{ b.bankFk.accountNumber|default('') }}) </option>  
+                                     {%endfor%}
+                                    </select>                                   
+                                </td>
+                                <td class="td-gray-bg" colspan="2">
+                                    <table>
+                                        <tr>
+                                            <td>Account No :</td>
+                                            <td><span class="account_no"></span>
+                                                <input type="hidden" id="account_no" name="txt_account_no"/>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td>Current Balance (<b>&#8377;</b>):</td>
+                                            <td><span class="current_balance"></span>
+                                                <input type="hidden" id="current_balance" name="txt_current_balance"/>
+                                            </td>
+                                        </tr>
+                                    </table>                                   
+                                </td>                             
+                            </tr>
+                            <tr>   
+                                <td class="td-gray-bg"><label class="deposit_withdraw_amt">Deposited Amount</label> <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"><input type="text" class="cmnWidth" id="deposit_withdrawal_amount" name="txt_deposit_withdrawal_amount" onKeypress="return validationDigit('#deposit_widrawal_amount');"/></td>
+                                <td class="td-gray-bg"><label class="deposit_withdraw_date">Deposited Date</label>  <span class="necessary-field">*</span></td>
+                                <td style="" class="td-white-bg"><input class="cmnWidth" type="date" id="deposit_withdrawal_date" name="txt_deposit_withdrawal_date" value="{%if tranDate is not null%}{{tranDate.lastSelectedDate|date('Y-m-d')}}{%else%}{{"now"|date('Y-m-d')}}{%endif%}" /></td>                                
+                            </tr> 
+                            
+                            <tr> 
+                                <td class="td-gray-bg"><label class="deposit_withdraw_by">Deposited By</label> <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input type="text" id="deposit_withdrawal_by" name="txt_deposit_withdrawal_by"  class="cmnWidth" />
+                                </td>
+                                <td class="td-gray-bg">Upload Receipt</td>
+                                <td style="" class="td-white-bg">
+                                    <input class="cmnWidth" type="file" id="deposit_withdrawal_reciept" name="txt_deposit_withdrawal_reciept" style="float: left;"> 
+                                    <div id="file_control_btn" style="float: left; display: none;">                                
+                                        <input type="button" id="changePassbookBtn" value="change" onclick="enableFileChange('#deposit_withdrawal_reciept','#changePassbookBtn', '#cancelPassbookBtn');"/>
+                                        <input type="button" id="cancelPassbookBtn" value="cancel" onclick="disableFileChange('#deposit_withdrawal_reciept','#changePassbookBtn', '#cancelPassbookBtn');" style="display: none;"/>
+                                    </div>
+                                </td>                                
+                            </tr>
+                            <tr class="deposit_field">   
+                                <td class="td-gray-bg">Source Type <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" colspan="3">
+                                    <select class="cmnWidth" id="sourceType" name="txt_source_type" onchange="return loadSourceTypeId(this, 'BA','{{ path('_load_source_type_id') }}');">
+                                            <option value="">--select--</option>  
+                                         {%for a in accSourceType|default('')%}
+                                            {%if a.pkid|default('') == 1 or a.pkid|default('') == 2 %} 
+                                            <option value="{{ a.pkid|default('') }}">{{ a.sourceType|default('') }} </option> 
+                                             {%endif%} 
+                                         {%endfor%}
+                                    </select>
+                                </td>                                 
+                            </tr> 
+                            <tr class="deposit_field" id="load_accounts"> </tr>
+                            <tr id="paymentModeField">
+                                   <td class="td-gray-bg">Payment Mode <span class="necessary-field">*</span></td>
+                                   <td class="td-white-bg">
+                                       <select class="cmnWidth" id="paymentMode" name="txt_payment_mode" onchange="fnFindingCashPaymentMode(this.value);">
+                                            <option value="">Select</option>  
+                                         {%for p in paymentMode|default('')%}
+                                            {%if p.pkid|default('') != 1%} 
+                                                <option value="{{ p.pkid|default('') }}">{{ p.paymentModeName|default('') }} </option>  
+                                            {%endif%}
+                                         {%endfor%}
+                                      </select> 
+                                      {%for p in paymentMode|default('')%} 
+                                        <input type="hidden" id="keyToDetectCash{{ p.pkid|default('') }}" value="{{ p.ispaymentNoRequired|default('') }}"/> 
+                                      {%endfor%}
+                                   </td>
+                                   <td class="td-gray-bg">Payment No. <span class="necessary-field payment_no_necessary" style="display: none;">*</span></td>
+                                   <td class="td-white-bg">
+                                       <input type="text" class="cmnWidth" id="payment_number" name="txt_payment_number"/>
+                                   </td>
+                            </tr>
+                            <tr>   
+                                <td class="td-gray-bg">Description <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" colspan="3">
+                                    <textarea id="description" name="txt_description" cols="106" rows="4"></textarea>
+                                </td>                                                             
+                            </tr>
+                                                                            
+                            <tr>                               
+                                <td style="" class="td-white-bg" colspan="4" align="center">                                      
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="saveBankDepositWithdrawalHistory('{{path('_save_bank_deposit_withdrawal')}}', this);"/>
+                                {#    <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editBankDepositWithdrawalHistoryFields(this);" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="saveBankDepositWithdrawalHistory('{{path('_save_bank_deposit_withdrawal')}}', this);"  style="display: none;"/>    #}          
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                 {#   <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="cancelBankDepositWithdrawalHistory(this);"  style="display: none;"/> #}  
+                                </td>                           
+                            </tr>                        
+                        </table>                                                                                                     
+                    </form>                               
+                </td>
+            </tr> 
+        </table>
+    
+        <div class="stylecommonborder" style="margin-top: 8px;">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+                <tr>
+                    <td class="td-label-title">List Of Contra Transaction for :
+                        <select id="month" onchange="return loadDepositWithdrawalHistory('{{path('_load_deposit_withdrawal_history')}}');">
+                            <option value="">--select--</option>
+                        {%for m in month|default('')%}
+                            <option value="{{m.pkid|default('')}}" {%if m.pkid|default('') == currentMonth|default('')%} selected {%endif%}>{{m.monthName|default('')}}</option>
+                        {%endfor%}
+                        </select>
+                        <input type="text" id="year" value="{{ currentYear|default('') }}" size="13" placeholder="year" onKeypress="return validationDigit('#year');"/> 
+                       {# &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        Or Show  any period of date: 
+                        <input class="inputDisable_bg" type="date" id="periodDate"  size="13" onchange="return loadDepositWithdrawalHistoryByDate(this, '{{ path('_load_bank_deposit_withdrawal_history_by_date') }}');"/> #}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-cmn-white-bg" id="display-list">
+                        <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                            <thead>
+                                <tr>
+                                    <th class="tbl-th-grid-view-row-no-bg">Sl. No.</th>
+                                    <th class="tbl-th-grid-view-row-no-bg"> Reciept No.</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Transaction Details</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Amount</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg">Date</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Receipt</th>
+                                   {# <th class="tbl-th-grid-view-row-no-bg">Action</th>  #}                                           
+                                </tr>
+                            </thead>
+                            <tbody> 
+                            {%for b in bankDepositWithdrawalRecord|default('')%} 
+                                <tr>                         
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ b.receiptContraFk.receiptNo|default('') }}</td> 
+                                    <td class="tbl-grid-view-row-no-bg">
+                                        
+                                        {%set loopBreak = false%}
+                            {%for c in allContraTansactionDetails|default('') if not loopBreak%} 
+                                {%if c.receiptNo|default('') == b.receiptContraFk.receiptNo|default('')%}                                                                                                      
+                               <div style="float: left;"><b>Withdrawal From:</b>
+                                    {%if cashAccountDetails.pkid|default('') == c.accountFrom|default('')%}{#check cash account#}
+                                            Cash Account                                     
+                                    {%else%}{#check bank account #}
+                                        {%set loopBreak2 = false%}   
+                                        {%for bank in allCompanyBankDetails if not loopBreak2%}
+                                                {%if bank.bankFk.bankPk|default('')==  c.accountFrom|default('') %}
+                                                       {{ bank.bankFk.bankName|default('') }}({{ bank.bankFk.accountNumber|default('') }})
+                                                       {%set loopBreak2 = true%}   
+                                                {%endif%}
+                                        {%endfor%}                                      
+                                    {%endif%}  
+                                    </div> 
+                                    <br/>
+                                    <div style="float: left;">
+                                   <b>Deposit To: </b>                                   
+                                    {%if cashAccountDetails.pkid|default('') == c.accountTo|default('')%}{#check cash account#}
+                                        Cash Account                                       
+                                    {%else%}{#check bank account#}
+                                        {%set loopBreak3 = false%}   
+                                        {%for bank in allCompanyBankDetails if not loopBreak3%}
+                                                {%if bank.bankFk.bankPk|default('')==  c.accountTo|default('') %}
+                                                       {{ bank.bankFk.bankName|default('') }}({{ bank.bankFk.accountNumber|default('') }})
+                                                       {%set loopBreak3 = true%}   
+                                                {%endif%}
+                                        {%endfor%}                                       
+                                    {%endif%}
+                                   </div>                 
+                                  {%set loopBreak = true%}
+                                {%endif%}
+                            {%endfor%}
+                            {# deposit or withdrawal by#}
+                            <br/>
+                            <div style="float: left;"> <b>By:</b>
+                                {%if b.depositWithdrawalKey|default('') == 'D'%}
+                                    {{ b.depositWithdrawalBy|default('') }} 
+                                {%else%}
+                                    {{ b.depositWithdrawalBy|default('') }}
+                                {%endif%}
+                                </div>
+                                            
+                                    </td>
+                                    <td class="tbl-grid-view-row-no-bg">Rs {{ b.amount|default('') }}</td> 
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ b.date|default('')|date('d-m-Y') }}</td> 
+                              
+                                                        
+                                    <td class="tbl-grid-view-row-no-bg" style="width: 220px; text-align: justify;">{{ b.description|default('') }}</td> 
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                        {% if  b.receiptDocFk.path|default('') != ''%}
+                                            <a href="{{ asset(b.receiptDocFk.path|default('')) }}" download="{{b.receiptDocFk.originalName|default('')~'.'~b.receiptDocFk.docType|default('')}}"><input type="button" id="downloadPassbookBtn" value="download"/></a> 
+                                        {%else%}
+                                                No file
+                                        {%endif%}
+                                    </td>
+                                  {#  <td class="tbl-grid-view-row-no-bg"  style="width: 150px;">
+                                        <select class="normal_select" id="bankDepositWidrawHistoryAction{{b.pkid|default('')}}" name="txt_bankDepositWidrawHistoryAction" >
+                                            <option value="">Select</option>                                
+                                            <option value="{{path('_retrive_bank_deposit_withdrawal_history',{'pkid': b.pkid|default('')})}}&upd">Edit</option>
+                                            <option value="{{path('_delete_bank_deposit_withdrawal_record',{'pkid': b.pkid|default('')})}}&del">Delete</option>
+                                        </select> 
+                                        <input class="button" name="commit" type="button" value="Go" onClick="bankDepositWidrawHistoryAction(this,'{{b.pkid|default('')}}','#bankDepositWidrawHistoryAction');" /> 
+                                    </td> #}
+                                </tr> 
+                            {%endfor%}
+                            </tbody>                                
+                        </table>                             
+                    </td>                  
+                </tr>                                   
+            </table>              
+        </div>      
+    </div> 
+</div>

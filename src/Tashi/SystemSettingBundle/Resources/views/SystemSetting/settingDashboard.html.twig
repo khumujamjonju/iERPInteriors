@@ -1,0 +1,33 @@
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Setting</h3>
+        <div id="newmenu">
+            <ul> 
+                <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_settingdashboard')}}', 'stock_master', 'Stock', 'Stock Dashboard');"><a href="javascript:void();" >Dashboard</a></li>                
+                <li id="manage_module_li" onclick="fnLeftMenuNavigation('{{path('_moduleindex')}}', 'manage_module_li', 'Setting', 'Manage Module');"><a href="javascript:void();" >Manage Module</a></li>                
+                <li id="activities_li" onclick="fnLeftMenuNavigation('{{path('_addactivity')}}', 'activities_li','Setting','Manage Activities','Add Activities');"><a href="javascript:void();">Manage Activities</a></li>                         
+           </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'><a href="javascript:void();"  onclick="fnMainMenuNavigation('{{path('_settingdashboard')}}', 'setting_a', 'Setting', 'Dashboard');"><span>System Setting</span></a></li>              
+        </ul>             
+    </div>
+    <div class="newdashboard">
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_moduleindex')}}', 'setting_a','Setting', 'Manage Module','Add Module');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/module128.png') }}">
+                <span style="color:#000;font-weight: bold;  font-size: 12px; font-family: arial; text-decoration: underline;">Manage Module</span> <br/>        
+                Manage all modules of this application.  </p>
+        </div> 
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_addactivity')}}', 'activities_li','Setting','Manage Activities', 'Add Activity');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/task128.png') }}">
+            <span style="color:#000;font-weight: bold;  font-size: 12px; font-family: arial; text-decoration: underline;">Manage Activities</span> <br/>        
+            Activities represents functions that controls access to perform any operation.  </p>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="datePickerImage" value="{{asset('bundles/common/images/calendar.png') }}" />

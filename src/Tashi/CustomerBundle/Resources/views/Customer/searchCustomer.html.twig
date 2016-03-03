@@ -1,0 +1,55 @@
+
+<div class='sub-menu'>
+    <ul>
+        <li class='active' id="search_customer"><a href='#' href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_erpcim_search_customer')}}', 'search_customer', 'Customer Master', 'Create New');">Create New Customer</a></li> 
+       {# <li id="state"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_masterstate')}}', 'state', 'State Master', 'State Details', 'Create State');">Create State</a></li> 
+        <li id="district"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_masterdistrict')}}', 'district', 'District Master', 'Distric Details', 'Create District');">Create District</a></li> 
+        <li id="city"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_mastercity')}}', 'city', 'City Master', 'City Details', 'Create City');">Create City</a></li> 
+        <li id="address_type"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_masteraddress_type')}}', 'address_type', 'Address Master', 'Address Details', 'Create Address Type');">Create Address Type</a></li> 
+        <li id="address"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_masteraddress')}}', 'address', 'Address Master', 'Address Details', 'Create Address');">Create Address</a></li> #}
+        </ul>
+    </div>
+    <div class="newdashboard">
+        <div class="application-form"> 
+            <table width="100%" cellspacing="0" cellspadding="0" class="tbl-border">         
+                <tr>
+                    <td class="td-label-title" colspan="2">Create New Customer:</td>
+                </tr>
+                <tr>
+                    <td>
+                        <form method="#" id="customerSearchForm" post="">
+                            <table width="100%" align=center border="0" cellpadding="0" cellspacing="0">  
+                                <tr>
+                                    <td class="td-gray-bg">Customer Name</td>
+                                    <td class="td-white-bg"><input type="text" id="txtCustomerName" name="txtCustomerName" class="input-width" onkeypress="cimSubmitOnEnter(event, 'butSearch');"  ></td>  
+                                    <td class="td-gray-bg">Customer ID</td>
+                                    <td class="td-white-bg"><input type="text" id="txtCustomerId" name="txtCustomerId" class="input-width" onkeypress="cimSubmitOnEnter(event, 'butSearch');"  ></td>
+                                    <td class="td-gray-bg">Mobile No.</td>
+                                    <td class="td-white-bg" colspan="5"><input type="text" id="txtMobileNo" name="txtMobileNo" class="input-width" onkeypress="cimSubmitOnEnter(event, 'butSearch');"></td>
+                                </tr>                                  
+                                <tr>
+
+                                                       {#      <td class="td-gray-bg">Promoter Name</td>
+                                                            <td class="td-white-bg"><input type="text" name="txtPromoterName" class="input-width" onkeypress="cimSubmitOnEnter(event, 'butSearch');" ></td>
+                                                        #}
+                                </tr> 
+
+                                <tr>
+                                    <td colspan="6" class="td-separator" align="center">                            
+                                        <input class="button" type="button" name="butSearch" id="butSearch" value="Search" onClick="cimSearchForCustomer('{{ path('_erplms_cim_search_customer_viewinformation')}}')" >
+                                        <button class="button" type="reset" onclick="return resetAnyForm();"> Clear</button>
+
+                                    </td>
+                                </tr>
+                            </table>
+
+                        </form>
+                    </td>
+                </tr>
+            </table>   
+        </div>
+    </div> 
+
+
+
+

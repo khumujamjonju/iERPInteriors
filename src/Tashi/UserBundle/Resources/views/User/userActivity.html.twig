@@ -1,0 +1,25 @@
+<input type="hidden" value="{{id}}" id="userGroup" name="txt_group"/> 
+<table width="100%" align="center" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr> 
+     <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center;">Module List For Assigning Activity</th>
+       
+     </tr>
+           {%for ug in module%}  
+           <tr>
+           <td class="td-label-title" colspan="2">{{ug.moduleName}}</td>
+           </tr> 
+           <tr> 
+           <td class="tbl-grid-view-row-no-bg" align="left">
+           {%for m in activity%} 
+           {% if ug.pkid == m.moduleFk.pkid %} 
+           <input style="text-align: left;" type="checkbox" name="activity" title="{{ m.description | default(' ')}}" value="{{m.pkid | default('')}}">
+           {{ m.activityName | default('')}}
+           {%endif%}
+           {%endfor%}
+           </td>
+           </tr>{%endfor%}               
+      <tr>
+      <td class="td-label-title" style="text-align: center;">
+      <input class="button blue" type="button" value="Save" onclick="return SaveAssignActivity('{{path('_saveactivity')}}');"/></td>
+      </tr>      
+   </table>

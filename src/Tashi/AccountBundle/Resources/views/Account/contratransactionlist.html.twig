@@ -1,0 +1,58 @@
+<table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+    <thead>
+        <tr>
+            <th class="tbl-th-grid-view-row-no-bg">Date</th>
+            <th class="tbl-th-grid-view-row-no-bg">Reciept No.</th>
+            <th class="tbl-th-grid-view-row-no-bg">Remarks</th>
+            <th class="tbl-th-grid-view-row-no-bg">Transaction Type</th>
+            <th class="tbl-th-grid-view-row-no-bg">Source Bank</th>
+            <th class="tbl-th-grid-view-row-no-bg">Target Bank</th>
+            <th class="tbl-th-grid-view-row-no-bg">Transaction By</th>
+            <th class="tbl-th-grid-view-row-no-bg">Amount</th>                                                
+            <th class="tbl-th-grid-view-row-no-bg">Proof</th>  
+            <th class="tbl-th-grid-view-row-no-bg">Action</th>                                           
+        </tr>
+    </thead>
+    <tbody> 
+        {%for tran in tranArr|default('')%} 
+            <tr>
+                <td class="tbl-grid-view-row-no-bg" align="center" style="width:80px;">{{tran.transactionDate|date('d-M-Y')}}</td>
+                <td class="tbl-grid-view-row-no-bg" align="center">{{tran.receiptNo}}</td>
+                <td class="tbl-grid-view-row-no-bg" align="center">{{tran.remarks}}</td>
+                <td class="tbl-grid-view-row-no-bg" align="center">{{tran.transactionTypeFk.transactionType|default('')}}</td>
+                <td class="tbl-grid-view-row-no-bg" align="center">{%if tran.sourceFk is not null%}
+                        {{tran.sourceFk.bankName|default('')}}<br>
+                        {{tran.sourceFk.accountNumber|default('')}}
+                    {%else%}
+                        NA
+                    {%endif%}
+                </td>
+                <td class="tbl-grid-view-row-no-bg" align="center">{%if tran.targetFk is not null%}
+                        {{tran.targetFk.bankName|default('')}}<br>
+                        {{tran.targetFk.accountNumber|default('')}}
+                    {%else%}
+                        NA
+                    {%endif%}
+                </td>
+                <td class="tbl-grid-view-row-no-bg" align="center">{{tran.transactionBy|upper}}</td>
+                <td class="tbl-grid-view-row-no-bg" align="right">{{tran.amount|number_format('2','.','')}}</td>
+                <td class="tbl-grid-view-row-no-bg" align="center">
+                    {%if tran.proofFk is not null%}
+                        {%set filename=tran.proofFk.originalName%}
+                        <a href="{{asset(tran.proofFk.path)}}" target="_blank">
+                            {%if filename|length>10%}
+                                {%set filename=filename|slice(1,10)~'..'%}
+                            {%endif%}
+                            {{filename}}.{{tran.proofFk.docType}}</a>
+                    {%else%}
+                        NA
+                    {%endif%}
+                </td>
+                <td class="tbl-grid-view-row-no-bg" align="center" style="width:70px;">
+                    <a href="javascript:;" onclick="contraAction('{{path("_retrievecontratransaction",{'pkid':tran.pkid})}}','upd');" onclick="">Edit</a> |
+                    <a href="javascript:;" style="color:#ff0000;" onclick="contraAction('','del');">Delete</a>
+                </td>
+            </tr>                            
+        {%endfor%}
+    </tbody>                                
+</table>

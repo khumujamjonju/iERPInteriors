@@ -1,0 +1,54 @@
+ 
+<tr id="unit{{prod.pkid}}" width=100% style="border-bottom: 1px dashed #000;">
+     
+    <td class=" " style="padding:5px;">{{prod.productName }}<br/>({{prod.productCode}})
+    <input type="hidden" name="{{'productid'~prod.pkid}}" value="{{1}}"/>
+    <input type="hidden" name="pid" value="{{prod.pkid}}"/>
+    <input type="hidden" name="{{'prodetailid'~prod.pkid}}" value="{{0}}"/>
+    </td>   
+    <td class="" style="padding:5px;width: 40px;">
+    <input id="quantity" class="txt_quantity"style="width: 40px;" type="text" name="{{'quantity'~prod.pkid}}"  value="0"/>
+    </td>
+   
+    <td class="" style="padding:5px;">
+   <select id="unit" class="ddlb_unit" name="{{'unitid'~prod.pkid}}">
+   <option value="0">--Select--</option>
+   {%for u in unit %}
+   <option value="{{u.pkid}}">
+   {{u.unitName}}
+   </option>
+   {%endfor%}
+    </select>           
+    </td>
+      
+    {#<td class="" style="padding:5px;width: 80px;">
+    <input id="tax" type="text" name="{{'tax'~prod.pkid}}" value="" class="taxtotal" style="width: 70px;" onkeyup="fnCalculateTax();"/>
+    </td> #}
+    <td class="" style="padding:5px; width:300px;">
+   <select  class="purpose_list" name="{{'purpose'~prod.pkid}}" id="selSearchPurpose" onchange="CriteriaPurposeSearch(this,{{prod.pkid}});">
+          <option value="">--Select--</option>
+          {%for p in project%}
+          <option value="{{p.pkid}}">{{p.purposeType}}</option>
+          {%endfor%}
+   </select>
+            
+    <input type="text" name="{{'txt_code'~prod.pkid}}" id="{{'officeuse'~prod.pkid}}" class="purposecode" style="display:none;">  
+    </td>
+    <td class="" style="padding:5px;">
+       {# <input type="checkbox" style="width: 30px;"id="test"
+               onclick="loadProjectRelatedItems_Page('{{'project_list'~prod.pkid}}',this);"  name="{{'isrelated'~prod.pkid}}" /> 
+        <input type="hidden" class="{{'project_list'~prod.pkid}}" id="checkboxvalue" name="{{'txt_isrelated'~prod.pkid}}" value="0"/>
+       #}
+
+        <input type="text" name="{{'remarks'~prod.pkid}}"  value="" style="width: 100px;" placeholder="Remarks"/>
+
+
+
+    </td>
+    <td class="" style="padding:5px;">
+        <a href="javascript:void(0);" onclick="$(this).parent().parent().remove()"
+           style="color:#ff0000;">Remove</a>              
+    </td>
+</tr>
+
+ 

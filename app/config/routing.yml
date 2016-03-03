@@ -1,0 +1,91 @@
+tashi_common:
+    resource: "@TashiCommonBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_user:
+    resource: "@TashiUserBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_system_setting:
+    resource: "@TashiSystemSettingBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_wallet:
+    resource: "@TashiWalletBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_supplier:
+    resource: "@TashiSupplierBundle/Resources/config/routing.yml"
+    prefix:   /
+tashi_product:
+    resource: "@TashiProductBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_company:
+    resource: "@TashiCompanyBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_dashboard:
+    resource: "@TashiDashboardBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_payroll:
+    resource: "@TashiPayrollBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_login:
+    resource: "@TashiLoginBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_report:
+    resource: "@TashiReportBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_location:
+    resource: "@TashiLocationBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_stock:
+    resource: "@TashiStockBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_store:
+    resource: "@TashiStoreBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_invoice:
+    resource: "@TashiInvoiceBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_account:
+    resource: "@TashiAccountBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_project:
+    resource: "@TashiProjectBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_purchase:
+    resource: "@TashiPurchaseBundle/Resources/config/routing.yml"
+    prefix:   /
+
+tashi_asset:
+    resource: "@TashiAssetBundle/Resources/config/routing.yml"
+    prefix:   /
+    
+erp_common:
+    resource: "@TashiCommonBundle/Resources/config/routing.yml"
+    prefix:   / 
+    
+tashi_employee:
+    resource: "@TashiEmployeeBundle/Resources/config/routing.yml"
+    prefix:   /    
+tashi_customer:
+    resource: "@TashiCustomerBundle/Resources/config/routing.yml"
+    prefix:   /
+tashi_requisition:
+    resource: "@RequisitionBundle/Resources/config/routing.yml"
+    prefix:   /    
+
+
+

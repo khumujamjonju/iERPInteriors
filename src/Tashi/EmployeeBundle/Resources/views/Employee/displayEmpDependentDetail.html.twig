@@ -1,0 +1,52 @@
+{#this hidden input is hide/show key#}
+<input type="hidden" value="0" class="emp_dependent_detail_hide_show_key"/>
+<table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">   
+    {#paramer: project_item => class name of table row (tr) to hide or show #}
+    <tr onclick="fnHideShow('emp_dependent_detail');">
+        <td class="td-label-title">
+              {# div is hide/show icon#}
+            Address Details List: <div class="emp_dependent_detail_hide_show_icon floatRight plus"></div>
+        </td>
+    </tr>
+    <tr class="emp_dependent_detail displayNone">
+        <td>                    
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                <thead class="">
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Dependent Name</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">DOB</th>     
+                        <th class="tbl-th-grid-view-row-no-bg">Relationship</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Phone No.</th>                            
+                        <th class="tbl-th-grid-view-row-no-bg">Mobile No </th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Address</th>                                                     
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                    </tr>
+                </thead>
+                <tbody>                           
+
+              {%for key,d in dependentDetails|default('') %}
+                    <tr>                                   
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ d.dependent.personName | default('')}}</td>                       
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ d.dependent.dateOfBirth | date('d-m-Y')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ d.dependent.relationshipType | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ d.dependent.telephoneNo | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                        {%for m in d.mobile|default('')%}
+                            {{ m.mobileNoFk.mobileNo|default('') }} <br/>   
+                        {%endfor%}
+                        </td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ d.dependent.shortAddress | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                            <a href="javascript:void();" onclick="retriveEmpDependentRecord('#frmEmpDependentDetails','{{ path('_retrive_emp_dependent_details',{'dependentID': d.dependent.personPk | default('') }) }}');">Edit</a> | 
+                            <a href="javascript:void();"  style="color:#ff0000;" onclick="deleteEmpAddressRecord();">Delete</a>
+                        </td>                                                 
+                    </tr>                    
+              {%endfor%}
+
+                </tbody>
+            </table>
+        </td>
+    </tr>                                 
+</table>

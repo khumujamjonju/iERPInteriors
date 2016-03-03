@@ -1,0 +1,77 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active' id="add_new_employee" onclick="fnLeftMenuNavigation('{{path('_emp_salary_master')}}', 'emp_salary', 'Employee', 'Create Salary');"><a  href="javascript:void();" >Create Salary</a></li>                
+    </ul>
+</div>
+<div class="newdashboard">
+<div class="application-form"> 
+   <div id="employee_search_form_div">
+    <input type="hidden" value="0" class="emp_search_form_hide_show_key"/>
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+        <tr onclick="fnHideShow('emp_search_form');">
+            <td class="td-label-title">
+                Search Employee Salary Slip: <div class="emp_search_form_hide_show_icon floatRight plus"></div>
+            </td>
+        </tr>
+        <tr class="emp_search_form displayNone">
+            <td>                 
+                <form id="frmSearchEmployee">
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">   
+                        <tr>
+                            <td class="td-gray-bg">Employee Id:</td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="employee_id" name="txt_employee_id"/>                 
+                            </td>
+                             <td class="td-gray-bg">Employee Name:</td>
+                             <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="employee_name" name="txt_employee_name"/>                                          
+                            </td>      
+                        </tr> 
+                        <tr>                          
+                             <td class="td-gray-bg">Select Designation:</td>
+                             <td class="td-white-bg" colspan="3">
+                                <select class="cmnWidth" id="designation" name="txt_designation">
+                                    <option value="">--select--</option> 
+                                 {% for d in designation|default('') %}
+                                    <option value="{{ d.jobTitlePk|default('') }}">{{ d.jobTitleName|default('') }}</option> 
+                                 {%endfor%}
+                                </select>                               
+                            </td>      
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Select Month:</td>
+                            <td class="td-white-bg">
+                                <select class="cmnWidth" id="month" name="txt_month">
+                                    <option value="">--select--</option> 
+                                 {%for m in month%}
+                                    <option value="{{m.pkid}}">{{m.monthName}}</option> 
+                                 {%endfor%}
+                                </select>                
+                            </td>
+                             <td class="td-gray-bg">Year:</td>
+                             <td class="td-white-bg">
+                                <input type="text" class="cmnWidth" id="year" name="txt_year" value="{{ 'now'|date('Y')}}"/>                                  
+                            </td>      
+                        </tr> 
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="search_btn" value="Search" onclick="return searchEmpSalarySlipDetails(this, '{{path('_search_employee_salary_slip')}}');"/>
+                                <input type="button" class="button blue" id="btn_reset" value="Reset" onclick="formReset();"/>
+                            </td>  
+                        </tr>
+                    </table>
+                </form>                               
+            </td>
+        </tr> 
+    </table> 
+    </div>
+    <div id="search_emp_result" style="margin-top: 10px;"></div>                
+    <div id="salary_slip_form" style="margin-top: 10px;"> </div>
+     
+   </div> 
+</div>
+{#open/show hide table when load in first time#}
+<script type="text/javascript">
+    fnHideShow('emp_search_form');
+</script>

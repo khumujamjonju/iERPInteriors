@@ -1,0 +1,22 @@
+
+<table>
+    {% for m in cmnPerMobTxnObj | default('value') %}
+        <tr>
+            <td> <input class="cmnWidth mobFields" type="text" id="{{ 'edit_emp_mob'~loop.index }}" name="txt_edit_emp_mob" value="{{ m.mobileNoFk.mobileNo|default('') }}" onkeypress="return IntegerOnly(event);" maxlength="10"/>  </td>
+            <td>
+                <a href="javascript:void();" class="cmnCtrlBtn {{'editEmpMob'~loop.index}}" onclick="editIndividualMobileNos(this,'{{'.deleteEmpMob'~loop.index}}','{{'.updateEmpMob'~loop.index}}','{{'.cancelEmpMob'~loop.index}}','{{ '#edit_emp_mob'~loop.index }}');"> Edit </a>
+                <a href="javascript:void();" class="cmnCtrlBtn {{'deleteEmpMob'~loop.index}}" onclick="return deleteEmpMobileNo(this, '{{path('_delete_emp_mobile_no', {'mobMasterID': m.mobileNoFk.pkid|default('') })}}');">| Delete </a>  
+                <a href="javascript:void();" class="cmnCtrlBtn displayNone {{'updateEmpMob'~loop.index}}" onclick="return updateEmpMobileNos(this,{{ loop.index }}, '{{ path('_update_emp_mobile_no', {'mobMasterID': m.mobileNoFk.pkid|default('') }) }}', '{{ '#edit_emp_mob'~loop.index }}');"> Update </a>                
+                <a href="javascript:void();" class="cmnCtrlBtn displayNone {{'cancelEmpMob'~loop.index}}" onclick="cancelUpdate(this,'{{'.deleteEmpMob'~loop.index}}','{{'.editEmpMob'~loop.index}}','{{'.updateEmpMob'~loop.index}}','{{ '#edit_emp_mob'~loop.index }}');">| Cancel </a>        
+            </td>
+        </tr> 
+   {% endfor %}
+</table> 
+<table>
+    <tr>
+        <td> <input class="cmnWidth cmnField" type="text" id="emp_contact_mobile" name="txt_emp_contact_mobile" onkeypress="return IntegerOnly(event);" maxlength="10"/>  </td>
+        <td><input type="button" class="button blue cmnField" value="Add" onclick="addFieldDynamic(this,'txt_emp_contact_mobile');"/></td>
+    </tr> 
+</table>
+
+ 

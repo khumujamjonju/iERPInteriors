@@ -1,0 +1,6 @@
+parameters:
+    tashi.service.user.class : Tashi\UserBundle\Service\UserService
+services:
+    tashi.user.service:
+        class:     "%tashi.service.user.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","@tashi.common.service","@mailer",@twig]

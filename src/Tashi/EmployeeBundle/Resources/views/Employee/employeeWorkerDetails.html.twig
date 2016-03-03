@@ -1,0 +1,121 @@
+<form id="emp_workker_details">    
+    <div class="personal_detials">
+        <table id="personal_detials_tbl" width="99%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">                   
+            <tr>
+                <td class="td-label-title">Worker Details: <label id="display_txt_employeeID" style="margin-left: 20px;"></label></td>
+            </tr>
+            <tr class="emp_contact_detail_form">
+                <td>
+                        <table id="formtable" width="100%" align="center" cellpadding="0" cellspacing="0">                                                                                                                                            
+                            <tr>
+                                <td class="td-gray-bg">Name: <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" colspan="3">
+                                    <input type="hidden" id="employee_id" name="txt_employee_id"/>
+                                    <input size="90" type="text" id="worker_name" name="txt_worker_name"/>
+                                </td> 
+                            </tr>              
+                            <tr>  
+                                <td class="td-gray-bg">Parents/Relationship: <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="worker_parents" name="txt_worker_parents"/>                                     
+                                </td>
+                                <td class="td-gray-bg">Gender: <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input class="cmnRadioBtn" type="radio" class="gender" id="gender_male" name="txt_gender" value="M" />  Male  &nbsp;&nbsp;&nbsp;
+                                    <input class="cmnRadioBtn" type="radio" class="gender" id="gender_female" name="txt_gender" value="F" /> Female
+                                </td>                                      
+                            </tr>
+                            <tr>  
+                                <td class="td-gray-bg">Joining Date: <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="date" id="joiningDate" name="txt_joining_date"/>                                     
+                                </td>   
+                                <td class="td-gray-bg">Brach Office: <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <Select class="cmnWidth" name="txt_branch_office" id="branch_office">
+                                            <option value="">--Select--</option>
+                                     {%for b in office|default('')%}                         
+                                            <option value="{{b.pkid|default('')}}">{{b.branchName | default('')}}</option>         
+                                     {%endfor%}
+                                    </Select>                                                     
+                                </td> 
+                            </tr>
+                            <tr>  
+                                <td class="td-gray-bg">Mobile: <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="mobile" name="txt_mobile" maxlength="10" onkeypress="return validationDigit('#mobile');" onkeyup="return checkValue('#mobile');"/>                                     
+                                </td>
+                                <td class="td-gray-bg">Phone</td>
+                                <td class="td-white-bg" colspan="3">
+                                    <input class="cmnWidth" type="text" id="phone" name="txt_phone" onkeypress="return validationDigit('#phone');"/>                                           
+                                </td>  
+                            </tr>
+                            <tr class="empWorkersField">
+                                <td class="td-gray-bg">Wage Type: <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <Select class="cmnWidth" name="txt_salary_type" id="salaryType">
+                                        <option value="">--Select--</option>
+                                       {%for s in salaryType|default('')%}
+                                            <option value="{{s.salaryTypePk|default('')}}">{{s.salaryType | default('')}}</option>
+                                       {%endfor%}
+                                    </Select>                              
+                                </td>
+                                <td class="td-gray-bg">Wage Amount Per Wage Type: <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="salaryAmount" name="txt_salary_amount" onkeypress="return validationDigit('#salaryAmount');"/>                                                                      
+                                </td>                                 
+                        </tr>                      
+                        <tr>                          
+                            <td class="td-gray-bg" style="width: 200px;">Select Worker Expertise: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg" colspan="3">
+                                <div id="expertise_fields" style="min-height: 20px; width: 99%; padding: 2px;">
+                                    {%set checkExpertiseFlag = 0%}
+                                    {%for e in workerExpertise|default('')%}
+                                       {%set checkExpertiseFlag = 1%}
+                                        <div style="float: left; width: 200px;">
+                                            <input type="checkbox" class="expertise" name="txt_worker_expertise[]" value="{{e.expertTypePk|default('')}}" /> {{e.expertType | default(' ')}}
+                                        </div>
+                                    {%else%}
+                                        <span style="color: red;">Please set first worker expertise from master setting</span>
+                                    {%endfor%}
+                                        <input type="hidden" id="expertise" value="{{checkExpertiseFlag}}"/>
+                                        <div class="clear"></div>
+                                </div>                                                 
+                            </td>
+                        </tr>
+                        <tr>                          
+                            <td class="td-gray-bg">Address: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg" colspan="3">
+                                <textarea name="txt_address" id="address" cols="101" rows="4"></textarea>                                                                
+                            </td>                            
+                        </tr>
+                        <tr id="status_field" style="display: none;">
+                            <td class="td-gray-bg" style="display: none;">Proof of ID(any):</td>
+                            <td class="td-white-bg" style="display: none;">                              
+                                <input class="cmnWidth" type="file" id="txt_emp_profile" name="txt_emp_profile" />
+                            </td> 
+                            <td class="td-gray-bg status">Status: </td>
+                            <td class="td-white-bg status" colspan="3">                               
+                                <Select class="cmnWidth inputDisable_bg" id="status" name="txt_status" style="pointer-events: none;">
+                                    <option value="">--Select--</option>
+                                   {%for s in status|default('')%}
+                                    <option value="{{s.empStatusPk|default('')}}" {%if s.empStatusPk|default('') == 1 %} selected {%endif%}>{{s.statusName | default(' ')}}</option>
+                                   {%endfor%}
+                                </Select>  
+                            </td>
+                        </tr>                       
+                        <tr>
+                            <td class="td-white-bg td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveWorkerDetails(this, '{{path('_save_worker_details')}}');"/>
+                                <input type="button" class="button blue" id="btn_edit" value="Edit"onclick="editWokerFields(this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_update" value="Update" onclick="return saveWorkerDetails(this, '{{path('_save_worker_details')}}');"  style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="return cancelWorkerDetails(this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                            </td>  
+                        </tr>
+                       </table>
+                    </td>
+                </tr>
+            </table>
+        </div>      
+    </form>

@@ -1,0 +1,37 @@
+<table id="example" width="100%" align="center" border="0" cellpadding="0" cellspacing="0"  class="display"  >  
+    <thead>
+        <tr> 
+            {#<th class="td-gray-bg">CATEGORY_ID</th>#}
+            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" width="200px">INDUSTRY TYPE</th>
+            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">DESCRIPTION</th>
+            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" width="200px">ACTION</th>                                              
+        </tr>
+    </thead>
+    <tbody> 
+        {%if industryArr|length <=0%}
+            <tr>
+                <td colspan="3">
+                    <p style="color:#ff0000; margin:0; text-align:center; padding:5px 0;">
+                        No Record Found.
+                    </p>
+
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+            </tr>
+        {%else%}
+            {%for industry in industryArr %}
+                <tr>
+                   {# <td class="tbl-grid-view-row-no-bg" align="center">{{cat.CategoryID|default("")}}</td>#}
+                   <td class="tbl-grid-view-row-no-bg" align="center">{{industry.industryType|default("")|upper}}</td>
+                    <td class="tbl-grid-view-row-no-bg" align="left">{{industry.description|default("")}}</td>
+                    <td class="tbl-grid-view-row-no-bg" align="center">
+                        <a href="javascript:;" onclick="IndustryTypeAction('{{path('_gotoeditindustry',{'industryid': industry.pkid|default('')})}}','');">Edit</a> | 
+                        <a href="javascript:;" style="color:#ff0000;" onclick="IndustryTypeAction('{{path('_deleteindustry',{'industryid': industry.pkid})}}','del');">Delete</a>  
+                    </td>                                                
+                </tr> 
+           {%endfor%}
+        {%endif%}
+   </tbody>
+</table>

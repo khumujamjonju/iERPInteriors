@@ -1,0 +1,68 @@
+{%set row2 = 0%} {%set row1 = 0%} <br>
+<table width="100%" align="center" cellspacing="0" class="tbl-border">
+    <tr>        
+        <td class="td-label-title">Selected Group</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" align="center" id="example2" cellspacing="0" class="display">  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center; width:200px;">Group Name<input type="hidden" value="{{group.pkid}}" name="groupID"/></th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: justify;">Description</th>   
+                    </tr>
+                </thead>
+                <tbody>                     
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{group.groupName | default(' ')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center" style="text-align: justify;">{{group.groupDesc | default(' ')}}</td>                                                                                 
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr id="trAddressacclist"></tr>
+</table>
+
+<input type="hidden" value="{{id}}" id="userGroup" name="txt_group"/> 
+<table width="100%" align="center" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr> 
+     <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center;">Module List For Assigning Activity </th>
+       
+     </tr>
+           {%for ug in module%}  
+           
+           <tr>
+           <td class="td-label-title" colspan="2">
+           {{ug.moduleName}} 
+                   <input type="checkbox"   id="chkCommAll{{ug.pkid}}" title="Check/Uncheck All" onchange="toggleSelectAllforuseractivity(this.id,{{ug.pkid}});">  
+           </td>
+           </tr> 
+           <tr> 
+           <td class="tbl-grid-view-row-no-bg" align="left">
+          
+{%for m in activity%}
+ {% if ug.pkid == m.moduleFk.pkid %}
+            {#for displaying modulewiselist#}        
+                   <input style="text-align: left;" type="checkbox" {%for d in display%}
+           {#for check and uncheck section#}        
+           {%if m.pkid == d.activityFk.pkid%} 
+           checked="check"   
+           {%endif%}
+           {#for check and uncheck section ends here#}  
+           {%endfor%}  class="{{'selchkcomm'~ug.pkid}}" onchange="toggleSelectAllforuseractivity(this.id,{{ug.pkid}});" name="activity" title="{{ m.description | default(' ')}}" value="{{m.pkid | default('')}}">
+                   {{ m.activityName | default('')}}
+            {#ends here#}             
+                   
+           
+           
+                    
+           {%endif%}
+           {%endfor%}
+           </td>
+           </tr>{%endfor%}               
+      <tr>
+      <td class="td-label-title" style="text-align: center;">
+      <input class="button blue" type="button" value="Save" onclick="return UpdateAssignActivity('{{path('_updateassignactivity')}}');"/></td>
+      </tr>      
+   </table>

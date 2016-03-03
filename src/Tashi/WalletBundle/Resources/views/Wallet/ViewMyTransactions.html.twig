@@ -1,0 +1,75 @@
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a  href="javascript:void();">My Transactions</a></li> 
+    </ul>
+</div>
+<div class="newdashboard"> 
+        <div class="application-form"> 
+            <form id="FormMyTransactions">            
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+                <tr>
+                    <td class="td-label-title">View My Transactions</td>
+                </tr>
+                <tr>
+                    <td>
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                             
+                                <tr>
+                                    <td class="td-gray-bg" width="150px">Transaction Type</td>
+                                    <td class="td-white-bg">
+                                        <div class="example">
+                                            <div style="float:left;">
+                                                <input id="radio1" type="radio" name="tranradio" value="a" checked  onclick="toggleStatusTd(1);"><label for="radio1"><span><span></span></span>All</label>
+                                            </div>&nbsp;                                                         
+                                            <div style="float:left;">
+                                                <input id="radio2" type="radio" name="tranradio" value="d" onclick="toggleStatusTd(0);"><label for="radio2"><span><span></span></span>Deposit Only</label>
+                                            </div> &nbsp; 
+                                            <div style="float:left;">
+                                                <input id="radio3" type="radio" name="tranradio" value="e" onclick="toggleStatusTd(1);"><label for="radio3"><span><span></span></span>Expense Only</label>
+                                            </div>                                            
+                                         </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg tdstatus" width="150px">Status</td>
+                                    <td class="td-white-bg tdstatus">
+                                        <div class="example">
+                                            <div style="float:left;">
+                                                <input id="radios1" type="radio" name="statusradio" value="" checked ><label for="radios1">All</label>
+                                            </div>&nbsp;                                                         
+                                            <div style="float:left;">
+                                                <input id="radios2" type="radio" name="statusradio" value="1"><label for="radios2"><span><span></span></span>Approved</label>
+                                            </div> &nbsp; 
+                                            <div style="float:left;">
+                                                <input id="radios3" type="radio" name="statusradio" value="0"><label for="radios3"><span><span></span></span>Pending</label>
+                                            </div>
+                                            <div style="float:left;">
+                                                <input id="radios4" type="radio" name="statusradio" value="2"><label for="radios4"><span><span></span></span>Rejected</label>
+                                            </div> 
+                                         </div>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg">Transaction Date</td>
+                                    <td class="td-white-bg">
+                                        From <input type="date" id="txtfdate" name="txtfdate" class="input-width" value="{{"now"|date("Y-m-d")}}">&nbsp;&nbsp;
+                                        To  <input type="date" id="txttdate" name="txttdate" class="input-width" value="{{"now"|date_modify("+1 month")|date("Y-m-d")}}">                                        
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg"></td>
+                                    <td class="td-white-bg">
+                                        <input type="button" class="button" id="btnSearchEmp" value="Search Transaction" placeholder="First Name" 
+                                            onclick="SearchMyTransaction('{{path("_searchmytrans")}}');"></td>
+                                    <td class="td-white-bg cmnWidth"></td>
+                                </tr>
+                        </table>
+                    </td>
+                </tr> 
+            </table>
+            <br/>
+            <div id="divTransactionlist"></div>
+            <br/>
+            <div id="divTranDetail"></div>
+        </form>   
+    </div>
+</div>

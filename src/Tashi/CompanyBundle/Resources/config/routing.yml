@@ -1,0 +1,3 @@
+_company:
+    resource: "@TashiCompanyBundle/Controller/CompanyController.php"
+    type:     annotation

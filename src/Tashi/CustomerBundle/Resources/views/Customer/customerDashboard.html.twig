@@ -1,0 +1,49 @@
+
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Customer Management</h3>
+        <div id="newmenu">
+            <ul>                                  
+                <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_cus_master_dashboard')}}', 'customer_master', 'Customer', 'Dashboard');"><a  href="javascript:void();" >Dashboard</a></li>
+                <li id="create_customer" onclick="fnLeftMenuNavigation('{{path('_create_customer')}}', 'create_customer', 'Customer', 'Create New');"><a  href="javascript:void();" >Create New</a></li> 
+                <li id="search_customer" onclick="fnLeftMenuNavigation('{{path('_erpcim_search_customer')}}', 'search_customer', 'Customer', 'Search');"><a  href="javascript:void();" >Search</a></li>                
+                <li id="cus_comm" onclick="fnLeftMenuNavigation('{{path('_comsearchcustindex')}}', 'cus_comm', 'Customer', 'Communication');"><a  href="javascript:void();" >Communication</a></li> 
+                <li id="adv_payment" onclick="fnLeftMenuNavigation('{{path('_customer_advance_payment')}}', 'adv_payment', 'Customer', 'Collect Payment');"><a  href="javascript:void();" >Receive</a></li>
+                <li id="revenue_report" onclick="fnLeftMenuNavigation('{{path('_revenue_report')}}', 'revenue_report', 'Customer', 'Revenue Report');"><a  href="javascript:void();" >Revenue Report</a></li>
+            </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'><a href='#'><span>Dashboard</span></a></li>            
+        </ul>          
+    </div>
+        <div class="newdashboard">
+            <div class="newdashboard1"  onclick="fnLeftMenuNavigation('{{path('_create_customer')}}', 'create_customer', 'Customer','Create New Customer');">        
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/dashboard/emp3.png') }}">
+              <span style="color:#000; font-size: 12px; font-family: arial; font-weight: bold; text-decoration: underline;">Create New</span> <br/>
+              Capturing Customer (Client) Details informations. 
+            </p>        
+        </div>
+        <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_erpcim_search_customer')}}', 'search_customer', 'Customer', 'Search Customer');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/search_128x128.png') }}">
+                <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+                    Search </span><br/>
+                Search Customer by Name, ID and Mobile. View/Edit detail information. 
+            </p>
+        </div>        
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_comsearchcustindex')}}','cus_comm', 'Customer','Communication');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/communication_128x128.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;font-weight: bold;">Communication</span> <br/>
+            Send Email,SMS to customer, View/Delete communication history </p>
+        </div>
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_customer_advance_payment')}}','adv_payment', 'Customer', 'Collect Payment');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/collect.png') }}">
+        <span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;font-weight: bold;">Receive</span> <br/>
+        Send Email,SMS to customer, View/Delete communication history </p>
+        </div>
+        <div class="clear"></div><br/>
+    </div>
+    <input type="hidden" id="datePickerImage" value="{{ asset('bundles/common/images/calender.png') }}" />
+</div>

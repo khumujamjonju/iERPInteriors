@@ -1,0 +1,79 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <input id="spanCloseOpenHandlerItemStatusList" value="0" type="hidden">
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('ItemStatusList');">Status Log for Item: {{item.itemFk.productName|upper}}
+        <span style="float: right;" id="spanIdItemStatusList" class="span_open" >&nbsp;</span></td> 
+    </tr>
+    <tr id="trAddressItemStatusList">
+        <td>
+             <table id="example2"  width="100%" border="0" cellpadding="0" cellspacing="0" class="display">
+                <thead>
+                    <tr>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">#</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Status</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%set slno=1%}
+                    {%for status in itemstatusArr%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center" width="70px">{{slno}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center" width="120px">{{status.statusDate|date('d-M-Y')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center" width="120px">
+                                <strong style="color:{{status.statusFk.statusColor}}">{{status.statusFk.statusName}}</strong>
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="left">{{status.remarks}}</td>
+                        </tr>
+                        {%set slno=slno+1%}
+                    {%endfor%}
+                </tbody>
+             </table>
+        </td>
+    </tr>
+</table>
+<br/>
+{%if item.statusFk.isChangeable==1 and item.projectFk.status.isPermanent==0%}
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+        <tr>
+            <td class="td-label-title" colspan="3">Update Status</td>        
+        </tr>
+        <tr>
+            <td>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="td-gray-bg">Select Status <span class="mandatoryField">*</span></td>
+                        <td class="td-white-bg">
+                            <input type="hidden" name="inputcurritemstatus" id="inputcurritemstatus" value="{{item.statusFk.pkid}}"/>
+                            <select name="selItemStatus" id="selItemStatus">
+                                <option value="">--select--</option>
+                                {%for status in statusArr%}
+                                    <option value="{{status.pkid}}">{{status.statusName}}</option>
+                                {%endfor%}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Status Date<span class="mandatoryField">*</span></td>
+                        <td class="td-white-bg">
+                            <input type="date" name="txtstatusDate" id="txtstatusDate" value="{{"now"|date('Y-m-d')}}"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Remarks<span class="mandatoryField">*</span></td>
+                        <td class="td-white-bg">
+                            <textarea name="txtRemarks" id="txtRemarks" cols="50" rows="5"></textarea>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg"></td>
+                        <td class="td-white-bg">
+                            <input type="button" class="button" value="Submit" onclick="UpdateItemStatus('{{path("_updateitemstatus",{itemid:item.pkid})}}');"/>
+                        </td>
+                    </tr> 
+                </table>
+            </td>
+        </tr>
+    </table>
+{%endif%}

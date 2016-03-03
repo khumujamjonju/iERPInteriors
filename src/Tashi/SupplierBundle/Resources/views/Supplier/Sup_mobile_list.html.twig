@@ -1,0 +1,28 @@
+<form id="form_mobile_details_list">
+    
+<table>
+    <tr>
+        <td style="background: #ccc;padding: 5px;font-size: 12px;">Sl. No</td> 
+        <td style="background: #ccc;padding: 5px;font-size: 12px;">Contact No</td>
+        <td style="background: #ccc;text-align: center;padding: 5px;font-size: 12px;" colspan="2">Action</td> 
+       
+  </tr>
+  {%for mob in result.cmn_mobile%}  
+  <tr>
+
+        <td class="td-gray-bg">{{loop.index}}</td> 
+       
+        <td class="td-white-bg cmnWidth" colspan="2">
+        <input type="text"  disabled="true" id="{{'mobile_list'~mob.mobileMasterFk.pkid}}" onkeypress="return IntegerOnly(event);" maxlength="10" placeholder="e.g.9856123456"
+        name="mobileno" class="{{'mobilelist'~mob.mobileMasterFk.pkid}}" name="mobile" value="{{mob.mobileMasterFk.mobileNo}}"/>
+        </td>
+        <td class="td-gray-bg cmnWidth">
+        <input type="button" id="btn_mobileedit"   value="Edit" onclick="EnableEditsupplierMobileNoOnly('{{'mobilelist'~mob.mobileMasterFk.pkid}}');"/>
+        <input type="button" id="btn_mobileupdate" disabled="true" class="{{'mobilelist'~mob.mobileMasterFk.pkid}}" value="Update" onclick="return Updatemobileonly('{{ path('_update_mobilelist_Detail',{'mob_id': mob.mobileMasterFk.pkid})}}',this,{{mob.mobileMasterFk.pkid}});"/>
+        <input type="button" id="btn_mobiledelete" disabled="true" class="{{'mobilelist'~mob.mobileMasterFk.pkid}}" value="Delete" onclick="Deletemobileonly('{{ path('_delete_mobilelist_Detail',{'mob_id': mob.mobileMasterFk.pkid})}}',this);"/></td>
+        <td class="cmnWidth"></td> 
+    
+  </tr>
+{%endfor%}
+</table>
+</form>

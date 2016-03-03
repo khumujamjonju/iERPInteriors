@@ -1,0 +1,54 @@
+<div class="newdashboard"> 
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Search</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmAssetEmpSearch" style="margin: 0px;">
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg" width="130px">Search Asset By</td>
+                                <td class="td-white-bg">
+                                    <select id="selSearchProjCriteria" name="selSearchProjCriteria" onchange="toggleSearchAssetCriteria(this.id);" class="cmnWidth">
+                                        {#<option value="cate">Category</option>#}
+                                            <option value="all">All</option>
+                                            <option value="cat">Category</option>
+                                            <option value="date">Asset Name</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr id="trcriteria" style="display:none;">
+                                    <td class="td-gray-bg" id="tdtitle"></td>
+                                    <td id="tdsearchcriteria" class="td-white-bg">
+                                        <input type="hidden" name="searchvalue" value="" id="searchvalue"/>
+                                        <select id="selProjCategory" name="selProjCategory" style="display:none;" class="cmnWidth">
+                                            <option value="">--select--</option>
+                                        {%for cat in catArr%}
+                                            <option value="{{cat.assetMasterPk}}">{{cat.assetCategoryName}}</option>
+                                        {%endfor%}
+                                        </select>
+                                        <input type="text" id="txtCriteria" name="txtCriteria" style="display:none;" class="cmnWidth">
+                                    <div id="divDate" style="display:none;">
+                                        <input class="cmnWidth" type="text" id="assetname" name="assetname">                                         
+                                    </div>
+                                        <input type="hidden" name="inputcatid">                            
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg"></td>
+                                    <td class="td-white-bg">
+                                        <input type="button" class="button" id="btnSearchPrd" value="Search" onclick="SearchEmpAsset();">
+                                        <input type="hidden" id="inputsearchprojectUrl" value="{{path("_searchempasset",{'employeePk':employeePk,'empId':empId})}}', this.value);"/>
+                                    </td>
+                                </tr>
+                            </table>
+                            <div id="divProjectList"></div>
+                        </form>                               
+                    </td>
+                </tr> 
+            </table>
+            
+        </div>
+    </div>

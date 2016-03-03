@@ -1,0 +1,31 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Store Management</h3>
+        <div id="newmenu">
+            <ul>
+                <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_store_dashboard')}}', 'store_master', 'Store', 'Dashboard');"><a href="javascript:void();"> Dashboard</a></li>
+                <li id="add_store" onclick="fnLeftMenuNavigation('{{path('_add_store')}}', 'add_store', 'Store', 'Add Store');"><a href="javascript:void();" >Add Store</a></li>
+            </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'><a href="javascript:void();"  onclick="fnMainMenuNavigation('{{path('_store_dashboard')}}', 'store_master', 'Store', 'Dashboard');"><span>Store Dashboard</span></a></li>              
+        </ul>            
+    </div>
+    <div class="newdashboard">       
+        <div class="newdashboard1"  onclick="fnLeftMenuNavigation('{{path('_add_store')}}', 'add_store', 'Store', 'Add Store');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/store.png') }}">
+                <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Add store</span> <br/>
+                Manage Store detail including Building,floor,room, rack detail for easy retrieval of stock.
+            </p>
+        </div>
+    </div>
+</div>
+
+
+

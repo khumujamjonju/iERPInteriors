@@ -1,0 +1,82 @@
+<div class="address_detials">
+    <div id="emp_address_details_list" style=" margin-bottom: 10px;">
+    {#this hidden input is hide/show key#}
+    <input type="hidden" value="0" class="emp_add_detail_hide_show_key"/>
+    <table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">   
+        {#paramer: project_item => class name of table row (tr) to hide or show #}
+        <tr onclick="fnHideShow('emp_add_detail');">
+            <td class="td-label-title">
+                  {# div is hide/show icon#}
+                Address Details List: <div class="emp_add_detail_hide_show_icon floatRight plus"></div>
+            </td>
+        </tr>
+        <tr class="emp_add_detail displayNone">
+            <td>                    
+                <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                    <thead class="">
+                        <tr>
+                            <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Address Street 1</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">Landmark</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">Address Type</th>                            
+                            <th class="tbl-th-grid-view-row-no-bg">Postal Code</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">City/Town</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">District</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">State</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">Country</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                        </tr>
+                    </thead>
+                    <tbody>  
+                  
+                  {%for a in empAddDetails|default('') %}
+                        <tr>                                   
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.addressMasterFk.address1 | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.addressMasterFk.landmark | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.addressMasterFk.addressTypeFk.addressTypeName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.addressMasterFk.pinNumber | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.addressMasterFk.cityCodeFk.cityName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.addressMasterFk.districtFk.districtName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.addressMasterFk.stateCodeFk.stateName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.addressMasterFk.countryCodeFk.countryName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <a href="javascript:void();" onclick="retriveEmpAddressRecord('#empAddressDetail','{{ path('_retrive_address_details',{'addMasterID' : a.addressMasterFk.addressPk | default('')}) }}');">Edit</a> | 
+                                <a href="javascript:void();"  style="color:#ff0000;" onclick="deleteEmpAddressRecord(this, '#empAddressDetailDiv','{{ path('_delete_emp_addres_details',{'addMasterID' : a.addressMasterFk.addressPk | default('')}) }}');">Delete</a>
+                            </td>                                                 
+                        </tr>                    
+                  {%endfor%}
+
+                    </tbody>
+                </table>
+            </td>
+        </tr>                                 
+    </table>
+    </div> 
+    <div id="address_type_select_div">
+       <form id="empAddressDetail">
+        <table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">                       
+            <tr>
+                <td class="td-label-title">Select Address Type : <span class="necessary-field">*</span>
+                    <Select class="cmnWidth" id="address_type_select_ID" name="txt_address_type_ID">
+                        <option value="">--Select--</option>
+                      {%for a in addressType%}
+                        <option value="{{ a.addressTypePk| default('') }}">{{ a.addressTypeName | default('') }}</option>
+                      {%endfor%}
+                    </Select> 
+                    <input type="button" class="button blue" id="btn_add_address" value="Add" onclick="return loadAddressForm('{{ path('_load_emp_address_form') }}', '#empAddressDetailDiv');"/>
+                </td>
+            </tr>
+        </table>
+        <div id="empAddressDetailDiv" style="margin: 10px 0px 10px 0px;"></div> 
+        <input type="hidden" id="addTxnID" name="txn_addTxnID" value="{{ addTxnID | default('') }}" /> 
+        
+       </form>
+    </div>  
+    
+    {# firstly show table #}
+       <script type="text/javascript">
+         fnHideShow('emp_add_detail');     
+      </script>
+</div>  
+

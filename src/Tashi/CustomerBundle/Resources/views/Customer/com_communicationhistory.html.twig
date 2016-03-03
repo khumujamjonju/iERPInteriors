@@ -1,0 +1,86 @@
+<br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border-content" >           
+    <tr>        
+        <td class="td-label-title">
+            Customer ID&nbsp<input type="text" readonly value="{{mobtxn.contact.customerFk.customerId}}" style="width:150px;">
+        </td>
+        <td class="td-label-title">
+            Customer Name&nbsp;<input type="text" readonly value="{{mobtxn.contact.customerFk.customerName}}" style="width:200px;">
+        </td>
+        {#<td class="td-label-title">
+            Customer Type&nbsp;<input type="text" readonly value="{{mobtxn.contact.customerFk.customerType.customerTypeName}}" style="width:100px;">
+        </td>#}
+    </tr>
+</table>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border-content" style="margin-top:10px;">           
+    <tr>
+        <input id="spanCloseOpenHandlertdcomhistory" value="0" type="hidden">
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('tdcomhistory');">Communication History <span style="float: right;" id="spanIdtdcomhistory" class="span_open" >&nbsp;</span></td>
+    </tr >
+    <tr id="trAddresstdcomhistory" >
+        <td>
+            <table id="example" class="display" width="100%" border="0" cellpadding="0" cellspacing="0">
+                <thead class="t">
+                    <tr class="tbl-grid-view-header">
+                        <th>#</th>                        
+                        <th>Date</th>
+                        <th>Type of Communication</th>
+                        <th>Subject</th>
+                        <th>Message</th>
+                        <th>Delivery Status</th>
+                        {#<th>Action</th>#}
+                    </tr>
+                </thead>
+                <tbody>
+                    {%set i=0%}
+                    {%for com in comtxn%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg centered-cell" align="center">{{i+1}}
+                            <input type="hidden" id="inputCompkid{{i}}" name="inputCompkid{{i}}" value="{{com.pkid}}">
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg centered-cell" align="center">
+                                {{com.sentDateTime|date('jS')}}
+                                {{com.sentDateTime|date(' M,Y')}}<br/>
+                                {{com.sentDateTime|date(' h:i')}}
+                                {{com.sentDateTime|date(' a')|upper}}
+                            </td>
+                            {#
+                            <td class="tbl-grid-view-row-no-bg centered-cell" align="center">
+                                <input type="checkbox" id="chkCom{{i}}" name="isSelected" class="selchkcomm" title="Check to communicate" value="0" onchange="toggleMainCheckComm('chkCommAll');">
+                                <input type="hidden" id="inputisselected{{i}}" name="inputisSelected" value="0">
+                                <input type="hidden" name="inputComCustId" value="{{}}">                                
+                                <input type="hidden" name="inputComMobno" class="inputComMobno" value="{{mob.mobileNo.mobileNo}}">
+                                <input type="hidden" name="inputComEmail" class="inputComEmail" value="{{mob.contact.personFk.emailId}}">
+                                <input type="hidden" name="inputComContId" value="{{mob.contact.pkid}}">
+                            </td>#}                            
+                            <td class="tbl-grid-view-row-no-bg centered-cell" align="center">{{com.messageFk.communicationType|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg centered-cell" align="center">{{com.messageFk.messageSubject}}</td>
+                            <td class="tbl-grid-view-row-no-bg centered-cell" style="text-align:justify; max-width: 270px;">{{com.messageFk.messageContent}}</td>
+                            <td class="tbl-grid-view-row-no-bg centered-cell" align="center">
+                                {%if com.messageFk.communicationType=='EMAIL'%}
+                                    <span id="spanStatus{{i}}" style="color:#333;">NA</span>
+                                {%else%}
+                                    {%if (com.status=='0' or com.status==null) and com.uniqueSmsId==''%}
+                                        <span id="spanStatus{{i}}" style="color:#ff0000;">Not Sent</span>
+                                    {%elseif (com.status=='0' or com.status==null) and com.uniqueSmsId!=''%}
+                                        <span id="spanStatus{{i}}" style="color:#0000ff;">Waiting for delivery</span>
+                                    {%elseif com.status=='1'%}
+                                        <span id="spanStatus{{i}}" style="color:#009900;">Delivered</span>
+                                    {%endif%}
+                                {%endif%}
+                            </td>
+                            {#<td>
+                                <select id="seldelstatusaction{{i}}" style="width:100px;">
+                                    <option value="">--select--</option>
+                                    <option value="{{path("_checksmsdeliverystatus",{'smsid':com.pkid})}}">Check Delivery Status</option>
+                                </select>
+                                <input type="button" class="button" value="Go" onclick="CheckDeliveryStatus('seldelstatusaction{{i}}','spanStatus{{i}}');">
+                            </td>#}
+                        </tr>
+                        {%set i=i+1%}
+                    {%endfor%}                    
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>

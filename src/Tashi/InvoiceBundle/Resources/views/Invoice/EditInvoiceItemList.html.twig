@@ -1,0 +1,256 @@
+<table style="margin-top:10px;" width="100%" align="center" cellspacing="0"  class="tbl-border simple">  
+    <thead>
+        <tr>
+            <th>
+                <input type="checkbox" id="chkMain" title="Select/Unselect All Item to include/exclude from billing" 
+                       onchange="togglInvItemSelection(this.id,this,'chkinclude','inputItemChk');">                   
+            </th>
+            <th>Item</th>
+            <th>Description</th>
+            <th>Unit</th>
+            <th>Unit Price</th>
+            <th>Markup Price</th>
+            <th>Quantity</th>     
+            <th>Sub-total</th>
+            <th>Tax</th>
+            <th>
+                Discount
+                <input type="checkbox" id="chkdisMain" onchange="togglInvItemSelection(this.id,this,'chkdiscount','inputisDiscounted');">
+            </th>            
+        </tr>
+    </thead>
+    <tbody>
+        {%if InvItemArr|length>0%}
+            <tr>
+                <td colspan="10" class="td-label-title"> Existing Item(s)</td>
+            </tr>
+        {%endif%}
+        {%for item in InvItemArr%}
+            <tr>
+                <td width="40px">
+                    <input type="hidden" name="inputItemId" value="{{item.itemFk.pkid}}"/>
+                    <input type="checkbox" id="chkinclude{{item.itemFk.pkid}}" name="chkinclude" title="Include/Exclude in Billing" checked
+                           onchange="togglInvItemSelection('chkMain',this,'chkinclude','inputItemChk');">
+                    <input type="hidden" name="inputItemChk" value="1"/>
+                    <input type="hidden" name="inputItemType" value="is"/>
+                    <input type="hidden" name="inputInvItemPkid" value="{{item.pkid}}"/>
+                </td>
+                <td width="300px" class="left">
+                    {%if item.itemFk.itemFk!=null%}
+                        {{item.itemFk.itemFk.productName|upper ~" - "~ item.itemFk.itemFk.productCode|upper}}
+                    {%elseif item.itemFk.serviceFk!=null%}
+                        {{item.itemFk.serviceFk.serviceName}}
+                    {%else%}
+                        {{item.itemFk.itemName}}
+                    {%endif%}
+                </td>
+                <td width="250px">
+                    <textarea name="txtDesc" cols="20" rows="3">{{item.itemFk.serviceDescription|default('')}}</textarea>
+                </td>
+                <td width="70px">{{item.unit}}
+                    <input type="hidden" name="inputUnit" value="{{item.itemFk.unit|default('')}}"/>
+                </td>
+                <td align="right">
+                    <input type="text" name="txtunitPrice" id="txtuprice{{item.itemFk.pkid|default('')}}" value="{{item.unitPrice|number_format(2,'.','')}}" class="money" readonly style="border:none; width:70px;"/>
+                </td>
+                <td width="70px">
+                    <input type="text" name="txtmPrice" id="txtmPrice{{item.itemFk.pkid}}" value="{{item.markupPrice|number_format(2,'.','')}}" class="money" style="width:70px;"
+                           onkeyup="CalculateInvItemTotal('{{item.itemFk.pkid}}');" onblur="FormatNumber(this,2);" onkeypress="return isValidNumber(event);"/>
+                </td>
+                <td width="40px">
+                    <input type="text" name="txtQty" id="txtQty{{item.itemFk.pkid}}" value="{{item.quantity}}" readonly style="width:40px; border:none; text-align:center;"/>
+                </td> 
+                <td width="100px">
+                    <input type="text" name="txtitemTotal" id="txtitemTotal{{item.itemFk.pkid}}" 
+                           value="{{(item.total)|number_format(2,'.','')}}" class="money" readonly/>
+                </td>
+                <td width="120px" class="left">
+                    <input type="text" name="txtTaxpc" id="txtTaxpc{{item.itemFk.pkid}}" class="money" placeholder="Tax in percent" style="width:80px; padding-right:15px;"
+                           onkeyup="ConvertTaxPctoAmt('{{item.itemFk.pkid}}');" onkeypress="return isValidNumber(event);" value="{{item.taxPc|number_format(2,'.','')}}"/> 
+                    <span style="margin-left:-15px;">%</span>
+                    <input type="text" name="txtTaxamt" id="txtTaxamt{{item.itemFk.pkid}}" class="money" placeholder="Tax in Amount" style="width:90px;"
+                           onkeyup="$('#txtTaxpc{{item.itemFk.pkid}}').val(0); TaxAmountChange('{{item.itemFk.pkid}}');" value="{{item.taxAmt|number_format(2,'.','')}}"
+                           onblur="DefaultDecimalValue(this);"/>
+                </td>                
+                <td align="center">
+                    <input type="checkbox" name="chkdiscount" id="chkdis{{item.itemFk.pkid}}" 
+                           onchange="togglInvItemSelection('chkdisMain',this,'chkdiscount','inputisDiscounted');"
+                           {%if item.isDiscounted==1%}checked{%endif%}
+                           >
+                    <input type="hidden" name="inputisDiscounted" value="{%if item.isDiscounted==1%}1{%else%}0{%endif%}"/>
+                </td>
+            </tr>
+        {%endfor%}
+    {#</tbody>#}
+    <!--OTHER EXPENSE FORM PROJECTEXPENSE-->
+    {#<tbody>#}
+        {%for item in projexpense%}
+            <tr>
+                <td width="40px">
+                    <input type="hidden" name="inputItemId" value="{{item.pkid}}"/>
+                    <input type="checkbox" id="chkinclude{{item.pkid}}" name="chkinclude" title="Include/Exclude in Billing" 
+                           onchange="togglInvItemSelection('chkMain',this,'chkinclude','inputItemChk');">
+                    <input type="hidden" name="inputItemChk" value="0"/>
+                    <input type="hidden" name="inputItemType" value="expense"/>
+                </td>
+                <td width="300px" class="left">
+                    {{item.particulars|default('')}}
+                </td>
+                <td width="250px">
+                    <textarea name="txtDesc" cols="20" rows="3">{{item.description|default('')}}</textarea>
+                </td>
+                <td width="70px">
+                    <input type="hidden" name="inputUnit"/>
+                </td>
+                <td align="right">
+                    <input type="hidden" name="txtunitPrice" id="txtuprice{{item.pkid}}" value="{{item.amount}}" class="money" readonly style="border:none; width:70px;"/>
+                </td>
+                <td width="70px">
+                    <input type="text" name="txtmPrice" id="txtmPrice{{item.pkid}}" value="{{item.amount|number_format(2,'.','')}}" class="money" style="width:70px;"
+                           onkeyup="CalculateInvItemTotal('{{item.pkid}}');" onblur="isMoney(this.id);" onkeypress="return isValidNumber(event);" value="0"/>
+                </td>
+                <td width="40px">
+                    <input type="hidden" name="txtQty" id="txtQty{{item.pkid}}" value="1" readonly style="width:40px; border:none; text-align:center;"/>
+                </td>  
+                <td width="100px">
+                    <input type="text" name="txtitemTotal" id="txtitemTotal{{item.pkid}}" 
+                           value="{{item.amount|number_format(2,'.','')}}" class="money" readonly/>
+                </td>
+                <td width="120px" class="left">                    
+                    <input type="text" name="txtTaxpc" id="txtTaxpc{{item.pkid}}" class="money" placeholder="Tax in percent" style="width:80px; padding-right:15px;"
+                           onkeyup="ConvertTaxPctoAmt('{{item.pkid}}');" onkeypress="return isValidNumber(event);" value=""/> 
+                    <span style="margin-left:-15px;">%</span>
+                    <input type="text" name="txtTaxamt" id="txtTaxamt{{item.pkid}}" class="money" placeholder="Tax in Amount" style="width:90px;"
+                           onkeyup="$('#txtTaxpc{{item.pkid}}').val(0); TaxAmountChange('{{item.pkid}}');" value=""/>
+                </td>
+                
+                <td align="center">
+                    <input type="checkbox" name="chkdiscount" id="chkdis{{item.pkid}}" 
+                           onchange="togglInvItemSelection('chkdisMain',this,'chkdiscount','inputisDiscounted');">
+                    <input type="hidden" name="inputisDiscounted" value="0"/>
+                </td>
+            </tr>
+        {%endfor%}
+        {%if newitemArr|length>0%}
+            <tr>
+                <td colspan="10" class="td-label-title"> Unbilled Item(s)</td>
+            </tr>
+        {%endif%}
+        {%for item in newitemArr%}
+            <tr>
+                <td width="40px">
+                    <input type="hidden" name="inputItemId" value="{{item.pkid}}"/>
+                    <input type="checkbox" id="chkinclude{{item.pkid}}" name="chkinclude" title="Include/Exclude in Billing" 
+                           onchange="togglInvItemSelection('chkMain',this,'chkinclude','inputItemChk');">
+                    <input type="hidden" name="inputItemChk" value="0"/>
+                    <input type="hidden" name="inputItemType" value="is"/> {#is=Item/Service#}
+                    <input type="hidden" name="inputInvItemPkid"/>
+                </td>
+                <td width="300px" class="left">
+                    {%if item.itemFk!=null%}
+                        {{item.itemFk.productName|upper ~" - "~ item.itemFk.productCode|upper}}
+                    {%elseif item.serviceFk!=null%}
+                        {{item.serviceFk.serviceName}}
+                    {%else%}
+                        {{item.itemName}}
+                    {%endif%}
+                </td>
+                <td width="250px">
+                    <textarea name="txtDesc" cols="20" rows="3">{{item.serviceDescription|default('')}}</textarea>
+                </td>
+                <td width="70px">{{item.unit}}
+                    <input type="hidden" name="inputUnit" value="{{item.unit}}"/>
+                </td>
+                <td align="right">
+                    <input type="text" name="txtunitPrice" id="txtuprice{{item.pkid}}" value="{{item.unitPrice|number_format(2,'.','')}}" class="money" readonly style="border:none; width:70px;"/>
+                </td>
+                <td width="70px">
+                    <input type="text" name="txtmPrice" id="txtmPrice{{item.pkid}}" value="{{item.unitPrice|number_format(2,'.','')}}" class="money" style="width:70px;"
+                           onkeyup="CalculateInvItemTotal('{{item.pkid}}');" onblur="DefaultDecimalValue(this);" onkeypress="return isValidNumber(event);"/>
+                </td>
+                <td width="40px">
+                    <input type="text" name="txtQty" id="txtQty{{item.pkid}}" value="{{item.quantity}}" readonly style="width:40px; border:none; text-align:center;"/>
+                </td> 
+                <td width="100px">
+                    <input type="text" name="txtitemTotal" id="txtitemTotal{{item.pkid}}" 
+                           value="{{(item.unitPrice*item.quantity)|number_format(2,'.','')}}" class="money" readonly/>
+                </td>
+                <td width="120px" class="left">
+                    {%set taxpc=''%}
+                    {%set taxamt=''%}
+                    {%if item.itemFk!=null%}
+                        {%set taxpc=vattax%}
+                    {%else%}
+                        {%set taxpc=sTax%}
+                    {%endif%}
+                    {%set taxamt=(item.unitPrice*item.quantity)*(taxpc/100)%}
+                    <input type="text" name="txtTaxpc" id="txtTaxpc{{item.pkid}}" class="money" placeholder="Tax in percent" style="width:80px; padding-right:15px;"
+                           onkeyup="ConvertTaxPctoAmt('{{item.pkid}}');" onkeypress="return isValidNumber(event);" value="{{taxpc|number_format(2,'.','')}}"/> 
+                    <span style="margin-left:-15px;">%</span>
+                    <input type="text" name="txtTaxamt" id="txtTaxamt{{item.pkid}}" class="money" placeholder="Tax in Amount" style="width:90px;"
+                           onkeyup="$('#txtTaxpc{{item.pkid}}').val(0); TaxAmountChange('{{item.pkid}}');" value="{{taxamt|number_format(2,'.','')}}"
+                           onblur="DefaultDecimalValue(this);"/>
+                </td>                
+                <td align="center">
+                    <input type="checkbox" name="chkdiscount" id="chkdis{{item.pkid}}" 
+                           onchange="togglInvItemSelection('chkdisMain',this,'chkdiscount','inputisDiscounted');">
+                    <input type="hidden" name="inputisDiscounted" value="0"/>
+                </td>
+            </tr>
+        {%endfor%}
+    </tbody>
+    <tfoot>
+        <tr>
+            <td class="right" colspan="9" align="right">Sub Total(&#8377;)</td>
+            <td>
+                <input type="text" name="txtSubtotal" id="txtSubtotal" value="{{invoice.subTotal|number_format(2,'.')}}" class="money" readonly/>
+            </td>
+            <td ></td>                
+        </tr>
+        <tr>
+            <td class="right" colspan="9" >Tax(&#8377;)</td>
+            <td>
+                <input type="text" name="txtTaxtotal" id="txtTaxtotal" value="{{invoice.taxAmt|number_format(2,'.')}}" class="money" readonly/>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="right" colspan="9">Discount(&#8377;)</td>
+            <td>
+                <input type="text" name="txtDiscount" id="txtDiscount" value="{{invoice.discount|number_format(2,'.')}}" class="money" onkeyup="CalculateTotal();" onkeypress="return isValidNumber(event);" onblur="DefaultDecimalValue(this);"/>
+            </td>
+            <td></td>
+        </tr>
+        <tr>
+            <td class="right" colspan="9">Grand Total(&#8377;)</td>
+            <td>
+                <input type="text" name="txtGrandTotal" id="txtGrandTotal" value="{{invoice.total|number_format(2,'.')}}" class="money" readonly/>
+            </td>
+            <td ></td>
+        </tr>
+        <tr>
+            <td class="right" colspan="9">Deposit(&#8377;)</td>
+            <td>
+                <input type="text" name="txtDeposit" id="txtDeposit" value="{{invoice.deposit|number_format(2,'.','')}}" class="money" readonly/>
+            </td>
+            <td ></td>
+        </tr>
+        <tr>
+            <td class="right" colspan="9">Balance(&#8377;)</td>
+            <td>
+                <input type="text" name="txtBalance" id="txtBalance" value="{{invoice.balance|number_format(2,'.')}}" class="money" readonly/>
+            </td>
+            <td ></td>
+        </tr>
+    </tfoot>
+</table>
+<br/>
+<table width="100%">
+    <tr>
+        <td align="center">
+            <input type="button" class="button" value="Update Invoice" onclick="CreateInvoice('{{path("_updateinvoice",{'invoiceid':invoice.pkid})}}','frmSearchInvoice','EDT');"/> &nbsp; &nbsp;
+            <input type="button" class="button" value="Cancel" onclick="cancelInvoice();"/>
+        </td>
+    </tr>
+</table>
+

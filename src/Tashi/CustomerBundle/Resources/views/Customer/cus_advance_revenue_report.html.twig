@@ -1,0 +1,53 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_revenue_report')}}', 'revenue_report', 'Customer', 'Revenue Report');"><span>Revenue Report</span></a></li>            
+    </ul>
+</div>
+<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <input id="spanCloseOpenHandlerSearchCustomer" value="0" type="hidden">
+                <td class="td-label-title" onclick="lmsShowHideAddressResult('SearchCustomer');">Search Revenue<span style="float: right;" id="spanIdSearchCustomer" class="span_open" >&nbsp;</span></td>
+            </tr >
+            <tr id="trAddressSearchCustomer" >
+                <td>
+                    <form method="#" id="customerPaymentCollectionForm" post="">
+                        <table width="100%" align=center border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg">Collection By</td>
+                                <td class="td-white-bg" colspan="3">
+                                    <select class="cmnWidth" id="collection_by" name="txt_collection_by">
+                                        <option value="">--select--</option>
+                                      {%for e in employee|default('')%}
+                                        {%for distinctEmp in distinctEmpOfCollectionPayment|default('')%}
+                                            {%if e.employeeId|default('') == distinctEmp.emp_id |default('')%}
+                                                <option value="{{ e.employeeId|default('')}}">{{e.personFk.personName|default('')}}({{ e.employeeId|default('')}})</option>
+                                            {%endif%}   
+                                        {%endfor%}
+                                      {%endfor%}
+                                    </select>
+                                </td>                                
+                            </tr> 
+                            <tr>
+                                <td class="td-gray-bg">Start Date</td>
+                                <td class="td-white-bg">
+                                    <input type="date" id="startDate" name="txt_startDate" class="cmnWidth" /></td>  
+                                <td class="td-gray-bg">End Date</td>
+                                <td class="td-white-bg"><input type="date" id="endDate" name="txt_endDate" class="cmnWidth" /></td>                              
+                            </tr> 
+                            <tr>
+                                <td colspan="4" class="td-separator" align="center">                            
+                                    <input class="button" type="button" name="butSearch" id="butSearch" value="Search" onClick="searchPaymentCollection(this, '{{path('_search_revenue_report')}}');">                                                                  
+                                </td>
+                            </tr>
+                        </table>
+
+                    </form>
+                </td>
+            </tr>
+        </table>                                                                   
+        <div id="searchResult" style="margin-top: 10px;"></div>             
+    </div>
+</div>

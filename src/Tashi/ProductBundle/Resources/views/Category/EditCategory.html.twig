@@ -1,0 +1,110 @@
+{%set catName=category.categoryName%}
+{%set catDesc=category.categoryDesc%}
+{%set catpk=category.pkid%}
+
+<form id="frmEditCategory" style="margin: 0px;">
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+        <tr>
+            <td class="td-label-title">Edit Product Category</td>
+        </tr>
+        <tr>
+            <td>
+                <form id="frmProductCategory" style="margin: 0px;">
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0"> 
+                        <tr>
+                            <td class="td-gray-bg" width="200px">Select Related Area<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <div class="tableElementEmulation">
+                                    <ul class="trElementEmulation">
+                                        {%for area in AreaArr%}
+                                            {%set areaid=''%}
+                                            {%set check=''%}
+                                            {%for areatxn in areacattxn%}
+                                                {%if area.pkid==areatxn.projectAreaFk.pkid%}
+                                                  {%set areaid=area.pkid%}  
+                                                  {%set check='checked'%}
+                                                {%endif%}
+                                            {%endfor%}
+                                            <li class="tdElementEmulation">                                                          
+                                                <label for="chkArea{{area.pkid}}">
+                                                    <input type="checkbox" id="chkArea{{area.pkid}}" onchange="toggleSelectArea(this,'{{area.pkid}}');" {{check}}>
+                                                    {{area.area|upper}}
+                                                </label>
+                                                <input type="hidden" id="inputarea{{area.pkid}}" name="inputarea" class="inputarea" value="{{areaid}}"/>
+                                            </li>
+                                        {%endfor%}
+                                    </ul>
+                                 </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Category Name<span class="necessary-field">*</span>:</td>
+                            <td class="td-white-bg"colspan="1">
+                                <input class="cmnWidth" type="text" id="txtCategory" name="txtCategory" value="{{catName}}" onkeypress="return NullonEnterKey(event);">                                     
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Description<span class="necessary-field">*</span>:</td>
+                            <td class="td-white-bg"colspan="1">
+                                <textarea id="txtDescription" name="txtDescription" rows="5" cols="50">{{catDesc}}</textarea>
+                                <input type="hidden" value="{{catpk}}" name="inputcatid">
+                            </td> 
+                        </tr>
+                       {# <tr>
+                            <td class="td-gray-bg" valign="top">Add Related Service(s):</td>
+                            <td class="td-white-bg"colspan="1">
+                                <table id="tblPrdService" style="float:left;">
+                                    {%if serviceArr|length >0%}
+                                        {%for i in range(0,serviceArr|length -1)%}
+                                            {%if i==0%}
+                                                <tr>
+                                                    <td class='td-white-bg'>
+                                                        <input type="hidden" name="txtServiceId" value="{{serviceArr[i].pkid}}">
+                                                        <input type="text" name="txtServicename" placeholder="Enter Service Name" value="{{serviceArr[i].serviceName}}" class="cmnWidth">
+                                                    </td>
+                                                    <td class='td-white-bg'>
+                                                        <input type='button' class='button' value='-' title='Remove unit' onclick="RemoveServiceRow(this);"/>
+                                                        
+                                                    </td>
+                                                </tr>
+                                            {%else%}
+                                                <tr>
+                                                    <td class='td-white-bg'>
+                                                        <input type="hidden" name="txtServiceId" value="{{serviceArr[i].pkid}}">
+                                                        <input type="text" name="txtServicename" placeholder="Enter Service Name" value="{{serviceArr[i].serviceName}}" class="cmnWidth">
+                                                    </td>
+                                                    <td class='td-white-bg'>
+                                                        <input type='button' class='button' value='-' title='Remove Service' onclick="RemoveServiceRow(this);"/>
+                                                    </td>
+                                            </tr>
+                                            {%endif%}                                    
+                                        {%endfor%}
+                                    {%else%}
+                                        <tr id="trunit0">
+                                        <td class='td-white-bg'>
+                                            <input type="hidden" name="txtServiceId" value="">
+                                            <input type="text" name="txtServicename" placeholder="Enter Service Name" class="cmnWidth">
+                                        </td>
+                                        <td class='td-white-bg' width="30px">
+                                        </td>
+                                        </tr>
+                                    {%endif%}
+                                </table>
+                                <input type='button' class='button' id="btnAddservice" value='+' title='Add More Service' onclick='AddServiceRow();' 
+                                       style="margin-top:5px; z-index:10;{%if serviceArr|length<=0%}margin-left:-35px;{%endif%}"/>
+                            </td> 
+                        </tr>#}
+                        <tr>
+                            <td class="td-gray-bg"></td>
+                            <td class="td-separator">
+                                <input type="button" class="button blue" id="btn_save" value="Update" 
+                                    onclick="ManageProductCategory('{{path("_updateprodcat")}}','frmEditCategory');"/>   &nbsp; &nbsp;
+                                <input type="button" class="button blue" id="btn_save" value="Cancel" onclick="CancelCategoryUpdate('{{path("_cancelupdatecat")}}');" />
+                            </td>  
+                        </tr>
+                    </table>
+                </form>
+            </td>
+        </tr>
+    </table>
+</form> 

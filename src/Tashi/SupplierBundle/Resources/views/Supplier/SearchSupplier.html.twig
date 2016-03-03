@@ -1,0 +1,74 @@
+<div class='sub-menu'>
+    <ul>
+    <li class='active'><a href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_search_supplier')}}', 'search', 'Search Supplier', 'Search Supplier Details');">Search Supplier</a></li>      
+    </ul>
+</div>
+<div class="newdashboard"> 
+    
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Supplier Details Search</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmSearchSupplier" style="margin: 0px;">
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg">Supplier Name:</td>
+                                <td class="td-white-bg"colspan="1">
+                                    <input class="cmnWidth" type="text" id="txt_supname" name="txt_sup_name"> 
+                                    <input class="cmnWidth" type="text" id="txt_supname" name="sup_name" value="sup"> 
+                                </td>
+                                <td class="td-gray-bg">Contact Person Name:</td>
+                                <td class="td-white-bg"colspan="1">
+                                <input class="cmnWidth" type="text" id="txt_person" name="person">
+                                <input class="cmnWidth" type="text" id="txt_person" name="txt_person" value="per"> 
+                                </td> 
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Mobile No:</td>
+                                <td class="td-white-bg"colspan="1">
+                                    <input class="cmnWidth" type="text" id="txt_unit" name="mobile">                                     
+                                </td>
+                                <td class="td-gray-bg">Registration No:</td>
+                                <td class="td-white-bg"colspan="1">
+                                <input class="cmnWidth" type="text" id="txt_Description" name="reg_no">                                     
+                                </td> 
+                            </tr>
+                            <tr>
+                                <td class="td-separator" colspan="6" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_search" value="Search" onclick="searchOrCreateSupplier('{{path('_search_edit_supplier')}}');"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>  
+                            </tr>
+                        </table>
+                    </form>                               
+                </td>
+            </tr> 
+        </table>   
+            
+       <div id="display-list" style="margin-top: 8px;">
+      
+       
+        
+        
+        
+      </div>  
+            
+      <div id="view_supplier">
+             
+                
+                
+                
+                
+            
+      </div>    
+            
+            
+    </div>
+        
+        
+        
+        
+        

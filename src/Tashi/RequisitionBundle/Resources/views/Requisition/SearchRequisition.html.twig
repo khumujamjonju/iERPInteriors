@@ -1,0 +1,74 @@
+<div class='sub-menu'>
+    <ul>
+        <li class='active' onclick="fnLeftMenuNavigation('{{path('_search_purchase')}}', 'Search_id', 'Search Purchase', 'Search');"><a  href="javascript:void();" >Search Requisition</a></li> 
+{# <li id="Search_Purchase_id"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_search_purchase')}}', 'Search_Purchase_id', 'Purchase', 'Search Purchase', 'Search Purchase');"><span>Search</span></a></li> #}
+   </ul>
+</div>
+<div class="newdashboard"> 
+    <div class="application-form"> 
+  <form id="frmRequisitionDetails" style="margin: 0px;">
+       <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+        <tr>
+            <td class="td-label-title">Criteria:</td>
+        </tr>
+        <tr>
+            <td>                 
+                
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                             
+                        <tr>
+                            <td class="td-gray-bg cmnWidth">Select:</td>
+                            <td class="td-white-bg cmnWidth" colspan="2">
+                            <select id="selSearchRequisition" name="selSearchRequisition" onchange="SearchRequisitionCriteria(this.id);" class="cmnWidth">
+                                  
+                                <option value="all">All</option> 
+                                <option value="requisition">Requisition Date</option>
+                                <option value="status">Status</option>
+                            </select>
+                            </td>
+                        </tr>
+                        <tr id="trcriteria" style="display:none;">
+                                <td class="td-gray-bg" id="tdtitle"></td>
+                                <td id="tdsearchcriteria" class="td-white-bg">
+                                    <input type="hidden" name="searchvalue" value="" id="searchvalue"/>
+                                    <input type="text" id="txtCriteria" name="txtCriteria" style="display:none;" class="cmnWidth">
+                                    <div id="Date" style="display:none;">
+                                       From : <input type="date" id="txtfrom" name="txtfrom"> &nbsp;
+                                       To : <input type="date" id="todate" name="todate">
+                                    </div>
+                                    <select id="selPurStatus" name="selPurStatus" style="display:none;" class="cmnWidth">
+                                       <option value=" ">--Select--</option>
+                                        {%for s in status%}
+                                            <option value="{{s.pkid}}">{{s.statusmsg}}</option>
+                                        {%endfor%}
+                                    </select>
+                                    <input type="hidden" name="inputcatid">                            
+                                </td>
+                         </tr>
+                         <tr>
+                            <td class="td-gray-bg cmnWidth"></td>
+                            <td class="td-white-bg cmnWidth" colspan="2"> 
+                            <input type="button" class="button" id="btnSearchPur" value="Search" onclick="return SearchRequisition(this);">
+                            <input type="hidden" id="inputsearchrequisitionUrl" value="{{path("_searchrequisition")}}"/>
+                            </td>
+                        </tr>
+                    </table>
+                                          
+            </td>
+        </tr> 
+    </table> 
+     <br>   
+    <div id="divRequisitionOrderDetailsList">
+    
+    
+    
+    </div>    
+        
+        
+    <div id="EditPurchase">
+        
+        
+   </div>    
+        
+        </form>     
+    </div>
+    </div>

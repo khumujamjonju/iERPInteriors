@@ -1,0 +1,433 @@
+<!Doctype html>
+<html>
+    <head>
+        <title>Tashi Interiors|Module page</title>
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/common/css/theme.css') }}" >       
+        <link rel="stylesheet" type="text/css" href="{{ asset('bundles/common/css/jquery-ui.css') }}" /> 
+        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/common/css/paging_table_jui.css') }}"/> 
+        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/common/css/paging-jquery-ui-1.8.4.custom.css') }}"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/common/css/jquery.dataTables.css') }}"/>
+        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/common/css/styleradiocheck.css') }}"/>  
+        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/common/css/table.css') }}"/> 
+        <link type="text/css" rel="stylesheet" href="{{ asset('bundles/common/css/simplemenu.css') }}"/>
+        
+        <style> tfoot {display: table-header-group;}</style>        
+        <script type="text/javascript" src="{{ asset('bundles/common/js/jquery_v.1.11.1.js') }}"></script>
+        
+        <script type="text/javascript" src="{{ asset('bundles/common/js/jquery.simplemodal.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/common/js/jquery.multiple.select.js') }}"></script> 
+        <script type="text/javascript" src="{{ asset('bundles/common/js/jquery.loadingdotdotdot.js') }}"></script> 
+        <script type="text/javascript" src="{{ asset('bundles/common/js/jquery.serializeObject.js') }}"></script> 
+        <script type="text/javascript" src="{{ asset('bundles/common/js/jquery.dataTables.js') }}"></script>  
+       {# <link rel="icon" type="image/x-icon" href="{{ asset('bundles/CRM/images/favicon.png') }}" /> #}
+        <script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/navigation.js') }}"></script>       
+        <script type="text/javascript" src="{{ asset('bundles/common/js/jquery-ui-1.8.18.custom.min.js') }}"></script> 
+        <script type="text/javascript" src="{{ asset('bundles/common/js/jquery-ui.js') }}"></script>        
+        
+        <script type="text/javascript" src="{{ asset('bundles/asset/js/asset.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/authentication/js/auth.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/common/js/common.js') }}"></script> 
+        <script type="text/javascript" src="{{ asset('bundles/common/js/validation.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/customer/js/customer.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/employee/js/employee.js') }}"></script>          
+        <script type="text/javascript" src="{{ asset('bundles/invoice/js/invoice.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/location/js/location.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/payroll/js/payroll.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/project/js/project.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/project/js/area.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/stock/js/stock.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/purchase/js/purchase.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/product/js/product.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/stock/js/supplier.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/store/js/store.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/company/js/company.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/wallet/js/wallet.js') }}"></script> 
+        <script type="text/javascript" src="{{ asset('bundles/requisition/js/requisition.js') }}"></script> 
+        <script type="text/javascript" src="{{ asset('bundles/setting/js/module.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/setting/js/activities.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/user/js/user.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/account/js/account.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/common/js/html2canvas.js') }}"></script>
+        <script type="text/javascript" src="{{ asset('bundles/common/js/bootstrap.min.js') }}"></script>
+        {#<script type="text/javascript" src="{{ asset('bundles/common/js/jquery-1.8.0.min.js') }}"></script>#}
+       
+       {# for loading when click on button #}
+        <script type="text/javascript" >
+            var num = 50; //number of pixels before modifying styles
+            $(window).bind('scroll', function () {
+                if ($(window).scrollTop() > num) { 	        
+                    $('.loadingDiv').addClass('fixed');                 
+                } 
+                else { 
+                    $('.loadingDiv').removeClass('fixed');              
+                }
+            });
+	</script>
+
+        <script type="text/javascript">
+            $(document).ready(function()
+            {
+                $(".tabdem").tabs();
+                $("#m_imgbtn, a, button", ".tabdem").button();
+                $(".tabdem").click(function() {
+                    return false;
+                });
+
+            });
+            </script> 
+            <script type="text/javascript">
+            $(document).ready(function()
+            {                
+                /*$("#user_a").hover(function() {
+                    $('#userul').toggle();
+                });
+                $("#userul").mouseout(function() {
+                    $('#userul').hide();
+                });
+                $("#userul li").click(function() {
+                    $('#userul').hide();
+                });*/    
+
+            });
+            </script>
+            <!--this js disabled mouse right click on the web page-->
+            <!--
+            <script type="text/javascript">
+                window.oncontextmenu = function(){ return false;} 
+            </script>   -->
+            </head>
+            <body>
+                <div id="divBlocker" style="position:fixed; width:100%; height:100%; background-color: #333; opacity:.1; z-index:10; display: none; "></div>
+                <div id="wrapper">
+                    <div id="header">  
+                        <div class="company-logo">
+                            <img src="{{ asset('bundles/common/images/logo.png') }}"  width="80" height="40"/>                            
+                        </div>
+                        <h4 style="margin-left:10px; color:#ffcc00; float: left;">ERP for Interior Designers & Builders</h4>
+                        <div class="company-name">{#<span class="tashiname">Tashi</span> interiors<br/>
+                            <span class="tashiname_indent">embracing quality</span>  #}
+                        </div>  
+                        <div class="user-detail">
+                            <ul id="navigation">
+                                <li class="sub">
+                                    <span>Welcome, </span>
+                                    {%if app.session.get('PRIVILEGE')=='Su'%}
+                                        <a href='javascript:void(0);'>Super User</a>
+                                        <ul style="width:150px;right:0;">                                            
+                                            <li><a href="javascript:void(0);" onclick="fnMainMenuNavigation('{{path('_gotochangepassword')}}', 'Change Password','','');">Change Password</a></li>                                            
+                                            <li><a href="{{path("_logout")}}">Logout</a></li>
+                                        </ul>
+                                    {%else%}
+                                        <a href='javascript:void(0);'>{{ account.userFk.personFk.personName|default('')}}</a>
+                                        <ul style="width:150px; right:0;">
+                                            <li><a href="javascript:void" onclick="fnMainMenuNavigation('{{path('_viewmyprofile')}}', 'User','View My Profile','');">View Profile</a></li>
+                                            <li><a href="javascript:void(0);" onclick="fnMainMenuNavigation('{{path('_gotochangepassword')}}', 'Change Password','','');">Change Password</a></li>
+                                            <li><a href="javascript:void(0);" onclick="fnMainMenuNavigation('{{path('_mywallet')}}', 'Change Password','','');">My Wallet</a></li>                                                                                 
+                                            <li><a href="{{path("_logout")}}">Logout</a></li>
+                                        </ul>
+                                    {%endif%}
+                                     
+                                </li>
+                            </ul>                            
+                        </div>                          
+                        <div class="clear"></div>
+                    </div>
+                 {#   <div id="header">
+                        <div id="headerLogo">
+                            <table id="tbl-company" cellpadding="0" cellspacing="0" width="100%">
+                                <tr>
+                                    <td id="company-header">
+                                        <div class="company-logo">LOGO</div>
+                                        <div class="company-name"><span class="tashiname">Tashi</span> interiors<br/>
+                                            <span class="tashiname_indent">embracing quality</span>
+                                        </div>
+                                        <div class="user-detail">
+                                            <span style="font-size: 11px;">Welcome: {{ app.session.get('UID') }} | Logout</span><br/>
+                                            <span style="font-size: 11px;">Last Login: 28-Dec-2014</span>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>  #}                   
+                 {%set employee=0%} {%set payroll=0%} {%set wallet=0%} {%set asset=0%} {%set customer=0%}{%set project=0%} {%set invoice=0%}
+                 {%set supplier=0%} {%set purchase=0%} {%set product=0%} {%set stock=0%}   {%set requisition=0%} {%set store=0%} {%set company=0%} {%set location=0%}
+                 {%set account=0%} {%set user=0%}
+                 {%if app.session.get('PRIVILEGE')=='Su'%}
+                     {%set employee=1%} {%set payroll=1%} {%set wallet=1%} {%set asset=1%} {%set customer=1%}{%set project=1%} {%set invoice=1%}
+                    {%set supplier=1%} {%set purchase=1%} {%set product=1%} {%set stock=1%} {%set requisition=1%} {%set store=1%} {%set company=1%} {%set location=1%}
+                    {%set account=1%} {%set user=1%}
+                 {%else%}
+                    {%set roleArr=app.session.get('ROLELIST')%}                    
+                    {%for role in roleArr%}
+                        
+                        {%if role['Role']=='employeeDashboardAction'%}
+                            {%set employee=1%}
+                        {%elseif role['Role']=='payrollDashboardAction'%}
+                            {%set payroll=1%}
+                        {%elseif role['Role']=='WalletDashboardAction'%}
+                            {%set wallet=1%}
+                        {%elseif role['Role']=='assetDashboardAction'%}
+                            {%set asset=1%}
+                        {%elseif role['Role']=='customerDashboardAction'%}
+                            {%set customer=1%}
+                        {%elseif role['Role']=='projectDashboardAction'%}
+                            {%set project=1%}
+                        {%elseif role['Role']=='invoiceDashboardAction'%}
+                            {%set invoice=1%}
+                        {%elseif role['Role']=='supplierDashboardAction'%}
+                            {%set supplier=1%}
+                        {%elseif role['Role']=='purchaseDashboardAction'%}
+                            {%set purchase=1%}
+                        {%elseif role['Role']=='ProductDashboard'%}
+                            {%set product=1%}
+                        {%elseif role['Role']=='stockDashboardAction'%}
+                            {%set stock=1%}
+                        {%elseif role['Role']=='requisitionDashboardAction'%}
+                            {%set requisition=1%}
+                        {%elseif role['Role']=='storeDashboardAction'%}
+                            {%set store=1%}
+                        {%elseif role['Role']=='CompanyDashboardAction'%}
+                            {%set company=1%}
+                        {%elseif role['Role']=='locationDashboardAction'%}
+                            {%set location=1%}
+                        {%elseif role['Role']=='dashboardAccountAction'%}
+                            {%set account=1%}
+                        {%elseif role['Role']=='userDashboardAction'%}
+                            {%set user=1%}
+                        {%endif%}
+                    {%endfor%}
+                {%endif%}
+                    <div id="sub-wrapper">	 
+                        <div class="tabdem">
+
+                            <div id="tabs">
+                                <ul>
+                                    <li><a class="active" id="dashboard" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_dashboard_onclick')}}', 'dashboard', 'Dashboard', '');">Dashboard</a></li>
+                                    <li style="{%if employee==0%}display:none;{%endif%}"><a id="employee_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_emp_master_dashboard')}}', 'employee_master', 'Employee', 'Dashboard');">Employee</a></li>
+                                    <li  style="{%if payroll==0%}display:none;{%endif%}"><a id="payroll_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_payroll_dashboard')}}', 'payroll_master', 'Payroll', 'Dashboard');">Payroll</a></li>
+                                    <li style="{%if wallet==0%}display:none;{%endif%}"><a id="wallet_id" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_wallet_dashboard')}}', 'wallet_id', 'Wallet', 'Dashboard');">Wallet</a></li>
+                                    <li style="{%if asset==0%}display:none;{%endif%}"><a id="asset_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_asset_dashboard')}}', 'asset_master', 'Asset', 'Asset Dashboard');">Asset</a></li>
+                                    <li  style="{%if customer==0%}display:none;{%endif%}"><a id="customer_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_cus_master_dashboard')}}', 'customer_master', 'Customer', 'Dashboard');">Customer</a></li>                                  
+                                    <li style="{%if project==0%}display:none;{%endif%}"><a id="project_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_pro_master_dashboard')}}', 'project_master', 'Project', 'Dashboard');">Project</a></li>                                 
+                                    <li style="{%if invoice==0%}display:none;{%endif%}"><a id="invoice_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_invoice_master_dashboard')}}', 'invoice_master', 'Invoice', 'Dashboard');">Invoice</a></li>
+                                    <li style="{%if supplier==0%}display:none;{%endif%}"><a id="sup_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_sup_dashboard')}}', 'sup_master', 'Supplier', 'Dashboard');">Supplier</a></li>
+                                    <li style="{%if purchase==0%}display:none;{%endif%}"><a id="purchase_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_pur_master_dashboard')}}', 'purchase_master', 'Purchase', 'Dashboard');">Purchase</a></li> 
+                                    <li style="{%if product==0%}display:none;{%endif%}"><a id="product_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_productdashboard')}}', 'product_master', 'Product', 'Dashboard');">Product</a></li>
+                                    <li style="{%if stock==0%}display:none;{%endif%}"><a id="stock_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_stock_dashboard')}}', 'stock_master', 'Stock', 'Dashboard');">Stock</a></li>
+                                    <li style="{%if requisition==0%}display:none;{%endif%}"><a id="requisition_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_requisitiondashboard')}}', 'requisition_master', 'Requisition', 'Dashboard');">Requisition</a></li>                                                                
+                                    <li style="{%if store==0%}display:none;{%endif%}"><a id="store_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_store_dashboard')}}', 'store_master', 'Store', 'Dashboard');">Store</a></li>
+                                    <li style="{%if company==0%}display:none;{%endif%}"><a id="company_id" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_companydashboard')}}', 'company_id', 'Company', 'Dashboard');">Company</a></li>
+                                    <li style="{%if location==0%}display:none;{%endif%}"><a id="location_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_location_master')}}', 'location_master', 'Location', 'Dashboard');">Location</a></li>
+                                    <li  style="{%if account==0%}display:none;{%endif%}"><a id="account_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_account_dashboard')}}', 'account_master', 'Account Dashboard', 'Account Dashboard');">Account</a></li>
+                                 {#  <li><a id="report_master" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_report_master_dashboard')}}', 'report_master', 'Report', 'Reports Dashboard');">Reports</a></li>#}
+                                    {%if app.session.get('PRIVILEGE')=='Su'%}<li><a id="setting_a" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_settingdashboard')}}', 'setting_a', 'Setting', 'Dashboard');">Security Setting</a></li>{%endif%}
+                                    {# for access control<li><a id="access_control" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_access_dashboard_user')}}', 'access_control', 'Access Dashboard User', 'User Dashboard');">Access Control</a></li>#}
+                                    <li  style="{%if user==0%}display:none;{%endif%}"><a id="user_a" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_userdashboard')}}', 'user_a', 'User  Management', 'Dashboard');">User Management</a></li>
+                                </ul>
+                               {#<div id="tabs-1">		 
+                                   <span class="homelinkcss"  href="#"><img  src="{{ asset('bundles/common/images/home01.png') }}" class="homelinkcss1" ></span> 
+                                   <span class="homelinkcss" id="navMenuPath1" ></span>       
+                                   <span class="homelinkcss" id="navMenuPath2"></span> 
+                                   <span class="homelinkcss" id="navMenuPath3" ></span>
+                                </div>#}
+                                   
+                            </div>
+                            <div class="messageDiv" id="messageDiv">
+                                <div class="message"></div> 
+                            </div>
+                            <div class="loadingDiv"><div id="randomArea"></div></div>
+                        </div>
+                        <div id="content">                           
+                            <div id="right-content1">
+                                <div class="subdashboard">                             
+                                    <h3 class="headertext3">Main Dashboard</h3>     
+                                </div>
+                                <div class="moduledisplaytable">                               
+                                    <div class="dashboardbox1" style="cursor: pointer; {%if employee==0%}display:none;{%endif%}" onclick="fnMainMenuNavigation('{{path('_emp_master_dashboard')}}', 'employee_master', 'Employee Management', 'Employee Dashboard');">                                                           
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Employee</span></h1>
+                                        <a class="dashptext" href="javascript:void();"><img src="{{asset('bundles/common/images/emp1.png')}}">
+                                            <p class="newdashparatext"> Ability to capture employee records,<br/>personal records,<br/>bank account details ,<br/>employee type,<br/> salary etc...</p>
+                                        </a>     
+                                    </div>
+                                    <div class="dashboardbox1" style="cursor: pointer; {%if payroll==0%}display:none;{%endif%}" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_payroll_dashboard')}}', 'payroll_master', 'Payroll', 'Payroll Dashboard');">
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Payroll</span></h1>
+                                        <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/accnt.png')}}">
+                                            <p class="newdashparatext">
+                                                This module is mainly for Payroll management:
+                                                <br/>
+                                                creating salary master , employee salary etc.
+                                            </p>
+                                        </a>
+                                    </div>
+                                         <div class="dashboardbox1" style="cursor: pointer; {%if wallet==0%}display:none;{%endif%}" onclick="fnMainMenuNavigation('{{path('_wallet_dashboard')}}', 'wallet_id', 'Wallet', 'Dashboard');">                                                           
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Wallet</span></h1>
+                                        <a class="dashptext" href="javascript:void();"><img src="{{asset('bundles/common/images/WALLET-01_128x128.png')}}">
+                                            <p class="newdashparatext"> Ability to capture employee  Wallet records,<br/>Deposite records,<br/>Expenses records ,<br/>Approve Expenses,<br/> Search etc...</p>
+                                        </a>     
+                                    </div> 
+                                    <div class="dashboardbox1" style="cursor: pointer; {%if asset==0%}display:none;{%endif%}" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_asset_dashboard')}}', 'asset_master', 'Asset', 'Asset Dashboard');">
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Asset</span></h1>
+                                        <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/mobile.png')}}">
+                                             <p class="newdashparatext">Ability to capture Employee Asset Records,<br/>track record of a particular Asset ,<br/> location ,category etc...   </p>                                 
+                                        </a>
+                                    </div>
+                                    <div class="dashboardbox1" style="cursor: pointer; {%if customer==0%}display:none;{%endif%}" onclick="fnMainMenuNavigation('{{path('_cus_master_dashboard')}}', 'customer_master', 'Customer', 'Customer Dashboard');">
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Customer</span></h1>
+                                        <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/emp.png')}}">
+                                            <p class="newdashparatext">
+                                                Add/Edit/Search Customer information such as Name,Addresses,Contact Information. <br/>
+                                                Communicate with customer via sms,email etc.
+                                            </p>                                 
+                                        </a>
+                                    </div>
+                                    <div class="dashboardbox1" style="cursor: pointer; {%if project==0%}display:none;{%endif%}" style="cursor: pointer;" onclick="fnMainMenuNavigation('{{path('_pro_master_dashboard')}}', 'project_master', 'Project Management', 'Project Dashboard');">
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Project</span></h1>
+                                        <a class="dashptext" href="javascript:void();"><img src="{{asset('bundles/common/images/project.png')}}">
+                                            <p class="newdashparatext">
+                                                Project module is mainly for capturing:
+                                                <br/>
+                                                Which employee has assigned the particular project,<br/> Project details , <br/>Project Status ,<br/> 
+                                                Project Cost
+                                            </p>
+                                        </a>     
+                                    </div>                                        
+                                    <div class="dashboardbox1" style="{%if invoice==0%}display:none;{%endif%}"  onclick="fnMainMenuNavigation('{{path('_invoice_master_dashboard')}}', 'account_master', 'Account Management', 'Account Dashboard');">
+                                        <h1 class="dashtext"><span style="cursor: pointer; color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Invoices</span></h1>
+                                        <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/invoice128.png')}}">
+                                            <p class="newdashparatext">
+                                                Invoice module is mainly for:
+                                                <br/>
+                                                Create Invoice of ,<br/> Purchase and<br/> Sales. 
+                                            </p>
+                                        </a>
+                                    </div>
+                                    <div class="dashboardbox1" style="cursor: pointer; {%if supplier==0%}display:none;{%endif%}" onclick="fnMainMenuNavigation('{{path('_sup_dashboard')}}', 'sup_master', 'Supplier', 'Dashboard');">
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Supplier</span></h1>
+                                        <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/supplier.png')}}">
+                                            <p class="newdashparatext">Ability to capture personal records,<br/>track record of a particular customer ,<br/>customer having same project and different location list etc...   </p>                                 
+                                        </a>
+                                    </div>
+                                    <div class="dashboardbox1" style="cursor: pointer; {%if purchase==0%}display:none;{%endif%}" onclick="fnMainMenuNavigation('{{path('_pur_master_dashboard')}}', 'purchase_master', 'Purchase Management', 'Purchase Dashboard');">
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Purchase</span></h1>
+                                        <a class="dashptext" href="javascript:void();"> <img src="{{asset('bundles/common/images/create_128x128.png')}}">
+                                            <p class="newdashparatext"> 
+                                                Ability to capture the records of a particular item or category which is purchase from the vendor.
+                                                <br/><br/>
+                                                Stock Maintenance 
+                                            </p>
+                                        </a>
+                                    </div>
+                                    <div class="dashboardbox1" style="cursor: pointer; {%if product==0%}display:none;{%endif%}" onclick="fnMainMenuNavigation('{{path('_productdashboard')}}', 'product_master', 'Product', 'Product Dashboard');">
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Product</span></h1>
+                                        <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/prod.png')}}">
+                                            <p class="newdashparatext">Ability to capture personal records,<br/>track record of a particular customer ,<br/>customer having same project and different location list etc...   </p>                                 
+                                        </a>
+                                    </div>
+                                    <div class="dashboardbox1" style="cursor: pointer; {%if stock==0%}display:none;{%endif%}" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_stock_dashboard')}}', 'stock_master', 'Stock', 'Stock Dashboard');">
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Stock</span></h1>
+                                        <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/stock.png')}}">
+                                            <p class="newdashparatext">
+                                                This module is mainly for stock management:
+                                                <br/>
+                                                Adding Unit , Product Category , Adding Product and Stock alert etc.
+                                            </p>
+                                        </a>
+                                    </div>
+                                    <div class="dashboardbox1" style="cursor: pointer; {%if requisition==0%}display:none;{%endif%}" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_requisitiondashboard')}}', 'requisition_master', 'Requisition', 'Dashboard');"">
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Requisition</span></h1>
+                                        <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/requisition.png')}}">
+                                            <p class="newdashparatext">
+                                                This module is mainly for Product Requisition Management:
+                                                <br/>
+                                                Create New Requisition, Approve requisition, Issue Product.
+                                            </p>
+                                        </a>
+                                    </div>            
+                                       
+                                        
+                                        
+                                        <div class="dashboardbox1" style="cursor: pointer; {%if store==0%}display:none;{%endif%}" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_store_dashboard')}}');">
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Store</span></h1>
+                                        <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/store.png')}}">
+                                            <p class="newdashparatext">
+                                                This module is mainly for capturing store details information:
+                                               
+                                            </p>
+                                        </a>
+                                    </div>
+                                        <div class="dashboardbox1" style="cursor: pointer; {%if company==0%}display:none;{%endif%}" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_companydashboard')}}');" >
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Company</span></h1>
+                                        <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/company.png')}}">
+                                            <p class="newdashparatext">
+                                                 This module is mainly for capturing company information.
+                                                
+                                            </p>
+                                        </a>
+                                    </div>
+                                        <div class="dashboardbox1" style="cursor: pointer; {%if location==0%}display:none;{%endif%}" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_location_master')}}', 'requisition_master', 'Requisition', 'Dashboard');"">
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Location</span></h1>
+                                        <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/location.png')}}">
+                                            <p class="newdashparatext">
+                                                This module is mainly for capturing location details information:
+                                            </p>
+                                        </a>
+                                    </div>
+                                        <div class="dashboardbox1" style="cursor: pointer; {%if account==0%}display:none;{%endif%}" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_account_dashboard')}}', 'requisition_master', 'Requisition', 'Dashboard');"">
+                                        <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Account</span></h1>
+                                        <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/requisition.png')}}">
+                                            <p class="newdashparatext">
+                                                This module is mainly for for capturing account information:
+                                                
+                                            </p>
+                                        </a>
+                                    </div>
+                                        
+                                        
+                                        
+                                        
+                                            {%if app.session.get('PRIVILEGE')=='Su'%}
+                                                <div class="dashboardbox1" style="cursor: pointer;" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_settingdashboard')}}', 'setting_a', 'Setting', 'Dashboard');">
+                                                    <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">Security Setting</span></h1>
+                                                    <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/setting128.png')}}">
+                                                    <p class="newdashparatext">
+                                                        This module is mainly for settings related to access to this software.
+                                                        <br/>
+                                                        Manage Access to Module,User Activity.
+                                                    </p>
+                                                    <br/>
+                                                    <p>Note: This module is meant to be accessed by Administrator or by authorised personnel only.</p>
+                                                    </a>
+                                                </div> 
+                                            {%endif%}
+                                        <div class="dashboardbox1" style="cursor: pointer; {%if user==0%}display:none;{%endif%}" href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_userdashboard')}}', 'user_a', 'Setting', 'Dashboard');">
+                                            <h1 class="dashtext"><span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;">User Management</span></h1>
+                                            <a class="dashptext" href="javascript:void();">  <img src="{{asset('bundles/common/images/usr.png')}}">
+                                            <p class="newdashparatext">
+                                                This module is mainly for settings related to access to this software.
+                                                <br/>
+                                                Manage Access to Module,User Activity.
+                                            </p>
+                                            <br/>
+                                            <p>Note: This module is meant to be accessed by Administrator or by authorised personnel only.</p>
+                                            </a>
+                                        </div>
+                                        
+                                        <div class="clear"></div>                                
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div id="footer">Software Designed & Developed By &copy Cobigent Technologies & Solutions Pvt. Ltd.</div>
+                    {# hidden ajax loader#}
+                    <div id="ajax_loader_popup_form" style="display: none;">
+                        <img src="{{ asset('bundles/common/images/ajax_loader/ajx_loader.gif' )}}">
+                    </div>
+                </div>
+            </div>
+
+        </body>
+       
+    </html>
+
+    

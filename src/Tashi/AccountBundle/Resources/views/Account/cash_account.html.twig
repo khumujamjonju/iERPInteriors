@@ -1,0 +1,121 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="javascript:void();">Cash Account</a></li>  
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form">       
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Create Cash Account Form</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmCreateCashAccount" style="margin: 0px;">
+                        <input type="hidden" id="cash_acc_id" name="txt_cash_acc_id"/> 
+                        <table id="create_cash_account_form_tbl" width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                            
+                            <tr>
+                                <td class="td-gray-bg" style="width: 300px;">Select Employee <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <select id="employee_pkid" name="txt_employee_pkid" class="cmnWidth" onChange="return showEmpDetails(this, '{{ path('_show_emp_details') }}');">
+                                        <option value="">--select--</option>     
+                                      {%for e in employees|default('')%}
+                                        <option value="{{ e.employeePk|default('')}}"> {{ e.personFk.firstName|default('')~' '~e.personFk.lastName|default('')~' '~e.personFk.middleName|default('')}} </option>  
+                                      {%endfor%}
+                                    </select>                                 
+                                </td>                                                                   
+                            </tr>                          
+                            <tr class="addFields" style="display: none;">                              
+                                <td class="td-gray-bg">Employee ID</td>
+                                <td class="td-white-bg empID"></td>
+                            </tr>                           
+                            <tr class="addFields" style="display: none;">                              
+                                <td class="td-gray-bg">Designation</td>
+                                <td class="td-white-bg empDesignation"></td>
+                            </tr>
+                            <tr>                              
+                                <td class="td-gray-bg">Create Date <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input type="date" class="cmnWidth" id="create_date" name="txt_create_date"/>
+                                </td>
+                            </tr>
+                            <tr class="record_active_key" style="display: none;">
+                                <td class="td-gray-bg" style="width: 300px;">Status</td>
+                                <td class="td-white-bg">
+                                    <select id="record_active_key" name="txt_record_active_key" class="cmnWidth">
+                                        <option value="1">Active</option>     
+                                        <option value="0">Inactive</option> 
+                                    </select>                                 
+                                </td>                                                                   
+                            </tr>
+                            <tr>                              
+                                <td class="td-gray-bg">Description <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <textarea id="description" name="txt_description" cols="100" rows="4"></textarea>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-separator" colspan="2" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Creat" onclick="creatCashAccount('{{path('_create_cash_account')}}', this);"/>
+                                    <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editCashAccountFields(this);" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="creatCashAccount('{{path('_create_cash_account')}}', this);"  style="display: none;"/>                                                
+                                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="cancelCashAccountFields(this);"  style="display: none;"/>
+                                </td>  
+                            </tr>
+                        </table>                                                                                                     
+                    </form>                               
+                </td>
+            </tr> 
+        </table>
+    
+        <div id="display-list" style="margin-top: 8px;">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+                <tr>
+                    <td class="td-label-title">Created Cash Account Details List</td>
+                </tr>
+                <tr>
+                    <td class="td-cmn-white-bg">
+                        <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                            <thead>
+                                <tr>
+                                    <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Employee ID</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Employee Name</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Designation</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Created Date</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg">Description</th>  
+                                    <th class="tbl-th-grid-view-row-no-bg">Status</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                                </tr>
+                            </thead>
+                            <tbody> 
+                           {%for a in allCashAccount|default('')%}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ a.empFk.employeeId|default('') }}</td> 
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ a.empFk.personFk.firstName|default('')~' '~a.empFk.personFk.lastName|default('')~' '~a.empFk.personFk.middleName|default('') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ a.empFk.empJobTitleFk.jobTitleName|default('') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ a.createdDate|default('')|date('d-m-Y') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center" style="width: 250px; text-align: justify;">{{ a.description|default('') }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                        {%if a.status|default('') == 1 %} Active {%else%} Inactive {%endif%}
+                                   </td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center" style="width: 150px;">
+                                        <select class="normal_select" id="accountCashAction{{a.pkid|default('')}}" name="txt_accountCashAction" >
+                                            <option value="">Select</option>                                
+                                            <option value="{{path('_retrived_cash_account_record',{'pkid': a.pkid|default('')})}}&upd">Edit</option>
+                                            <option value="{{path('_delete_cash_account_record',{'pkid': a.pkid|default('')})}}&del">Delete</option>
+                                        </select> 
+                                        <input class="button" name="commit" type="button" value="Go" onClick="accountCashAction(this,'{{a.pkid|default('')}}','#accountCashAction');" /> 
+                                    </td> 
+                                </tr>  
+                         {% endfor %}
+                            </tbody>                                
+                        </table>                             
+                    </td>                  
+                </tr>                                   
+            </table>              
+        </div>              
+    </div> 
+</div>

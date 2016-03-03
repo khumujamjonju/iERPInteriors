@@ -1,0 +1,15 @@
+<td class="td-gray-bg">Select Project:</td>
+<td class="td-white-bg">
+    <select name="selectlist" id="ddlb_selectlist" class="cmnWidth" onchange="SearchCriteriaforItemsShowing('{{path('_showlistitems')}}');">
+        <option value="">--Select--</option>
+                   {%for pro in project %}
+        <option value="{{pro.pkid| default('') }}">{{pro.areaFk.area| default('')}} ({{pro.orderNo| default('')}})</option>
+                   {%endfor%}
+
+    </select>
+</td>
+
+
+
+
+

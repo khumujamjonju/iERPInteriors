@@ -1,0 +1,127 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">                      
+    <tr>
+        <td class="td-label-title">Asset Details</td>
+    </tr>
+    <tr>
+        <td>                 
+            <input type="hidden" name="inputItemId" id="inputassetId" value="{{asetId.assetRegisterPk|default('')}}"/>
+            <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                <tr>
+                    <td class="td-gray-bg" colspan="4" style="text-align:center;">Select Asset Category:
+                        <Select class="cmnWidth" name="assetCategory" id="assetCategory" style="margin-left: 50px;">
+                            <option value="">--Select--</option>
+                            {%if assetCategory is defined%}
+                                {%for c in assetCategory%}
+                            <option value="{{c.assetMasterPk}}">{{c.assetCategoryName | default(' ')}}</option>
+                                {%endfor%}  
+                            {%endif%}
+                        </Select>                          
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Asset Name:</td>
+                    <td class="td-white-bg">
+                        <input class="cmnWidth" type="text" id="assetname" name="assetname" value="{{asetId.assetName}}">                                          
+                    </td>  
+                    <td class="td-gray-bg">Model No:</td>
+                    <td class="td-white-bg">
+                        <input class="cmnWidth" type="text" id="txt_asset_modelno" name="txt_asset_modelno" value="{{asetId.modelNo}}">                                          
+                    </td>  
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Manufacturer:</td>
+                    <td class="td-white-bg">
+                        <input class="cmnWidth" type="text" id="assetmaker" name="assetmaker" value="{{asetId.manufacturer}}">                                     
+                    </td>
+                    <td class="td-gray-bg"> Product Serial No:</td>
+                    <td class="td-white-bg">
+                        <input class="cmnWidth" type="text" id="asset_prod_serial" name="asset_prod_serial" value="{{asetId.serialNo}}">                                          
+                    </td>                                                  
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Manufacturing Date:</td>
+                    <td class="td-white-bg">
+                        {%if asetId.manufacturingDate == ""%}
+                            <input class="cmnWidth" type="date" id="txt_asset_Manuf_date" name="txt_asset_Manuf_date" value="">
+                        {%else%}
+                            <input class="cmnWidth" type="date" id="txt_asset_Manuf_date" name="txt_asset_Manuf_date" value="{{asetId.manufacturingDate|date('Y-m-d')}}">                 
+                            {%endif%}
+                    </td>
+                    <td class="td-gray-bg">Expiry Date:</td>
+                    <td class="td-white-bg">
+                        {%if asetId.expiryDate == ""%}
+                                <input class="cmnWidth" type="date" id="txt_asset_expiry" name="txt_asset_expiry" value="">
+                        {%else%}
+                                <input class="cmnWidth" type="date" id="txt_asset_expiry" name="txt_asset_expiry" value="{{asetId.expiryDate|date('Y-m-d')}}">                  
+                        {%endif%}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Purchase Order No:</td>
+                    <td class="td-white-bg">
+                        <input class="cmnWidth" type="text" id="txt_asset_po_no" name="txt_asset_po_no" value="{{asetId.purchaseOrderNo}}">                                          
+                    </td> 
+                    <td class="td-gray-bg">Bar Code No.:</td>
+                    <td class="td-white-bg">
+                        <input class="cmnWidth" type="text" id="txt_asset_BarCode" name="txt_asset_BarCode" value="{{asetId.barcodeNo}}">                                     
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Purchase Price:</td>
+                    <td class="td-white-bg">
+                        <input class="cmnWidth" type="text" id="txt_asset_purPrice" name="txt_asset_purPrice" value="{{asetId.purchasePrice}}">                                          
+                    </td> 
+                    <td class="td-gray-bg">Purchase Date:</td>
+                    <td class="td-white-bg">
+                                {%if asetId.purchaseDate == ""%}
+                            <input class="cmnWidth" type="date" id="txt_asset_purDate" name="txt_asset_purDate" value=""> 
+                                {%else%}
+                            <input class="cmnWidth" type="date" id="txt_asset_purDate" name="txt_asset_purDate" value="{{asetId.purchaseDate|date('Y-m-d')}}">                 
+                                    {%endif%}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Waranty:</td>
+                    <td class="td-white-bg">
+                                    {%if asetId.warranty == ""%}
+                            <input class="cmnWidth" type="date" id="txt_asset_waranty" name="txt_asset_waranty" value="">
+                                    {%else%}
+                            <input class="cmnWidth" type="date" id="txt_asset_waranty" name="txt_asset_waranty" value="{{asetId.warranty|date('Y-m-d')}}">
+                                        {%endif%}
+                    </td> 
+                    <td class="td-gray-bg">Location:</td>
+                    <td class="td-white-bg">
+                        <input class="cmnWidth" type="text" id="txt_asset_location" name="txt_asset_locatioin" value="{{asetId.location}}">                                     
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Description:</td>
+                    <td class="td-white-bg" colspan="3">
+                        <textarea class="cmnWidth" rows="2"  id="txt_asset_description" name="txt_asset_description">{{asetId.assetDescription}} </textarea>                                         
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Upload Asset Photo:</td>
+                    <td class="td-white-bg">
+                        <input class="cmnWidth" type="file" id="txt_asset_asset_photo" name="txt_asset_asset_photo">                                     
+                    </td>
+                    <td class="td-gray-bg"></td>
+                    <td class="td-white-bg">
+                        <div style="border: 1px solid #ccc; padding: 3px; padding-bottom: 0px; width: 120px; border-radius: 3px;">
+                            <img id="profile-view" src="{{ asset('bundles/common/images/unk.jpg') }}" width="120" height="130"> 
+                        </div>                                   
+                    </td>                                                          
+                </tr>
+                <tr>
+                                {%if asetId.status.isRecoverable==1 %}
+                    <td class="td-separator" colspan="4" style="text-align: center;">                                     
+                                    {#<input type="button" class="button blue" id="btn_update" value="Update" onclick="return saveAssetRegisterMaster('{{ path('_saveAssetRegister')}}', this, 'assetregistertable');"/>
+                                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="assetCancel('assetregistertable', 'assetRegisterId');" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>#}  
+                        </td>
+                                {%endif%}
+                </tr>
+            </table>                              
+        </td>
+    </tr> 
+</table>

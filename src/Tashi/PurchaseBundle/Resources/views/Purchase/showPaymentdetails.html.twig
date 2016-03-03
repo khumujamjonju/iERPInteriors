@@ -1,0 +1,67 @@
+
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" style="margin-top: 5px;">                             
+    <tr>
+    <input id="spanCloseOpenHandlerSearchPurchaseOrder" value="0" type="hidden">
+    <td class="td-label-title" colspan="4">Purchase Order Payment details:
+    </td>
+    </tr>        
+    <tr>
+            <td class="td-gray-bg cmnWidth">Grand Total:</td>
+            <td class="td-white-bg cmnWidth">{{all.grandTotal | default('')}}
+                <input type="hidden" value="{{all.grandTotal | default('')}}" name="grand"/>
+                <input type="hidden" value="{{poid | default('')}}" name="poid"/>
+            </td>
+            <td class="td-gray-bg cmnWidth">Payment Due:</td>
+            <td class="td-white-bg cmnWidth"><span style="color:red;">{{all.grandTotal | default('')- total}}</span></td>
+            </tr>
+            <tr>
+                        <td class="td-gray-bg">Mode Of Payment:<span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                         <select class="cmnWidth" name="selpayMode" id="selpayMode" onchange="ModeChange('{{path('_showpaymentforcashorbank')}}',this);"  >
+                            <option value="">--Select--</option>
+                            {%for p in pay%}
+                             <option value="{{p.pkid}}&{{p.ispaymentNoRequired}}"> {{p.paymentModeName}}    </option>
+                            {%endfor%} 
+                         </select>
+                                <input type="hidden" id="txt_id" name="pay">
+                        </td>
+                        <td class="td-gray-bg"></td>
+                        <td class="td-white-bg"></td>
+                         
+                    </tr>
+                    <tbody id="showdetailpayment">
+                    
+                    </tbody>
+                    <tbody id="balance">
+                    
+                    </tbody>
+                   
+                    <tr>
+                        <td class="td-gray-bg">Cheque/Transaction/DD No.:<span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                        <input class="cmnWidth" type="text" name="paymentno" id="paymentno"  disabled="disable">
+                        </td>
+                        <td class="td-gray-bg">Bank Name:</td>
+                        <td class="td-white-bg">  <input class="cmnWidth" type="text" name="bankname"  id="bankname" disabled="disable" value="">     </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Payment Date:<span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                          <input class="cmnWidth" type="date" name="paydate" id="amount">
+                        </td>
+                        <td class="td-gray-bg">Amount:<span class="necessary-field">*</span></td>
+                        <td class="td-white-bg"><input class="cmnWidth" type="text" name="amount" onkeypress="return IntegerOnly(event);" placeholder="e.g.1000" id="amount"></td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Remarks:<span class="necessary-field">*</span></td>
+                        <td class="td-white-bg" colspan="3">
+                        <textarea style="width:99.5%;margin-left: auto;margin-right: auto;height: 60px;" name="remarks"></textarea> 
+                        </td>
+                    </tr>
+                    <tr>
+                    <td class="td-gray-bg" colspan="4" style="text-align: center;">
+                    <input class="button blue" type="button" name="save" id="btn_save" value="Save" onclick="return PurchasePaymentDetails('{{path('_paypurchase')}}',this);">
+                    </td>
+                         
+                    </tr>
+</table>

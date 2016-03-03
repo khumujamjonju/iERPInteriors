@@ -1,0 +1,4 @@
+<option value="">--select--</option>
+{%for a in accountHeadList|default('')%}                            
+      <option value="{{ a.pkid|default('') }}"> {{ a.headName|default('') }} </option>
+{%endfor%}

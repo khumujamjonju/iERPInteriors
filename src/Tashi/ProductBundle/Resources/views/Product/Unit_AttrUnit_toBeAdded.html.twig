@@ -1,0 +1,9 @@
+<tr id="unit{{unit.pkid}}">
+    <td class="td-gray-bg">{{unit.unitName}}
+        <input type="hidden" name="unit" value="{{unit.pkid}}"/>
+    </td>    
+    <td class="td-white-bg">
+    <a href="javascript:void(0);" onclick="$(this).parent().parent().remove();"
+       style="color:#ff0000;">Remove</a>              
+    </td>
+</tr>

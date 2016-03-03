@@ -1,0 +1,6 @@
+<select id="selStkPrdList" name="selStkPrdList"  class="normal_select cmnWidth">
+     <option value="0">--Select--</option> 
+    {%for prd in productArr%}
+        <option value="{{prd.productCode}}">{{prd.productName}}({{prd.productCode}})</option>
+    {%endfor%} 
+</select>

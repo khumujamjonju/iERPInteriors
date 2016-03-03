@@ -1,0 +1,223 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <td class="td-label-title" colspan="3">Customer Detail</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="td-gray-bg" width="150px">Customer Name</td>
+                    <td class="td-white-bg">
+                        {{cust.customerName|upper|default('')}}
+                    </td>
+                    <td class="td-gray-bg" width="150px">Contanct Person</td>
+                    <td class="td-white-bg">
+                        {{contact.personFk.personName|default('')}}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Contact Number</td>
+                    <td class="td-white-bg">
+                        {{mob.mobileNo.mobileNo|default('')}}
+                    </td>
+                    <td class="td-gray-bg">Address</td>
+                    <td class="td-white-bg">
+                        {{address|raw}}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <td class="td-label-title" colspan="3">Site Coordinator detail</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Employee ID</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Designation</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Job Profile</th>                 
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{emp.employeeId}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{emp.personFk.personName|upper}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{emp.empJobTitleFk.jobTitleName}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{emp.jobProfile}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <td class="td-label-title" colspan="3">Project Detail</td>        
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="td-gray-bg" width="200px">Project Area</td>
+                    <td class="td-white-bg" align="left" colspan="3">{{area.area|upper}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Start Date</td>
+                    <td class="td-white-bg" align="left">{{sdate|date('d-M-Y')}}</td>
+                    <td class="td-gray-bg" width="200px">Tentative Completion Date</td>
+                    <td class="td-white-bg" style="text-align:justify">{{edate|date('d-M-Y')}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Project Description</td>
+                    <td class="td-white-bg" align="left" colspan="3">{{desc}}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+                <br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <td class="td-label-title" colspan="3">Project Referrer Detail</td>        
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="td-gray-bg" width="200px">Name</td>
+                    <td class="td-white-bg" align="c" colspan="3">{{refName|upper}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Contact Number</td>
+                    <td class="td-white-bg" align="left">{{refno}}</td>                    
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">About</td>
+                    <td class="td-white-bg" colspan="3" style="text-align: justify;">{{aboutref}}</td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+{#<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <td class="td-label-title" colspan="3">Project Category:&nbsp{{cat.categoryName|upper}}</td>        
+    </tr>
+</table>
+<br/>#}
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <input id="spanCloseOpenHandlerprojrevprdList" value="0" type="hidden">
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('projrevprdList');" style="cursor:pointer;">
+            Selected Items(s):
+            <span style="float: right;" onclick="lmsShowHideAddressResult('projrevprdList');" id="spanIdprojrevprdList" class="span_open" >&nbsp;</span>
+        </td>        
+    </tr>
+    <tr id="trAddressprojrevprdList">
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <td class="tbl-th-grid-view-row-no-bg tbl-th-bg" width="50px">#</td>
+                        <td class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">Product</td>
+                        <td class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right; width:100px;">Unit Price</td>
+                        <td class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="width:100px;">Quantity</td>
+                        <td class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right; width:100px;">Total Price</td>
+                        <td class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right; width:100px;">Charge</td>
+                        <td class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right; width:100px;">Sub Total</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%set slno=1%}
+                    {%for i in range(0,itemArr['item']|length-1)%}                        
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" width="50px" align="center">{{slno}}</td>
+                            <td class="tbl-grid-view-row-no-bg" style="text-align:justify;">
+                                {%set item=itemArr['item'][i]%}
+                                {%if item.pictureFk is null%}
+                                    <img src="{{asset("bundles/common/images/noimage.png")}}" alt="image" class="prodlist"/>
+                                {%else%}
+                                    <a href="{{asset(item.pictureFk.path)}}" target="_blank"><img src="{{asset(item.pictureFk.path)}}" alt="image" class="prodlist"/></a>
+                                {%endif%}
+                                {{item.productCode|default('')}} - {{item.productName|default('')}}<br/>
+                                <span style="color:#565656; font-size:">{{item.productDesc}}</span>
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" style="text-align:right; width:100px;">{{itemArr['price'][i]|default(0)|number_format(2,'.')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center" style="width:100px;">{{itemArr['qty'][i]}}</td>
+                            {%set totPrice=itemArr['price'][i]*itemArr['qty'][i]%}
+                            <td class="tbl-grid-view-row-no-bg" style="text-align:right; width:100px;">{{totPrice|default(0)|number_format(2,'.')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" style="text-align:right; width:100px;">{{itemArr['charge'][i]|default(0)|number_format(2,'.')}}</td>
+                            {%set subtotal=totPrice+itemArr['charge'][i]%}
+                            <td class="tbl-grid-view-row-no-bg" style="text-align:right; width:100px;">{{subtotal|default(0)|number_format(2,'.')}}</td>
+                        </tr>
+                        {%set slno=slno+1%}
+                    {%endfor%}
+                    <tr>
+                        <td class="tbl-th-grid-view-row-no-bg tbl-th-bg" colspan="6" style="text-align:right">Total Budget</td>
+                        <td class="tbl-th-bg" style="text-align:right; width:100px; font-weight: bold; padding:5px; border-right:1px dotted transparent;">{{totbudget|number_format(2,'.')}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+                <br/>                
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>        
+        <td class="td-label-title" >Advance Payment Detail:</td>            
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Date of Payment</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Payment Mode</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Cheque/Transaction/DD No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Bank Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Amount</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Remarks</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if paymode is defined%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{paydate|date('d-M-Y')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{paymode|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{payno|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{bank|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{amount|number_format('2','.')}}</td>   
+                            <td class="tbl-grid-view-row-no-bg" align="left">{{remark}}</td>
+                        </tr>
+                    {%else%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" colspan="6" align="center">
+                                <strong style="color:#ff0000;">Advance Payment not received</strong>
+                            </td>
+                        </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0">
+    <tr>
+        <td align="center">
+            <input type="button" class="button"  value="Back" onclick="stepper('Enter Advance Payment Detail','4');"/>
+            &nbsp; &nbsp;
+            <input type="button" class="button"  value="Confirm" onclick="CreateProject('{{path("_createproject")}}');"/>
+        </td>
+    </tr>
+</table>
+                

@@ -1,0 +1,71 @@
+<div id="address_result">
+           <table width="100%" align=center border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+                <tr>
+                    <td colspan="5" class="td-label-title">Address Details</td>
+                </tr>
+                <tr>
+                    <td class="tbl-grid-view-left-header-rounded" align="center">Address Code</td>
+                    <td class="tbl-grid-view-header" align="center">Address</td>
+                    <td class="tbl-grid-view-header" align="center">Is Primary Address</td>
+                    {#<td class="tbl-grid-view-header" width="10%">Status</td>#}
+                    <td class="tbl-grid-view-header" align="center">Action</td>
+                </tr>
+                
+              {%if addressinfo|length<=0%}
+                    <tr>
+                        <td colspan="4">
+                            <br/>
+                            <p style="color:#ff0000; text-align: center; margin: 0;">No Address has been added yet</p>
+                        </td>
+                    </tr>
+                {%endif%}
+               {%set i=0%}
+                {% for address in addressinfo %}
+                    <tr>
+                        <td class="tbl-grid-view-row" align="center">{{address.addressCode}}</td>
+                    {#<td class="tbl-grid-view-row" >{{address.addressFk.addressTypeFk.addressTypeName}}</td>
+                    <td class="tbl-grid-view-row" >{{address.addressFk.addressPk}}</td>#}
+                        <td class="tbl-grid-view-row" align="center">
+                             {{address.addressFk.address1|replace({',':' '})}}
+                             {% if address.addressFk.address2!=''%},{% endif %}
+                               {{address.addressFk.address2|replace({',':' '})}}
+                             {% if(address.addressFk.cityCodeFk!='')%},{{address.addressFk.cityCodeFk.cityName}}{% else %}{% endif %}
+                             {% if(address.addressFk.stateCodeFk!='') %},{{address.addressFk.stateCodeFk.stateName}}{% else %}{% endif %}
+                             {% if address.addressFk.pinNumber!=''%},{% endif %}
+                              {{address.addressFk.pinNumber}}.
+                        </td>
+                        <td class="tbl-grid-view-row" align="center">
+                            {%if address.isPrimaryAddress==1%}Yes{%else%}No{%endif%}
+                        </td>
+                    {#<td class="tbl-grid-view-row" >{% if address.addressFk.recordActiveFlag==1 %}Active{% else %}Inactive{% endif %}</td>#}
+                        <td class="tbl-grid-view-row" align="center">
+                            <select id="selcimAddrAction{{i}}" style="width:120px;">
+                                <option value="">--select--</option>
+                                <option value="{{path("_supviewaddress",{'addtxnid':address.supAddPk,'supid':address.supplierFk.supplierPk})}}&view">View & Edit</option>
+                               <option value="{{path("_sup_del_sup_address",{'addtxnid':address.supAddPk,'supid':address.supplierFk.supplierPk})}}&del">Remove Address</option>
+                           </select>
+                            <input type="button" class="button" value="Go" onclick="FnViewCimAddress('selcimAddrAction{{i}}');">
+                        </td>
+                    </tr>
+                    {%set i=i+1%}
+                {%endfor%}
+                <tr>
+                    <td> &nbsp; </td>
+                    <td> &nbsp; </td>
+                    <td> &nbsp; </td>
+                    <td> &nbsp; </td>
+                    <td> &nbsp; </td>
+                </tr>
+            </table> 
+
+</div>
+
+
+<br>
+<button class="button" type="button" id="btnAddTypeCustomer" style="float:right;" 
+onclick="LoadSaveAddressType('{{path('_loadSupAddForm')}}');">Add New Address</button>
+
+
+
+<div id="addNewAddress">                                                        
+          </div>

@@ -1,0 +1,17 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+
+<div class='sub-menu'>
+    <ul>
+        <li class='active' id="add_new_supp"><a  href="javascript:void();" >Create</a></li>        
+    </ul>
+</div>
+<div class="newdashboard">  
+    {# hidden value to store just now created employee ID #}
+    <input type="hidden" name="supplierid" id="supplierID" value="" />
+    <div class="application-form"> 
+     <script type="text/javascript"> loadSupDetails('{{path('_add_new_supplier')}}'); </script>
+    </div> 
+</div>
+
+
+

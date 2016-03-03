@@ -1,0 +1,157 @@
+{%set companyname=''%}
+{%set regno=''%}
+{%set remarks=''%}
+{%set first=''%}
+{%set middle=''%}
+{%set last=''%}
+{%set ocupation=''%}
+{%set dob=''%}
+{%set gender=''%}
+{%set id=''%}
+{%set supcode=''%}
+
+{%if supinfo is defined%}
+{%set companyname=supinfo.supplierFk.companyName%}
+{%set regno=supinfo.supplierFk.registrationNo%}
+{%set remarks=supinfo.supplierFk.remarks%}
+{%set first=supinfo.personFk.firstName%}
+{%set middle=supinfo.personFk.middleName%}
+{%set last=supinfo.personFk.lastName%}
+{%set ocupation=supinfo.personFk.designation%}
+{%set gender=supinfo.personFk.gender%}
+{%set supcode=supinfo.supplierFk.companyId %}
+{%set dob=supinfo.personFk.dateOfBirth|date('Y-m-d')%}
+{%set id=1%}
+    
+{%endif%}
+
+
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+    <tr>
+        <td class="td-label-title">Create Supplier</td>
+    </tr>
+    <tr>
+        <td class="td-separator" id="inner-sub-menu">
+
+            <div class='sub-menu'>
+                <ul>
+                   <li class='active'>
+                  {%if id==''%}
+                  <a href="javascript:void();" onclick="loadSupDetails('{{path('_add_newdash_supplier')}}', 'add_new_supplier', 'Supplier Master', 'Create Supplier');">Supplier</a>
+                  {%else%}
+                  <a href="javascript:void();" onclick="loadSupDetailsforEdit('{{path('_add_newdash_supplier1')}}', 'add_new_supplier', 'Supplier Master', 'Create Supplier');">Supplier</a>
+                  {%endif%}
+                   </li>      
+                    <li id="Supplier_address"><a  href="javascript:void();" onclick="if(checkSupDetails('#supplierID')){fnInnerSubMenuNavigation('{{path('_add_supplier_address')}}', 'Supplier_address','supplierID');}">Address</a></li>  
+                    <li id="Supplier_mobile"><a  href="javascript:void();" onclick="if(checkSupDetails('#supplierID')){fnInnerSubMenuNavigation('{{path('_add_supplier_mobile')}}', 'Supplier_mobile','supplierID');}">Contact Details</a></li>  
+                    <li id="Supplier_Bank_Detail"><a  href="javascript:void();" onclick="if(checkSupDetails('#supplierID')){fnInnerSubMenuNavigation('{{path('_Supplier_Bank_Detail')}}', 'Supplier_Bank_Detail','supplierID');}"> Supplier Bank Detail</a></li>  
+                </ul>
+            </div>
+            <div class="right-inner-sub-content">  
+                
+             
+                <form id="frmPurchaseSupplier" style="margin: 0px;">
+                     <input id="updateID" type="hidden" name="supid" value=""/>
+                        <table id="table_supplier_id" width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-label-title" colspan="4">Supplier Details</td>
+                            </tr>                                                    
+                            <tr>
+                                <td class="td-gray-bg">Supplier Real Name: <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="txt_pur_companyname" name="txt_pur_companyname" value="{{companyname}}">                                     
+                                </td>
+                                <td class="td-gray-bg">Supplier Code Name: <span class="necessary-field">*</span>&nbsp;<br/> <span style="font-size: 9px;color:gray;">
+                                        (For displaying supplier name as supplier code in UI)</span></td>
+                                <td class="td-white-bg"><input class="cmnWidth" type="text" id="txt_sup_codename" name="txt_sup_codename" value="{{supcode}}"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Registration No: <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"colspan="1">
+                                    <input class="cmnWidth" type="text" id="txt_Registration" name="txt_Registration" value="{{regno}}">                                     
+                                </td>
+                                <td class="td-gray-bg">Remarks:</td>
+                                <td class="td-white-bg"colspan="1">
+                                    <input class="cmnWidth" type="text" id="txt_remarks" name="txt_remarks" value="{{remarks}}">                                          
+                                </td>
+                            </tr>
+                            <tr>
+                                 <td class="td-gray-bg"colspan="4" >CONTACT PERSON:</td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">First Name: <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"colspan="1">
+                                    <input class="cmnWidth" type="text" id="txt_pur_firstname" name="txt_pur_firstname" value="{{first}}">                                     
+                                </td>
+                            
+                                <td class="td-gray-bg">Middle Name:</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="txt_pur_middlename" name="txt_pur_middlename" value="{{middle}}">                                          
+                                </td>
+                               
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Last Name: <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" colspan="1">
+                                    <input class="cmnWidth" type="text" id="txt_pur_lastname" name="txt_pur_lastname" value="{{last}}">                                          
+                                </td> 
+                                <td class="td-gray-bg"></td>
+                                <td class="td-white-bg" colspan="1">
+                                   {# <input class="cmnWidth" type="text" id="txt_occupation" name="txt_occupation" value="{{ocupation}}">#}                                      
+                                </td>
+                            </tr> 
+                             {# <tr>
+                                <td class="td-gray-bg">Supplied Product:</td>
+                                <td class="td-white-bg" colspan="3">
+                                {%for p in Category%}
+                                <input type="checkbox" name="category[]" id="txt_category" 
+                                       
+
+                                        {%for s in subcategory%}
+                                              
+                                        {%if p.pkid == s.procatFk.pkid%} 
+                                                checked="check"
+                                        {%else%}
+                                        
+                                        {%endif%}
+                                         
+                                        {%endfor%}
+                                                                    
+                                                                    
+                                                                    
+                                       value="{{p.pkid | default('')}}"/>{{ p.categoryName | default('')}}  
+                                {%endfor%}
+                                </td> 
+                             </tr> #} 
+                            
+                            
+                            
+                           <tr>
+                               <td class="td-gray-bg">Logo:</td>
+                                <td class="td-white-bg"colspan="1">
+                                    <input class="cmnWidth" type="file" id="txt_logo" name="txt_logo">                                     
+                                </td>
+                                <td class="td-gray-bg" colspan="2"></td>
+                              
+                            </tr>
+                            <tr>
+                                <td class="td-separator" colspan="6" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addsupplier('{{ path('_add_supplier')}}', 'frmPurchaseSupplier',this);"/>
+                                    <input type="button" class="button blue" id="btn_add_another" value="Add New Supplier" onclick="AddnewsupplierMaster('table_supplier_id');" style="display: none;"/>  
+                                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="return UpdatesupplierMaster('{{ path('_update_supplier')}}', 'frmPurchaseSupplier',this);"/>  
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>  
+                            </tr>
+                        </table>
+                      </form> 
+            </div>                              
+       </td>
+            </tr> 
+        </table>
+            
+         
+       <input type="hidden" id="supID" name="supid" value=""/>    
+            
+    
+ 

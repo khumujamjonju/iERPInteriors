@@ -1,0 +1,117 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <input id="spanCloseOpenHandlerItemDetail" value="0" type="hidden">
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('ItemDetail');">
+            Project Item: {{item.itemFk.productName|upper}}
+            <span style="float: right;" id="spanIdItemDetail" class="span_open" >&nbsp;</span>
+        </td>
+    </tr>
+    <tr id="trAddressItemDetail">
+        <td>
+            <input type="hidden" name="inputItemId" value="{{item.pkid}}"/>
+            <input type="hidden" name="inputProjectId" value="{{item.projectFk.pkid}}"/>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="td-gray-bg" width='200px'>Work Status<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg">
+                        <select name="selItemStatus" id="selItemStatus" class="cmnWidth">
+                            <option value="">--select--</option>
+                            {%for status in itemStatusArr%}
+                                <option value="{{status.pkid}}">{{status.statusName}}</option>
+                            {%endfor%}
+                        </select>
+                    </td>
+                    <td class='td-gray-bg' width="200px">Product Status<span class="mandatoryField">*</span></td>
+                    <td class='td-white-bg'>
+                        <select name="selProdStatus" id="selProdStatus" class="cmnWidth">
+                            <option value="">--select--</option>
+                            {%for status in prodStatusArr%}
+                                <option value="{{status.pkid}}">{{status.statusName}}</option>
+                            {%endfor%}
+                        </select>
+                    </td>
+                </tr>   
+                <tr>
+                    <td class='td-gray-bg' width='200px'>Starting Date<span class="mandatoryField">*</span></td>
+                    <td class='td-white-bg'>
+                       <input type="date" name="txtStartDate" id="txtStartDate" value="{{"now"|date('Y-m-d')}}">
+                    </td>
+                    <td class='td-gray-bg' width='200px'>Deadline<span class="mandatoryField">*</span></td>
+                    <td class='td-white-bg'>
+                       <input type="date" name="txtDeadline" id="txtDeadline" value="{{"now"|date('Y-m-d')}}">
+                    </td>
+                </tr>                
+                <tr>
+                    <td class='td-gray-bg' width="200px">Number of Team<span class="mandatoryField">*</span></td>
+                    <td class='td-white-bg' colspan="3">
+                        <input type="text" name="txtTeamno" id="txtTeamno" onkeypress="return isValidNumber(event);">
+                    </td>                    
+                </tr>
+                <tr>
+                    <td class='td-gray-bg' width='200px'>Area Detail</td>
+                    <td class='td-white-bg' colspan="3">
+                        <textarea name="txtArea" id="txtArea" cols="60" rows="6"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width='200px'>Special Instruction</td>
+                    <td class="td-white-bg" colspan="3">
+                        <textarea name="txtInstruction" id="txtInstruction" cols="60" rows="6"></textarea>
+                    </td>
+                </tr>                
+            </table>
+        </td>
+    </tr>
+</table>
+                        <br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr> 
+        <td class="td-label-title">Select Worker from the List</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <thead>
+                    <tr>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">ID</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Fields of Expertize</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Select</th>
+                    </tr>
+                </thead>
+                <tbody id="tbodyworkerlist">
+                    {%for emp in empArr%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{emp.employeeId}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{emp.personFk.personName|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg">
+                                {#{%for i in range(0, addressArr['address']|length-1)%}                                    
+                                    {%if addressArr['empid'][i]==emp.employeePk%}
+                                        {{addressArr['address'][i]|raw}}
+                                    {%endif%}
+                                {%endfor%}#}
+                                {%for exp in expArr%}                                    
+                                    {%if exp.empMasterFk.employeePk|default('')==emp.employeePk%}
+                                        {{exp.expertTypeFk.expertType|default('')}},                                        
+                                    {%endif%}
+                                {%endfor%}
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <input type="checkbox" onchange="toggleWorkerSelection(this,'{{emp.employeePk}}');">
+                                <input type="hidden" name="inputEmpId" id="inputEmpId{{emp.employeePk}}">
+                            </td>
+                        </tr>
+                    {%endfor%}
+                </tbody>
+            </table>
+        </td>
+    </tr>          
+</table>
+                <br/>
+<table width="100%" cellspacing="0" cellpadding="0">
+    <tr>
+        <td align="center">
+            <input type="button" class="button" value="Submit" onclick="AddItemDetail('{{path("_insertitemdetail")}}');"/>
+        </td>
+    </tr> 
+</table>

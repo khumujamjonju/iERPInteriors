@@ -1,0 +1,6 @@
+<select name="selStkRackSearch" id="selStkRackSearch" class="cmnWidth" onchange="selectRackId_search(this.id);" >
+    <option value="">--select--</option>
+    {%for rack in rackArr%}
+        <option value="{{rack.storeRackPk}}">{{rack.rackName}}</option>
+    {%endfor%}
+</select>

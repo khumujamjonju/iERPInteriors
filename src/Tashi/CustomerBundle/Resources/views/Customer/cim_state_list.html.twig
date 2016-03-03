@@ -1,0 +1,8 @@
+{# empty Twig template #}
+<input type="hidden" id="urlLoadDistrictList" value='{{path('_erp_load_districtlist')}}'/>
+<select name="state" id="selstate" onchange="loadDistrict();" class="select-width">
+    <option value="">--select--</option>
+     {%for stat in state %}
+       <option value="{{stat.statePk}}">{{stat.stateName}}</option> 
+    {%endfor%}
+</select>

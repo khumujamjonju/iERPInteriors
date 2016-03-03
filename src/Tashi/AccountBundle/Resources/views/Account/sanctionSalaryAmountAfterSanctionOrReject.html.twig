@@ -1,0 +1,137 @@
+<input type="hidden" value="0" class="approval_salary_slip_hide_show_key"/>
+    <form id="frmSanctionSalaryAmount">
+    <table id="sanction_salary_amount_tbl" width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+        <tr onclick="fnHideShow('approval_salary_slip');">
+            <td class="td-label-title">
+                <span>Pending List Of Salary Sanction :</span>  
+                <div class="approval_salary_slip_hide_show_icon floatRight plus"></div>
+            </td>
+        </tr>
+        <tr class="approval_salary_slip displayNone">
+            <td class="td-cmn-white-bg">
+                <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                    <thead>
+                        <tr>
+                            <th class="tbl-th-grid-view-row-no-bg">Sl No</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Sanction Amount</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">Month of</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">Description</th>
+
+                            <th class="tbl-th-grid-view-row-no-bg">No. Of Emp.</th>
+
+                            <th class="tbl-th-grid-view-row-no-bg">Selected Account</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">Action</th>   
+                        </tr>
+                    </thead>
+                    <tbody>                         
+                        {%set total_amount = 0%}
+                        {%for d in sanctionSalaryGroupId|default('')%} 
+                          <tr> 
+                              <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                              <td class="tbl-grid-view-row-no-bg" align="center">
+                                  {%set loopBreak1 = false%}
+                                  {%for s in totalSalarySlip|default('') if not loopBreak1%} 
+                                      {%if s.pkid|default('') == d.pkid|default('')%} 
+                                        {{ s.totalBalance|default('') }} 
+                                        <input type="text"  id="{{'sanction_amount'~d.pkid|default('')}}" value="{{s.totalBalance|default('')}}" name="{{'txt_sanction_amount'~d.pkid|default('')}}"/>
+                                        {%set loopBreak1 = true%}
+                                      {%endif%}
+                                  {%endfor%}
+                              </td>
+                              <td class="tbl-grid-view-row-no-bg" align="center">{{d.monthFk.monthName|default('')}}, {{d.year|default('')}}</td> 
+                              <td class="tbl-grid-view-row-no-bg" align="center">{{d.description|default('')}}</td>
+
+                              <td class="tbl-grid-view-row-no-bg" align="center">
+                                  {%set loopBreak = false%}
+                                  {%for s in totalSalarySlip|default('') if not loopBreak%} 
+                                      {%if s.pkid|default('') == d.pkid|default('')%} 
+                                        {{ s.noOfSalarySlip|default('') }} 
+                                        {%set loopBreak = true%}
+                                      {%endif%}
+                                  {%endfor%}
+                              </td>
+
+                              <td class="tbl-grid-view-row-no-bg" align="center">
+                              {#cashAccountDetails bankAccountDetails#}
+                                  {%set loopBreak2 = false%}
+                                  {%for s in totalSalarySlip|default('') if not loopBreak2%} 
+                                      {%if s.pkid|default('') == d.pkid|default('')%} 
+                                            {#if selected cash account#}
+                                            {%if d.paymentAccountBy|default('') == 'cash'%}
+                                                    Cash Account <br/>
+                                                    Balance: {{ cashAccountDetails.currentAmount|default('') }}
+                                                    <input type="text"  id="{{'account_balance'~d.pkid|default('')}}" value="{{cashAccountDetails.currentAmount|default('')}}" name="{{'txt_account_balance'~d.pkid|default('')}}"/>
+                                                    <input type="text"  id="{{'source_account_id'~cashAccountDetails.pkid|default('')}}" value="{{cashAccountDetails.pkid|default('')}}" name="{{'txt_source_account_id'~d.pkid|default('')}}"/>
+                                                    {%set loopBreak2 = true%}                                                       
+                                            {#if selected bank account#}
+                                            {%elseif d.paymentAccountBy == 'bank'%}  
+                                                    {%set loopBreak3 = false%}
+                                                    {%for b in bankAccountDetails|default('') if not loopBreak3%} 
+                                                        {%if d.sourceAccountId|default('') == b.bankFk.bankPk|default('')%} 
+                                                             {{ b.bankFk.bankName|default('') }}( {{ b.bankFk.accountNumber|default('') }} ) <br/>
+                                                               Balance:  {{ b.currentAmount|default('') }}  
+                                                               <input type="text"  id="{{'account_balance'~d.pkid|default('')}}" value="{{b.currentAmount|default('')}}" name="{{'txt_account_balance'~d.pkid|default('')}}"/>
+                                                               <input type="text"  id="{{'source_account_id'~b.bankFk.bankPk|default('')}}" value="{{b.bankFk.bankPk|default('')}}" name="{{'txt_source_account_id'~d.pkid|default('')}}"/>
+                                                             {%set loopBreak3 = true%}
+                                                        {%endif%}
+                                                    {%endfor%}
+                                                    {%set loopBreak2 = true%}
+                                            {%endif%}                                          
+                                      {%endif%}
+                                  {%endfor%}
+
+                              </td>
+                              <td class="tbl-grid-view-row-no-bg" align="center">
+                                  <input id="{{'accountType'~d.pkid|default('') }}" type="text" value="{{ d.paymentAccountBy|default('') }}" name="{{'txt_accountType'~d.pkid|default('') }}" style="display:none;"/>
+                                  <input class="checkSalarySanctionId" type="checkbox" name="{{ 'SalarySanctionId'~d.pkid|default('') }}" value="{{ d.pkid|default('') }}" onclick="return checkSanctionField(this, '{{ d.paymentAccountBy|default('') }}', {{ d.pkid|default('') }});"/> 
+                              </td>                                                                                                                                                                                                                                                                                   
+                          </tr> 
+                        {%endfor%}
+                    </tbody>
+                </table>                 
+            </td>                  
+        </tr>
+        <tr id="sanction_control_btn" style="display: none;">
+            <td>
+                <table width="100%" border="0" cellpadding="0" cellspacing="0"> 
+                    <tr>
+                        <td class="td-gray-bg">Payment Mode <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <select class="cmnWidth" id="paymentMode" name="txt_payment_mode">
+                                 <option value="">Select</option>  
+                              {%for p in paymentMode|default('')%}
+                                 {%if p.pkid|default('') != 1%}
+                                    <option value="{{ p.pkid|default('') }}">{{ p.paymentModeName|default('') }} </option>  
+                                 {%endif%}
+                              {%endfor%}
+                           </select> 
+
+                        </td>
+                        <td class="td-gray-bg">Payment No. <span class="necessary-field payment_no_necessary">*</span></td>
+                        <td class="td-white-bg">
+                            <input type="text"  id="sanction_pkid" name="txt_sanctionPkid"/>
+                            <input type="text" class="cmnWidth" id="payment_number" name="txt_payment_number"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Date <span class="necessary-field payment_no_necessary">*</span></td>
+                        <td class="td-white-bg">
+                            <input type="date" class="cmnWidth" id="date" name="txt_date"/>
+                        </td>
+                        <td class="td-gray-bg">Description <span class="necessary-field payment_no_necessary">*</span></td>
+                        <td class="td-white-bg">
+                            <textarea id="description" name="txt_description" cols="50" rows="4"></textarea>
+                        </td>
+                    </tr>
+
+                    <tr class="approval_salary_slip displayNone td-gray-bg">
+                        <td align="center" colspan="2" style="padding: 6px;">
+                            <input type="button" class="button blue" id="approve_btn" value="Sanction" onclick="return cmnSanctionOrRejectSalarySlip(this,'{{path('_sanction_salary_amount')}}', 'Sanction');"/>
+                            <input type="button" class="button blue" id="reject_btn" value="Reject" onclick="return cmnSanctionOrRejectSalarySlip(this,'{{path('_sanction_salary_amount')}}', 'Reject');"/>
+                        </td>
+                    </tr>
+                </table>
+          </td>
+    </tr>            
+    </table>
+   </form>

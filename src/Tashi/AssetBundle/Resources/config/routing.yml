@@ -1,0 +1,3 @@
+_asset:
+    resource: "@TashiAssetBundle/Controller/AssetController.php"
+    type:     annotation

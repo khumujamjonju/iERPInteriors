@@ -1,0 +1,58 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+    <tr>
+        <td class="td-label-title">Search Criteria</td>
+    </tr>
+    <tr>
+        <td>
+            <form id="frmSearchProduct">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <tr>
+                        <td class="td-gray-bg" width="130px">Search Product By</td>
+                        <td class="td-white-bg">
+                            <select id="selSearchProdCriteria" name="selSearchProdCriteria" onchange="toggleSearchCriteria(this);" class="cmnWidth">
+                                {#<option value="cate">Category</option>#}
+                                <option value="all">All</option>
+                                <option value="cat">Category</option>
+                                <option value="sup">Supplier</option>
+                                <option value="codename">Code/Name</option>
+                                <option value="brand">Manufacturer</option>
+                                <option value="date">Entry date</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg" id="tdtitle"></td>
+                        <td id="tdsearchcriteria" class="td-white-bg">
+                            <select id="selSearchCategory" name="selSearchCategory"  class="normal_select cmnWidth" style="display:none;">
+                                <option value="">--select--</option>
+                                    {%for cat in category%}
+                                        <option value="{{cat.pkid}}">{{cat.categoryName}}</option>
+                                    {%endfor%}
+                            </select>
+                            <select id="selSupplier" name="selSupplier"  class="normal_select cmnWidth" style="display:none;">
+                                <option value="">--select--</option>
+                                    {%for supplier in supplierArr%}
+                                        <option value="{{supplier.supplierPk}}">{{supplier.companyName}}</option>
+                                    {%endfor%}
+                            </select>
+                            <input type="text" id="txtCriteria" name="txtCriteria" placeholder="Enter Product Code or Name" class="cmnWidth" style="display:none;" onkeypress="return NullonEnterKey(event);">
+                            <input type="date" id="txtdate" name="txtdate" value="{{"NOW"|date('Y-m-d')}}" style="display:none;">                         
+                        </td>
+                    </tr>
+                    <tbody id="tbodyDynamic">
+                    </tbody>                    
+                    <tr>
+                        <td class="td-gray-bg"></td>
+                        <td class="td-white-bg">
+                            <input type="button" class="button" id="btnSearchPrd" value="Search" onclick="SearchProduct()">
+                            <input type="hidden" id="inputsearchproductUrl" value="{{path("_searchproduct")}}"/>
+                        </td>
+                    </tr>
+                </table>
+            </form>            
+        </td>
+    </tr>
+</table>
+<br>
+<div id="prdproductList"></div>
+                        

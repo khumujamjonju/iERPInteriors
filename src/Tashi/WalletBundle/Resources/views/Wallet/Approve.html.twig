@@ -1,0 +1,93 @@
+<table width="100%" style="border: 1px dashed #000;margin-top:-70px;" >
+<td class="td-label-title" colspan="6" style="text-align: center;">-------------------------------Expenses Details------------------------------</td>
+<tr class="td-label-title">
+<td  style="padding:10px;background:#fff;">
+    <span style="text-decoration: underline;">ACCOUNT TYPE:</span><br/><br/>
+{{expense.accntFk.accountType.accountType }}</td><br/>
+<input type="hidden" name="empid" id="empid" value="{{expense.empFk.employeePk}}"/>
+<input type="hidden" name="accntid" id="accntid" value="{{expense.accntFk.accntId}}"/>
+
+<td  style="padding:10px;background:#fff;">
+    <span style="text-decoration: underline;">EMPLOYEE NAME:</span><br/><br/>
+{{expense.empFk.personFk.personName}}</td>
+
+<td  style="padding:10px;background:#fff;">
+    <span style="text-decoration: underline;">EXPENSE TYPE:</span><br/><br/>
+{{expense.expensesType.sourceType }}</td>
+<td colspan="4"  style="padding:10px;background:#fff;">
+<span style="text-decoration: underline;">EXPENSES DESCRIPTION:</span><br/><br/>
+{{expense.expensesDescription }}
+<input type="hidden" name="description" value="{{expense.expensesDescription}}"/>
+</td>
+
+</tr>
+
+ <tr class="td-label-title">
+<td  style="padding:10px;background:#fff;">
+    <span style="text-decoration: underline;">DATE OF EXPENSES:</span><br/><br/>
+    {{expense.expensesDate | date('y-m-d')}} 
+    <input type="hidden" name="expensedate" id="txt_expensdate" value="{{expense.expensesDate | date('y-m-d')}}"/>
+</td><br/>
+
+<td  style="padding:10px;background:#fff;">
+    <span style="text-decoration: underline;">AMOUNT:</span><br/><br/>
+    {{expense.amount }} <input type="hidden" name="amount" id="txt_amount" value="{{expense.amount}}"/>
+    <input type="hidden" name="id" id="txt_id" value="{{expense.pkid}}"/>
+</td>
+{%if(expense.expensesType.sourceType == 'Project')%}
+<td  style="padding:10px;background:#fff;"><span style="text-decoration: underline;">PROJECT NAME (ORDER NO):</span><br/><br/>
+{{expense.projectFk.areaFk.area}} ({{expense.projectFk.orderNo}}) 
+    <input type="hidden" name="project" id="txt_project" value="{{expense.projectFk.pkid}}"/>
+    
+    </td>
+<td colspan="4"  style="padding:10px;background:#fff;"><span style="text-decoration: underline;">ITEM NAME:</span><br/><br/>
+{{expense.item.productName |default('')}}</td>
+<input type="hidden" name="item" id="txt_item" value="{{expense.item.productName  | default('')}}"/>
+
+
+
+
+</tr>
+ <tr class="td-label-title">
+<td  style="padding:10px;background:#fff;" colspan="3">
+    <span style="text-decoration: underline;">Received Image:</span><br/><br/>
+    <input type="hidden" value="{{expense.documentFk.pkid|default('')}}" name="docfk"/>
+    {%if expense.documentFk is null%}
+    <img src="{{asset("bundles/common/images/noimage.png")}}" alt="image" class="expenselist"/>
+                                    {%else%}
+    <img src="{{asset(expense.documentFk.path)}}" alt="image" class="expenselist"/>
+    {%endif%}
+
+
+
+
+
+
+
+
+</td> 
+
+ 
+
+</tr>
+
+{%endif%}
+
+
+
+
+
+<br/>
+ <tr>
+    <td colspan="5" style="text-align: center;">
+    <input class="button blue" id="approveid" type="button" value="Approve" onclick="ApproveExpenses('{{path('_approveWalletExpenses')}}');"/>
+    
+    <input class="button blue" id="cancelexpense" type="button" value="Cancel Expenses" onclick="return CancelExpensesDetails('{{path('_cancelWalletExpenses')}}',this);"/>
+    
+    
+    
+    
+    </td>
+    </tr>   
+    
+</table>

@@ -1,0 +1,43 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <input id="spanCloseOpenHandlerapproveprod" value="0" type="hidden">
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('approveprod');">Select Category
+            <span style="float: right;" id="spanIdapproveprod" class="span_open" >&nbsp;</span>
+        </td>                                
+    </tr>
+    <tr id="trAddressapproveprod">
+        <td>
+            <form  method="post" id="frmStudSearch" style="margin: 0px;">
+                <table width="100%" align="center" border="0"  cellpadding="0" cellspacing="0">
+                    <tbody>
+                        <tr>
+                            <td width="30%" class="td-gray-bg">Select Product Category:</td>
+                            <td width="70%" class="td-white-bg" align="left">
+                                <select id="pkid"  class="normal_select cmnWidth" onchange="loadsubcat();">
+                                    <option value="">--Select--</option>
+                                            {%for cat in category%}
+                                    <option value="{{path('_prd_appendsubcat',
+                                            {'pkid':cat.pkid,'mode':'approve'})}}">{{cat.categoryName}}</option>
+                                            {%endfor%}
+                                </select>   
+                                <input type="hidden" name="searchvalue" value="" id="searchvalue"/>
+                            </td>
+                       </tr>
+                    </tbody>
+                    <tbody id="tbodyDynamic">
+                    </tbody>
+                </table>
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td width="95%" class="td-separator-top">
+          <div  id="prdproductList"></div>       
+        </td>
+    </tr>
+</table> 
+<div  id="editArea"></div> 
+<div id="searchproductSearchList"></div> 
+<div style="width:99%; margin: auto;" id="coursedetail" ></div> 
+<div style="width:99%; margin: auto;" id="subMenuTable2" ></div> 
+ 

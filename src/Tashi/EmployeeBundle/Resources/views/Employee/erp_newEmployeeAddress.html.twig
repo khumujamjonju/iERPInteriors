@@ -1,0 +1,80 @@
+<input type="hidden" value="" name="instanceAdd">             
+<table width="100%" align=center border="0" cellpadding="0" cellspacing="0" class="tbl-border-content">                    
+    <tr>
+        <td colspan="5" class="td-label-title" >Address Details</td>                  
+    </tr>
+    <tr>
+        <td class="tbl-grid-view-left-header-rounded">Address Type</td>
+        <td class="tbl-grid-view-header">Address Id</td>
+        <td class="tbl-grid-view-header">Address</td>
+        <td class="tbl-grid-view-header">Status</td>
+        <td class="tbl-grid-view-header">Action</td>
+    </tr>
+    {%if addrsDetails|length <=0 %}
+        <tr>
+            <td colspan="5" align="center" class="tbl-grid-view-row" style="color:#ff0000;">
+                No Address added yet
+            </td>
+        </tr>
+    {%else%}
+        {%set i=0%}
+        {% for list in addrsDetails %}
+        <tr>
+        {#<input type="hidden" value="" name="txt_entityMasterIdForReview">#}
+        <td class="tbl-grid-view-row">{{list.addressfk.addressTypeFk.addressTypeName}}</td>
+        <td class="tbl-grid-view-row">{{list.addressfk.addressPk}}</td>
+        <td class="tbl-grid-view-row">
+            {{list.addressFk.address1|replace({',':' '})}}
+            {% if list.addressFk.address2!=''%},{% endif %}
+              {{list.addressFk.address2|replace({',':' '})}}
+            {% if(list.addressFk.cityCode!='')%},{{list.addressFk.cityCode.cityName}}{% else %}{% endif %}
+            {% if(list.addressFk.stateCode!='') %},{{list.addressFk.stateCode.stateName}}{% else %}{% endif %}
+            {% if list.addressFk.pinNumber!=''%},{% endif %}
+             {{list.addressFk.pinNumber}}.
+        </td>
+        <td class="tbl-grid-view-row">
+            {%if list.recordActiveFlag=='0' or list.addressFk.recordActiveFlag=='0'%}
+                <span style="color:#ff0000;">Inactive</span>
+            {%else%}
+                <span style="color:#009900;">Active</span>
+            {%endif%}
+        </td>
+   {#     <input type="hidden" id="urlLoadNewAddress" value=''/>
+        <input type="hidden" id="addressTypeIdentifier" value="">
+        <input type="hidden" value="" />
+        <td class="tbl-grid-view-row">{{address.addressFk.landmark}}</td>#}
+        <td class="tbl-grid-view-row">
+            <select id="selEmpAddAction{{i}}">
+                <option value="">--select--</option>
+                <option value="{{path('_showEmployeeAddressDetails',{'addressId':list.addressfk.addressPk,'mode':'edt'})}}&addNewAddress&view">View & Edit</option>
+                <option value="{{path('_delEmployeeAddress',{'addtxnId':list.pkid})}}&sub_tabs1&del">Delete Address</option>
+            </select>
+            <button type="button" class="button" onclick="simpleEmptyAppend('','','selEmpAddAction{{i}}');">Go</button></td>
+        </tr>
+        {%set i=i+1%}
+        {% endfor %}
+    {%endif%}
+    <tr>
+        <td colspan="5">&nbsp;</td>
+    </tr>
+</table>
+<br>
+<table width="100%" align=center border="0" cellpadding="0" cellspacing="0" class="tbl-border-content" id="tabCustomerSelectAttribute" >
+    <tr class="td-label-title" >   
+        <td class="td-label-title" width="200px;">Please select the type of Address</td>
+        <td class="td-label-title" width="100px;" id="tdListCustomerAttribute">
+            <select name="selectAddType" id="selectAddType" style="width:200px">
+                <option value="">--select--</option>
+               {%for add in addressMaster%}
+                <option value="{{path('_employeeAddressForm',{'employeeMasterId':empId,'addressPk':add.addressTypePk})}}">{{add.addressTypeName}}</option>
+               {%endfor%}
+            </select>
+            <input type="hidden" id="dynamicAttributeEntryUrl" value=""/>
+            <button class="button" type="button" id="btnAddType" onclick="NewAddressForm();">Add</button>
+        </td>
+    </tr> 
+</table>
+<div id="addNewAddress" style="margin-top:10px;">                                                        
+</div>
+<div id="divLoadDynamicEntryForm" style="margin-top:10px;">
+</div>

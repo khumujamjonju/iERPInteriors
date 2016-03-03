@@ -1,0 +1,76 @@
+<div id='unitCreate'>    
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title"> Unit Master</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmUnitMaster" style="margin: 0px;">
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg">Unit Name:</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="txt_unit" name="txt_unit">                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Description:</td>
+                                <td class="td-white-bg">
+                                    <textarea id="txt_Description" name="txt_Description" cols="50" rows="5"></textarea>                                    
+                                </td> 
+                            </tr>
+                            <tr>
+                                <td></td>
+                                <td class="td-separator" >
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="createNewUnit('{{path('_createunitmaster')}}','frmUnitMaster');"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>  
+                            </tr>
+                        </table>
+                    </form>                               
+                </td>
+            </tr> 
+        </table>   
+    </div>    
+    <div id="display-list" style="margin-top: 8px;">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Unit List</td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr> 
+                                <th class="tbl-th-grid-view-row-no-bg">#</th>
+                                {#<th class="tbl-th-grid-view-row-no-bg">UNIT ID</th>#}
+                                <th class="tbl-th-grid-view-row-no-bg">UNIT NAME</th>
+                                <th class="tbl-th-grid-view-row-no-bg">DESCRIPTION</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {%set i=1%}
+                            {%for uni in unit%}
+                                <tr>
+                                    <td class="td-gray-bg" align="center">{{i}}</td>
+                                    {#<td class="td-gray-bg" align="center">{{uni.pkid}}</td>#}
+                                    <td class="td-gray-bg" align="center">{{uni.unitName}}</td>
+                                    <td class="td-gray-bg" align="center">{{uni.unitDescription}}</td>
+                                    <td class="td-gray-bg" align="center">
+                                        <select  style="cursor: pointer;" class="normal_select" id="unit{{uni.pkid}}" name="unit{{uni.pkid}}" >
+                                            <option value="">Select</option>                                
+                                            <option value="{{ path('_gotoeditunitmaster',{'pkid': uni.pkid})}}&edt">Edit</option>
+                                            <option value="{{ path('_deleteunit',{'pkid': uni.pkid})}}&del">Delete</option>
+                                        </select> 
+                                    <input class="button" name="commit" type="button" value="Go" onClick="EditDelUnitMaster('{{uni.pkid}}');" />
+                                    </td>                                                 
+                                </tr>
+                                {%set i=i+1%}
+                            {%endfor%}                                  
+                        </tbody>
+                    </table>
+                </td>
+            </tr>                                 
+        </table>
+    </div>

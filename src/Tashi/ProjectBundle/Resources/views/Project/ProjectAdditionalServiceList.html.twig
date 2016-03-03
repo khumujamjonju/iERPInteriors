@@ -1,0 +1,71 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <input id="spanCloseOpenHandlerItemServiceList" value="0" type="hidden">
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('ItemServiceList');">Existing Service(s) for Project: {{project.areaFk.area|upper}} - {{project.orderNo}}
+            <span style="float: right;" id="spanIdItemServiceList" class="span_open" >&nbsp;</span>
+        </td> 
+    </tr>
+    <tr id="trAddressItemServiceList">
+        <td>
+             <table id="example2"  width="100%" border="0" cellpadding="0" cellspacing="0" class="display">
+                <thead>
+                    <tr>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">#</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Service Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">Descriptoin</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Unit</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Quantity</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right;">Charge</th>                        
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right;">Total</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Action</th>
+                    </tr>
+                </thead>
+                <tbody> 
+                    {%if serviceArr|length>0%}
+                        {%set slno=1%}
+                        {%for service in serviceArr%}
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" align="center" width="70px">{{slno}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">{{service.itemName|default('')|upper}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center" style="text-align: justify; ">{{service.serviceDescription}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center" width="70px">{{service.unit}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="center" width="70px">{{service.quantity}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="right" width="70px">{{service.unitPrice|number_format(2)}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="right" width="0px">{{(service.quantity*service.unitPrice)|number_format(2)}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="right">
+                                    <select id="selAction{{service.pkid}}">
+                                        <option value="">--select--</option>
+                                        <option value="{{path("_additionalserviceaction",{'serviceid':service.pkid,'mode':'EDT'})}}&edt">Edit</option>
+                                        <option value="{{path("_additionalserviceaction",{'serviceid':service.pkid,'mode':'DEL'})}}&del">Delete</option>
+                                    </select>
+                                    <input type="button" class="button" value="Go" onclick="AdditionalServiceAction('{{service.pkid}}');">
+                                </td>
+                            </tr>
+                            {%set slno=slno+1%}
+                        {%endfor%}
+                    {%else%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" colspan="8">
+                                <h4 style="margin:0; text-align: center; color:#ff0000">There are no service(s) for this project</h4>
+                            </td>
+                        </tr>
+                    {%endif%}
+                </tbody>
+                <tfoot>
+                    <td colspan="7"></td>
+                    <td align="right">{%if project.status.isPermanent==0%}
+                        <br/>
+                        <input type="button" class="button" value="Add New Service" style="width:120px;" 
+                               onclick="GoToAddNewItemService('{{path("_gotoaddadditionalservice",{'projid':project.pkid,'mode':'INS'})}}');"/>
+                        <div class="clear"></div>
+                    {%endif%}
+                    </td>
+                </tfoot>
+             </table>
+        </td>
+    </tr>
+</table>
+<br/>
+<div id="divItemService">
+    
+</div>

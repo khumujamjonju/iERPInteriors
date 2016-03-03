@@ -1,0 +1,70 @@
+<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" cellspacing="0" cellspadding="0" class="tbl-border">         
+            <tr>
+                <td class="td-label-title" colspan="2">Manage Company Mobile Number</td>
+            </tr>
+            <tr>
+                <td> <form id="frmCompanyMobile" style="margin: 0px;">
+                        <table width="100%" cellspacing="0" cellspadding="0">                       
+                            <tr>
+                                <td class="td-gray-bg">Mobile Number<span class="necessary-field">*</span></td>
+                                
+                                <td class="td-white-bg" >
+                                    <input type="hidden" id="comMobileId" name="comMobileId"/>
+                                    <input type="text" id="mobile_name" name="mobile_name" class="cmnWidth" 
+                                            onkeypress="return IntegerOnly(event);" maxLength="10" placeholder="e.g.9856123456">
+                                   <span id="digitMessageCustomerMobileNo" class="digitMessage"></span>
+                                </td> 
+                                
+                                
+                                {#<td class="td-white-bg">
+                                    <input type="hidden" id="comMobileId" name="comMobileId"/>
+                                    <input type="text" class="cmnWidth" id="mobile_name" name="mobile_name">
+                                </td>#}
+                            </tr>
+                            <tr>
+                                <td class="td-separator" colspan="4" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addUpdateCompanyMoblieMaster('{{ path('_add_update_company_mobile')}}', this);"/>
+                                    <!--input type="button" class="button blue" id="btn_update" value="Update" onclick="return addUpdateJobTitleMaster('{{ path('_add_update_company_mobile')}}', this);" style="display: none;"/-->
+                                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="onCancleClick('frmCompanyMobile');" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                    <tr>
+                        <td class="td-label-title">Mobile Number List:</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr> 
+                                        <th class="tbl-th-grid-view-row-no-bg">Mobile Number</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                               
+                                    </tr>
+                                </thead>
+                                <tbody>
+                             {% for jt in allRecord%}
+                                        <tr>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{jt.number | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                                <a href="javascript:void();" onclick="retrieveCompanyMobile('{{ path('_retrieve_company_mobile',{ 'comMobileId': jt.pkid | default('')})}}');">Edit</a> |
+                                                <a href="javascript:void();" style="color:#ff0000;" onclick="deleteCompanyMobileModule('{{ path('_delete_company_mobile',{ 'comMobileId': jt.pkid | default('')})}}','Mobile Number', 'frmCompanyMobile');">Delete</a>
+                                            </td>                                                 
+                                        </tr>
+                                  {%endfor%}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>                                 
+                    </table>
+                </div>   
+            </div>
+        </div>

@@ -1,0 +1,3 @@
+_report:
+    resource: "@TashiReportBundle/Controller/ReportController.php"
+    type:     annotation

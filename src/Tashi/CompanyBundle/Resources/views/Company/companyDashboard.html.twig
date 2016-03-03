@@ -1,0 +1,36 @@
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Company Management</h3>
+        <div id="newmenu">
+           <ul>
+           <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_companydashboard')}}', 'Cmp_id', 'Company', 'Dashboard');"><a href="javascript:void();" >Dashboard</a></li>           
+           <li id="add_new_company" onclick="fnLeftMenuNavigation('{{path('_gotocompanyinfo')}}', 'add_new_company', 'Company Master', 'Create Company');"><a href="javascript:void();">Add Detail</a></li>
+           {#<li id="search" onclick="fnLeftMenuNavigation('{{path('_search_company')}}', 'search', 'Search Company', 'Company Details Search');"><a href="javascript:void();">Search Company</a></li>#}
+           </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'>
+                <a href="javascript:void();"  onclick="fnMainMenuNavigation('{{path('_companydashboard')}}', 'Cmp_id', 'Company', 'Dashboard');"><span>Dashboard</span></a></li>              
+        </ul>             
+    </div>
+    <div class="newdashboard">        
+        <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_gotocompanyinfo')}}', 'add_new_company', 'Company Master', 'Create Company');">
+        <p class="newdashparatext"><img src="{{ asset('bundles/common/images/company.png') }}">
+        <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-align:left;">Add Detail</span> <br/>
+            Add detail about your company.
+        </p>
+        </div>
+        {#<div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_search_company')}}', 'search', 'Search Company', 'Company Details Search');">
+        <p class="newdashparatext"><img src="{{ asset('bundles/common/images/search128.png') }}">
+        <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial;text-align:left;">Search Company</span> <br/>
+            Search company by various criteria
+        </p>
+        </div>#}
+    </div>       
+</div>
+<input type="hidden" id="datePickerImage" value="{{asset('bundles/common/images/calendar.png') }}" />

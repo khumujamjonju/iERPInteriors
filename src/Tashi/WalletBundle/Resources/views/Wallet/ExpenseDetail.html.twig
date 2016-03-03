@@ -1,0 +1,109 @@
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+    <tr>
+        <td class="td-label-title">Expense Detail</td>
+    </tr>
+    <tr>
+        <td>
+            <form id="FormExpenses">
+                <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                    <tr style="display:{%if action!='Approve' and action!='Cancel'%}none{%endif%};">
+                        <td class="td-gray-bg">Employee Detail:</td>
+                        <td class="td-white-bg" colspan="3">
+                            <b>Employee ID:</b> {{exp.empFk.employeeId|default('')}}<br>
+                            <b>Name:</b> {{exp.empFk.personFk.personName|default('')}}<br>
+                            <b>Designation:</b> {{exp.empFk.empJobTitleFk.jobTitleName|default('')}}<br>
+                            <b>Branch:</b> {{exp.empFk.branchOfficeCode.branchName|default('')}}</td>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg" width="150px">Expense Type</td>
+                        <td class="td-white-bg">
+                            {{exp.expensesType.sourceType|default('')}}
+                            <input type="hidden" name="expid" value="{{exp.pkid}}">
+                            <input type="hidden" name="empid" value="{{exp.empFk.employeePk|default('')}}">
+                            <input type="hidden" name="accntid" value="{{exp.accntFk.accntId|default('')}}">
+                            <input type="hidden" name="item" value="{{exp.item.pkid|default('')}}">
+                            <input type="hidden" name="amount" value="{{exp.amount}}">
+                            <input type="hidden" name="description" value="{{exp.expensesDescription}}">
+                            <input type="hidden" name="expensedate" value="{{exp.expensesDate|date('d-M-Y H:i:s')}}">
+                            <input type="hidden" name="project" value="{{exp.projectFk.pkid|default('')}}">
+                            <input type="hidden" name="docfk" value="{{exp.documentFk.pkid|default('')}}">
+                        </td>
+                        <td class="td-gray-bg" width="150px">Expense Date</td>
+                        <td class="td-white-bg">{{exp.expensesDate|date('d-M-Y h:i:s a')}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Related Project Detail(if any)</td>
+                        <td class="td-white-bg">
+                            {%if exp.projectFk is not null%}
+                                <b>Customer Name:</b> {{exp.projectFk.customerFk.customerName|default('')}}<br>
+                                <b>Order No:</b> {{exp.projectFk.orderNo|default('')}}<br>
+                                <b>Project Area:</b> {{exp.projectFk.areaFk.area|default('')}}
+                            {%else%}
+                                <span style="color:#ff0000;">NA</span>
+                            {%endif%}
+                        </td>
+                        <td class="td-gray-bg">Item Detail(if any)</td>                        
+                        <td class="td-white-bg">
+                            {%if exp.item is not null%}
+                                <b>Item Code:</b> {{exp.item.productCode|default('')}}<br>
+                                <b>Item Name:</b> {{exp.item.productName|default('')}}
+                            {%else%}
+                                <span style="color:#ff0000;">NA</span>
+                            {%endif%}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Amount</td>
+                        <td class="td-white-bg">{{exp.amount|number_format('2','.','')}}</td>
+                        <td class="td-gray-bg">Proof of Expense</td>
+                        <td class="td-white-bg">
+                            {%if exp.documentFk is not null%}
+                                <a href="{{asset(exp.documentFk.path|default(''))}}" target="_blank">View/Downlaod</a>
+                            {%else%}
+                                <span style="color:#ff0000;">NA</span>
+                            {%endif%}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Status</td>
+                        <td class="td-white-bg" colspan="3" align="left">
+                            {%if exp.status==0%}
+                                <span style="color:#ff0000;">Pending</span>
+                            {%elseif exp.status==1%}
+                                <span style="color:#009900;">Approved</span> on {{exp.statusDate|date('d-M-Y')|default('')}}
+                            {%elseif exp.status==2%}
+                                <span style="color:#ff0000;">Rejected</span> on {{exp.statusDate|date('d-M-Y')|default('')}} <br>
+                                <span style="color:#727272; font-size: 11px;">{{exp.statusRemark|default('')}}</span>
+                            {%endif%}
+                        </td>                
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Description</td>
+                        <td class="td-white-bg" colspan="3" align="justify">
+                            {{exp.expensesDescription}}
+                        </td>                
+                    </tr>                
+                    <tr style="display:{%if action!='Cancel'%}none{%endif%};">
+                        <td class="td-gray-bg">Remarks<span class="mandatoryField">*</span></td>
+                        <td class="td-white-bg" colspan="3" align="justify">
+                            <textarea id="txtRemark" name="txtRemark" cols="80" rows="5" placeholder="Enter few words why you are rejecting this request"></textarea>
+                        </td>                
+                    </tr>
+                    <tr>                    
+                        <td class="td-white-bg" colspan="4" align="center">
+                            {%if action=='Approve'%}
+                                <input class="button blue" id="approveid" type="button" value="Approve" onclick="ApproveCancelExpensesDetails('{{path('_approveWalletExpenses')}}','approve');"/>
+                            {%elseif action=='Cancel'%}
+                                <input class="button blue" id="cancelexpense" type="button" value="Cancel Expenses" onclick="ApproveCancelExpensesDetails('{{path('_cancelWalletExpenses')}}','cancel');"/>
+                            {%else%}
+                                <input type="button" class="button" value="Close" onclick="$('#divTranDetail').empty();">
+                            {%endif%}                            
+                        </td>                
+                    </tr>
+                </table>
+            </form>
+        </td>
+    </tr> 
+</table>

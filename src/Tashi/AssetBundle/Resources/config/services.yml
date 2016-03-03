@@ -1,0 +1,9 @@
+parameters:
+    tashi.service.asset.class : Tashi\AssetBundle\Service\AssetService
+
+
+services:
+    tashi.asset.service:
+        class: "%tashi.service.asset.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]
+

@@ -1,0 +1,3 @@
+_store:
+    resource: "@TashiStoreBundle/Controller/StoreController.php"
+    type:     annotation

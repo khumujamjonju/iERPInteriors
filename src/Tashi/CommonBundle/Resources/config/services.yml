@@ -1,0 +1,8 @@
+parameters:
+   tashi.service.common.class : Tashi\CommonBundle\Service\CommonService
+services:
+    tashi.common.service:
+      class: "%tashi.service.common.class%"
+      arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@request_stack"]
+#      calls:
+#            - [setRequest, [@request_stack]]

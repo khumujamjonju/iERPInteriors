@@ -1,0 +1,53 @@
+
+<div class='sub-menu'>
+<ul>
+<li class='active'><a  href="javascript:void();">Requisition</a></li> 
+{# <li id="Search_Purchase_id"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_search_purchase')}}', 'Search_Purchase_id', 'Purchase', 'Search Purchase', 'Search Purchase');"><span>Search</span></a></li> #}
+</ul>
+    </div>
+    <div class="newdashboard"> 
+        <div class="application-form"> 
+        <form id="OrderDetails">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+        <tr><td class="td-label-title">Create Requisition:</td>
+        </tr>
+        <tr>
+            <td>                 
+                
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                             
+                        <tr>
+                            <td class="td-gray-bg cmnWidth" style="text-align: right;">Select An Employee:</td>
+                            <td class="td-white-bg cmnWidth">
+                            <select class="cmnWidth" name="selectedEMp"  id="TYPEID">
+                            <option value="">--Select--</option>
+                            {%for w in emp%}
+                            <option value="{{w.employeePk}}">{{w.personFk.personName}}</option>
+                            {%endfor%}
+                            </select>
+                            
+                            </td>
+                            <td class="td-gray-bg cmnWidth">
+                            <input type="button" class="button" id="btnSearchEmp" value="Go" onclick="return load_Page('{{path('_requisition_order')}}','#TYPEID',this);"></td>
+                            <td class="td-white-bg cmnWidth"></td>
+                            
+                        </tr>
+                        
+                    </table>
+                                          
+            </td>
+        </tr> 
+        </table> 
+    <div id="divOrderDetails">
+            
+            
+    </div>
+</form>   
+</div>
+</div>
+
+
+
+
+
+
+

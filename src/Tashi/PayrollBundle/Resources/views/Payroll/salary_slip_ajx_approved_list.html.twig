@@ -1,0 +1,46 @@
+<input type="hidden" value="0" class="approval_salary_slip_hide_show_key"/>             
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">           
+    <tr onclick="fnHideShow('approval_salary_slip');">
+        <td class="td-label-title">
+            <span>Pending Approval List Of Created Salary Slip :</span>  
+            <div class="approval_salary_slip_hide_show_icon floatRight plus"></div>
+        </td>
+    </tr>
+    <tr class="approval_salary_slip displayNone">
+        <td class="td-cmn-white-bg">
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr>                                       
+                        <th class="tbl-th-grid-view-row-no-bg">ID</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Dsignation</th>                                   
+                        <th class="tbl-th-grid-view-row-no-bg">Salary</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Created On</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Month Of</th>                                                                                                                
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th>
+                    </tr>
+                </thead>
+                <tbody>                                  
+                    {% for s in allAprovedSalarySlip|default('') %} 
+                      <tr id="{{'approvedID'~s.salarySlipPk}}">                                      
+                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.employeeFk.employeeId|default('') }} </td>
+                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.employeeFk.personFk.personName|default('') }}</td>
+                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.employeeFk.empJobTitleFk.jobTitleName | default('')}}</td> 
+                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.netSalary| default('') }}</td> 
+                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.createdDate | date('m-d-Y') }}</td>   
+                          <td class="tbl-grid-view-row-no-bg" align="center">{{ s.monthFk.monthName | default('') }}, {{ s.year | default('') }}</td>                                                                                                                                                                                            
+                          <td class="tbl-grid-view-row-no-bg" align="center" style="width: 200px;">                                                                                   
+                              <select class="normal_select" id="paymentAction{{s.salarySlipPk|default('')}}" name="txt_paymenyAction" >
+                                <option value="">Select</option>   
+                                <option value="{{path('_view_salary_slip_details', { 'salrySlipID': s.salarySlipPk|default('') })}}&view">View & Pay</option>                                          
+                                <option value="{{path('_reject_salary_slip', { 'salrySlipID': s.salarySlipPk|default('') })}}&rej">Reject</option>
+                            </select> 
+                            <input class="button" name="commit" type="button" value="Go" onclick="employeeSalarySlipPayPaymentAction(this,'{{s.salarySlipPk|default('')}}','#paymentAction');" />
+                          </td> 
+                      </tr> 
+                    {% endfor %}                                  
+                </tbody>
+            </table>                 
+        </td>                  
+    </tr>                  
+</table>

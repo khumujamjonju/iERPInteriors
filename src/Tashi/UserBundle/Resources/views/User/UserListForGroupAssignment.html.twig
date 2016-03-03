@@ -1,0 +1,113 @@
+<br/>
+<table width="100%" align="center" cellspacing="0" class="tbl-border">
+    <tr>        
+        <td class="td-label-title">Selected Group</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" align="center" id="example2" cellspacing="0" class="display">  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center; width:200px;">Group Name<input type="hidden" value="{{group.pkid}}" name="groupID"/></th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: justify;">Description</th>   
+                    </tr>
+                </thead>
+                <tbody>                     
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{group.groupName | default(' ')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center" style="text-align: justify;">{{group.groupDesc | default(' ')}}</td>                                                                                 
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr id="trAddressacclist"></tr>
+</table>
+<br/>
+<table width="100%" align="center" cellspacing="0" class="tbl-border">
+    <tr>
+        <input id="spanCloseOpenHandleracclist" value="0" type="hidden"/>
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('acclist');">
+            Select Users from the list
+            <span style="float: right;" id="spanIdacclist" class="span_open" >&nbsp;</span>
+        </td>
+    </tr>
+    <tr id="trAddressacclist">
+        <td>
+            <table width="100%" align="center" id="example" cellspacing="0" class="display">  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center; width: 50px;">Sl. No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center; width: 50px;">Select User</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center;">Employee ID</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Name</th> 
+                        {#<th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Designation</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Department</th> #}
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">User/Login Name</th>
+                        {#<th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Group(s)</th>#}
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Effective Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Expiry Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Status</th>
+                 </tr>
+                </thead>
+                <tbody>  
+                    {%set slno=1%}
+                    {%for acc in accArr%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" width="50px" align="center">{{slno}}</td>
+                            <td class="tbl-grid-view-row-no-bg" width="50px" align="center">
+                            <input type="checkbox"
+                                   {%for u in userGroupTxn%}
+                                        {% if acc.userIdPk == u.userFk.userIdPk %}
+                                        checked="check"
+                                        {%endif%}
+                                   {%endfor%}name="userID" value="{{acc.userIdPk}}" title="{{acc.userName}}"/>
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{acc.userFk.employeeId|default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" style="text-align: justify;" width="170px">{{acc.userFk.personFk.personName|default('')|upper}}</td>
+                            {#<td class="tbl-grid-view-row-no-bg" align="left">{{user.userFk.empJobTitleFk.jobTitleName|default('')|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="left">{{user.userFk.departmentFk.departmentName|default('')|upper}}</td>#}
+                            <td class="tbl-grid-view-row-no-bg" align="left">{{acc.userName}}</td>
+                            {#<td class="tbl-grid-view-row-no-bg" align="center">
+                                {%set grpLen=groupArr|length-1%}
+                                {%set i=0%}
+                                {%for group in groupArr%}
+                                    {%if group.userFk is not null and acc.userFk is not null%}
+                                        {%if group.userFk.userIdPk==acc.userIdPk%}
+                                            {{group.groupFk.groupName|default|upper}}
+                                            {%if i<grpLen%},{%else%}.{%endif%}
+                                        {%endif%}
+                                    {%endif%}
+                                {%set i=i+1%}    
+                                {%endfor%}
+                            </td>#}
+                            <td class="tbl-grid-view-row-no-bg" align="left" width="100px">{{acc.startDate|date('d-M-Y')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="left" width="100px">
+                                {%if acc.endDate is not null%}{{acc.endDate|date('d-M-Y')}}{%endif%}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="left" width="80px">
+                                {%if acc.isActivate==0%}
+                                    <span style="color:#ff0000;">Not Activated</span>
+                                {%elseif acc.endDate is not null and "now"|date('Y-m-d')>acc.endDate|date('Y-m-d')%}
+                                    <span style="color:#ff0000;">Expired </span>
+                                {%else%}
+                                    <span style="color:{{acc.statusFk.statusColor}}">{{acc.statusFk.statusName}}</span>
+                                {%endif%}
+                            </td>
+                           
+                        </tr>
+                        {%set slno=slno+1%}
+                    {%endfor%}
+                </tbody>
+                <tr> 
+                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" colspan="8">
+                        <input type="button" name="SaveUserGroup" value="Save" class="button blue" onclick="SaveUserGroupTxn('{{path('_saveUserGrouptxn')}}');"/>
+                    </th>
+                </tr>
+                
+            </table>
+        </td>        
+    </tr>
+</table>
+</br>
+<div id="divActions"></div>
+

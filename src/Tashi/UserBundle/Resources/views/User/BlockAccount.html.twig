@@ -1,0 +1,77 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+    <tr>
+        <input id="spanCloseOpenHandlerempdetail" value="0" type="hidden"/>
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('empdetail');">
+            Employee Detail
+            <span style="float: right;" id="spanIdempdetail" class="span_open" >&nbsp;</span>
+        </td>
+    </tr>
+    <tr id="trAddressempdetail">
+        <td>
+            <table width="100%" cellspacing="0"> 
+                 <tr>
+                    <td class="td-gray-bg" width="150px">Employee ID</td>
+                    <td class="td-white-bg">{{emp.employeeId}}</td>
+                    <td width="50%" rowspan="6" align="center" valign="middle">       
+                        {%if emp.personFk.pictureFk is null%}
+                            <img src="{{asset("bundles/common/images/unk.jpg")}}" alt="photo" height="200" width="170" style="margin:auto; border:1px solid #606060; padding:5px;"/>
+                        {%else%}
+                            <img src="{{asset(emp.personFk.pictureFk.path)}}" alt="photo" height="200" width="170"style="margin:auto; border:1px solid #606060; padding:5px;"/>
+                        {%endif%}
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">First Name</td>
+                    <td class="td-white-bg">{{emp.personFk.firstName|default('')|upper}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">Middle Name</td>
+                    <td class="td-white-bg">{{emp.personFk.middleName|default('')|upper}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">Last Name</td>
+                    <td class="td-white-bg">{{emp.personFk.lastName|default('')|upper}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">Designation</td>
+                    <td class="td-white-bg">{{emp.empJobTitleFk.jobTitleName|default('')|upper}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">Department</td>
+                    <td class="td-white-bg">{{emp.departmentFk.departmentName|default('')|upper}}</td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">Branch</td>
+                    <td class="td-white-bg" colspan="2">{{emp.branchOfficeCode.branchName|default('')|upper}}</td>
+                </tr>
+            </table>      
+        </td>
+    </tr>
+</table>
+<br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+    <tr>        
+        <td class="td-label-title">Block Account</td>
+    </tr>
+    <tr>
+        <td>
+            <form id="FormBlockAccount">
+                <input type="hidden" name="inputAccId" value="{{account.userIdPk}}">
+                <table width="100%" cellspacing="0"> 
+                     <tr>
+                         <td class="td-gray-bg" width="150px">Remark<span class="mandatoryField">*</span></td>
+                        <td class="td-white-bg">
+                            <textarea id="txtRemark" name="txtRemark" cols="70" rows="5" placeholder="Enter few words why the account in being blocked."></textarea>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td class="td-gray-bg"></td>
+                        <td class="td-white-bg">
+                            <input type="button" class="button" value="Block Account" onclick="blockAccount('{{path("_blockaccount")}}');">                        
+                        </td>
+                     </tr>
+                </table>
+            </form>
+        </td>
+    </tr>
+</table>

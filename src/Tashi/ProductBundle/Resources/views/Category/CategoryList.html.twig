@@ -1,0 +1,53 @@
+<table id="example" width="100%" align="center" border="0" cellpadding="0" cellspacing="0"  class="display"  >  
+    <thead>
+        <tr> 
+           {# <th class="td-gray-bg">CATEGORY_ID</th>#}
+            <th class="tbl-th-grid-view-row-no-bg">CATEGORY NAME</th>
+            <th class="tbl-th-grid-view-row-no-bg">DESCRIPTION</th>
+            <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">RELATED AREA</th>
+           {# <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">SERVICES</th>#}
+            <th class="tbl-th-grid-view-row-no-bg">ACTION</th>                                              
+        </tr>
+    </thead>
+    <tbody> 
+        {%if categoryArr|length <=0%}
+            <tr>
+                <td colspan="3">
+                    <p style="color:#ff0000; margin:0; text-align:center;">
+                        No Category has been added yet
+                    </p>                        
+                </td>
+            </tr>
+        {%else%}
+            {%for cat in categoryArr %}
+                <tr>
+                    {# <td class="tbl-grid-view-row-no-bg" align="center">{{cat.CategoryID|default("")}}</td>#}
+                     <td class="tbl-grid-view-row-no-bg" align="center">{{cat.CategoryName|default("")}}</td>
+                     <td class="tbl-grid-view-row-no-bg" align="center">{{cat.CategoryDesc|default("")}}</td>
+                     <td class="tbl-grid-view-row-no-bg" style="text-align:justify;">
+                        {%set areas=''%}
+                        {%for area in areacattxn%}
+                            {%if area.prodCategoryFk.pkid==cat.pkid%}
+                                {%set areas=areas~area.projectAreaFk.area|upper~", "%}
+                            {%endif%}
+                        {%endfor%}
+                        {{areas|trim(', ')}}.
+                    </td>
+                    {#<td class="tbl-grid-view-row-no-bg" style="text-align:justify;">
+                        {%set services=''%}
+                        {%for service in serviceArr%}
+                            {%if service.catFk.pkid==cat.pkid%}
+                                {%set services=services~service.serviceName|upper~", "%}
+                            {%endif%}
+                        {%endfor%}
+                        {{services|trim(', ')}}.
+                    </td>#}
+                    <td class="tbl-grid-view-row-no-bg" align="center">
+                        <a href="javascript:void(0);" onclick="CategoryActions('{{path("_editproductcat",{'catid':cat.pkid})}}&upd');">Edit</a>&nbsp;|&nbsp;
+                        <a href="javascript:void(0);" onclick="CategoryActions('{{path("_deletecategory",{'catid':cat.pkid})}}&del');" style="color:#ff0000;">Delete</a>
+                    </td>                                                
+                </tr>  
+           {%endfor%}
+        {%endif%}
+    </tbody>
+</table>{# empty Twig template #}

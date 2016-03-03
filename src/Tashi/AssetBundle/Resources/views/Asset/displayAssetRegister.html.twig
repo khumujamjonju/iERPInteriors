@@ -1,0 +1,65 @@
+
+
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" id="displayAsset">           
+    <tr>
+        <td class="td-label-title">Office Asset List</td>
+    </tr>
+    <tr>
+        <td>
+
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr> 
+                        <th class="tbl-th-grid-view-row-no-bg">Asset ID</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Category</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Makker</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Model No</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Expiry Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Warranty Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Purchase Order No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Location</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                    </tr>
+                </thead>
+
+                <tbody>                           
+                    {% for c in record.result%}
+                        <tr>
+
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetRegisterPk | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetCategoryMasterFk.assetCategoryName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.manufacturer | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.modelNo | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetDescription | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                {%if c.expiryDate == ""%}
+                                    {{ '' }}
+                                {%else%}
+                                    {{c.expiryDate |date('d-m-Y')}}
+                                {%endif%}
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                {%if c.warranty == ""%}
+                                    {{ '' }}
+                                {%else%}
+                                    {{c.warranty |date('d-m-Y')}}
+                                {%endif%}
+                            </td>
+                            {#<td class="tbl-grid-view-row-no-bg" style="color:{{c.status.statusColor}}" align="center">
+                                                                                         {{c.status.statusName}}</td>#}
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.purchaseOrderNo | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.location | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <a href="javascript:void();" onclick="retriveAssetRegisterMaster('{{path('_retrieveAssetRegister',{'ARid': c.assetRegisterPk})}}');">Edit </a> | 
+                                <a href="javascript:void();" onclick="deleteAssetRegisterMaster('{{path('_deleteAssetRegister',{'ARid': c.assetRegisterPk })}}', 'assetregistertable');">Delete </a>
+                            </td>                                                 
+                        </tr>
+                    {%endfor%}  
+                </tbody>
+            </table>
+        </td>
+    </tr>                                 
+</table>

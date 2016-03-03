@@ -1,0 +1,86 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top:5px;">
+    <tr>
+    <input id="spanCloseOpenHandlerSearchRequisition" value="0" type="hidden">
+    <td class="td-label-title" onclick="lmsShowHideAddressResult('SearchRequisition');">Requistion Product List:
+    <span style="float: right;" id="spanIdSearchRequisition" class="span_open" >&nbsp;</span></td>
+</tr>
+<tr id="trAddressSearchRequisition">
+<td>
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+    <input type="hidden" value="" id="requisitionID" name="requisitionID"/>
+    <thead>  
+        <tr> 
+        <td class="tbl-th-grid-view-row-no-bg" style="width:300px;background: #ccc;">Product</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Quantity</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Return Quantity</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Unit</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Purpose</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Remark</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Action</td>
+    </tr>
+    </thead>
+    
+     {%if req.result|length<=0%}
+                    <tr>
+                        <td colspan="7">
+                            <br/>
+                            <p style="color:#ff0000; text-align: center; margin-bottom:10px;;">No requisition product found</p>
+                        </td>
+                    </tr>
+                {%endif%}
+    
+    {%for r in req.result%}
+    <tr>
+        
+        <td class="td-white-bg cmnWidth" style="width:200px;text-align: center;">{{r.productFk.productName}}({{r.productFk.productCode}}) 
+        <input type="hidden" value="{{r.stockFk.pkid}}" name="{{'stockid'~r.pkid}}"/>
+        <input type="hidden" value="{{r.pkid}}" name="ID"/>
+        <input type="hidden" value="{{r.pkid}}" name="{{'proID'~r.pkid}}"/>
+        </td>
+       
+        <td class="td-gray-bg cmnWidth" style="text-align: center;">{{r.quantity}}  
+        <input type="hidden" id="requisitionquantity" name="{{'requisitionquantity'~r.pkid}}" value="{{r.quantity}}"/> 
+        </td>
+         <td class="td-white-bg cmnWidth" style="text-align: center;">  
+        <input type="text" style="width:70px;" id="returnquantity{{r.pkid}}" class="{{'txt_quantity'~r.pkid}}" name="{{'returnquantity'~r.pkid}}" placeholder="Qnty."/> 
+        </td>
+        <td class="td-gray-bg cmnWidth" style="text-align: center;">{{r.unitFk.unitName}} 
+        <input type="hidden" id="UnitID" name="{{'UnitID'~r.pkid}}" value="{{r.unitFk.pkid}}"/></td>
+        <td class="td-gray-bg cmnWidth">
+            <select name="{{'purpose'~r.pkid}}" id="{{'ddlb_purpose'~r.pkid}}" class="cmnWidth">
+            <option value="">--Select--</option>
+            {%for p in purpose%}
+            <option value="{{p.pkid}}">{{p.purposeName | default(' ')}}</option>
+            {%endfor%}
+            </select>
+        </td>
+        
+        <td class="td-white-bg"><input type="text" style="width:100px;" class="remark" id="remark{{r.pkid}}" name="{{'remark'~r.pkid}}"  placeholder="Enter Remark"/></td>
+        <td class="td-gray-bg cmnWidth" style="text-align: center;" style="width:200px;">
+        <select name="selectlist" id="TYPEID{{r.pkid}}" style="width:100px;"> 
+        <option value="{{path('_return_stock',{'sid': r.pkid})}}&return">Return</option>
+        <option value="{{path('_viewhistory',{'sid': r.pkid})}}&view">View History</option>
+        </select>     
+        <input type="button" value="GO" class="button blue" 
+        onclick="return StockReturn({{r.pkid}},this);"/>
+        </td>  
+    </tr> 
+    {%endfor%}
+</table></td>
+</tr>
+</table>
+
+<div id="showHistory">
+    
+
+</div>
+
+
+
+
+
+
+
+
+
+

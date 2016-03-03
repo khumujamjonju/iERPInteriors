@@ -1,0 +1,83 @@
+<div class='sub-menu'>
+    <ul>      
+        <li class="active"><a href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_gotoaddusergroup')}}', 'group_li', 'Setting','Manage Activities', 'Add Activity', '');">Manage User Group</a></li>                 
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+            <tr>
+                <td class="td-label-title">Group Detail</td>
+            </tr>
+            <tr>
+                <td>
+                    <form id="FormUserGroup">
+                        <div id="divGroupDetail">
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0">                                
+                                <tr>
+                                    <td class="td-gray-bg" width="150px">Group Name<span class="mandatoryField">*</span></td>
+                                    <td class="td-white-bg">
+                                        <input type="text" id="txtGroupName" name="txtGroupName" class="cmnWidth" onkeypress="return NullonEnterKey(event);" >
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg" width="150px">Description</td>
+                                    <td class="td-white-bg">
+                                        <textarea id="txtdesc" name="txtdesc" cols="50" rows="5"></textarea>
+                                    </td>
+                                </tr>                                
+                                <tr>
+                                    <td class="td-gray-bg"></td>
+                                    <td class="td-white-bg">
+                                        <input type="button" class="button" value="Submit" onclick="ManageGroup('{{path("_insertgroup")}}','');">
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+            <tr>
+                <td class="td-label-title">Existing Group List</td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="divGroupList">
+                        <table width="100%" align="center" id="example" cellspacing="0" class="display">  
+                            <thead>
+                                <tr> 
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center; width: 70px;">Sl.no</th>                                     
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Group Name</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Description</th>                                 
+                                    <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="width:150px;">Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>  
+                                {%set slno=1%}
+                                {%for group in groupArr%}
+                                    <tr>
+                                        <td class="tbl-grid-view-row-no-bg" width="70px">{{slno}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" style="text-align: justify;">{{group.groupName}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">{{group.groupDesc}}</td>                                                                                
+                                        <td class="tbl-grid-view-row-no-bg" width="150px">
+                                            <select id="selGroupAction{{group.pkid}}">
+                                                <option value="">--select--</option>
+                                               <option value="{{path("_gotoeditgroup",{'groupid':group.pkid})}}&edt">Edit</option>
+                                               <option value="{{path("_deletegroup",{'groupid':group.pkid})}}&del">Delete</option>
+                                            </select>
+                                            <input type="button" class="button" value="Go" onclick="groupAction('selGroupAction{{group.pkid}}');">
+                                        </td>
+                                    </tr>
+                                    {%set slno=slno+1%}
+                                {%endfor%}
+                            </tbody>
+                        </table>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>

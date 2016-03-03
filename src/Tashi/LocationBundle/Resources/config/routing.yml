@@ -1,0 +1,3 @@
+_employee:
+    resource: "@TashiLocationBundle/Controller/LocationController.php"
+    type:     annotation

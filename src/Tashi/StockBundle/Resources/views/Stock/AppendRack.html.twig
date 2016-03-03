@@ -1,0 +1,6 @@
+<select name="selStkRack" id="selStkRack" class="cmnWidth" onchange="laodbinbyrackid(this.id);">
+    <option value="">--select--</option>
+    {%for rack in rackArr%}
+        <option value="{{path("_laodbinbyrack",{'rackid':rack.storeRackPk})}}&{{rack.storeRackPk}}">{{rack.rackName}}(Row: {{rack.rowNumber}}, Column:{{rack.columnNumber}})</option>
+    {%endfor%}
+</select>

@@ -1,0 +1,8 @@
+parameters:
+    tashi.service.location.class : Tashi\LocationBundle\Service\LocationService
+    tashi.common.service.class :  Tashi\CommonBundleBundle\Service\CommonService
+
+services:
+    tashi.location.service:
+        class:     "%tashi.service.location.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]

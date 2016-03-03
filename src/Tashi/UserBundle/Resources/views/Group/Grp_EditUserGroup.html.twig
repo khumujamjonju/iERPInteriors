@@ -1,0 +1,23 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0">                                
+    <tr>
+        <td class="td-gray-bg" width="150px">Group Name<span class="mandatoryField">*</span></td>
+        <td class="td-white-bg">
+            <input type="text" id="txtGroupName" name="txtGroupName" class="cmnWidth" value="{{group.groupName}}" >
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg" width="150px">Description</td>
+        <td class="td-white-bg">
+            <textarea id="txtdesc" name="txtdesc" cols="50" rows="5">{{group.groupDesc}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg"></td>
+        <td class="td-white-bg">
+            <input type="hidden" name="txtgroupid" value="{{group.pkid}}">
+            <input type="button" class="button" value="Update" onclick="ManageGroup('{{path("_updategroup")}}','EDT');">
+            <input type="button" class="button" value="Cancel" onclick="cancelGroup('{{path("_gotoaddusergroup")}}');">                                
+        </td>
+    </tr>
+</table>
+                

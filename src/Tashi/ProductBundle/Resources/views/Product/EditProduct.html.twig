@@ -1,0 +1,201 @@
+{% set prodCatid=result.product.productCategory.pkid|default('') %}
+{% set prodName=result.product.productName|default('') %}
+{% set prodCode= result.product.productCode|default('') %}
+{% set sku= result.product.sku|default('') %}
+{% set prodBar= result.product.productBarcode|default('') %}
+{% set manufacturer=result.product.manufacturer|default('') %}
+{% set sellPrice= result.markupPrice|default('0.00') %}
+{% set purchasePrice= result.costPrice|default('0.00') %}
+{% set prodDesc= result.product.productDesc|default('') %}
+{% set prodpkid= result.product.pkid %}
+<br/>
+<table style="width:100%;" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>    
+    <td class="td-label-title" >Update Product    
+</tr>
+<tr>
+    <td>
+        <form method="post" id="frmUpdateProd" style="margin-bottom: 0px;">
+            <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                <tr>
+                    <td class="td-gray-bg" width="150px" align="right"> Category<span class="necessary-field">*</span></td>
+                    <td class="td-white-bg" align="left">
+                        <select id="selCategory" name="selCategory"  class="cmnWidth">
+                            <option value="">--Select--</option>
+                            {%for cat in category%}
+                                <option value="{{cat.pkid}}" {%if cat.pkid==prodCatid%}selected{%endif%}>{{cat.categoryName}}</option>
+                            {%endfor%}
+                        </select>  
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg " align="right">SKU</td>
+                    <td class="td-white-bg">   
+                        <input type="text" id="txtSKU" name="txtSKU" onkeypress="return AlphaNumericOnly(event);" value="{{sku}}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg " align="right">Code<span class="necessary-field">*</span></td>
+                    <td class="td-white-bg">   
+                        <input type="text" id="prodCodeIns" name="prodCode" value="{{prodCode}}" class="cmnWidth"/>
+                        <input type="hidden" value="{{prodpkid}}" id="inputprodId" name="inputprodId"/>
+                    </td>
+                    <td class="td-white-bg" rowspan="8" width="600px">
+                        <center>
+                            {%if result.product.pictureFk is null%}
+                                <img src="{{asset("bundles/common/images/noimage.png")}}" alt="image" class="largeimg"/>
+                            {%else%}
+                                <img src="{{asset(result.product.pictureFk.path)}}" alt="image" class="largeimg"/>
+                            {%endif%}
+                        </center>                        
+                    </td>
+                 </tr>
+                 <tr>
+                    <td class="td-gray-bg" align="right">Name<span class="necessary-field">*</span></td>
+                    <td class="td-white-bg">  <input type="text" id="prodNameIns" name="prodName" value="{{prodName}}" class="cmnWidth"/></td>                    
+                </tr>
+                <tr>
+                    <td class="td-gray-bg " align="right">Bar Code</td>
+                    <td class="td-white-bg">   
+                    <input type="text" id="prodBarCodeIns" name="prodBarCodeIns" value="{{prodBar}}" class="cmnWidth"/>
+                    </td>
+                 </tr>
+                 <tr>
+                    <td class="td-gray-bg " align="right">Manufacturer</td>
+                    <td class="td-white-bg">   
+                    <input type="text" id="txtManufacturer" name="txtManufacturer" class="cmnWidth" value="{{manufacturer}}"/>
+                    </td>
+                 </tr>
+                <tr>
+                    <td class="td-gray-bg" align="right">Purchase Price</td>
+                    <td class="td-white-bg">
+                        <input type="text" value="{{purchasePrice|number_format('2','.','')}}" onkeyup="isMoney(this.id);" onblur="formatMoney(this.id);" id="txtPurchasePrice" name="txtPurchasePrice" class="money"/> 
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" align="right">Selling Price(if any)</td>
+                    <td class="td-white-bg"><input type="text" value="{{sellPrice|number_format('2','.','')}}" id="txtSellingprice" name="txtSellingprice" onkeyup="isMoney(this.id);" onblur="formatMoney(this.id);" class="money"/> </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" align="right">Product Description</td>
+                    <td class="td-white-bg">
+                        <textarea name="prodDescIns" id="prodDescIns" cols="40" rows="5">{{prodDesc}}</textarea>                        
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" align="right">Product Image</td>
+                    <td class="td-white-bg">
+                            <input type="file" name="fileProdImg" id="fileProdImg" onchange="calculateFileSize(this);"/> <span id="spanfsize" style="font-size: 11px;"></span>
+                        <br/>
+                        <br/>
+                        <span style="color:#808080; font-size: 11px;">(.jpg,.jpeg,.png,.gif,.bmp)- Upto 512Kb</span>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" align="right">Select Supplier</td>
+                    <td class="td-white-bg" colspan="3">                                    
+                        <div class="tableElementEmulation">
+                            <ul class="trElementEmulation">
+                                {%for supplier in supplierArr%}
+                                    <li class="tdElementEmulation">
+                                        <div class="example">
+                                            <div style="float:left;">
+                                                <input id="chkSup{{supplier.supplierPk}}" type="checkbox" name="chkSupplier[]" value="{{supplier.supplierPk}}"
+                                                       {%for exsup in exsupplier%}
+                                                           {%if exsup.supplierFk.supplierPk==supplier.supplierPk%}
+                                                               checked
+                                                           {%endif%}
+                                                       {%endfor%}>                                                    
+                                                <label for="chkSup{{supplier.supplierPk}}" style="font-weight:bold;"><span><span></span></span>{{supplier.companyName}}</label>
+                                            </div>                                   
+                                        </div>                                                            
+                                    </li>
+                                {%endfor%}
+                            </ul>
+                        </div>                        
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" valign="top" align="right">Add Unit</td>
+                    <td class="td-white-bg">
+                        <table id="tblPrdUnit" style="float:left; margin: 0; margin-top: -5px;">
+                            {%if unitArr|length >0%}
+                                {%for i in range(0,unitArr|length -1)%}
+                                    <tr>
+                                        <td class='td-white-bg'>
+                                            <input type="hidden" name="txtUnitId[]" value="{{unitArr[i].pkid}}">
+                                            <input type="text" name="txtUnit[]" placeholder="Enter Unit Name" value="{{unitArr[i].unitName}}">
+                                        </td>
+                                        <td class='td-white-bg'>
+                                            <input type='button' class='button' value='-' title='Remove unit' onclick='RemoveUnitRow(this);'/>
+                                        </td>
+                                    </tr>
+                                   {# {%endif%}                                    #}
+                                {%endfor%}
+                            {%else%}
+                                <tr id="trunit0">
+                                <td class='td-white-bg'>
+                                    <input type="hidden" name="txtUnitId[]" value="">
+                                    <input type="text" name="txtUnit[]" placeholder="Enter Unit Name">
+                                </td>
+                                <td class='td-white-bg' width="30px">                                    
+                                </td>
+                                </tr>
+                            {%endif%}
+                        </table>
+                        <input type="button" id="btnaddunit" class="button" value="+" title='Add More Unit' onclick="AddUnitRow();"
+                               style="{%if unitArr|length <=0%}margin-left: -33px;{%endif%}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" valign="top" align="right">Related Service(s):</td>
+                    <td class="td-white-bg"colspan="4">
+                        <table id="tblPrdService" style="float:left;">
+                            <tbody>
+                                {%if serviceArr|length >0%}
+                                    {%for service in serviceArr%}
+                                        <tr>
+                                            <td class='td-white-bg'>
+                                                <input type="hidden" name="txtServiceId[]" value="{{service.pkid}}">
+                                                <input type="text" name="txtServicename[]" placeholder="Service Name" value="{{service.serviceName}}" class="cmnWidth">
+                                            </td>
+                                            <td class='td-white-bg'>
+                                                <input type="text" name="txtServiceCharge[]" placeholder="Service Charge" value="{{service.charge|number_format(2,'.','')}}" class="money" 
+                                                       onkeypress="return isValidNumber(event);">
+                                            </td>
+                                            <td class='td-white-bg' width="30px"> 
+                                                <input type="button" class="button" value="-" title="Remove Service" onclick="RemoveServiceRow(this);"/>
+                                            </td>
+                                        </tr>
+                                    {%endfor%}
+                                {%else%}
+                                    <tr>
+                                        <td class='td-white-bg'>
+                                            <input type="hidden" name="txtServiceId[]" value="">
+                                            <input type="text" name="txtServicename[]" placeholder="Service Name" class="cmnWidth">
+                                        </td>
+                                        <td class='td-white-bg'>
+                                            <input type="text" name="txtServiceCharge[]" placeholder="Service Charge" class="money" 
+                                                   onkeypress="return isValidNumber(event);">
+                                        </td>
+                                        <td class='td-white-bg' width="30px"> 
+                                            <input type="button" class="button" value="-" title="Remove Service" onclick="RemoveServiceRow(this);"/>
+                                        </td>
+                                    </tr>
+                                {%endif%}
+                            </tbody>
+                        </table>
+                        <input type='button' id="btnAddservice" class='button' value='+' title='Add More Services' onclick="AddServiceRow();" style="margin-top:5px;{%if serviceArr|length<=0%} margin-left: -35px;{%endif%} z-index:10;"/>
+                    </td> 
+                </tr>
+                <tr> 
+                    <td>
+                    <td colspan="3" class="td-gray-bg">                
+                        <input type="button" class="button" name="butSearch"  value="Update" id="newStudSave"  onclick="if(!confirm('Confirm Update?')){ return;}else{newprodInsert('{{path('_updateproduct',{'prdId':prodpkid,'from':from})}}', 'frmUpdateProd','','{{from}}');};" />
+                        &nbsp;&nbsp;
+                        <input type="button" class="button" name="butSearch"  value="Cancel" onclick="if(!confirm('Are you sure you want to cancel the update?')) return false; $('#editArea').empty();" />
+                    </td>
+                    </tr>                                             
+                </table>
+            </form> 
+</table> 

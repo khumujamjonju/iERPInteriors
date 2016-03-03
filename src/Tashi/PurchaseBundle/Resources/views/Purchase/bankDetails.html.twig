@@ -1,0 +1,17 @@
+<td class="td-gray-bg cmnWidth">Select Bank:<span class="necessary-field">*</span></td>
+<td class="td-white-bg">
+    <select name="selectlist" id="ddlb_selectlist" class="cmnWidth" onchange="DisplayBankPaymentBalance('{{path('_showbankcurrentbalance')}}',this);">
+        <option value="">--Select--</option>
+                   {%for type in sty %}
+        <option value="{{type.bankFk.bankPk| default('')}}">{{type.bankFk.bankName| default('')}} ({{type.bankFk.accountNumber}})</option>
+                   {%endfor%}
+    </select>
+</td>
+<td class="td-gray-bg cmnWidth"></span> :
+   
+</td>
+<td class="td-white-bg">
+
+</td>
+
+

@@ -1,0 +1,157 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>            
+        <td id="customer_details" colspan="2" style="font-size: 12px; padding: 7px; background: rgb(240, 240, 240); display: none;"></td>
+    </tr>
+    <tr>
+        <td>                 
+            <form id="frmCusAdvanceAdjust" style="margin: 0px;">                     
+                <table id="cus_advance_adjust_form_tbl" width="100%" align="center" cellpadding="0" cellspacing="0">                                        
+                    <tr>            
+                        <td align="center" colspan="2" style="font-size: 12px; background: rgb(240, 240, 240);">
+                        {%if searchFlag == 1%}
+                            <div style="float: left; width: 20%;">
+                                <table id="advanceCollectionListTbl" width="100%" align="center" border="0" cellpadding="0" cellspacing="0">   
+                                    <tr>
+                                        <td class="td-gray-bg" colspan="3" align="center" style="font-size: 12px; font-weight: bold; border-bottom: 1px dotted rgb(240, 240, 240); border-right: 1px dotted #ccc;">
+                                            Advance Collections
+                                        </td>                                                         
+                                    </tr>
+                                    <tr> 
+                                        <td class="td-gray-bg" align="center" style="border-top: 1px dotted #ccc;"><b> Sl No </b></td> 
+                                        <td class="td-gray-bg" align="center" style="border-top: 1px dotted #ccc;"><b> Collection Date </b></td>  
+                                        <td class="td-gray-bg" align="center" style="border-top: 1px dotted #ccc;"><b> Amount </b></td>                                                                                                                  
+                                    </tr>
+                                   {% for a in customerAdvance|default('') %}
+                                    <tr>  
+                                        <td class="td-white-bg" align="center" style="border-right: 1px dotted #ccc;">{{loop.index}} <input type="hidden" name="txt_customer_advance_pkid" value="{{ a.advancePaymentPk|default('') }}"/></td> 
+                                        <td class="td-white-bg" align="center" style="border-right: 1px dotted #ccc;"> {{ a.createdDate|default('')|date('d-m-Y') }}  </td> 
+                                        <td class="td-white-bg" align="center" style="border-right: 1px dotted #ccc;"> {{ a.advanceAmount|default('') }} <input type="hidden" class="advance_amount" value="{{a.advanceAmount|default('')}}"/></td>                                               
+                                    </tr>    
+                                    {%endfor%}
+                                    <tr>                             
+                                        <td class="td-white-bg" colspan="3" style="border-right: 1px dotted #ccc;">  
+                                            <table>
+                                                <tr>
+                                                    <td><b>Total Amount:</b></td>
+                                                    <td><b>&#8377; <span class="totalAmount"> </span></b></td>
+                                                </tr>
+                                                <tr>
+                                                    <td><b>Required Adjust : </b></td>
+                                                    <td><b>&#8377; <span class="requiredAdjustAmount"> </span></b>
+                                                        <input type="hidden" id="requiredNonAdjustableAmount" name="txt_requiredNonAdjustableAmount"/>
+                                                        <input type="hidden" id="requiredAdjustAmount" name="txt_requiredAdjustAmount"/>
+                                                    </td>
+                                                </tr>
+                                            </table>                                                                                     
+                                        </td>                                          
+                                    </tr>                         
+                                </table>
+
+                            </div>
+                           <div style="float: left; width: 32%; margin-left: 3px;">
+                                <table id="deductionsFormTbl" width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                                     <tr>
+                                        <td class="td-gray-bg" colspan="7" align="center" style="font-size: 12px; font-weight: bold; border-bottom: 1px dotted rgb(240, 240, 240); border-left: 1px dotted #ccc;">
+                                            Due Invoice List
+                                        </td>                                                         
+                                    </tr>
+
+                                    <tr>
+                                        <td class="td-gray-bg" align="center" style="border-top: 1px dotted #ccc;"><b>Order No</b></td>
+                                        <td class="td-gray-bg" align="center" style="border-top: 1px dotted #ccc;"><b>Invoice No</b></td>                 
+                                        <td class="td-gray-bg" align="center" style="border-top: 1px dotted #ccc;"><b>Due Balance</b></td> 
+                                        <td class="td-gray-bg" align="center" style="border-top: 1px dotted #ccc;"><b>Adjust Invoice</b></td>
+                                    </tr> 
+                                 {%if customerDueInvoices|default('') == ''%}
+                                    <tr>   
+                                         <td class="td-white-bg" colspan="7" align="center" style="border-right: 1px dotted #ccc; color: red;">No Record Available</td>
+                                    </tr>
+                                 {%else%}                                
+                                    {% for key,cusInvoice in customerDueInvoices|default('')%}                                  
+                                       {% for i in cusInvoice|default('')%}
+                                           {%set flag = 1%}
+                                           <tr>   
+                                               <td class="td-white-bg" align="center" style="border-right: 1px dotted #ccc;">{{ i.projectFk.orderNo|default('') }}</td> 
+                                               <td class="td-white-bg" align="center" style="border-right: 1px dotted #ccc;">{{ i.invoiceNo|default('') }}</td>                     
+                                               <td class="td-white-bg" align="center" style="border-right: 1px dotted #ccc;">
+                                                      <b>&#8377;</b> {{ i.balance|default('') }}
+                                                       <input type="hidden" id="{{'invoice_due_balance'~i.pkid|default('') }}"  value="{{ i.balance|default('') }}"/>
+                                               </td> 
+                                               <td class="td-white-bg" align="center" style="border-right: 1px dotted #ccc;"><b>&#8377;</b> 
+                                                   <input type="hidden" name="txt_customer_due_invoice_pkid" value="{{ i.pkid|default('') }}"/>
+                                                   <input class="calculateField" type="text"  name="{{'txt_invoice_adjust_due_amount'~i.pkid|default('')}}" size="10" onKeypress="return IntegerOnly(event);" onKeyup="return fnCheckInvoiceDueAmount(this, '{{i.pkid|default('')}}');"/>
+                                               </td>
+                                           </tr> 
+                                       {%endfor%}                                  
+                                   {%endfor%}
+                                {%endif%}                               
+                                </table>
+                            </div>
+
+                            <div style="float: right; width: 47.2%; font-size: 12px; font-weight: bold;  border-left: 1px dotted #ccc;">
+                                <table id="deductionsFormTbl" width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                                     <tr>
+                                        <td class="td-gray-bg" colspan="7" align="center" style="font-size: 12px; font-weight: bold; border-bottom: 1px dotted rgb(240, 240, 240);border-right: 1px dotted #ccc;">
+                                            Project List
+                                        </td>                                                         
+                                    </tr>
+
+                                    <tr>
+                                        <td class="td-gray-bg" align="center" style="border-top: 1px dotted #ccc;"><b>Order No</b></td>
+                                        <td class="td-gray-bg" align="center" style="border-top: 1px dotted #ccc;"><b>Project Area</b></td> 
+                                        <td class="td-gray-bg" align="center" style="border-top: 1px dotted #ccc;"><b>Total Expense</b></td> 
+                                        <td class="td-gray-bg" align="center" style="border-top: 1px dotted #ccc;"><b>Project Advance</b></td>
+                                        <td class="td-gray-bg" align="center" style="border-top: 1px dotted #ccc;"><b>Set Alert</b></td> 
+
+                                    </tr> 
+                               {% if customerProject|default('') == ''%}
+                                    <tr>   
+                                         <td class="td-white-bg" colspan="7" align="center" style="border-right: 1px dotted #ccc; color: red;">No Record Available</td>
+                                    </tr>
+                                {%else%}
+                                 {% for p in customerProject|default('')%}
+                                    <tr>                             
+                                        <td class="td-white-bg" align="center" style="border-right: 1px dotted #ccc;"> {{ p.orderNo|default('') }} </td> 
+                                        <td class="td-white-bg" align="center" style="border-right: 1px dotted #ccc;">{{ p.areaFk.area|default('') }}</td>
+                                        <td class="td-white-bg" align="left" style="border-right: 1px dotted #ccc;">
+                                            {%for key,e in projectTotalExpense|default('')%}                                               
+                                                {%if e.project_id == p.pkid%}
+                                                    <b>&#8377;</b> {{ e.total_expense|default('0') }}
+                                                {%endif%}                          
+                                            {%endfor%}
+                                        </td>
+                                        <td class="td-white-bg" align="center" style="border-right: 1px dotted #ccc;"><b>&#8377;</b> 
+                                            <input type="hidden" name="txt_customer_project_pkid" value="{{ p.pkid|default('') }}"/>
+                                            <input class="calculateField" type="text" id="{{'project_advance_amount'~p.pkid|default('') }}"  name="{{'txt_project_advance_amount'~p.pkid|default('') }}" size="10" onKeypress="return IntegerOnly(event);" onKeyup="return fnAdjustAdvanceCollectionAmount(this, '{{ p.pkid|default('') }}');"/>
+                                        </td>
+                                        <td class="td-white-bg" align="center" style="border-right: 1px dotted #ccc;">
+                                            <table>
+                                                <tr>
+                                                    <td align="right">Amount (<b>&#8377;</b>):</td>
+                                                     <td><input type="text" id="{{'alert_amount'~p.pkid|default('') }}" name="{{'txt_alert_amount'~p.pkid|default('') }}" size="5" onKeypress="return IntegerOnly(event);" onkeyup="return fnCalculatePcByGivingAmount(this, '{{p.pkid|default('')}}');"/></td>
+                                                </tr>
+                                                <tr>
+                                                    <td align="right">PC(<b>%</b>):</td>
+                                                     <td><input type="text" id="{{'alert_pc'~p.pkid|default('') }}" name="{{'txt_alert_pc'~p.pkid|default('') }}" size="5" onKeypress="return IntegerOnly(event);" onkeyup="return fnCalculateAmountByGivingPC(this, '{{p.pkid|default('')}}');"/></td>
+                                                </tr>
+                                            </table>                                      
+                                        </td>                
+                                    </tr> 
+                                {%endfor%}
+                               {%endif%}
+                                </table>
+                            </div>  
+                        {%else%}                                
+                                <td align="center" style="color: red;font-style: italic; padding: 5px;"> There were no advance collection for the searching Customer ID ! </td>       
+                        {%endif%}
+                    </td>
+                </tr>
+                <tr id="control_btn" style="display: none;">
+                    <td class="td-separator" colspan="2" style="text-align: center; ">
+                        <input type="button" class="button blue" id="btn_save" value="Save" onclick="saveCustomerAdvanceAdjust('{{path('_save_adjusted_customer_advance')}}', this);"/>                             
+                    </td>  
+                </tr>
+            </table>
+         </td>
+     </tr>
+</table>

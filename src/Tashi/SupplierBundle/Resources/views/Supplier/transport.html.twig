@@ -1,0 +1,206 @@
+{%set id =0%}
+
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href='#' href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_transportor')}}', 'transport', 'Transport', 'Create Transport');"><span>Transportor</span></a></li>
+    </ul>
+</div>
+<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" cellspacing="0" cellspadding="0" class="tbl-border">         
+            <tr>
+                <td class="td-label-title" colspan="2">Create Transportor</td>
+            </tr>
+            <tr>
+                <td> <form id="frmTransportor" style="margin: 0px;">
+                        <table width="100%" cellspacing="0" cellspadding="0">                       
+                            <tr>
+                                <td class="td-gray-bg cmnWidth">Transportor Name<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg cmnWidth">
+                                    <input type="hidden" id="transportId" name="transportId"/>
+                                <input type="text" class="cmnWidth" id="transport_name" name="transport_name" onkeypress="return NullonEnterKey(event);">
+                                </td>
+                                <td class="td-gray-bg cmnWidth">Contact Person:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg cmnWidth"><input type="text" class="cmnWidth" id="contactperson" name="contactperson" onkeypress="return NullonEnterKey(event);"></td>
+                            </tr>
+                          
+                             <tbody id="myvalue" >    
+                            
+                            
+                            
+                            </tbody>
+                            
+                            <tr>
+                                <td class="td-gray-bg cmnWidth"> Mobile No:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg cmnWidth"><table>
+                                        <tr>
+                                            <td><input class="cmnWidth" type="text" id="txt_supplier_mobile" name="txt_mobile"   
+                                                       onkeypress="return IntegerOnly(event);" maxlength="10" placeholder="e.g.9856123456"> </td>
+                                            <td><input type="button" class="button blue" value="+" onclick="addFieldDynamic(this,'txt_mobile');"/></td>
+                                        </tr>
+
+
+                                    </table>
+                                
+                                </td>
+                                
+                                
+                                <td class="td-gray-bg cmnWidth"></td>
+                                <td class="td-white-bg cmnWidth"> </td>
+                            </tr>
+                            
+                            <tr>
+                                <td class="td-gray-bg cmnWidth">Address:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg cmnWidth" colspan="3">
+                                    <textarea  cols="100" rows="4" id="transport_address" name="address"></textarea> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg cmnWidth">Pincode:<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg cmnWidth">
+                                <input type="text" name="pincode" id="pincode" class="cmnWidth" 
+                                       onkeypress="return IntegerOnly(event);" maxlength="6" placeholder="e.g.795001"/> 
+                                </td>
+                                <td class="td-gray-bg cmnWidth"></td>
+                                <td class="td-white-bg cmnWidth"></td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg cmnWidth">About:</td>
+                                <td class="td-white-bg cmnWidth" colspan="3">
+                                    <textarea cols="100" rows="4" id="transport_about" name="about"></textarea> 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-separator" colspan="4" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addUpdateTransportorMaster('{{ path('_add_update_transportor')}}', this);"/>
+                                    <!--input type="button" class="button blue" id="btn_update" value="Update" onclick="return addUpdateJobTitleMaster('{{ path('_add_update_emp_job_title')}}', this);" style="display: none;"/-->
+                                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="onCancleClick('frmEmpJobTitle');" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                    <tr>
+                        <td class="td-label-title">Transportor List:</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr> 
+                                        <th class="tbl-th-grid-view-row-no-bg">Transportor Name</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">About US</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                               
+                                    </tr>
+                                </thead>
+                                <tbody>
+                             {% for jt in allRecord%}
+                                        <tr>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{jt.name | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{jt.about | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                                <a href="javascript:void();" onclick="retrieveTransport('{{ path('_retrieve_transportor',{ 'transportId': jt.pkid | default('')})}}');">Edit</a> |
+                                                <a href="javascript:void();" onclick="deleteTransport('{{ path('_delete_transport',{ 'transportId': jt.pkid | default('')})}}','Transportor', 'frmTransportor');">Delete</a>
+                                            </td>                                                 
+                                        </tr>
+                                  {%endfor%}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>                                 
+                    </table>
+                </div>   
+            </div>
+</div>
+
+
+
+{#<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <input id="spanCloseOpenHandlerSearchCustomer" value="0" type="hidden">
+                <td class="td-label-title" onclick="lmsShowHideAddressResult('SearchCustomer');">Create : <span style="float: right;" id="spanIdSearchCustomer" class="span_open" >&nbsp;</span></td>
+            </tr >
+            <tr id="trAddressSearchCustomer" >
+                <td>
+                    <form method="#" id="SaveTransport" post="">
+                        <table width="100%" align=center border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg  cmnWidth">Transporter Name</td>
+                                <td class="td-white-bg cmnWidth ">
+                                <input class="cmnWidth " type="text" id="txt_transport" name="transporter">
+                                </td>  
+                                <td class="td-gray-bg cmnWidth"></td>
+                                <td class="td-white-bg cmnWidth"></td>
+                               
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Description:</td>
+                                <td class="td-white-bg" colspan="3" >
+                                <textarea cols="100" rows="5" type="text" id="txt_description" name="description"></textarea>
+                                </td>  
+                            </tr>
+                            <tr>
+                                <td colspan="6" class="td-separator" align="center">                            
+                                <input class="button" type="button" name="btn_save" id="btn_save" value="Save" onClick="return CreateTransport('{{path('_addtransport')}}',this);">
+                                <input class="button" style="display:none;" type="button" name="btn_update" id="btn_update" value="Update" onClick="return UpdateTransportMaster('{{path('_updatetransport')}}',this);" >
+                                </td>
+                            </tr>
+                        </table>
+
+                    </form>
+                </td>
+            </tr>
+        </table>                                   
+        <br/>                                 
+       
+        
+        <input id="transID" type="hidden" value=""/>
+        <div id="EditAreadisplay">
+       
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Transport Details List:</td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr>
+                                <th class="tbl-th-grid-view-row-no-bg">Sl No</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Transporter Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+
+                        <tbody>                           
+                               {%for t in trans%}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{loop.index}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{t.name}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{t.description}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <a href="javascript:void();" onclick="RetriveTransport('{{ path('_retrive_transport',{'tid': t.pkid | default('')})}}');">Edit</a>|
+                                    <a href="javascript:void();" onclick="DeleteTransport('{{ path('_deletetransport',{'tid': t.pkid | default('')})}}');">Delete</a></td>
+                                </tr> 
+                               {%endfor%}
+                       </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>
+        
+        
+        
+        </div> 
+    </div>
+</div>#}
+                                                                

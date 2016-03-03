@@ -1,0 +1,71 @@
+{%set rack=bin.rackFk|default('')%}
+{%set room=rack.storeRoomMasterFk|default('')%}
+{%set floor=room.storeFloorMasterFk|default('')%}
+{%set bldg=floor.storeBuildingMasterFk|default('')%}
+{%set store=bldg.storeMasterFk|default('')%}
+<table width="100%" class="tbl-border"cellspacing="0" cellspadding="0">
+    <tr>
+        <td class="td-label-title" colspan="5">Enter Bin No</td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg">Select Store:<span class="necessary-field">*</span></td>
+            <td class="td-white-bg">
+                <Select class="cmnWidth" name="storename"  id="storename" onchange="cmnLoadStoreList(this, '{{path('_cmn_store_load_list', {'key': 'B'})}}', 'buildingname');">
+                    <option value="">--Select--</option>
+                    {%for c in storeArr|default('') %}
+                        <option value="{{ c.storeMasterPk|default('') }}" {%if store.storeMasterPk==c.storeMasterPk%}selected{%endif%}>{{ c.storeName|default('') }}</option>
+                    {%endfor%}
+               </Select>                                        
+            </td>
+        <td class="td-gray-bg">Select Building:<span class="necessary-field">*</span></td>
+                <td class="td-white-bg">
+                    <Select class="cmnWidth" name="buildingname" id="buildingname" onchange="cmnLoadStoreList(this, '{{path('_cmn_store_load_list', {'key': 'F'})}}', 'floorno');">
+                            <option value="">--Select--</option>          
+                            {%for b in bldgArr%}
+                                <option value="{{ b.storeBuildingPk|default('') }}" {%if b.storeBuildingPk==bldg.storeBuildingPk%}selected{%endif%}>{{ b.buildingName|default('') }}</option>
+                            {%endfor%}
+                    </Select>                                        
+                </td>
+       </tr>
+    <tr>
+        <td class="td-gray-bg">Select Floor:<span class="necessary-field">*</span></td>
+        <td class="td-white-bg">
+            <Select class="cmnWidth" name="floorno" id="floorno" onchange="cmnLoadStoreList(this, '{{path('_cmn_store_load_list', {'key': 'R'})}}', 'roomno');">
+                <option value="">--Select--</option>         
+                {%for f in floorArr%}
+                    <option value="{{ f.storeFloorPk|default('') }}" {%if f.storeFloorPk==floor.storeFloorPk%}selected{%endif%}>{{ f.storeFloorNo|default('') }}</option>
+                {%endfor%}
+            </Select>                                         
+        </td>
+        <td class="td-gray-bg">Select Room:<span class="necessary-field">*</span></td>         
+        <td class="td-white-bg">
+            <Select class="cmnWidth" name="roomno" id="roomno" onchange="cmnLoadStoreList(this, '{{path('_cmn_store_load_list', {'key': 'Rack'})}}', 'selRack');">
+                <option value="">--Select--</option>     
+                {%for r in roomArr%}
+                    <option value="{{ r.storeRoomPk|default('') }}" {%if r.storeRoomPk==room.storeRoomPk%}selected{%endif%}>{{ r.storeRoomNo|default('') }}</option>
+                {%endfor%}
+            </Select> 
+        </td> 
+    </tr>
+    <tr>
+        <td class="td-gray-bg">Select Rack:<span class="necessary-field">*</span></td>         
+        <td class="td-white-bg">
+            <Select class="cmnWidth" name="selRack" id="selRack">
+                <option value="">--Select--</option>
+                {%for ra in rackArr%}
+                    <option value="{{ ra.storeRackPk|default('') }}" {%if ra.storeRackPk==rack.storeRackPk%}selected{%endif%}>
+                        {{ ra.rackName|default('') }}(Row: {{ra.rowNumber}}, Column: {{ra.columnNumber}})
+                    </option>
+                {%endfor%}
+            </Select> 
+        </td>
+        <td class="td-gray-bg">Bin No:<span class="necessary-field">*</span></td>
+        <td class="td-white-bg"><input type="text" class="cmnWidth" name="binno" id="binno" value="{{bin.binNo}}"></td>
+    </tr>            
+    <tr>
+        <td class="td-separator" colspan="4" style="text-align: center;">
+            <input type="button" class="button blue" id="btn_save" value="Update" onclick="updateBin('{{ path('_updatebin',{"binid":bin.pkid})}}',this);"/>            
+            <input type="button" class="button blue" value="Add New" onclick="fnSubMenuNavigation('{{path('_addbin')}}', 'bin', 'Store Management', 'Bin', 'Bin Master');"/>
+        </td>
+    </tr>                               
+</table>

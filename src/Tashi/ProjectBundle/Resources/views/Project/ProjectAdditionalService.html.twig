@@ -1,0 +1,68 @@
+{%set serviceid=''%}
+{%set servicename=''%}
+{%set servicedesc=''%}
+{%set unit=''%}
+{%set price=''%}
+{%set quantity=''%}
+{%if mode=='EDT'%}
+    {%set serviceid=itemtxn.pkid%}
+    {%set servicename=itemtxn.itemName|default('')%}
+    {%set servicedesc=itemtxn.servicedescription%}
+    {%set unit=itemtxn.unit%}
+    {%set price=itemtxn.unitPrice%}
+    {%set quantity=itemtxn.quantity%}
+{%endif%}
+<input type="hidden" name="inputprojectid" value="{{projectid}}"/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        {%if mode=='EDT'%}
+            <td class="td-label-title" colspan="2">Edit Service Detail: {{servicename|upper}}</td>
+        {%else%}
+            <td class="td-label-title" colspan="2">Add New Service</td>
+        {%endif%}
+    </tr>
+    <tr>
+        <td class="td-gray-bg" width="200px">Service Name <span class="mandatoryField">*</span></td>
+        <td class="td-white-bg">            
+            <input type="text" name="txtServiceName" id="txtServiceName" placeholder="Enter Service Name" class="cmnWidth" value="{{servicename}}"/>
+            <input type="hidden" name="serviceid" value="{{serviceid}}"/>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg">Description</td>
+        <td class="td-white-bg">
+            <textarea name="txtDesc" cols="50" rows="5">{{servicedesc}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg">Unit</td>
+        <td class="td-white-bg">
+            <input type="text" name="txtUnit" value="{{unit}}" placeholder="eg. sq.ft., hole etc."/>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg">Quantity<span class="mandatoryField">*</span></td>
+        <td class="td-white-bg">
+            <input type="text" name="txtQty" id="txtQty" value="{{quantity}}" style="width:70px;" onkeypress="return IntegerOnly(event);"/>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg">Unit Charge<span class="mandatoryField">*</span></td>
+        <td class="td-white-bg">
+            <input type="text" name="txtCharge" id="txtCharge" value="{{price|number_format(2,'.','')}}" class="money" style="width:70px;" onkeypress="return isValidNumber(event);" onblur="FormatNumber(this,2);"/>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg"></td>
+        <td class="td-white-bg" align="left">
+            {%if mode=='EDT'%}
+                <input type="button" class="button" value="Submit" onclick="ManageAdditionalService('{{path("_updateadditionalservice")}}','edt');">
+                &nbsp;&nbsp;
+                <input type="button" class="button" value="Cancel" onclick="CancelAdditionalService();">
+            {%else%}
+                <input type="button" class="button" value="Submit" onclick="ManageAdditionalService('{{path("_insertadditionalservice")}}','ins');">
+            {%endif%}
+            
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,36 @@
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Product Management</h3>
+        <div id="newmenu">
+            <ul>                       
+                <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_productdashboard')}}', 'product_master', 'Product', 'Dashboard');"><a href="javascript:void();" >Dashboard</a></li>
+                <li id="master_li" onclick="fnLeftMenuNavigation('{{path("_productcategory")}}', 'master_li', 'Product', 'Master Setting','Manage Product Category');"><a href="javascript:void();">Master Setting</a></li>
+                <li id="new_prod_li" onclick="fnLeftMenuNavigation('{{path('_gotoaddproduct')}}', 'new_prod_li', 'Product', 'Manage Product','Add New Product');"><a href="javascript:void();">Manage Product</a></li>
+                
+           </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+    <div class='sub-menu'>
+            <ul>
+                <li class='active'><a href="javascript:void();"><span>Product Dashboard</span></a></li>              
+            </ul>             
+    </div>
+    <div class="newdashboard">
+        <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path("_productcategory")}}', 'master_li', 'Product', 'Master Setting','Manage Product Category');">
+           <p class="newdashparatext"><img src="{{ asset('bundles/common/images/prod_setting.png') }}">
+               <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Master Setting</span> <br/>
+               Add/Edit Delete Product Category for creating new product(s). Set related Project Area.
+           </p>
+        </div>
+
+       <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_gotoaddproduct')}}', 'new_prod_li', 'Product', 'Manage Product','Add New Product');">
+       <p class="newdashparatext"><img src="{{ asset('bundles/common/images/product.png') }}">
+       <span style="color:#000;font-weight: bold; font-size: 12px; font-family: arial; text-decoration: underline;">Manage Product</span> <br/>
+       Browse product category and Add, Search, Update, Delete Product details.
+       </p></div>
+    </div>       
+</div>
+<input type="hidden" id="datePickerImage" value="{{asset('bundles/common/images/calendar.png') }}" />

@@ -1,0 +1,190 @@
+
+
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <script type="text/javascript">
+            window.history.forward();
+            function noBack() {
+                window.history.forward();
+            }
+            </script>
+            <title>iERP</title>
+            <meta name="HandheldFriendly" content="True">
+            <meta name="MobileOptimized" content="320">
+            <meta name="apple-mobile-web-app-capable" content="yes">
+            <meta name="msapplication-TileColor" content="#000">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="{{ asset('bundles/common/css/main.css') }}" type="text/css">
+            <link rel="stylesheet" href="{{ asset('bundles/common/css/responsive-customer.css') }}" type="text/css">
+            <link rel="icon" type="image/x-icon" href="{{ asset('bundles/common/images/favicon.png') }}" />
+            <link type="text/css" rel="stylesheet" href="{{ asset('bundles/common/css/paging_table_jui.css') }}"/>
+            <link type="text/css" rel="stylesheet" href="{{ asset('bundles/common/css/paging-jquery-ui-1.8.4.custom.css') }}"/>
+            <link type="text/css" rel="stylesheet" href="{{ asset('bundles/common/css/collapsible.css') }}"/>
+            <link type="text/css" rel="stylesheet" href="{{ asset('bundles/common/jquery-ui-themes-1.10.4/themes/redmond/jquery-ui.css') }}"/>
+
+            <script type="text/javascript" src="{{ asset('bundles/common/js/jquery.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/common/js/chosen.jquery.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/common/js/jquery.serializeObject.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/common/js/pagination/jquery.dataTables.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/common/js/validation.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/common/js/leftNavigation.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/common/js/pagination/jquery.dataTables.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/common/js/jquery.cookie.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/common/js/jquery.collapsible.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/common/jquery-ui-themes-1.10.4/jquery-ui.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/common/js/tabs.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/common/js/common.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/customer/js/promoter.js') }}"></script>
+            <script type="text/javascript" src="{{ asset('bundles/customer/js/customer.js') }}"></script> 
+            <script type="text/javascript" src="{{ asset('bundles/common/js/responsive-menu.js') }}"></script> 
+            <script type="text/javascript" src="{{ asset('bundles/configuration/js/user.js') }}"></script>
+        </head>
+
+        <body>
+            <div id="wrapper">
+                <div id="header">
+                    <div id="headerLogo">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" id="tbl-company">
+                            <tr>
+                            <input type="hidden" name="imageForAjaxLoading" id="ajacLoaderImgPath" value="{{ asset('bundles/LMS/images/AjaxLoader/ajax-loader1.gif') }}" >
+                            <td id="company-logo"><img src="{{ asset('bundles/common/images/comp-logo.png') }}" width="43" height="42" /></td>
+                            <td id="application-name"><div class="title-label">Intelligent Enterprise Resource Planning</div></td>
+
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+                <!--------div header ------>
+                <div id="sub-wrapper">
+                    <div id="divMenu">
+                        <ul class="menu">
+                            <li class="current active" id="home_page_menu"><a href="{{path('_erplms_dashboard')}}"  id="divMen_menu1" >Home</a></li>
+                            <li class="current active" ><a href="{{ path('_erp_userManagement') }}"  id="divMen_menu2" >User Management</a></li>
+                            <li class="current active" ><a href="{{ path('_erp_systemConfiguration') }}"  id="divMen_menu3" >System Configuration</a></li> 
+                            <li class="current active" ><a href="{{path('_erp_logout')}}" id="divMen_menu4">Logout</a></li> 
+                        </ul>              
+                    </div>
+                    <!--------div menu ------>
+                    <div id="sub-menu"> <input type="hidden" id="click-menu" value="0"/>
+                        <img title="Menu" id="menu-click" src="{{ asset('bundles/common/images/menu.png') }}" onclick="showmenu();" style="width: 30px; height: 30px; float: left; margin-top: -7px; margin-left: -30px; cursor: pointer; padding-right: 10px;" />
+                        <a class="submenu-hyperlink-underline" href="#" >Home ></a> <!--href="{#{{path('_erplms_homepages')}}#}" this path goes to login page -->
+                        <a class="submenu-hyperlink-underline" href="#" id="navMenuPath">Dashboard</a>&nbsp; >
+                        <a class="submenu-hyperlink-underline" href="#" id="navSubMenuPath"></a> 
+                        <a class="submenu-hyperlink-underline" href="#" id="navSubMenu1Path"></a>
+                        &nbsp; 
+                    </div>
+
+                    <!--------div sub-menu-expand ------>
+                    <div id="content">
+                        <table width="100%" border="0" cellspacing="0" cellpadding="0" class="two-coloumn-tbl">            
+                            <tr>
+                                <td rowspan="2" class="two-column-tbl-left" id="left-menu-td">                       
+                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" id="left-menu-tbl" class="side-menu1-title">
+                                        <tr>
+                                            <td id="side-menu-header">
+                                                Customer Information Management
+                                            </td>
+                                        </tr>                                
+                                        <tr>
+                                            <td>
+                                                <div id="side-menu1">
+                                                    <table  width="100%" border="0" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td class="pad-all-6">
+                                                                <input class="" type="hidden" id="currentNavId" value="currentNavId"/>
+                                                                <input class="" type="hidden" id="SUBcurrentNavId" value="currentNavId"/>
+
+                                                                <input class="" type="hidden" id="currentSubNavId" value="currentSubNavId"/>
+                                                                <div id="Customer Information Management" class="">
+                                                                    <a onClick="fnLeftMenuNavigation('atSubMenu', 'menu1', 'Customer Information Management', '{{path('_erpcim_search_customer')}}', 'Search Customer', '');" id="Search Customer" class="sub-menu-expand" >Search Customer</a>
+                                                                    <div class="hide" id="SUBSearch Customer" ></div>
+                                                                    <a onClick="fnLeftMenuNavigation('atSubMenu', 'menu1', 'Customer Information Management', '{{path('_erpcim_create_customer',{'attrib':'a','value':'a'})}}', 'Create New Customer', '');" id="Create New Customer" class="sub-menu-expand" >Create New Customer</a> 
+                                                                    <div class="hide" id="SUBCreate New Customer" ></div>
+                                                                    <a onClick="fnLeftMenuNavigation('atSubMenu', 'menu1', 'Customer Information Management', '{{path('_comsearchcustindex')}}', 'Customer Communication', '');" id="Customer Communication" class="sub-menu-expand" >Customer Communication</a>
+                                                                    <div class="hide" id="SUBCustomer Communication" ></div>
+
+                                                                </div>
+                                                           </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td>&nbsp;</td>
+                                                        </tr>
+                                                    </table>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>                                    
+                                </td>                
+                                <td class="two-column-tbl-right" style="height: 24px;">
+                                    <div id="ajaxLoadPage">
+                                        <!--Dynamic Content - based on the Menu Navigation !-->
+                                        <table border="0"> 
+                                            <tr> 
+                                                <td>
+                                                    <ul class="tabs"> 
+                                                        <li class="active" rel="tab1">Home Page</li>            
+                                                    </ul>
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td>
+                                                    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+                                                        <tr>
+                                                            <td class="dash-board-col-mid" >
+                                                                <div class="newdashboard">
+
+                                                                    <div class="newdashboard1" onclick="fnLeftMenuNavigation('atSubMenu', 'menu1', 'Customer Information Management', '{{path('_erpcim_search_customer')}}', 'Search Customer', '');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/dashboard/semp.png') }}">
+                                                                            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+                                                                                Search Customer</span><br/>
+                                                                            Search Customer by Name, ID and Mobile. View/Edit detail information. 
+                                                                        </p></div>
+
+                                                                    <div class="newdashboard1" onclick="fnLeftMenuNavigation('atSubMenu', 'menu1', 'Customer Information Management', '{{path('_erpcim_create_customer',{'attrib':'a','value':'a'})}}', 'Create New Customer', '');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/dashboard/emp3.png') }}">
+                                                                            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+                                                                                Create Customer</span><br/>
+                                                                                Capture Customer detail information. 
+                                                                        </p></div>
+                                                                    <div class="newdashboard1" onclick="fnLeftMenuNavigation('atSubMenu', 'menu1', 'Customer Information Management', '{{path('_comsearchcustindex')}}','Customer Communication');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/dashboard/comm.png') }}">
+                                                                            <span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;font-weight: bold;"> 
+                                                                                Customer Communication</span> <br/>
+                                                                            Capture/View Customer Communication information. Contact Customer Through Email, Mobile, SMS </p></div>
+
+                                                                    <div class="clear"></div><br/>
+                                                                    <div class="clear"></div> 
+                                                                </div>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                    <!--End of - Dynamic Content - based on the Menu Navigation !-->
+
+                                </td>
+                            </tr>                   
+                        </table>
+                        </td>
+                        </tr>
+                        <tr>
+                            <td style="font:Arial;font-size: 11px;" colspan="3"><div id="footer">&nbsp;</div></td>
+                        </tr>
+                        </table>
+                        <input type="hidden" id="datePickerImage" value="{{ asset('bundles/LMS/images/calender.png') }}" />
+                    </div>
+                    <!--------End of div content------->
+                </div>
+                <!--End of sub wrapper div-->
+
+            </div>
+            <!--End of wrapper div--> 
+            <div id="diablePageDiv"></div>
+
+        </body>
+    </html>
+
+
+
+
+{# empty Twig template #}

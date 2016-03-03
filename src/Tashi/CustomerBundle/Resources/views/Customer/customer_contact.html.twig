@@ -1,0 +1,52 @@
+{#
+   This twig File is used To display the list of Contact Person whose pan No. are existed already 
+  and To say Created New One If Doesn't Exist
+   
+#}
+<!--
+    Common .....AS Overcome Facility is there in the existing Also---
+-->
+<input type="hidden" id="searchFieldNameContact" value="{{fieldName}}" >
+<input type="hidden" id="searchFieldValueContact" value="{{fieldValue}}" >
+
+{% if existingList is not empty %}
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border-content">
+<thead>
+    <th class="tbl-grid-view-header">Sl. No</th>
+    <th class="tbl-grid-view-header">Mobile</th>
+    <th class="tbl-grid-view-header">Contact Person Name</th>
+</thead>
+{% for searchValue in existingList%}
+<tr>
+    <th class="tbl-grid-view-row">{{loop.index}}</th> 
+    <td class="tbl-grid-view-row">{{ searchValue.mobileNo.mobileNo|default('') }}</td>
+    <td class="tbl-grid-view-row">{{ searchValue.contact.personFk.personName|default('') }}</td>
+</tr>
+ {% endfor %}
+<tr>
+    <td style="text-align: center;" colspan="3" class="tbl-grid-view-row-no-bg centered-cell">
+    Contact No. is already in use. Do You Want To Proceed? 
+    <button type="button" class="button" onclick=cimCreateContactAfterSearch("{{path('_erplms_cim_insert_update_contactDetails',{'mode':'INS','contactMobileTxnId':0})}}")> Yes</button>
+    <button type="button" class="button" onclick="cmnfnEmptyShow('divForSearchResultContact', '', 'inpSearchParamValueContact', '');"> No</button>
+    </td>
+</tr>
+<tr>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+    <td>&nbsp;</td>
+</tr>
+</table>
+{% else %}
+<!--None Existing Area
+-->
+<div id="divForContactDoesNotExist">
+   <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border-content">
+        <tr>
+            <td align="center" class="td-separator">Contact doesn't exist&nbsp;&nbsp;
+                 <input type="button" class="button" value="Create New Contact" onclick=cimCreateContactAfterSearch("{{path('_erplms_cim_insert_update_contactDetails',{'mode':'INS','contactMobileTxnId':0})}}") />
+                 
+            </td>
+        </tr>
+    </table>
+</div>
+{% endif %}

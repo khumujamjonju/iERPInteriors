@@ -1,0 +1,33 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top:3px;">                       
+                <tr>
+                    <td class="td-label-title"><span style="color:#000;">Select Supplier</span></td>
+                </tr>
+                <tr><td>                 
+                        <form id="frmPurchasePurchaseProduct" style="margin: 0px;">
+                            <div id="new_table1">
+                                <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0" >                             
+                                    <tr>
+                                     <td class="td-gray-bg" colspan="3">Select Supplier:</td>
+                                        <td class="td-white-bg">
+                                            <Select id="supid" class="cmnWidth">
+                                                <option>--Select--</option>
+                                                {%for s in sup_list%} 
+                                                 <option value="{{s.supplierPk}}">{{s.companyName}}</option>
+                                                {%endfor%}
+                                            </Select>
+                                            <input type="button" class="button blue" id="btn_go" value="Go" onclick="FnViewPurchase('{{path('_supplier_view_for_purchase')}}','#supid')"/>
+
+                                         </td>
+                                    </tr>
+                                    
+                                
+                                </table>
+
+
+   
+                                </div>
+                            </form>                               
+</td>  
+                        
+                        </tr> 
+                </table>

@@ -1,0 +1,77 @@
+<table  width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <td class="td-label-title">Customer List</td>
+    </tr>
+    <tr>
+        <td>
+            <table id="example"  width="100%" border="0" cellpadding="0" cellspacing="0" class="display">
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">#</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Customer</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Address</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Contact</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%set slno=1%}
+                    {%for cust in customerArr%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg">{{slno}}</td>
+                            <td class="tbl-grid-view-row-no-bg">
+                                <b>ID: </b> {{cust.customerID}}<br/>
+                                <b>Name: </b> {{cust.customerName|upper}}
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <select name="selCustAdd{{cust.customerIdPk}}" id="selCustAdd{{cust.customerIdPk}}" class="cmnWidth">
+                                    <option value="">--select--</option>
+                                    {%for add in addressArr%}
+                                        {%set addMaster=add.addressFk%}
+                                        {%if add.customerFk.customerIdPk==cust.customerIdPk%}
+                                            {%set address=addMaster.address1%}
+                                            {%if addMaster.address2!=''%}
+                                                 {%set address=address ~ ","~addMaster.address2%}
+                                            {%endif%}
+                                            {%if addMaster.cityCodeFk!=null%}
+                                                 {%set address=address ~ ","~addMaster.cityCodeFk.cityName%}
+                                            {%endif%}
+                                            {%if addMaster.stateCodeFk!=null%}
+                                                 {%set address=address ~ ","~addMaster.stateCodeFk.stateName%}
+                                            {%endif%}
+                                            {%if addMaster.countryCodeFk!=null%}
+                                                  {%set address=address ~ ","~addMaster.countryCodeFk.countryName%}
+                                            {%endif%}
+                                             {%if addMaster.pinNumber!=''%}
+                                                 {%set address=address ~"-"~addMaster.pinNumber%}
+                                            {%endif%}
+                                            <option value="{{add.pkid|default('')}}" {%if add.isPrimaryAddress==1%}selected{%endif%}>{{address}}</option>
+                                        {%endif%}
+                                    {%endfor%}
+                                </select>
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <select name="selCustCont{{cust.customerIdPk}}" id="selCustCont{{cust.customerIdPk}}" class="cmnWidth">
+                                    <option value="">--select--</option>
+                                    {%for cont in contactArr%}
+                                        {%if cont.contact.customerFk.customerIdPk==cust.customerIdPk%}
+                                            <option value="{{cont.contact.pkid}}" 
+                                                {%if cont.contact.isPrimaryContact==1%}selected{%endif%}>
+                                                {{cont.mobileNo.mobileNo~"("~cont.contact.personFk.personName~")"}}
+                                            </option>
+                                        {%endif%}
+                                    {%endfor%}
+                                </select>
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <input type="button" class="button" value="Select and Proceed" 
+                                       onclick="projectStep2('{{cust.customerIdPk}}','{{path("_projstep2",{'custid':cust.customerIdPk})}}');"/>
+                            </td>
+                        </tr>
+                        {%set slno=slno+1%}    
+                    {%endfor%}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>

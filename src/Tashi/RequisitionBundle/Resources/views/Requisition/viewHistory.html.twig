@@ -1,0 +1,49 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top:5px;">
+    <tr>
+    <input id="spanCloseOpenHandlerQuantity" value="0" type="hidden">
+    <td class="td-label-title" onclick="lmsShowHideAddressResult('Quantity');">Return Product Details List:
+    <span style="float: right;" id="spanIdQuantity" class="span_open" >&nbsp;</span></td>
+</tr>
+<tr id="trAddressQuantity">
+<td>
+<table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">
+    <input type="hidden" value="" id="requisitionID" name="requisitionID"/>
+    <thead>  <tr> <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;width: 50px;">Sl. No</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Product Name</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Return Quantity</td> 
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Return Date</td>
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Return Purpose</td> 
+        <td class="tbl-th-grid-view-row-no-bg" style="background: #ccc;">Remark</td> 
+    </tr>
+    </thead>
+       {%if req |length<=0%}
+                    <tr>
+                        <td colspan="5">
+                            <br/>
+                            <p style="color:#ff0000; text-align: center; margin-bottom:10px;;">No return product history found</p>
+                        </td>
+                    </tr>
+                {%endif%}
+    
+    {%for r in req%}
+    <tr>
+        <td class="td-gray-bg" style="text-align: center;">{{loop.index}}</td>
+        <td class="td-white-bg cmnWidth" style="text-align: center;">{{r.reqProFk.productFk.productName | default('')}} ({{r.reqProFk.productFk.productCode | default('')}})</td>
+        <td class="td-gray-bg cmnWidth"  style="text-align: center;">{{r.returnquantity | default('')}}</td> 
+        <td class="td-gray-bg cmnWidth"  style="text-align: center;">{{r.returnDate | date('Y-m-d') | default('')}}</td> 
+        <td class="td-gray-bg cmnWidth"  style="text-align: center;">{{r.reqPurFk.purposeName | default('')}}</td> 
+        <td class="td-gray-bg cmnWidth"  style="text-align: center;">{{r.remarks | default('')}}</td> 
+    </tr> 
+    {%endfor%}
+    
+    <tr>
+        <td style="text-align: center;" colspan="5"><br>
+        <input class="button blue" type="button" value="Close" onclick="Closediv();"/>  <br>
+        </td>
+    </tr>
+    
+    
+</table></td>
+
+</tr>
+</table>

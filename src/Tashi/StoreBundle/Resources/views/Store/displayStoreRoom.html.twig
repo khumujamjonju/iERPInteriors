@@ -1,0 +1,39 @@
+<input type="hidden" id="addStoreRoomUpdateURL" value="{{'/Tashi/web/app_dev.php/Store/update_addStoreRoom/'~record.id  }}">
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <td class="td-label-title" colspan="5">Room List:</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead class="">
+                    <tr>                                
+                        <th class="tbl-th-grid-view-row-no-bg">Store Name</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Building Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Floor No</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Room No</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                    </tr>
+                </thead>
+
+                <tbody>                           
+                           {% for c in record.result%}
+                        <tr>                                        
+                            {%set floor=c.StoreFloorMasterFk|default('')%}
+                            {%set bldg=floor.storeBuildingMasterFk|default('')%}
+                            {%set store=bldg.storeMasterFk|default('')%}
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{store.storeName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{bldg.buildingName | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{floor.storeFloorNo | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{c.storeRoomNo | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <a href="javascript:void();" onclick="retreiveStoreRoom('{{path('_retrieve_addStoreRoom',{'Rid': c.storeRoomPk })}}');">Edit </a> | 
+                                <a href="javascript:void();" style="color:#ff0000;" onclick="deleteStoreRoomMaster('{{path('_delete_addStoreRoom',{'Rid': c.storeRoomPk  })}}');">Delete </a>                                        
+                            </td>                                                
+                        </tr>
+                             {%endfor%}      
+                    </tbody>
+                </table>
+            </td>
+        </tr>                                 
+    </table>

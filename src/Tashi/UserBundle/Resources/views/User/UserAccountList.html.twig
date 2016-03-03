@@ -1,0 +1,83 @@
+<table width="100%" align="center" cellspacing="0" class="tbl-border">
+    <tr>
+        <input id="spanCloseOpenHandleracclist" value="0" type="hidden"/>
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('acclist');">
+            User Account List
+            <span style="float: right;" id="spanIdacclist" class="span_open" >&nbsp;</span>
+        </td>
+    </tr>
+    <tr id="trAddressacclist">
+        <td>
+            <table width="100%" align="center" id="example" cellspacing="0" class="display">  
+                <thead>
+                    <tr> 
+                        {#<th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center; width: 50px;">Sl. No.</th>#}
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: center;">Employee ID</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Name</th> 
+                        {#<th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Designation</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Department</th> #}
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">User/Login Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Group(s)</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Effective Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Expiry Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Status</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="width:170px;">Action</th>
+                    </tr>
+                </thead>
+                <tbody>  
+                    {%set slno=1%}
+                    {%for acc in accArr%}
+                        <tr>
+                            {#<td class="tbl-grid-view-row-no-bg" width="50px" align="center">{{slno}}</td>#}
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{acc.userFk.employeeId|default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" style="text-align: justify;" width="170px">{{acc.userFk.personFk.personName|default('')|upper}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="left">{{acc.userName}}</td>                 
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                {%set grpLen=groupArr|length-1%}
+                                {%set i=0%}
+                                {%for group in groupArr%}
+                                    {%if group.userFk is not null and acc.userFk is not null%}
+                                        {%if group.userFk.userIdPk==acc.userIdPk%}
+                                            {{group.groupFk.groupName|default|upper}}{%if i<grpLen%},{%else%}.{%endif%} 
+                                        {%endif%}
+                                    {%endif%}
+                                {%set i=i+1%}    
+                                {%endfor%}
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="left" width="100px">{{acc.startDate|date('d-M-Y')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="left" width="100px">
+                                {%if acc.endDate is not null%}{{acc.endDate|date('d-M-Y')}}{%endif%}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="left" width="80px">
+                                {%if acc.isActivate==0%}
+                                    <span style="color:#ff0000;">Not Activated</span>
+                                {%elseif acc.endDate is not null and "now"|date('Y-m-d')>acc.endDate|date('Y-m-d')%}
+                                    <span style="color:#ff0000;">Expired </span>
+                                {%else%}
+                                    <span style="color:{{acc.statusFk.statusColor}};">{{acc.statusFk.statusName}}</span>
+                                {%endif%}
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" width="180px">        
+                                <select id="selUserAccAction{{acc.userIdPk}}" style="width:130px;">
+                                    <option value="">--select--</option>
+                                    {%if acc.statusFk.isAccessible==1%}
+                                        <option value="{{path("_changeexpirydate",{'accountid':acc.userIdPk})}}">Change Expiry Date</option>
+                                        <option value="{{path('_gotoblockaccount',{'accountid':acc.userIdPk})}}">Block Account</option>
+                                    {%elseif acc.statusFk.isAccessible==0%}
+                                        <option value="{{path('_gotoreactivate',{'accountid':acc.userIdPk})}}">Re-activate Account</option>
+                                    {%endif%}                                    
+                                    <option value="{{path('_assignnewpassword',{'accountid':acc.userIdPk})}}">Assign New Password</option>
+                                    <option value="{{path("_accounthistory",{'accountid':acc.userIdPk})}}">View History</option>
+                                    <option value="{{path("_activitylog",{'accountid':acc.userIdPk})}}">View Activity Log</option>
+                                </select>
+                                <input type="button" class="button" value="Go" onclick="userAccountAction('{{acc.userIdPk}}');">
+                            </td>
+                        </tr>
+                        {%set slno=slno+1%}
+                    {%endfor%}
+                </tbody>
+            </table>
+        </td>        
+    </tr>
+</table>
+</br>
+<div id="divActions"></div>

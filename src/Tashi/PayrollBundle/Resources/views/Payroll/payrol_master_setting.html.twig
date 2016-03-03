@@ -1,0 +1,122 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href='#' href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_payrol_master_setting')}}', 'master_setting', 'Payroll', 'Master Setting');"><span>Basic And HRA Percent</span></a></li>
+        <li id="emolument_Deduct"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_emolument_deduction_master')}}', 'emolument_Deduct', 'Payroll', 'Master Setting', 'Emoluments & Deductions');"><span>Emoluments & Deductions</span></a></li> 
+        {#<li id="payment_mode"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_payroll_payment_mode')}}', 'payment_mode', 'Payroll', 'Master Setting', 'Payment Mode');"><span>Payment Mode</span></a></li>      #}
+   </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form">       
+        <table id="payroll_master_form_tbl" width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Create Calculation Percent(%):</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmPayrollMaster" style="margin: 0px;">
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                                                      
+                            <tr>
+                                <td class="td-gray-bg">Basic Calculation Percent(%) <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="basic_cal_pc" name="txt_basic_cal_pc" onKeypress="return validationDigit('#basic_cal_pc');"/>                                     
+                                </td>
+                            </tr>
+                       
+                            <tr>
+                                <td class="td-gray-bg">HRA Calculation Percent(%) <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="hra_cal_pc" name="txt_hra_cal_pc" onKeypress="return validationDigit('#hra_cal_pc');"/>                                          
+                                </td> 
+                            </tr> 
+                            <tr>
+                                <td class="td-gray-bg">Applicable Date On <span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="date" id="date_of_use" name="txt_date_of_use" />                                          
+                                </td> 
+                            </tr> 
+                            <tr id="status_field" style="display: none;">
+                                <td class="td-gray-bg">Status</td>
+                                <td class="td-white-bg">
+                                    <select class="select-width" id="status" name="txt_status">                                      
+                                        <option value="1">Active</option>
+                                        <option value="0">Inactive</option>
+                                    </select>                                          
+                                </td> 
+                            </tr>  
+                            <tr>
+                                <td class="td-gray-bg">Desciption</td>
+                                <td class="td-white-bg">
+                                    <textarea id="description" name="txt_description" cols="80" rows="4"></textarea>                                          
+                                </td> 
+                            </tr>
+                                                                                                                    
+                            <tr>
+                                <td class="td-separator" colspan="4" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveBasicHraCalculation(this, '{{ path('_save_payrol_percentage_calculation')}}');"/>
+                                    <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editPayrolMasterField(this);" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="return saveBasicHraCalculation(this, '{{ path('_save_payrol_percentage_calculation')}}');"  style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="cancelPayrolMasterField(this);" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>  
+                            </tr>
+                        </table>
+                             <input type="hidden" id="payrol_master_id"  name="txt_payrol_master_id" value=""/>
+                    </form>                               
+                </td>
+            </tr> 
+        </table>
+        <div id="calculation_alert" style="margin-top: -25px; margin-bottom: 20px; margin-left: 60%; color: red; display: none; font-style: italic;"></div>
+        <div id="display_list" style="margin-top: 8px;">
+               <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                    <tr>
+                        <td class="td-label-title">Calculation Percent(%) Details:</td>
+                    </tr>
+                    <tr>
+                        <td>                    
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr>
+                                        <th class="tbl-th-grid-view-row-no-bg">Sl.No.</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Basic Cal. Percent(%)</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">HRA Cal. Percent(%)</th> 
+                                        <th class="tbl-th-grid-view-row-no-bg">Applicable On</th>        
+                                        <th class="tbl-th-grid-view-row-no-bg">Descriptin</th>  
+                                        <th class="tbl-th-grid-view-row-no-bg">Status</th>  
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                                    </tr>
+                                </thead>
+
+                                <tbody>                           
+                                {%for r in result|default('')%} 
+                                        <tr>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ r.basicCalculationPercent|default('') }}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ r.hrCalculationPercent|default('') }}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                                {%if r.dateOfUse|default('') != '' %}
+                                                    {{ r.dateOfUse|default('')|date('d-m-Y') }}
+                                                {%endif%}
+                                            </td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center" style="text-align: justify; width: 350px;">{{ r.description|default('') }}</td>   
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                                {%if r.status|default('') == 1%} Active {%else%} Inactive {%endif%}
+                                            </td>                                          
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                                <select class="normal_select" id="payrolMasterAction{{r.pkid|default('')}}" name="txt_payrolMasterAction" >
+                                                    <option value="">Select</option>                                
+                                                    <option value="{{path('_retrive_payrol_percentage_calculation',{'pkid': r.pkid|default('')})}}&upd">Edit</option>
+                                                    <option value="{{path('_delete_payrol_percentage_calculation',{'pkid': r.pkid|default('')})}}&del">Delete</option>
+                                                </select> 
+                                                <input class="button" name="commit" type="button" value="Go" onClick="payrolMasterAction(this,'{{r.pkid|default('')}}','#payrolMasterAction');" />                                
+                                            </td>                                                 
+                                        </tr>                    
+                                {%endfor%}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>                                 
+                </table>
+            </div> 
+        </div> 
+    </div>

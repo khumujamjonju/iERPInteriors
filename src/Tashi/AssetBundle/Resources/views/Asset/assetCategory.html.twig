@@ -1,0 +1,81 @@
+<div class='sub-menu'>
+    <ul>
+        <li class='active' id="asset_register" onclick="fnLeftMenuNavigation('{{path('_asset_category')}}', 'asset_category', 'Asset category','Asset Master category');"><a  href="javascript:void();" >Category</a></li>               
+    </ul>
+</div>
+<div class="newdashboard"> 
+<div class="application-form"> 
+    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" id="assetCategoryTbl">                       
+        <tr>
+            <td class="td-label-title">Asset Category</td>
+        </tr>
+        <tr>
+            <td>                 
+                <form id="frmAssetCategory" style="margin: 0px;">
+                    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                        <tr>
+                            <td class="td-gray-bg">Category:<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <input class="cmnWidth" type="text" id="assetcategory" name="assetcategory" onkeypress="return NullonEnterKey(event);">                                     
+                            </td>
+                            <td class="td-gray-bg">Description:<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">
+                                <textarea class="cmnWidth" rows="2" id="assetcategorydescription" name="assetcategorydescription"></textarea>                                           
+                            </td>                                                          
+                        </tr> 
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveAssetCategoryMaster('{{ path('_saveAssetCategory', {'assetCateID': 0, 'mode': 'ins'})}}',this);"/>
+                                <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="AsetEditBtn('assetcategory','assetcategorydescription');" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_update" value="Update" onclick="return saveAssetCategoryMaster('{{ path('_saveAssetCategory', {'assetCateID': 0, 'mode': 'ins'})}}',this);"" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="assetCancel('assetCategoryTbl','AssetCategoryId');" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                            </td>
+                        </tr>
+                        
+                    </table>
+                         <input type="hidden" id="AssetCategoryId" name="AssetCategoryId" value="">
+                </form>                               
+            </td>
+        </tr> 
+    </table>
+    <div id="display-list" style="margin-top: 8px;">
+       
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Category List:</td>
+            </tr>
+            <tr>
+                <td>
+
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr> 
+                                <th class="tbl-th-grid-view-row-no-bg">Category ID</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Category Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+
+                        <tbody>                           
+                             {% for c in record%}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetMasterPk | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.assetCategoryName | default('')}}</td>
+                                   
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <a href="javascript:void();" onclick="retriveAssetCategoryMaster('{{path('_retrieveAssetCategory',{'ACid': c.assetMasterPk })}}');">Edit </a> |
+                                    <a href="javascript:void();" onclick="deleteAssetCategoryMaster('{{path('_deleteAssetCategory',{'ACid': c.assetMasterPk })}}');">Delete </a>
+
+                                    </td>                                                 
+                                </tr>
+                                  {%endfor%}  
+                               
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>
+        </div> 
+    </div>
+</div>

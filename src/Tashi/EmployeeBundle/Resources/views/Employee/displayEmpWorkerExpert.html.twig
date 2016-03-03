@@ -1,0 +1,29 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+    <tr>
+        <td class="td-label-title">Worker Expertise List</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Worker Expert Name</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                    </tr>
+                </thead>
+                <tbody> 
+                               {%for e in allRecord%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{e.expertType}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{e.description}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <a href="javascript:void();" onclick="retrieveEmpWorkerExpert('{{ path('_retrieve_emp_worker_expert',{ 'workerExpertId': e.expertTypePk})}}');">Edit</a>
+                                | <a href="javascript:void();"  style="color:#ff0000;" onclick="deleteEmpSubModule('{{ path('_deleteEmpWorkerExpert', { 'workerExpertId': e.expertTypePk | default('')})}}', 'Worker Ecpertise');">Delete</a>
+                        </tr> 
+                                {%endfor%}
+                    </tbody>
+                </table>
+            </td>
+        </tr>                                 
+    </table>

@@ -1,0 +1,215 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+    <tr>
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('trStkDetail');" style="cursor:pointer;">Stock Detail   
+            <input id="spanCloseOpenHandlertrStkDetail" value="0" type="hidden"/>
+                        <span style="float: right;" onclick="lmsShowHideAddressResult('trStkDetail');" id="spanIdtrStkDetail" class="span_open" >&nbsp;</span>
+        </td>
+    </tr>
+    <tr id="trAddresstrStkDetail">
+        <td style="padding:5px;">
+            <form id="ViewEditStockFrm">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                    <br/>
+                    {%if po !=null%} 
+                        <tr>
+                            <td class="td-label-title">Purchase Order Detail</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                    <tr>
+                                        <td class="td-gray-bg">PO Number:</td>
+                                        <td class="td-white-bg">{{po.uiOrderId}}
+                                            <input type="hidden" name="inputPoNumer" id="inputPoNumer" value="{{po.uiOrderId}}">
+                                             <input type="hidden" name="inputPoid" value="{{po.poPk}}">
+                                        </td>
+                                        <td class="td-gray-bg">Supplier</td>
+                                            {%set supplier=po.vendorMasterFk%}
+                                        <td class="td-white-bg" align="left">{{supplier.companyName}}</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="td-gray-bg">Order Date</td>
+                                        <td class="td-white-bg">{{po.orderDate|date('d M,Y')}}</td>
+                                        <td class="td-gray-bg">Expected Delivery Date</td>
+                                        <td class="td-white-bg">{{po.expectedDelivery|date('d M,Y')}}</td>
+                                    </tr>                
+                                </table>
+                            </td>
+                        </tr>
+                    {%endif%}
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td class="td-label-title">Product Detail</td>
+                    </tr>
+                    <tr>
+                        <td> 
+                            <br/>
+                            <table width="100%" align="center" id="example" cellspacing="0">  
+                                <thead>
+                                    <tr> 
+                                        <th class="tbl-th-grid-view-row-no-bg">PRODUCT CODE</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">PRODUCT NAME</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">PRODUCT DESCRIPTION</th> 
+                                        <th class="tbl-th-grid-view-row-no-bg">PURCHASE PRICE</th> 
+                                        <th class="tbl-th-grid-view-row-no-bg">MARKUP PRICE</th> 
+                                    </tr>
+                                </thead>
+                                <tbody>  
+                                    <tr>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{prdprice.product.productCode|default('')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{prdprice.product.productName|default('')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{prdprice.product.productDesc|default('')}}</td>  
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{prdprice.costPrice|default('')}}</td>   
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{prdprice.markupPrice|default('')}}</td>  
+                                    </tr>            
+                                </tbody>
+                            </table>
+                            <input type="hidden" name="inputStockId" id="inputStockId" value="{{stock.pkid}}"/>
+                            {#<input type="hidden" name="inputStoreId" id="inputStoreId"/>
+                            <input type="hidden" name="inputBldgId" id="inputBldgId"/>
+                            <input type="hidden" name="inputFloorId" id="inputFloorId"/>
+                            <input type="hidden" name="inputRoomId" id="inputRoomId"/>
+                            <input type="hidden" name="inputRackId" id="inputRackId"/>
+                            <input type="hidden" name="inputPOId" id="inputPOId" value="{%if po is defined%}{{po}}{%endif%}"/>#}
+                            <input type="hidden" name="inputprodId" value="{{prdprice.product.pkid}}" />
+                        </td>
+                    </tr>   
+                    <tr>
+                        <td class="td-label-title">
+                            Store Location                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                                <tr>
+                                    <td class="td-gray-bg">Select Store <span class="necessary-field">*</span></td>                        
+                                    <td class="td-white-bg" id="tdStkStore">                                    
+                                        <select name="selstkStore" id="selstkStore" class="cmnWidth" onchange="loadbuildingbystoreid(this.id);">
+                                            <option value="">--select--</option>
+                                            {%for s in storeArr%}
+                                                <option value="{{path("_loadbuildingbystoreid",{'storeid':s.storemasterPk})}}&{{s.storemasterPk}}" {%if store.storeMasterPk|default('')==s.storeMasterPk%}selected{%endif%}>{{s.storeName}}</option>
+                                            {%endfor%}
+                                        </select>
+                                    </td>
+                                    <td class="td-gray-bg"> Select Building </td>
+                                    <td class="td-white-bg" id="tdStkBldg">
+                                        <select name="selStkBldg" id="selStkBldg" class="cmnWidth" onchange="loadfloorbybldgid(this.id);">
+                                            <option value="">--select--</option>
+                                            {%for b in bldgArr%}
+                                                <option value="{{path('_loadfloorbybldgid',{'bldgid':b.storeBuildingPk})}}&{{b.storeBuildingPk}}" {%if bldg.storeBuildingPk|default('')==b.storeBuildingPk%}selected{%endif%}>{{b.buildingName}}</option>
+                                            {%endfor%}
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg">Select Floor</td>                        
+                                    <td class="td-white-bg" id="tdStkFloor">                                    
+                                        <select name="selStkFloor" id="selStkFloor" class="cmnWidth" onchange="laodroombyfloorid(this.id);">
+                                            <option value="">--select--</option>
+                                            {%for f in floorArr%}
+                                                <option value="{{path('_loadroombyfloorid',{'floorid':f.storeFloorPk})}}&{{f.storeFloorPk}}" {%if floor.storeFloorPk|default('')==f.storeFloorPk%}selected{%endif%}>{{f.storeFloorNo}}</option>
+                                            {%endfor%}
+                                        </select>
+                                    </td>
+                                    <td class="td-gray-bg"> Select Room </td>
+                                    <td class="td-white-bg" id="tdStkRoom">
+                                        <select name="selStkRoom" id="selStkRoom" class="cmnWidth" onchange="laodrackbyroomid(this.id);">
+                                            <option value="">--select--</option>
+                                            {%for r in roomArr%}
+                                                <option value="{{path('_loadrackbyroomid',{'roomid':r.storeRoomPk})}}&{{r.storeRoomPk}}" {%if room.storeRoomPk|default('')==r.storeRoomPk%}selected{%endif%}>{{r.storeRoomNo}}</option>
+                                            {%endfor%}
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg">Select Rack</td>                        
+                                    <td class="td-white-bg" id="tdStkRack">                                    
+                                        <select name="selStkRack" id="selStkRack" class="cmnWidth" onchange="selectRackId(this.id);">
+                                            <option value="">--select--</option>
+                                            {%for ra in rackArr%}
+                                                <option value="{{path('_laodbinbyrack',{'rackid':ra.storeRackPk})}}&{{ra.storeRackPk}}" {%if rack.storeRackPk|default('')==ra.storeRackPk%}selected{%endif%}>{{ra.rackName}}</option>
+                                            {%endfor%}
+                                        </select>
+                                    </td>
+                                    <td class="td-gray-bg">Select Bin</td>
+                                    <td class="td-white-bg" id="tdStkBin">
+                                        <select name="selStkBin" id="selStkBin" class="cmnWidth">
+                                            <option value="">--select--</option>
+                                            {%for b in binArr%}
+                                                <option value="{{b.pkid}}" {%if bin.pkid|default('')==b.pkid%}selected{%endif%}>{{b.binNo}}</option>
+                                            {%endfor%}
+                                        </select>
+                                    </td>
+                                </tr>
+                            </table>                        
+                        </td>
+                    </tr> 
+                    <tr>
+                        <td class="td-label-title">Detail</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <br/>
+                            <table width="100%" align="center" cellspacing="0" class="tbl-border">                            
+                                {#<tr>
+                                    <td class="td-gray-bg" width="200px">Batch Number</td>
+                                    <td class="td-white-bg">
+                                        <input type="text" name="stkBatchNo" id="stkBatchNo" value="{{stock.batchNo}}">
+                                    </td>
+                                    <td class="td-gray-bg" width="200px">Warranty(in month)</td>
+                                    <td class="td-white-bg">
+                                        <input type="text" name="stkwarranty" id="stkwarranty" value="{{stock.warranty}}">
+                                    </td>
+                                </tr>                
+                                <tr>
+                                    <td class="td-gray-bg">Manufacturing Date</td>
+                                    <td class="td-white-bg"><input type="date" name="stkMfgDate" id="stkMfgDate" value="{{stock.manufacturingDate|date('Y-m-d')}}"/></td>
+                                    <td class="td-gray-bg">Expiry Date</td>
+                                    <td class="td-white-bg"><input type="date" name="stkExpDate" id="stkExpDate" value="{{stock.expiryDate|date('Y-m-d')}}"/></td>
+                                </tr>#}
+                                <tr>
+                                    <td class="td-gray-bg" width="200px">SKU</td>
+                                    <td class="td-white-bg">
+                                        {{stock.productFk.sku|default('')}}
+                                    </td>
+                                    <td class="td-gray-bg" width="200px">Select Unit</td>
+                                    <td class="td-white-bg">
+                                        <select id="selUnit" name="selUnit">
+                                            <option value="">--select</option>
+                                            {%for unit in unitArr%}
+                                                <option value="{{unit.pkid}}" {%if unit.pkid==stock.unitFk.pkid|default('')%}selected{%endif%}>{{unit.unitName}}</option>
+                                            {%endfor%}
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg">Quantity<span class="necessary-field">*</span></td>
+                                    <td class="td-white-bg"><input type="text" name="stkQty" id="stkQty" value="{{stock.quantity}}" onkeypress="return IntegerOnly(event);" style="width:70px;"></td>
+                                    <td class="td-gray-bg">Reorder Quantity</td>
+                                    <td class="td-white-bg"><input type="text" name="stklowqty" id="stklowqty" value="{{stock.reorderQty}}" onkeypress="return IntegerOnly(event);" style="width:70px;"></td>
+                                </tr>                                
+                                <tr>
+                                    <td class="td-gray-bg">Description:<span class="necessary-field">*</span></td>
+                                    <td class="td-white-bg" colspan="3">
+                                        <textarea id="txtStockDesc" name="txtStockDesc" cols="100" rows="5">{{stock.description}}</textarea>
+                                    </td>
+                                </tr>           
+                            </table>
+                        </td>
+                    </tr>
+                </table>     
+            </form>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg" align="center">
+            <input type="button" class="button" value="Update" onclick="if(!confirm('Confirm Update?')) return false; UpdateStock('{{path("_updatestock")}}');">
+            &nbsp;&nbsp;
+            <input type="button" class="button" value="Cancel" onclick="if(!confirm('Are you sure you want to cancel the Update?')) return false;
+                   $('#divStkDetail').empty();">
+        </td>
+    </tr>
+</table>

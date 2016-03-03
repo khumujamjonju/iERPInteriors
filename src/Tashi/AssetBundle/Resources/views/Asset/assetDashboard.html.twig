@@ -1,0 +1,64 @@
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Asset Management</h3>
+        <div id="newmenu">
+            <ul>
+                <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_asset_dashboard')}}', 'asset_master', 'Asset Master', 'Dashboard');"><a  href="javascript:void();">Dashboard</a></li>
+                <li id="asset_category" onclick="fnLeftMenuNavigation('{{path('_asset_category')}}', 'asset_category', 'Asset category','Asset Master category');"><a href="javascript:void();" >category</a></li>                 
+                <li id="asset_register" onclick="fnLeftMenuNavigation('{{path('_asset_register')}}', 'asset_register', 'Asset Register','Asset Master Register');"><a  href="javascript:void();" >Register</a></li> 
+                <li id="assetSearch" onclick="fnLeftMenuNavigation('{{path('_SearchAssetStatus')}}', 'assetSearch', 'Asset Search','Asset Assignment');"><a href="javascript:void();" >Search</a></li>
+                <li id="asset_assignment" onclick="fnLeftMenuNavigation('{{path('_asset_assignment')}}', 'asset_assignment', 'Asset Assignment','Asset Assignment');"><a href="javascript:void();" >Assignment</a></li>
+            </ul> 
+        </div>       
+    </div>         
+</div>
+ 
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'><a href='#'><span>Asset Dashboard</span></a></li>
+            
+        </ul>
+    </div>  
+     <div class="newdashboard">      
+        
+         <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_asset_category')}}', 'asset_category', 'Asset category','Asset Master category');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/asset.png') }}">
+          <span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;font-weight: bold;"> 
+          Category</span> <br/>
+          Capturing and storing record of asset category.</p>
+     </div>
+         
+         
+         
+        <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_asset_register')}}', 'asset_register', 'Asset Register','Asset Master Register');">
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/register.png') }}">
+          <span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;font-weight: bold;"> 
+          Register</span> <br/>
+          Capturing details information on Asset items such as Laptop , Mobile , Tablet etc. </p>
+     </div>
+         
+         <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_SearchAssetStatus')}}', 'assetSearch', 'Asset Search','Asset Assignment');">
+                <p class="newdashparatext"><img src="{{ asset('bundles/common/images/search_128x128.png') }}">
+                    <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+                        Search</span><br/>
+                    Search Customer by Name, ID and Mobile. View/Edit detail information. 
+                </p>
+            </div>
+       
+        <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_asset_assignment')}}', 'asset_assignment', 'Asset Assignment','Asset Assignment');" >
+            <p class="newdashparatext"><img src="{{ asset('bundles/common/images/laptop.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+            Assign</span><br/>
+            Capturing and retrieving information of employee who uses asset items. 
+            </p>
+       </div>
+                
+        
+        <div class="clear"></div><br/>
+    <div class="clear"></div> 
+    </div> 
+    
+    
+        
+</div>

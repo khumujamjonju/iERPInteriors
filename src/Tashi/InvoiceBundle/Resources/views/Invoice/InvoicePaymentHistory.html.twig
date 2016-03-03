@@ -1,0 +1,64 @@
+<table width="100%" border="0" class="tbl-border" cellpadding="0" cellspacing="0" >           
+    <tr>   
+        <td class="td-label-title" width="200px">Payment History
+        </td>
+        <td class="td-label-title" align="right">
+            INVOICE NO.:{{invoice.invoiceNo}}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            ORDER NO.: {{invoice.projectFk.orderNo}}
+        </td>
+    </tr>
+    <tr>
+        <td colspan="2">
+            <table id="example1" width="100%" align="center" cellspacing="0"  class="display">
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="width:50px; text-align: center;">#</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Payment Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Payment Mode</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Payment/Transaction No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: right; padding-right: 7px;">Amount</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align: left;">Remarks</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Received By</th>
+                    </tr>
+                </thead>                
+                    {%if payArr|length>0%}
+                        <tbody>
+                        {%set slno=1%}
+                        {%set totalPayment=0%}
+                        {%for pay in payArr%}
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" width="50px" align="center">{{slno}}</td>
+                                <td class="tbl-grid-view-row-no-bg">{{pay.paymentDate|date('d-M-Y')}}</td>
+                                <td class="tbl-grid-view-row-no-bg">{{pay.paymentModeFk.paymentModeName|upper|default('')}}</td>
+                                <td class="tbl-grid-view-row-no-bg">{{pay.paymentNo|upper|default('')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" align="right">{{pay.amount|number_format(2)}}</td>
+                                <td class="tbl-grid-view-row-no-bg" style="text-align: justify;">{{pay.remarks}}</td>
+                                <td class="tbl-grid-view-row-no-bg">{{pay.receivedByFk.personFk.personName|upper|default('')}}</td>
+                            </tr>
+                            {%set slno=slno+1%}
+                            {%set totalPayment=totalPayment+pay.amount%}
+                        {%endfor%}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="tbl-th-grid-view-row-no-bg" colspan="4" align="right">
+                                    Total Paid Amount
+                                </td>
+                                <td class="tbl-th-grid-view-row-no-bg" colspan="4" align="right">
+                                    {{totalPayment|number_format(2)}}
+                                </td>
+                            </tr>
+                        </tfoot>
+                    {%else%}
+                        <tbody>
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" colspan="7" align="center">
+                                     <strong style="color:#ff0000;">There are no payment history for this invoice</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    {%endif%}
+            </table>
+        </td>
+    </tr>
+</table>

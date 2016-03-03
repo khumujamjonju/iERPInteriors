@@ -1,0 +1,35 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Supplier Details List:</td>
+            </tr>
+            <tr>
+                <td>
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr>
+                                <th class="tbl-th-grid-view-row-no-bg">Sl No</th>
+                               {# <th class="tbl-th-grid-view-row-no-bg">Supplier Name</th>#}
+                                <th class="tbl-th-grid-view-row-no-bg">Supplier Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Registration No</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Remarks</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+
+                        <tbody>                           
+                               {%for r in supplier.result%}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{loop.index}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{r.supplierFk.companyName}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{r.supplierFk.registrationNo}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{r.supplierFk.remarks}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                    <a href="javascript:void();" >Edit</a>|
+                                    <a href="javascript:void();" onclick="">Delete</a></td>
+                                </tr> 
+                               {%endfor%}
+                       </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>

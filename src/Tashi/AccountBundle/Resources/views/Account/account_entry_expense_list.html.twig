@@ -1,0 +1,56 @@
+<table id="deductionsFormTbl" width="100%" align="center" cellpadding="0" cellspacing="0" style="border-left: 1px solid #ccc;">  
+    <tr>
+       <td class="td-gray-bg" style="font-size: 13px; font-weight: bold; border-bottom: 1px dotted rgb(240, 240, 240); background: rgb(242, 247, 202);">Expenses</td>                                                         
+   </tr>
+
+   <tr>  
+       <td class="td-white-bg" style="border-top: 1px dotted #ccc;">
+            <table width="100%" align="center" border="0" cellpadding="0" id="example2" cellspacing="0"  class="display"  >  
+           <thead>
+               <tr>
+                   <th class="tbl-th-grid-view-row-no-bg">Sl.No.</th>
+                   <th class="tbl-th-grid-view-row-no-bg">Receipt No</th>
+                   <th class="tbl-th-grid-view-row-no-bg">Account Head</th>                                
+                   <th class="tbl-th-grid-view-row-no-bg">Amount</th> 
+                   <th class="tbl-th-grid-view-row-no-bg">Entry Date</th> 
+                   <th class="tbl-th-grid-view-row-no-bg">Description</th>     
+                   <th class="tbl-th-grid-view-row-no-bg">Entry By</th>
+           {#      <th class="tbl-th-grid-view-row-no-bg">Action</th>     #}                                              
+               </tr>
+           </thead>
+
+           <tbody>   
+           {% set totalExpense = 0%}
+           {%for a in allExpenseAccountEntry|default('')%} 
+                   <tr>
+                       <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                       <td class="tbl-grid-view-row-no-bg" align="center">{{ a.prcFormat|default('') }}</td>
+                       <td class="tbl-grid-view-row-no-bg" align="center">{{ a.accountHeadFk.headName|default('') }}</td>                                                                                 
+                       <td class="tbl-grid-view-row-no-bg">{{ a.amount|default('') }}</td>   
+                       <td class="tbl-grid-view-row-no-bg" align="center">{{ a.date|default('')|date('d-m-Y') }}</td> 
+                       <td class="tbl-grid-view-row-no-bg" align="center" style="text-align: justify; width: 230px;"> {{ a.description|default('') }}</td>                                          
+                       <td class="tbl-grid-view-row-no-bg" align="center">{{ a.applicationUser.personFk.personName|default('')|upper }}</td>
+                           
+               {#      <td class="tbl-grid-view-row-no-bg" align="center">
+                           <select class="normal_select" id="accountEntryAction{{a.pkid|default('')}}" name="txt_accountEntryAction" >
+                               <option value="">Select</option>                                
+                               <option value="{{path('_retrive_account_entry_record',{'pkid': a.pkid|default('')})}}&upd">Edit</option>
+                               <option value="{{path('_delete_account_entry_record',{'pkid': a.pkid|default('')})}}&del">Delete</option>
+                           </select> 
+                           <input class="button" name="commit" type="button" value="Go" onClick="accountEntryAction(this,'{{a.pkid|default('')}}','#accountEntryAction');" />                                
+                       </td>   #}                                                  
+                   </tr> 
+                   {% set totalExpense = totalExpense + a.amount|default('')%}
+           {%endfor%}
+               </tbody>
+           </table>
+       </td>                            
+   </tr> 
+   <tr>
+       <td class="td-gray-bg">                           
+           <div style=" margin-left: 70.8%;padding: 10px;">
+               <b> Total Expenses:</b> <span style="margin-left: 80px;"><b>Rs</b> <span id="totalExpense">{{ totalExpense }}</span></span>
+           </div>
+       </td>
+   </tr>  
+</table> 

@@ -1,0 +1,91 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+{#<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="javascript:void();">Bank Account</a></li>  
+    </ul>
+</div>#}
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Manage Cash Account</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmCompanyCashDetail" style="margin: 0px;">
+                        <input type="hidden" id="company_cash_id" class="accountid" name="txt_company_cash_id" />
+                        <table id="bank_account_form_tbl" width="100%" align="center" cellpadding="0" cellspacing="0">   
+                        {#<tr>
+                            <td class="td-gray-bg" colspan="4" align="center">Select Company: <span class="necessary-field">*</span> 
+                                <select class="cmnWidth" id="company" name="txt_company">
+                                    <option value="">--select--</option>
+                                   {% for c in company|default('') %}
+                                     <option value="{{ c.pkid|default('') }}"> {{ c.companyName|default('') }} </option>
+                                   {% endfor %}
+                                </select>
+                            </td>                                                                                     
+                        </tr>#}
+                        <tr>
+                            <td class="td-gray-bg">Amount: <span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"><input class="cmnWidth" type="text" id="cash_amount" name="cash_amount" onkeypress="return IntegerOnly(event);" placeholder="e.g.10000"/>                                    
+                            </td>
+                            <td class="td-gray-bg"></td>
+                            <td class="td-white-bg"> 
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Description:<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg" colspan="3">                                
+                            <textarea id="description" name="description" style="width:98%;height:70px;"></textarea>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                               <input type="button" class="button blue" id="btn_save" value="Save" onclick="saveCompanyCashInfo('{{path('_save_company_cash_account')}}', this,'ins');"/>
+                               <input type="button" class="button blue" id="btn_update" value="Update" onclick="saveCompanyCashInfo('{{path('_save_company_cash_account')}}', this,'edt');"  style="display: none;"/>              
+                               <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>
+                               {#<input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editBankDetailsFields(this);" style="display: none;"/>
+                               <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="cancelBankDetailsFields(this);"  style="display: none;"/>#}
+                            </td>  
+                        </tr>
+                    </table>                                                                                                    
+                    </form>                               
+                </td>
+            </tr> 
+        </table>    
+        <div id="display-list" style="margin-top: 8px;">
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">            
+                <tr>
+                    <td class="td-label-title">Cash Account Details: </td>
+                </tr>
+                <tr>
+                    <td>                    
+                        <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                            <thead class="">
+                                <tr>
+                                    <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                                    <th class="tbl-th-grid-view-row-no-bg">Account Balance</th> 
+                                    <th class="tbl-th-grid-view-row-no-bg">Creation Date</th>
+                                  {#  <th class="tbl-th-grid-view-row-no-bg">Action</th> #}
+                                </tr>
+                            </thead>
+                            <tbody>                           
+
+                          {%for c in cashAccount|default('') %}
+                                <tr>                                   
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{ c.currentAmount |default('') }} </td>                                  
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.createdDate |default('') | date('d-m-Y')  }} </td>
+                                   {# <td class="tbl-grid-view-row-no-bg" align="center"> 
+                                    <select class="normal_select" id="cashAccount{{c.pkid | default('')}}" name="txt_cashAccount" >
+                                    <option value="{{path('_retrive_cash_account_record',{'pkid':c.pkid | default('')})}}&upd">Edit</option>
+                                    <input class="button" name="commit" type="button" value="Go" onClick="cashAccountAction(this,'{{c.pkid|default('')}}','#cashAccount');" />
+                                    </select>
+                                    </td>#}                                                 
+                                </tr>                    
+                          {%endfor%}
+
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table> 
+    </div>

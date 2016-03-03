@@ -1,0 +1,86 @@
+{#<div class="newdashboard">  
+    <div class="application-form">#}
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Industry Type</td>
+            </tr>
+            <tr>
+                <td id="catsaveEditPage">
+                    <form id="FormIndustry" style="margin: 0px;">
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg">Type Name<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg"colspan="1">
+                                    <input class="cmnWidth" type="text" id="txtname" name="txtname" onkeypress="return NullonEnterKey(event);">                                     
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Description</td>
+                                <td class="td-white-bg"colspan="1">
+                                    <textarea id="txtDescription" name="txtDescription" rows="5" cols="50"></textarea>
+                                    <input type="hidden" name="pkid"> 
+                                </td> 
+                            </tr>                            
+                            <tr>
+                                <td class="td-gray-bg"></td>
+                                <td class="td-white-bg" colspan="5">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" 
+                                        onclick="ManageIndustryType('{{path('_manageindustrytype',{'mode':'INS'})}}','FormIndustry','ins');"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>  
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Industry Type List</td>
+            </tr>
+            <tr>
+                <td id="tdAreaList">
+                    <table id="example" width="100%" align="center" border="0" cellpadding="0" cellspacing="0"  class="display"  >  
+                        <thead>
+                            <tr> 
+                                {#<th class="td-gray-bg">CATEGORY_ID</th>#}
+                                <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" width="200px">INDUSTRY TYPE</th>
+                                <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">DESCRIPTION</th>
+                                <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" width="200px">ACTION</th>                                              
+                            </tr>
+                        </thead>
+                        <tbody> 
+                            {%if industryArr|length <=0%}
+                                <tr>
+                                    <td colspan="3">
+                                        <p style="color:#ff0000; margin:0; text-align:center; padding:5px 0;">
+                                            No Record Found.
+                                        </p>
+
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td colspan="4"></td>
+                                </tr>
+                            {%else%}
+                                {%for industry in industryArr %}
+                                    <tr>
+                                       {# <td class="tbl-grid-view-row-no-bg" align="center">{{cat.CategoryID|default("")}}</td>#}
+                                       <td class="tbl-grid-view-row-no-bg" align="center">{{industry.industryType|default("")|upper}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="left">{{industry.description|default("")}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">
+                                            <a href="javascript:;" onclick="IndustryTypeAction('{{path('_gotoeditindustry',{'industryid': industry.pkid|default('')})}}','');">Edit</a> | 
+                                            <a href="javascript:;" style="color:#ff0000;" onclick="IndustryTypeAction('{{path('_deleteindustry',{'industryid': industry.pkid})}}','del');">Delete</a>                              
+                                        </td>                                                
+                                    </tr> 
+                               {%endfor%}
+                            {%endif%}
+                       </tbody>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    {#</div>
+</div>
+#}

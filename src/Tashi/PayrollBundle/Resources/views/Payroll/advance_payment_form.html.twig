@@ -1,0 +1,55 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+    <tr>
+        <td class="td-label-title">
+             Advance For Employee ID: {{ empDetails.employeeId|default('') }} ,    {{ empDetails.personFk.personName|default('') }} 
+            {%if key|default('') == 'cre'%}
+                <input type="button" class="button view_his_btn" value="View History" style="float: right; margin-right: 50px; margin-top: -4px;" onclick="fnShowEmpAdvancePaymentHistory('{{path('_view_emp_advance_payment_history',{'empID': empID|default('') })}}');"/>
+                <input type="button" class="button close_his_btn" value="Close History" style="float: right; margin-right: 50px; margin-top: -4px; display: none;" onclick="fnCloseHistoy('#emp_advance_payment_history', '.emp_advance_history_area');"/>
+             {%else%}   
+                <input type="button" class="button close_his_btn" value="Close History" style="float: right; margin-right: 50px; margin-top: -4px; display: none;" onclick="fnCmnEmptyElement('#emp_advance_payment_div');"/>
+            {%endif%}         
+        </td>
+    </tr>
+    <tr>
+        <td class="emp_advance_history_area" style="background: rgb(238, 243, 247); display: none;">      
+            <input type="hidden" id="key" value="{{key}}"/>
+            <div id="emp_advance_payment_history" style="padding: 5px;">
+                {%if key|default('') == 'his'%}
+                    <script type="text/javascript">
+                        fnShowEmpAdvancePaymentHistory('{{path('_view_emp_advance_payment_history',{'empID': empID|default('') })}}');
+                    </script>
+                {%endif%}
+            </div>                               
+        </td>
+    </tr>
+    <tr>
+        <td class="emp_advance_form_area" align="center">                      
+            <form id="frmAdvancePayment" style="margin: 0px;">
+                <input type="hidden" name="txt_employee_id" value="{{ particularEmpDetail.employeePk|default('') }}" />
+                <input type="hidden" id="advance_payment_id" name="txt_advance_payment_id" value="" />                      
+                <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                      
+                    <tr>
+                        <td class="td-gray-bg">Advance Amount: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <input class="cmnWidth" type="text" id="advance_amount" name="txt_advance_amount" onKeypress="return validationDigit('#advance_amount');"/>
+                        </td>
+                        <td class="td-gray-bg">Create Date: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg"><input type="date"  class="cmnWidth" name="txt_create_date"/></td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Description: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg" colspan="3">
+                            <textarea id="description" name="txt_description" cols="105" rows="4"></textarea>
+                        </td>                      
+                    </tr>
+                    <tr>
+                        <td class="td-separator" colspan="4" style="text-align: center;">
+                            <input type="button" class="button blue" id="save_btn" value="Save Advance Payment" onclick="return saveAdvancePayment(this, '{{path('_save_emp_advance_payment')}}');"/> 
+                            <input type="button" class="button blue" id="edit_btn" value="Edit" onclick="editAdvancePayment(this);" style="display: none;"/>
+                        </td>  
+                    </tr>
+                </table>
+            </form>                               
+        </td>
+    </tr> 
+</table> 

@@ -1,0 +1,92 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href='#' href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_payrol_master_setting')}}', 'master_setting', 'Payroll', 'Master Setting');"><span>Percentage Value</span></a></li>
+        <li id="payment_mode"><a href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_payroll_payment_mode')}}', 'payment_mode', 'Payroll', 'Master Setting', 'Payment Mode');"><span>Payment Mode</span></a></li>      
+   </ul>
+</div>
+<div class="newdashboard">  
+    <div class="application-form">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title">Create Percentage:</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmPayrollMaster" style="margin: 0px;">
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg">Percentage(%) Calculation Of Basic Salary</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="basic_salary_percent" name="txt_basic_salary_percent"/>                                     
+                                </td>
+                            </tr> 
+                            <tr>
+                                <td class="td-gray-bg">Percentage(%) Calculation Of HRA</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth" type="text" id="hra_percent" name="txt_hra_percent"/>                                          
+                                </td>                                                          
+                            </tr> 
+                            <tr>
+                                <td class="td-gray-bg">Description</td>
+                                <td class="td-white-bg">
+                                    <textarea id="description" name="txt_description" cols="50" rows="4"></textarea>                                     
+                                </td>                                                                                        
+                            </tr>
+                            <tr>
+                                <td class="td-separator" colspan="4" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveMasterPercentageCalculation(this, '{{ path('_save_payrol_percentage_calculation')}}');"/>
+                                    <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editPayrolMasterField(this);" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="return saveMasterPercentageCalculation(this, '{{ path('_save_payrol_percentage_calculation')}}');"  style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="cancelPayrolMasterField(this);" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>  
+                            </tr>
+                        </table>
+                             <input type="hidden" id="payrol_master_id"  name="txt_payrol_master_id" value=""/>
+                    </form>                               
+                </td>
+            </tr> 
+        </table>
+        <div id="display_list" style="margin-top: 8px;">
+               <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                    <tr>
+                        <td class="td-label-title">Entry Detail List:</td>
+                    </tr>
+                    <tr>
+                        <td>                    
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr>
+                                        <th class="tbl-th-grid-view-row-no-bg">Percentage Of Basic Salary Calculation</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Percentage Of HRA Calculation</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Description</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                                    </tr>
+                                </thead>
+
+                                <tbody>                           
+                                {%for r in result|default('')%} 
+                                        <tr>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ r.basicPercentOfGross|default('') }}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ r.hraPercentOfBasic|default('') }}</td>
+                                            <td class="tbl-grid-view-row-no-bg" style="width: 300px;">{{ r.description|default('') }}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                                <select class="normal_select" id="payrolMasterAction{{r.payrolMasterPk|default('')}}" name="txt_payrolMasterAction" >
+                                                    <option value="">Select</option>                                
+                                                    <option value="{{path('_retrive_payrol_percentage_calculation',{'pkid': r.payrolMasterPk|default('')})}}&upd">Edit</option>
+                                                    <option value="{{path('_delete_payrol_percentage_calculation',{'pkid': r.payrolMasterPk|default('')})}}&del">Delete</option>
+                                                </select> 
+                                                <input class="button" name="commit" type="button" value="Go" onClick="payrolMasterAction(this,'{{r.payrolMasterPk|default('')}}','#payrolMasterAction');" />  
+                                            </td>                                                 
+                                        </tr>                    
+                                {%endfor%}
+
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>                                 
+                </table>
+            </div> 
+        </div> 
+    </div>

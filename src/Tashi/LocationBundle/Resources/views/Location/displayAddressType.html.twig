@@ -1,0 +1,34 @@
+{#<input type="hidden" id="locationUpdateAddTypeURL" value="{{'/Tashi/web/app_dev.php/location/update_address_type/'~record.id|default('')}}">
+<input type="hidden" id="locationUpdateAddTypeURL" value="{{path('_update_address_type'~record.id)}}">#}
+<input type="hidden" id="locationUpdateAddTypeURL" value="{{path('_update_address_type')}}">
+        <input type="hidden" name="inputcid" id="inputcid" value="{{record.id}}"/>
+       <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                <tr>
+                    <td class="td-label-title">Address Type List:</td>
+                </tr>
+                <tr>
+                    <td>                    
+                       <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                        <thead>
+                            <tr> 
+                                <th class="tbl-th-grid-view-row-no-bg">Address Type</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Address Code</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th>                                              
+                            </tr>
+                        </thead>
+                            <tbody>
+                              {% for c in record.result%}
+                                    <tr>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{c.addressTypeName}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">{{c.addressTypeCode | default('')}}</td>
+                                        <td class="tbl-grid-view-row-no-bg" align="center">
+                                        <a href="javascript:void();" onclick="retriveAddressTypeMaster('{{path('_retreive_address_type',{'aTid': c.AddressTypePk })}}');" >Edit </a> | 
+                                        <a href="javascript:void();" onclick="deleteAddressTypeMaster('{{path('_delete_address_type',{'aTid': c.AddressTypePk})}}');" style="color:#ff0000;" >Delete</a></td>
+                                        </td>                                                 
+                                    </tr>
+                                  {%endfor%} 
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>                                 
+                </table>     

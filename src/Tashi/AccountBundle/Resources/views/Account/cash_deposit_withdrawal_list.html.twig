@@ -1,0 +1,31 @@
+<table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+        <thead>
+            <tr>
+                <th class="tbl-th-grid-view-row-no-bg">Sl. No.</th>
+                <th class="tbl-th-grid-view-row-no-bg"> Type</th>               
+                <th class="tbl-th-grid-view-row-no-bg">Amount</th> 
+                <th class="tbl-th-grid-view-row-no-bg">Date</th> 
+                <th class="tbl-th-grid-view-row-no-bg">By</th>
+                <th class="tbl-th-grid-view-row-no-bg">Description</th>
+
+            </tr>
+        </thead>
+        <tbody> 
+        {%for c in cashDepositWithdrawalRecord|default('')%} 
+            <tr>                         
+                <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                <td class="tbl-grid-view-row-no-bg" align="center">
+                    {%if c.depositWithdrawalKey|default('') == 'D'%}
+                        Deposit
+                    {%else%}
+                        Withdrawal
+                    {%endif%}
+                </td>              
+                <td class="tbl-grid-view-row-no-bg" align="center">{{ c.amount|default('') }}</td> 
+                <td class="tbl-grid-view-row-no-bg" align="center">{{ c.date|default('')|date('d-m-Y') }}</td> 
+                <td class="tbl-grid-view-row-no-bg">{{ c.depositWithdrawalBy|default('') }}</td> 
+                <td class="tbl-grid-view-row-no-bg">{{ c.description|default('') }}</td> 
+            </tr> 
+        {%endfor%}
+        </tbody>                                
+</table>

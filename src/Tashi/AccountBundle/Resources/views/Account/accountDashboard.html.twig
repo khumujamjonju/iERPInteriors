@@ -1,0 +1,176 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Account Management</h3>
+        <div id="newmenu">
+            <ul>
+                <li class="active" id="account_dashboard" onclick="fnMainMenuNavigation('{{path('_account_dashboard')}}', 'account_dashboard', 'Account Dashboard', 'Account Dashboard');"><a href="javascript:void();" > Dashboard</a></li>
+                <li id="master_setting" onclick="fnLeftMenuNavigation('{{path('_account_master')}}', 'master_setting', 'Account Purchase', 'Account Master');"><a href="javascript:void();">Master Setting</a></li>
+                <li id="account_entry" onclick="fnLeftMenuNavigation('{{path('_account_entry')}}', 'account_entry', 'Account Purchase', 'Account Master');"><a href="javascript:void();"> Entry</a></li>
+        {#        <li id="project_wallet" onclick="fnLeftMenuNavigation('{{path('_acc_project_wallet')}}', 'project_wallet', 'Account Purchase', 'Account Purchase');"><a href="javascript:void();">Approve Payment</a></li> #}
+                {#<li id="bank_account" onclick="fnLeftMenuNavigation('{{path('_bank_account')}}', 'bank_account', 'Account Sales', 'Account Purchase');"><a href="javascript:void();" >Bank Details</a></li>#}
+                <li id="bank_deposit_withdrawal" onclick="fnLeftMenuNavigation('{{path('_bank_deposit_widrawal')}}', 'bank_deposit_withdrawal', 'Account Sales', 'Bank Transaction');"><a  href="javascript:void();" >Contra Transaction</a></li>
+                {#<li id="cash_account" onclick="fnLeftMenuNavigation('{{path('_cash_account')}}', 'cash_account', 'Account Sales', 'Account Purchase');"><a href="javascript:void();" >Cash Details</a></li>#}
+         {#      <li id="cash_deposit_withdraw" onclick="fnLeftMenuNavigation('{{path('_cash_deposit_widrawal')}}', 'cash_deposit_withdraw', 'Account Sales', 'Cash Transaction');"><a href="javascript:void();" >Cash Transaction</a></li>  #}
+                <li id="sales" onclick="fnLeftMenuNavigation('{{path('_sales_search_customer')}}', 'sales', 'Account Sales', 'Account Purchase');"><a href="javascript:void();" >Sales</a></li>
+                <li id="payment" onclick="fnLeftMenuNavigation('{{path('_payment_details')}}', 'payment', 'Payment', 'Purchase Payment');"><a  href="javascript:void();">Payment</a></li>
+                <li id="cus_approve_adv_pay" onclick="fnLeftMenuNavigation('{{path('_customer_approve_advance_payment')}}', 'cus_approve_adv_pay', 'Payment', 'Purchase Payment');"><a href="javascript:void();" style="position: relative;"><span>Approve Receive</span> 
+                    {%if ApprCount>0%}<span id="spanCount" class="alert" 
+                      style="
+                            margin-left: 70%;
+                            padding:3px 7px;
+                            border:#ff0000;                   
+                            position:absolute; 
+                            top: 1.5px;
+                            left:90%;
+                            background:#ff0000; 
+                            color:#fff; 
+                            border-radius: 4px; 
+                           ">{{ApprCount}}</span>
+                  {%endif%}
+                    </a>
+                
+               </li>
+                <li id="sanctionSalaryAmount" onclick="fnLeftMenuNavigation('{{path('_sanction_salary_slip')}}', 'sanctionSalaryAmount', 'sanctionSalaryAmount', 'Sanction Salary Amount');"><a  href="javascript:void();" style="position: relative;">
+                        <span>Salary Sanction</span>                       
+                       {%if totalSanctionSalary>0%}<span id="countText" class="alert" 
+                      style="                     
+                            margin-left: 80%;
+                            padding:3px 7px;
+                            border:#ff0000;                   
+                            position:absolute; 
+                            top: 1.5px;
+                            left:90%;
+                            background:#ff0000; 
+                            color:#fff; 
+                            border-radius: 4px; 
+                           ">{{totalSanctionSalary}}</span>
+                  {%endif%}
+                    </a>
+                </li>
+                <li id="viewAccReport" onclick="fnLeftMenuNavigation('{{path('_view_account_report')}}', 'viewAccReport', 'Payment', 'View Account Report');"><a  href="javascript:void();">View Account Report</a></li>
+            </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href='#' href="javascript:void();" onclick="fnMainMenuNavigation('{{path('_account_dashboard')}}', '_account_dashboard', 'Account Dashboard', 'Account Dashboard');">Dashboard</a></li>        
+    </ul>
+</div>
+<div class="newdashboard">  
+     
+    <div class="newdashboard1"  href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_account_master')}}', 'master_setting', 'Account Purchase', 'Account Master');">
+    <p class="newdashparatext"><img src="{{ asset('bundles/common/images/Project2_128x128.png') }}">
+          <span style="color:#000; font-size: 12px; font-weight: bold; font-family: arial; text-decoration: underline;">Master Setting</span> <br/>
+          capturing master setting information
+    </p>
+        
+        
+   </div>
+    
+    <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_account_entry')}}', 'account_entry', 'Account Purchase', 'Account Master');">
+    <p class="newdashparatext"><img src="{{ asset('bundles/common/images/entry-01_128x128.png') }}">
+          <span style="color:#000; font-size: 12px; font-weight: bold; font-family: arial; text-decoration: underline;">Entry</span> <br/>
+          capturing account head details.
+    </p>
+        
+        
+   </div>
+    {#<div class="newdashboard1"  href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_bank_account')}}');">
+    <p class="newdashparatext"><img src="{{ asset('bundles/common/images/bank-details_128x128.png') }}">
+          <span style="color:#000; font-size: 12px; font-weight: bold; font-family: arial; text-decoration: underline;">Bank Details</span> <br/>
+          capturing bank details information.
+    </p>
+        
+        
+   </div>#}
+    
+    <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_bank_deposit_widrawal')}}', 'bank_deposit_withdrawal', 'Account Sales', 'Bank Transaction');">
+    <p class="newdashparatext"><img src="{{ asset('bundles/common/images/BANK_128x128.png')}}">
+          <span style="color:#000; font-size: 12px; font-weight: bold; font-family: arial; text-decoration: underline;">Contra Transaction</span> <br/>
+          capturing bank deposit/withdrawal details and transaction between account.
+    </p>
+   </div>
+    
+    {#<div class="newdashboard1"  href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_cash_account')}}');">
+    <p class="newdashparatext"><img src="{{ asset('bundles/common/images/cash-details_128x128.png') }}">
+          <span style="color:#000; font-size: 12px; font-weight: bold; font-family: arial; text-decoration: underline;">Cash Details</span> <br/>
+          capturing cash details information.
+    </p>
+        
+        
+   </div>#}     
+    
+    <div class="newdashboard1"  href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_sales_search_customer')}}', 'sales', 'Account Sales', 'Account Purchase');">
+    <p class="newdashparatext"><img src="{{ asset('bundles/common/images/SALES_128x128.png')}}">
+          <span style="color:#000; font-size: 12px; font-weight: bold; font-family: arial; text-decoration: underline;">Sales</span> <br/>
+          capturing sales details information.
+    </p>
+        
+        
+   </div>
+    
+    <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_payment_details')}}', 'payment', 'Payment', 'Purchase Payment');">
+    <p class="newdashparatext"><img src="{{ asset('bundles/common/images/payment_128x128.png')}}">
+         <span style="color:#000; font-size: 12px; font-weight: bold; font-family: arial; text-decoration: underline;">Payment</span> <br/>
+         capturing payment details information.
+    </p>
+        
+        
+   </div>
+    <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_customer_approve_advance_payment')}}', 'cus_approve_adv_pay', 'Payment', 'Purchase Payment');" style="position: relative;">          
+           {%if ApprCount>0%}<span id="countText" class="alert" 
+                      style="                                            
+                            padding:3px 7px;
+                            border:#ff0000;                   
+                            position:absolute; 
+                            top:-15px;
+                            left:90%;
+                            background:#ff0000; 
+                            color:#fff; 
+                            border-radius: 4px; 
+                           ">{{ApprCount}}</span>
+                  {%endif%}
+           <p class="newdashparatext"><img src="{{ asset('bundles/common/images/s.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+            Approve Receive</span><br/>
+            capturing payment amount from customer... 
+            </p>
+       </div> 
+    <div class="newdashboard1" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_sanction_salary_slip')}}', 'sanctionSalaryAmount', 'sanctionSalaryAmount', 'Sanction Salary Amount');">
+    <p class="newdashparatext" style="position: relative;"><img src="{{ asset('bundles/common/images/cash_128x128.png') }}">
+          <span style="color:#000; font-size: 12px; font-weight: bold; font-family: arial; text-decoration: underline;">Salary Sanction</span> <br/>
+          Sanction for the salary of employees.
+          {%if totalSanctionSalary>0%}<span id="countText" class="alert" 
+                      style="                     
+                            margin-left: 0px;
+                            padding:3px 7px;
+                            border:#ff0000;                   
+                            position:absolute; 
+                            top: -20px;
+                            left:90%;
+                            background:#ff0000; 
+                            color:#fff; 
+                            border-radius: 4px; 
+                           ">{{totalSanctionSalary}}</span>
+                  {%endif%}
+    </p>
+    </div>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+</div> 
+    </div>
+

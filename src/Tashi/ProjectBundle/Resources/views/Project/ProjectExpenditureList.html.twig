@@ -1,0 +1,61 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <input id="spanCloseOpenHandlerExpList" value="0" type="hidden">
+        <td class="td-label-title" style="cursor:pointer;" onclick="lmsShowHideAddressResult('ExpList');">Advance Payment History
+        <span style="float: right;" id="spanIdExpList" class="span_open" >&nbsp;</span></td> 
+    </tr>
+    <tr id="trAddressExpList">
+        <td>
+            <table id="example2" width="100%" border="0" cellpadding="0" cellspacing="0" class="display">
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="width:150px;">Date</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg">Particulars</th>                                               
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:left;">Remarks</th>
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right; padding-right: 10px;">Amount</th> 
+                        <th class="tbl-th-grid-view-row-no-bg tbl-th-bg" >Proof of Expense</th>
+                    </tr>
+                </thead>                
+                    {%set total=0%}
+                    {%if expArr|length >0%}
+                        <tbody>
+                            {%for exp in expArr%}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center" width="150px">{{exp.transactionDate|date('d-M-Y h:i a')|upper}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{exp.particulars|default('')}}</td>                                       
+                                    <td class="tbl-grid-view-row-no-bg" align="left">{{exp.description}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="right">{{exp.amount|number_format('2','.')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="left">
+                                        {%if exp.proofFk is not null%}
+                                        <a href="{{asset(exp.proofFk.path)}}" target="_blank">{{exp.proofFk.originalName~'.'~exp.proofFk.docType}}</a>
+                                        {%endif%}
+                                    </td>
+                                    {%set total=total+exp.amount%}
+                                </tr>
+                            {%endfor%}  
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right; padding-right: 7px;" colspan="3">Total Expenditure</td>
+                                <td class="tbl-th-grid-view-row-no-bg tbl-th-bg" style="text-align:right; padding-right: 10px;">{{total|number_format('2','.')}}</td>
+                                <td class="tbl-th-grid-view-row-no-bg tbl-th-bg" align="right"></td>
+                            </tr>
+                        </tfoot>
+                    {%else%}
+                        <tbody>
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" colspan="6" align="center">
+                                    <strong style="color:#ff0000;">No Expenditure detail found.</strong>
+                                </td>
+                            </tr>
+                        </tbody>
+                    {%endif%}
+                   
+                
+            </table>
+        </td>
+    </tr>
+</table>
+    <br>
+<div id="divProjExpenditure">
+</div>

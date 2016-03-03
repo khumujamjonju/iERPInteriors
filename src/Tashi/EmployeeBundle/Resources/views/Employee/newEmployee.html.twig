@@ -1,0 +1,19 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+
+<div class='sub-menu'>
+    <ul>
+        <li class='active' onclick="fnLeftMenuNavigation('{{path('_add_new_employee')}}', 'add_new_employee', 'Employee Master','Add Employee');"><a  href="javascript:void();" style="width: 100px; text-align: center;">Office</a></li>   
+        <li id="worker_employee" onclick="fnSubMenuNavigation('{{path('_emp_worker')}}', 'worker_employee', 'Employee','Create Employee', 'Worker Employee');"><a  href="javascript:void();" style="width: 100px; text-align: center;">Worker</a></li> 
+    </ul>
+</div>
+<div class="newdashboard">  
+    {# hidden value to store just now created employee ID #}
+    <input type="hidden" id="empID" value="" /> 
+    <div class="application-form"> 
+      {# parameter 1 is for contolling for the display of sub-menu#}
+     <script type="text/javascript"> loadEmpDetails('{{path('_new_employee_detail')}}', '.application-form', 1); </script>
+    </div> 
+</div>
+
+
+

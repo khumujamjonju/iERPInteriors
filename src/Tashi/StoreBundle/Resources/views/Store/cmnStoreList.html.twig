@@ -1,0 +1,25 @@
+{% if result.key == 'B' %}
+     {# Load building list #}
+        <option value="">--Select--</option> 
+    {% for s in result.loadList %}
+        <option value="{{ s.storeBuildingPk|default('') }}">{{s.buildingName | default('')}}</option>
+    {% endfor %}
+{% elseif result.key == 'F' %}
+        {# Load floor list #}
+        <option value="">--Select--</option>
+     {% for d in result.loadList %}
+        <option value="{{ d.storeFloorPk|default('') }}">{{d.storeFloorNo | default('')}}</option>
+     {% endfor %}
+{% elseif result.key == 'R' %}
+        {# Load room list #}
+        <option value="">--Select--</option>
+      {% for c in result.loadList %}
+         <option value="{{ c.storeRoomPk|default('') }}">{{c.storeRoomNo | default('')}}</option>
+      {% endfor %}
+{% elseif result.key == 'Rack' %}
+        {# Load room list #}
+        <option value="">--Select--</option>
+        {% for c in result.loadList %}
+            <option value="{{ c.storeRackPk|default('') }}">{{c.rackName | default('')}}(Row: {{c.rowNumber}}&nbsp;&nbsp; Column: {{c.columnNumber}})</option>
+        {% endfor %}
+{% endif %}

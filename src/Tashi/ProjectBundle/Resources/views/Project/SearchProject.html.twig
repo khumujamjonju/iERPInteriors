@@ -1,0 +1,72 @@
+
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="#" href="javascript:void();">Search Project</a></li> 
+    </ul>
+</div>
+<div class="newdashboard">  
+    <div id="divnewProj" class="application-form"> 
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+            <tr>
+                <td class="td-label-title">Search Project</td>
+            </tr>
+            <tr>
+                <td>
+                    <form id="frmSearchProject">
+                        <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                            <tr>
+                                <td class="td-gray-bg" width="130px">Search Project By</td>
+                                <td class="td-white-bg">
+                                    <select id="selSearchProjCriteria" name="selSearchProjCriteria" onchange="toggleSearchProjCriteria(this.id);" class="cmnWidth">
+                                        {#<option value="cate">Category</option>#}
+                                        <option value="all">All</option>
+                                        <option value="ordno">Project ID/Order No.</option>
+                                        <option value="cname">Customer Name</option>
+                                        <option value="ename">Site Coordinator</option>
+                                        <option value="area">Area</option>
+                                        <option value="date">Date</option>
+                                        <option value="status">Status</option>
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr id="trcriteria" style="display:none;">
+                                <td class="td-gray-bg" id="tdtitle"></td>
+                                <td id="tdsearchcriteria" class="td-white-bg">
+                                    <input type="hidden" name="searchvalue" value="" id="searchvalue"/>
+                                    <select id="selProjArea" name="selProjArea" style="display:none;" class="cmnWidth">
+                                        <option value="">--select--</option>
+                                        {%for area in areaArr%}
+                                            <option value="{{area.pkid}}">{{area.area|upper}}</option>
+                                        {%endfor%}
+                                    </select>
+                                    <input type="text" id="txtCriteria" name="txtCriteria" style="display:none;" class="cmnWidth" onkeypress="return NullonEnterKey(event);">
+                                    <div id="divDate" style="display:none;">
+                                        Start Date: <input type="date" id="txtsdate" name="txtsdate" value="{{"now"|date('Y-m-d')}}"> &nbsp;
+                                        Completion Date: <input type="date" id="txtedate" name="txtedate" value="{{"now"|date('Y-m-d')}}">
+                                        <div id="inlineDatepicker"></div>
+                                    </div>
+                                    <select id="selProjStatus" name="selProjStatus" style="display:none;" class="cmnWidth">
+                                        <option value="">--select--</option>
+                                        {%for status in statusArr%}
+                                            <option value="{{status.pkid}}">{{status.statusName}}</option>
+                                        {%endfor%}
+                                    </select>
+                                    <input type="hidden" name="inputcatid">                            
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg"></td>
+                                <td class="td-white-bg">
+                                    <input type="button" class="button" id="btnSearchPrd" value="Search" onclick="SearchProject();">
+                                    <input type="hidden" id="inputsearchprojectUrl" value="{{path("_searchproject")}}"/>
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <br/>
+        <div id="divProjectList"></div>
+    </div>
+</div>

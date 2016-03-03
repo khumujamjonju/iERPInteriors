@@ -1,0 +1,50 @@
+<input type="hidden" value="0" class="emp_bank_detail_hide_show_key"/>
+<table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">   
+    {#paramer: project_item => class name of table row (tr) to hide or show #}
+    <tr onclick="fnHideShow('emp_bank_detail');">
+        <td class="td-label-title">
+             {# this div show the icon plus and minus, 
+                     and its class name is same as first part tr of hide/show #}
+            Address Details: <div class="emp_bank_detail_hide_show_icon floatRight plus"></div>
+        </td>
+    </tr>
+    <tr class="emp_bank_detail displayNone">
+        <td>                    
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                <thead class="">
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Bank Name</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Branch Name</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Account Type</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Account Number</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Location</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                    </tr>
+                </thead>
+                <tbody>                           
+
+              {%for a in bankDetail.empBankDetail|default('') %}
+                    <tr>                                   
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.bankMasterFk.bankName|default('') }} </td> 
+                        <td class="tbl-grid-view-row-no-bg" align="center"> {{ a.bankMasterFk.branchName|default('') }} </td>
+                        <td class="tbl-grid-view-row-no-bg" align="center"> {{ a.bankMasterFk.accountTypeMasterFk.accTypeName|default('') }} </td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.bankMasterFk.accountNumber|default('') }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.bankMasterFk.location|default('') }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">
+                            <a href="javascript:void();" onclick="">Edit</a> | 
+                            <a href="#">Delete</a>
+                        </td>                                                 
+                    </tr>                    
+              {%endfor%}
+
+                </tbody>
+            </table>
+        </td>
+    </tr>                                 
+</table>
+{# firstly show table #}
+<script type="text/javascript">
+  fnHideShow('emp_bank_detail');          
+</script>

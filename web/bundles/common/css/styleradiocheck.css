@@ -1,0 +1,60 @@
+.example{
+  /*margin-bottom : 1.5em;*/
+}
+
+/*input[type=checkbox]:not(old),*/
+input[type=radio   ]:not(old){
+  width   : 28px;
+  margin  : 0;
+  padding : 0;
+  opacity : 1;
+}
+
+/*input[type=checkbox]:not(old) + label*/
+input[type=radio   ]:not(old) + label{
+  display      : inline-block;
+  margin-left  : -28px;
+  padding-left : 28px;
+  background   : url('../images/checks.png') no-repeat 0 0;
+  line-height  : 24px;
+  border: 1px solid transparent;
+}
+/*input[type=radio]:not(old):checked + label{
+  background-position : 0 -24px;
+}*/
+
+input[type=radio]:not(old):checked + label{
+  background-position : 0 -48px;
+}
+input[type=radio]:not(old):focus + label{
+  border:1px dotted #ccc;
+}
+
+input[type=checkbox   ]:not(old){
+    width   : 28px;
+    margin  : 0;
+    padding : 0;
+    opacity : 1;
+}
+
+/*input[type=checkbox]:not(old) + label*/
+input[type=checkbox   ]:not(old) + label{
+    display      : inline-block;
+    margin-left  : -30px;
+    margin-right : 10px;
+    padding-left : 28px;
+    background   : url('../images/checks.png') no-repeat 0 0;
+    line-height  : 26px;
+    border: 1px solid transparent;
+}
+/*input[type=radio]:not(old):checked + label{
+  background-position : 0 -24px;
+}*/
+
+input[type=checkbox]:not(old):checked + label{
+    background-position : 0 -24px;
+}
+input[type=checkbox]:not(old):focus + label{
+    border:1px dotted #ccc;
+}
+

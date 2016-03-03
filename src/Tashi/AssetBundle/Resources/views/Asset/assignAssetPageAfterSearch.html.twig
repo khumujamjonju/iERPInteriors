@@ -1,0 +1,127 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >                       
+    <tr>
+        <input id="spanCloseOpenHandlerempasignlist" value="0" type="hidden">
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('empasignlist');">Assigned Asset To Particular Employee: {{empName |default('')}} <label id="empGenerateID" style="margin-left: 20px;"></label>
+        <span style="float: right;" id="spanIdempasignlist" class="span_open" >&nbsp;</span>
+        </td>
+    </tr>
+    <tr id="trAddressempasignlist">
+        <td class="td-separator" id="inner-sub-menu">    
+            <div class='sub-menu'>
+                <ul>
+                    <li class='active' id="EmpAssList"><a href='#' href="javascript:void();" id="ShowAssEmpList" onclick=" TabToggleAssetAssign('ShowAssEmpList', 'EmpAssList', 'asset_SEarchToAssign');"><span>Asset to Employee</span></a></li>  
+                    <li id="asset_SEarchToAssign"><a href="javascript:void();" id="HideAssEmpList" onclick="TabToggleAssetAssign('HideAssEmpList', 'EmpAssList', 'asset_SEarchToAssign');"><span>Search Asset</span></a></li>  
+                </ul>
+            </div>
+        </td>
+    </tr>
+    <tr class="td-separator" id="inner-sub-menu">
+        <td>
+            <div name="AfterAssignbuttonList" id="AfterAssignbuttonList" style="margin-top: 8px;">
+
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" id="tblAssetAssignedEmpAfterSearch">           
+                    <tr>
+                        <td class="td-label-title"> Assigned List  </td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example3"  cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr>
+                                       {# <th class="tbl-th-grid-view-row-no-bg">Employee Id</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Employee Name</th>#}
+                                        <th class="tbl-th-grid-view-row-no-bg">Category</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Name</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Manufacturer</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Model No.</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Serial No.</th>
+                                        {#<th class="tbl-th-grid-view-row-no-bg">Assign Start Date</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Assign end Date</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Asset Status</th>#}
+
+
+                                    </tr>
+                                </thead>
+
+                                <tbody>  
+                                    {%for a in empAssignedasset%}
+                                        <tr>
+                                            {#<td class="tbl-grid-view-row-no-bg" align="center">{{ a.empMasterFk.employeePk}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.empMasterFk.personFk.personName | default('')}}</td>#}
+
+
+
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetCategoryFk.assetCategoryName | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetRegisterFk.assetName | default('')}}</td>                                                                        
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetRegisterFk.manufacturer | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetRegisterFk.modelNo | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.assetRegisterFk.serialNo | default('')}}</td>
+
+
+                                           {# <td class="tbl-grid-view-row-no-bg" align="center">{{ a.startDate|date('d-m-Y')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{ a.endDate|date('d-m-Y')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{a.assetRegisterFk.status.statusName| default('')}}</td>#}
+                                        </tr>  
+                                    {%endfor%}
+                                </tbody>
+                              </table>
+                            </td>
+                        </tr>                                 
+                    </table>
+                    <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" id="assignAsset2">                       
+            <tr>
+                <td class="td-label-title">Search</td>
+            </tr>
+            <tr>
+                <td>                 
+                    <form id="frmAssetSearch" style="margin: 0px;">
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg" width="130px">Search Asset By</td>
+                                <td class="td-white-bg">
+                                    <select id="selSearchProjCriteria" name="selSearchProjCriteria" onchange="toggleSearchAssetCriteria(this.id);" class="cmnWidth">
+                                        {#<option value="cate">Category</option>#}
+                                            <option value="cat">Category</option>
+                                            <option value="date">Asset Name/Id</option>
+                                        </select>
+                                    </td>
+                                </tr>
+                                <tr id="trcriteria" style="display:none;">
+                                    <td class="td-gray-bg" id="tdtitle"></td>
+                                    <td id="tdsearchcriteria" class="td-white-bg">
+                                        <input type="hidden" name="searchvalue" value="" id="searchvalue"/>
+                                        <select id="selProjCategory" name="selProjCategory" style="display:none;" class="cmnWidth">
+                                            <option value="">--select--</option>
+                                                {%for cat in catArr%}
+                                            <option value="{{cat.assetMasterPk}}">{{cat.assetCategoryName}}</option>
+                                                {%endfor%}
+                                        </select>
+                                        <input type="text" id="txtCriteria" name="txtCriteria" style="display:none;" class="cmnWidth">
+                                    <div id="divDate" style="display:none;">
+                                        <input class="cmnWidth" type="text" id="assetname" name="assetname">                                         
+                                    </div>
+                                        <input type="hidden" name="inputcatid">                            
+                                    </td>
+                                </tr>
+                                <tr>
+                                    <td class="td-gray-bg"></td>
+                                    <td class="td-white-bg">
+                                        <input type="button" class="button" id="btnSearchPrd" value="Search" onclick="SearchEmpAsset();">
+                                        <input type="hidden" id="inputsearchprojectUrl" value="{{path("_searchempasset")}}"/>
+                                    </td>
+                                </tr>
+                            </table>
+                        </form>                               
+                    </td>
+                </tr> 
+            </table>  
+                    </div>
+                </td>
+            </tr>
+        </table>
+        <div name="assetList" id="assetList" style="margin-top: 8px;">
+        </div>
+        <div name="display-list" id="display-list" style="margin-top: 8px;">
+        </div>

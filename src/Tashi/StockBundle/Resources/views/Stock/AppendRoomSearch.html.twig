@@ -1,0 +1,6 @@
+<select name="selStkRoomSearch" id="selStkRoomSearch" class="cmnWidth" onchange="laodrackbyroomid_search(this.id);">
+    <option value="">--select--</option>
+    {%for room in roomArr%}
+        <option value="{{path('_loadrackbyroomidsearch',{'roomid':room.storeRoomPk})}}&{{room.storeRoomPk}}">{{room.storeRoomNo}}</option>
+    {%endfor%}
+</select>

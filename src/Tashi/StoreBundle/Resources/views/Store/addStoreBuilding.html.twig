@@ -1,0 +1,140 @@
+{%set add1=''%}
+{%set add2=''%}
+{%set pin=''%}
+{%if addObj is defined%}
+    {%set isEdit=1%}    
+    {%set addMasterId=addObj.addressPk%}
+    {%set add1=addObj.address1%}
+    {%set add2=addObj.address2%}
+    {%set pin=addObj.pinNumber%}    
+{%endif%}
+
+<div class="application-form"> 
+    <form id="frmAddStoreBuilding" style="margin: 0px;">
+        <table width="100%" class="tbl-border"cellspacing="0" cellspadding="0">
+            <tr>
+                <td class="td-label-title" colspan="5">Manage Store Building Detail</td>
+            </tr>
+            <tr>
+                <td class="td-gray-bg">Store Name:<span class="necessary-field">*</span></td>
+                <td class="td-white-bg">
+                    <Select class="cmnWidth" name="storename" id="storename">
+                        <option value="">--Select--</option>
+                        {%for c in storename%}
+                        <option value="{{c.storeMasterPk}}">{{c.storeName | default(' ')}}</option>
+                        {%endfor%}
+                    </Select>
+                </td>
+                <td class="td-gray-bg">Building Name:<span class="necessary-field">*</span></td>
+                <td class="td-white-bg"><input type="text" class="cmnWidth" name="buildingname" id="buildingname"></td>
+
+            </tr>
+
+            <tr>
+                <td class="td-label-title" colspan="5">Address:</td>
+            </tr>
+            <tr>
+                <td class="td-gray-bg" >Address1<span class="mandatoryField" >*</span></td>
+                <td class="td-white-bg" colspan="3"><textarea name="address1" id="address1" cols="100">{{add1}}</textarea> </td>  
+            </tr>
+
+            <tr>
+                <td class="td-gray-bg" >Address2  </td>
+                <td class="td-white-bg" colspan="3"><textarea name="address2" id="address2" cols="100">{{add2}}</textarea>
+
+                                {#<input type="text" name="address2" id="address2{{typeIdentifierForAddress}}" size="100" value="">#}
+                </td>                            
+            </tr>
+            <tr>
+                <td class="td-gray-bg">Select Country:<span class="necessary-field">*</span></td>
+                <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_country" id="country" onchange="cmLoadLocationList(this, '{{path('_cmn_load_list', {'key': 'S'})}}', 'state');">
+                                    <option value="">--Select--</option>
+                                {%for c in countryid|default('') %}
+                                    <option value="{{ c.countryPk|default('') }}">{{ c.countryName|default('') }}</option>
+                                {%endfor%}
+                           </Select>                                        
+                        </td>
+                        <td class="td-gray-bg">Select State:<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_state" id="state" onchange="cmLoadLocationList(this, '{{path('_cmn_load_list', {'key': 'D'})}}', 'district');">
+                                    <option value="">--Select--</option>                                                    
+                            </Select>                                        
+                        </td>
+           </tr>
+            <tr>
+                <td class="td-gray-bg">Select District:<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_district" id="district" onchange="cmLoadLocationList(this, '{{path('_cmn_load_list', {'key': 'C'})}}', 'city');">
+                                <option value="">--Select--</option>                                                   
+                            </Select>                                         
+                        </td> 
+                        <td class="td-gray-bg">Select City:<span class="necessary-field">*</span></td>
+                                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_city" id="city">
+                                <option value="">--Select--</option>                                                       
+                            </Select> 
+                        </td> 
+             </tr>
+            <tr>
+                <td class="td-gray-bg">Postal Code <span class="mandatoryField" >*</span></td>        
+                <td class="td-white-bg" colspan="3">
+                    <input type="text" class="cmnWidth" name="zipcode" id="zipcode" maxLength="6" value="{{pin}}">
+                    <br><span id="digitMessagePostalCode" class="digitMessage"></span>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-separator" colspan="4" style="text-align: center;">
+                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return saveStoreBuildingMaster('{{ path('_saveStoreBuilding')}}', this);"/>
+                    <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="storeEditBtn('storename', 'buildingname', 'address1','address2','country','state','district','city','zipcode');" style="display: none;"/>
+                    <input type="button" class="button blue" id="btn_update" value="Update" onclick="return updateStoreBuildingMaster(this);" style="display: none;"/>
+                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="fnSubMenuNavigation('{{path('_store_building')}}', 'store_building', 'Store Management', 'Building Master', 'Store Building Master');" style="display: none;"/>
+                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                </td>
+            </tr>
+
+
+        </table>
+    </form>
+
+    <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+        <input type="hidden" id="addStorebuildingUpdateURL" value="">
+        <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+            <tr>
+                <td class="td-label-title">Building List:</td>
+            </tr>
+            <tr>
+                <td>
+
+                    <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                        <thead class="">
+                            <tr>
+                                <th class="tbl-th-grid-view-row-no-bg">Building ID</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Store Name</th> 
+                                <th class="tbl-th-grid-view-row-no-bg">Building Name</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Address</th>
+                                <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                            </tr>
+                        </thead>
+
+                        <tbody>                           
+                           {% for c in record%}
+                                <tr>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.storeBuildingPk | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.storeMasterFk.storeName | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.buildingName | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">{{c.addressMasterFk.address1 | default('')}}</td>
+                                    <td class="tbl-grid-view-row-no-bg" align="center">
+                                        <a href="javascript:void();" onclick="retreiveStoreBuilding('{{path('_retrieve_addStoreBuilding',{'StBid': c.storeBuildingPk })}}');">Edit </a> | 
+                                        <a href="javascript:void();" style="color:#ff0000;" onclick="deleteStoreBuildingMaster('{{path('_delete_addStoreBuilding',{'StBid': c.storeBuildingPk })}}');">Delete </a>
+                                    </td>                                                 
+                                </tr>
+                                  {%endfor%}   
+                            </tbody>
+                        </table>
+                    </td>
+                </tr>                                 
+            </table>
+        </div> 
+    </div>
+

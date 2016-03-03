@@ -1,0 +1,209 @@
+  <form id="frmEmployeeSalSlip">         
+        <input type="hidden" id="monthID" value="{{ salSlip.monthFk.pkid|default('') }}" /> 
+        <input type="hidden" id="year" value="{{ salSlip.year|default('') }}" />
+        <input type="hidden" id="empGrossSalary" name="txt_gross_sal" value="{{ salSlip.grossSalary|default('') }}" /> 
+        <input type="hidden" id="created_salary_slip_id" name="txt_created_salary_slip_id" value="{{ salSlip.salarySlipPk|default('') }}"/>
+        <input type="hidden" name="txt_emp_id" value="{{salSlip.employeeFk.employeePk|default('') }}"/>
+        <table width="100%" id="created_salary_form_tbl" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+            <tr>
+                <td class="td-label-title" colspan="2">Salary Slip Details Of:</td>
+            </tr>
+            <tr>
+                <td style="padding: 5px; background: #F8F8F8;" valign="top">
+                    <table>
+                        <tr>
+                            <td>NAME:</td>
+                            <td><span style="margin-left: 10px; font-weight: normal;">{{ salSlip.employeeFk.personFk.personName|default('') }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>DESIGNATION:</td>
+                            <td><span style="margin-left: 10px; font-weight: normal;">{{ salSlip.employeeFk.empJobTitleFk.jobTitleName|default('') }}</span></td>
+                        </tr>
+                    </table>                   
+                </td>
+                <td style="padding: 5px; background: #F8F8F8;" valign="top">
+                    <table>
+                        <tr>
+                            <td>MONTH:</td>
+                            <td><span id="monthYear" style="margin-left: 10px;font-weight: normal;">{{ salSlip.monthFk.monthName|default('') }}, {{ salSlip.year|default('') }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>GROSS SALARY: </td>
+                            <td><span style="margin-left: 10px;font-weight: normal;">{{ salSlip.grossSalary|default('') }}</span></td>
+                        </tr>
+                        <tr>
+                            <td>SALARY GRADE:</td>
+                            <td><span style="margin-left: 10px;font-weight: normal;">{{ salSlip.employeeFk.salGradeFk.salaryGrade|default('') }}</span></td>
+                        </tr>
+                    </table>                    
+                </td>
+            </tr>
+            <tr>            
+                <td align="center" style="width: 40%; font-size: 13px; border-right: 1px dotted #ccc;border-top: 1px dotted #ccc; background: rgb(240, 240, 240);">
+                    <div style="margin: 10px auto 10px auto;">Earning</div>
+                    <div>
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">                                            
+                            <tr>
+                                <td class="td-gray-bg" style="border-top: 1px dotted #ccc;">Basic</td>
+                                <td class="td-white-bg" style="border-top: 1px dotted #ccc;">
+                                    <input class="cmnWidth inputDisable_bg earning" type="text" id="basic" name="txt_basic_sal_amt" value="{{ salSlip.earningBasicSalary|default('') }}" readonly/>
+                                </td>                            
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">House Rent Allowance(HRA)</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth inputDisable_bg earning" type="text" id="hra" name="txt_hra_amt" value="{{ salSlip.earningHouseRentAllowance|default('') }}" readonly/>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="td-gray-bg">Dearnes Allowance(DA)</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth earning useField" type="text" id="dearnest_allowance" name="txt_dearnest_allowance" value="{{ salSlip.earningDearnesAllowance|default('') }}" onKeypress="return validationDigit('#dearnest_allowance');"  onkeyup="fnCalculateNetSalary();"/>
+                                </td>
+
+                            </tr>
+                            <tr>
+                                <td class="td-gray-bg">Travel Allowance(TA)</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth earning useField" type="text" id="travel_allowance" name="txt_travel_allowance_amt" value="{{ salSlip.earningTravelAllowance|default('') }}" onKeypress="return validationDigit('#travel_allowance');"  onkeyup="fnCalculateNetSalary();"/>
+                                </td>
+                            </tr>
+                            <tr>                          
+                                <td class="td-gray-bg">Performance Allowance(PA)</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth earning useField" type="text" id="pa" name="txt_pa_amt" value="{{ salSlip.earningPa|default('') }}" onKeypress="return validationDigit('#pa');" onkeyup="fnCalculateNetSalary();"/>
+                                </td>                             
+                            </tr>  
+                            <tr>                          
+                                <td class="td-gray-bg">Medical Allowance(MA)</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth earning useField" type="text" id="medical_allowance" name="txt_medical_allowance" value="{{ salSlip.earningMedicalAllowance|default('') }}"  onKeypress="return validationDigit('#medical_allowance');" onkeyup="fnCalculateNetSalary();"/>
+                                </td>                             
+                            </tr> 
+                            
+                            <tr>                             
+                                <td class="td-gray-bg">Special Allowance</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth earning useField" type="text" id="special_allowance" name="txt_special_allowance" value="{{ salSlip.earningSpecialAllowance|default('') }}" onKeypress="return validationDigit('#special_allowance');" onkeyup="fnCalculateNetSalary();"/>
+                                </td>
+                            </tr> 
+                            <tr>                             
+                                <td class="td-gray-bg">Overtime</td>
+                                <td class="td-white-bg">
+                                    <input type="text" id="hour" class="useField" name="txt_overtime_hour" size="3" placeholder="Hrs" value="{{ salSlip.earningOvertimeHour|default('') }}" onKeypress="return validationDigit('#hour');"/><span style="font-size: 15px; font-weight: bold;"> : </span>
+                                    <input type="text" id="min" class="useField" name="txt_overtime_min" size="3" placeholder="Min" value="{{ salSlip.earningOvertimeMinute|default('') }}" onKeypress="return validationDigit('#min');"/>
+                                    <input type="text" id="amount" class="earning useField" name="txt_overtime_amount" size="11" placeholder="Amount" value="{{ salSlip.earningOvertimeAmount|default('') }}" onKeypress="return validationDigit('#amount');" onkeyup="fnCalculateNetSalary();"/>
+                                </td>                         
+                            </tr>
+                            <tr>                             
+                                <td class="td-gray-bg" align="center"><b>Total Salary</b></td>
+                                <td class="td-white-bg">
+                                    <b>&#8377;.</b>&nbsp;&nbsp;<span class="earningTotal">{{ salSlip.earningTotal|default('') }}</span>
+                                    <input class="cmnWidth useField" type="hidden" id="earningTotal" name="txt_earning_total" value="{{ salSlip.earningTotal|default('') }}"/>
+                                </td>
+                            </tr>                         
+                        </table>
+
+                    </div>
+                </td>
+                <td align="center" style="font-size: 13px; border-top: 1px dotted #ccc; background: rgb(240, 240, 240);">
+                    <div style="margin: 10px auto 10px auto;">Deduction</div>
+                    <div>
+                        <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+                            <tr>
+                                <td class="td-gray-bg" style="border-top: 1px dotted #ccc;">Employee Provident Fund(EPF):</td>
+                                <td class="td-white-bg" style="border-top: 1px dotted #ccc;">
+                                    <input class="cmnWidth deduction useField" type="text" id="epf_amount" name="txt_epf_amt" value="{{ salSlip.deductionEmployeeProvidentFundl|default('') }}" onKeypress="return validationDigit('#epf_amount');" onkeyup="fnCalculateNetSalary();"/>
+                                </td>                            
+                            </tr>
+
+                            <tr>
+                                <td class="td-gray-bg">Professional Tax(PT)</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth deduction useField" type="text" id="pt_amount" name="txt_pt_amt" value="{{ salSlip.deductionProfessionTax|default('') }}" onKeypress="return validationDigit('#pt_amount');" onkeyup="fnCalculateNetSalary();"/>
+                                </td>
+
+                            </tr>
+
+                            <tr>
+                                <td class="td-gray-bg">Repayment for Advance: 
+                                    (Current Due : <b>&#8377;.</b> <span class="totalDueAdvancePayment" style="font-weight: bold;">{{ salSlip.deductionAdvanceDue|default('') }}</span>  )
+                                    <input type="hidden" id="originalTotalDueAdvancePayment" name="txt_originalTotalDueAdvancePayment" value="{{ salSlip.deductionAdvanceDue|default('') }}"/>                                 
+                                </td>
+                                <td class="td-white-bg">                                   
+                                    <input class="cmnWidth  deduction useField"  type="text" id="repaid_advance_amt" name="txt_repaid_advance_amt" value="{{ salSlip.deductionAdvance|default('') }}" onKeypress="return validationDigit('#repaid_advance_amt');" onKeypress="return validationDigit('#repaid_advance_amt');"  onkeyup="fnCalculateNetSalary(); return checkAmount('#repaid_advance_amt', '#originalTotalDueAdvancePayment', 'advance');"/>
+                                </td>
+
+                            </tr>
+                            
+                            <tr>                             
+                                <td class="td-gray-bg">Adjustment from Wallet
+                                    (Current Balance : <b>&#8377;.</b> <span class="empAccountBal" style="font-weight: bold;">{{ salSlip.empCurrentAccountBal|default('') }}</span>)
+                                    <input type="hidden" id="emp_current_bal" name="txt_emp_current_bal" value="{{ salSlip.empCurrentAccountBal|default('') }}"/>
+                                </td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth  deduction useField"  type="text" id="adjustment_wallet_bal" name="txt_adjustment_wallet_bal" onKeypress="return validationDigit('#adjustment_wallet_bal');" onKeypress="return validationDigit('#adjustment_wallet_bal');" value="{{ salSlip.deductionAdjustmentWalletBal|default('') }}"  onkeyup="fnCalculateNetSalary(); return checkAmount('#adjustment_wallet_bal', '#emp_current_bal', 'adjustFromWallet');" />
+                                </td>
+                            </tr>
+                                                                     
+                            <tr>                             
+                                <td class="td-gray-bg">Deduction for Absent</td>
+                                <td class="td-white-bg">
+                                    <input  type="text" id="total_absent_days" class="useField" name="txt_total_absent_days" size="10" placeholder="No of Absent" value="{{ salSlip.deductionAbsentDays|default('') }}" onKeypress="return validationDigit('#total_absent_days');"/>
+                                    <input  type="text" id="absent_amount" class="deduction useField" name="txt_absent_amt" size="15" placeholder="Amount" value="{{ salSlip.deductionAbsentAmount|default('') }}" onKeypress="return validationDigit('#absent_amount');" onkeyup="fnCalculateNetSalary();"/>
+                                </td>                         
+                            </tr>
+                            <tr>                          
+                                <td class="td-gray-bg">Income Tax</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth deduction useField" type="text" id="income_tax" name="txt_income_tax" value="{{ salSlip.deductionAbsentAmount|default('') }}" onKeypress="return validationDigit('#income_tax');" onkeyup="fnCalculateNetSalary();"/>
+                                </td>                             
+                            </tr> 
+                             <tr>                          
+                                <td class="td-gray-bg">Other Deductions</td>
+                                <td class="td-white-bg">
+                                    <input class="cmnWidth deduction useField" type="text" id="miscelenous" name="txt_miscelleneous_amt" value="{{ salSlip.deductionMisceleneous|default('') }}" onKeypress="return validationDigit('#miscelenous');" onkeyup="fnCalculateNetSalary();"/>
+                                </td>                             
+                            </tr> 
+                             
+                            <tr>                             
+                                <td class="td-gray-bg"></td>
+                                <td class="td-white-bg">
+                                    
+                                </td>
+                            </tr>    
+                            <tr>
+                                <td class="td-gray-bg" align="center"><b>Total Deduction</b></td>
+                                <td class="td-white-bg">
+                                    <b>&#8377;.</b>&nbsp;&nbsp;<span class="deductionTotal">{{ salSlip.deductionTotal|default('') }}</span>
+                                    <input class="cmnWidth useField" type="hidden" id="deductionTotal" name="txt_total_deduction_amt" value="{{ salSlip.deductionTotal|default('') }}"/>
+                                </td>
+                            </tr>                         
+                        </table>
+
+                    </div>
+                </td>
+            </tr> 
+            <tr>
+                <td class="td-gray-bg" colspan="2" style="text-align: center;">                     
+                    <b style="font-size: 13px;">Net Salary (Total Salary - Total deductions): </b>                                                
+                    <b style="font-size: 13px; margin-left: 20px;">&#8377;. <span class="net_salary">{{ salSlip.netSalary|default('') }}</span></b>                                                        
+                    <input class="cmnWidth" type="hidden" id="net_salary" name="txt_net_sal_amt" value="{{ salSlip.netSalary|default('') }}"/>
+                </td>
+            </tr>
+            <tr>
+                <td class="td-separator" colspan="2" style="text-align: center;">
+                   
+                        <input type="button" class="button blue" id="btn_close" value="Close" onclick="fnCmnEmptyElement('#salary_slip_detail');"/>
+                   
+                        <input type="button" class="button blue" id="btn_save" value="Create" onclick="saveCreatedSalarySlip(this, '{{path('_save_created_salary_slip')}}');"/>
+                        <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editSalarySlipField();" style="display: none;"/>
+                        <input type="button" class="button blue" id="btn_update" value="Update" onclick="saveCreatedSalarySlip(this, '{{path('_save_created_salary_slip')}}');" style="display: none;"/>  
+                        <input type="button" class="button blue" id="btn_close" value="Close" onclick="fnCmnEmptyElement('#salary_slip_detail');"/>
+                                                                 
+                </td>
+            </tr>
+        </table>
+</form>

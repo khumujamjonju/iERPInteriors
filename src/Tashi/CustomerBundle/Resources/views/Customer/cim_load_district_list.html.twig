@@ -1,0 +1,10 @@
+<!--
+    This twig will load the list of district for the corresponding State-
+-->
+<input type="hidden" id="urlLoadCityList" value='{{path('_erp_load_citylist')}}'/>
+<select name="district" id="seldistrict"  onchange="loadCity();" class="select-width">
+    <option value="">--select--</option>
+    {%for district in district%}
+    <option value="{{district.pkid}}">{{district.districtName}}</option>
+    {%endfor %}
+</select>

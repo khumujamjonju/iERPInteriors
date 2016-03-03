@@ -1,0 +1,11 @@
+<tr id="{{obj.pkid}}">
+<td class="td-gray-bg">Select Item {#{{obj.categoryName}}#}</td>
+<td class="td-white-bg" align="left">
+    <select class="normal_select cmnWidth"  id="pkid{{obj.pkid}}" onchange="LoadDynamicItem('{{obj.pkid}}');">
+        <option value="">--Select--</option>
+        {%for cat in catMaster%}
+            <option value="{{path('_prd_appendsubcat',{'iscategory':'0','mode':mode,'pkid':cat.pkid})}}">{{cat.categoryName}}</option>
+        {%endfor%}
+    </select>    
+ </td>
+</tr>

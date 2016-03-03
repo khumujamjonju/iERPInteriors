@@ -1,0 +1,68 @@
+<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" cellspacing="0" cellspadding="0" class="tbl-border">         
+            <tr>
+                <td class="td-label-title" colspan="2">Manage Company Fax Number:</td>
+            </tr>
+            <tr>
+                <td> <form id="frmCompanyFax" style="margin: 0px;">
+                        <table width="100%" cellspacing="0" cellspadding="0">                       
+                            <tr>
+                                <td class="td-gray-bg">Fax Number<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg" >
+                                    <input type="hidden" id="comFaxId" name="comFaxId"/>
+                                    <input type="text" id="fax_name" name="fax_name" class="cmnWidth" 
+                                            onkeypress="return IntegerOnly(event);" maxLength="15" placeholder="e.g.0385 2457895">
+                                   <span id="digitMessageCustomerMobileNo" class="digitMessage"></span>
+                                </td>
+                                
+                                {#<td class="td-white-bg">
+                                    <input type="hidden" id="comFaxId" name="comFaxId"/>
+                                    <input type="text" class="cmnWidth" id="fax_name" name="fax_name">
+                                </td>#}
+                            </tr>
+                            <tr>
+                                <td class="td-separator" colspan="4" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addUpdateCompanyFaxMaster('{{ path('_add_update_company_fax')}}', this);"/>
+                                    <!--input type="button" class="button blue" id="btn_update" value="Update" onclick="return addUpdateJobTitleMaster('{{ path('_add_update_company_fax')}}', this);" style="display: none;"/-->
+                                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="onCancleClick('frmCompanyEmail');" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                    <tr>
+                        <td class="td-label-title">Fax Number List:</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr> 
+                                        <th class="tbl-th-grid-view-row-no-bg">Fax Number</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                               
+                                    </tr>
+                                </thead>
+                                <tbody>
+                             {% for jt in allRecord%}
+                                        <tr>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{jt.faxno | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                                <a href="javascript:void();" onclick="retrieveCompanyFax('{{ path('_retrieve_company_fax',{ 'comFaxId': jt.pkid | default('')})}}');">Edit</a> |
+                                                <a href="javascript:void();" style="color:#ff0000;" onclick="deleteCompanyFaxModule('{{ path('_delete_company_fax',{ 'comFaxId': jt.pkid | default('')})}}','Fax Number', 'frmCompanyFax');">Delete</a>
+                                            </td>                                                
+                                        </tr>
+                                  {%endfor%}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>                                 
+                    </table>
+                </div>   
+            </div>
+        </div>

@@ -1,0 +1,66 @@
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Wallet Management</h3>
+        <div id="newmenu">
+            <ul>
+                <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_wallet_dashboard')}}', 'Dashboard', 'Wallet', 'Wallet Dashboard');"><a href="javascript:void();" > Dashboard</a></li>
+                <li id="wallet" onclick="fnLeftMenuNavigation('{{path('_createwallet')}}', 'wallet', 'Create', 'Wallet Details');"><a href="javascript:void();">Create </a></li>
+             {#   <li id="master_setting" onclick="fnLeftMenuNavigation('{{path('_mastersetting')}}', 'master_setting', 'Create', 'Expense Details');"><a href="javascript:void();">Issue ATM Wallet</a></li>
+              #}  <li id="deposit" onclick="fnLeftMenuNavigation('{{path('_createdeposit')}}', 'deposit', 'Create', 'Deposit Details');"><a href="javascript:void();">Deposit</a></li>
+                {#<li id="expense" onclick="fnLeftMenuNavigation('{{path('_createexpenses')}}', 'expense', 'Create', 'Expense Details');"><a href="javascript:void();">Expenses</a></li>
+                #}<li id="approve_expenses" onclick="fnLeftMenuNavigation('{{path('_approve_expenses')}}', 'approve_expenses', 'Approve', 'Approve Expense');"><a href="javascript:void();">Manage Employee Expenses</a></li>
+                <li id="search_deposit" onclick="fnLeftMenuNavigation('{{path('_search_deposit')}}', 'search_deposit', 'Deposit', 'Search Deposit');"><a href="javascript:void();">Search Deposit</a></li>
+                <li id="search_expenses" onclick="fnLeftMenuNavigation('{{path('_search_expenses')}}', 'search_expenses', 'Expenses', 'Search Expense');"><a href="javascript:void();">Search Expense</a></li>
+            </ul> 
+        </div>       
+    </div>         
+</div>
+
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'><a href="javascript:void();"><span>Wallet Dashboard</span></a></li>              
+        </ul>
+
+    </div>
+    <div class="newdashboard">        
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_createwallet')}}', 'wallet', 'Create', 'Wallet Details');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/WALLET-01_128x128.png') }}">
+                <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+                    Create </span><br/>
+                Create wallet and its details information. 
+            </p>
+        </div>
+       {# <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_mastersetting')}}', 'master_setting', 'Create', 'Expense Details');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/master.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;font-weight: bold;"> 
+                Issue ATM Wallet</span> <br/>
+            Capturing details information on Employee Wallet. </p>
+        </div>#}
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_createdeposit')}}', 'deposit', 'Create', 'Deposit Details');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/dep.png') }}">
+                <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+                    Deposit</span><br/>
+                Wallet Deposit and its details information. 
+            </p>
+        </div>
+        
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_approve_expenses')}}', 'approve_expenses', 'Approve', 'Approve Expense');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/approved_128x128.png') }}">
+                <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+                    Manage Employee Expenses</span><br/>
+                Approve/Reject Expense made by the employees. 
+            </p>
+        </div>
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_search_deposit')}}', 'search_deposit', 'Deposit', 'Search Deposit');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/search_128x128.png') }}">
+                <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+                    Search Deposit</span><br/>
+                Capturing Deposit details information. 
+            </p>
+        </div> 
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_search_expenses')}}', 'search_expenses', 'Expenses', 'Search Expense');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/search_128x128.png') }}">
+                <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+                    Search Expenses</span><br/>
+                Capturing Expenses details information. 
+            </p>
+        </div> 
+        <div class="clear"></div><br/>
+    </div>       
+</div>
+<input type="hidden" id="datePickerImage" value="{{asset('bundles/common/images/calendar.png') }}" />

@@ -1,0 +1,24 @@
+{%for prdValue in prdattrValue%}
+<tr>
+     <td class="td-gray-bg">{{prdValue.valueName.attributeMaster.attributeName}}</td>
+       <td class="td-white-bg">
+       <input type="text"  id="attrvalue" name="attrvalue" value="{{prdValue.arrayList[0].prdAttributeValue|default('')}}" {%if actionmode is defined%}readonly{%endif%} />
+       <input type="hidden" value="{{prdValue.valueName.pkid}}" name="catattrpkid"/>
+       <select id="unit" name="AttrUnitPkid" style="width: 100px;"  class="normal_select cmnWidth" {%if actionmode is defined%}disabled{%endif%}>
+         <option value="">--Select--</option>
+         {%for unitobj in unitObj%}
+            {%if unitobj.attributeMaster.pkid==prdValue.valueName.attributeMaster.pkid%}
+                <option value="{{unitobj.pkid}}"
+                    {%if unitobj.pkid==prdValue.arrayList[0].prdAttributeUnit.pkid|default('')%} 
+                       selected  {%endif%}  >
+                    {{unitobj.unitMaster.unitName|default('')}}
+                </option>           
+            {%endif%}
+          {%endfor%}
+      </select>
+      </td>
+     
+     
+</tr>{# empty Twig template #}
+{%endfor%}
+

@@ -1,0 +1,9 @@
+{%if key == 'cash'%}
+    <option value="{{ accountList.pkid|default('') }}">Cash Account</option> 
+{%elseif key == 'bank'%}
+    <option value="">--select--</option>
+    {%for a in accountList|default('')%}
+        <option value="{{ a.bankFk.bankPk|default('') }}"> {{ a.bankFk.bankName|default('') }}({{ a.bankFk.accountNumber|default('') }})  </option> 
+    {%endfor%}
+
+{%endif%}

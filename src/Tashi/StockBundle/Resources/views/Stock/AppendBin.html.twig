@@ -1,0 +1,6 @@
+<select name="selStkBin" id="selStkBin" class="cmnWidth" onchange="selectBinId(this.id);">
+    <option value="">--select--</option>
+    {%for bin in binArr%}
+        <option value="{{bin.pkid}}">{{bin.binNo}}</option>
+    {%endfor%}
+</select>

@@ -1,0 +1,167 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <td class="td-label-title" colspan="3">Project Detail</td>
+    </tr>
+    <tr>
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0">
+                <tr>
+                    <td class="td-gray-bg" width="150px">Select Project Area<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg">
+                        <select name="selProjArea" id="selProjArea">
+                            <option value="">--select--</option>
+                            {%for area in areaArr%}
+                                <option value="{{area.pkid}}">{{area.area|upper}}</option>
+                            {%endfor%}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">Select Industry Type<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg">
+                        <select name="selIndType" id="selIndType">
+                            <option value="">--select--</option>
+                            {%for industry in industryArr%}
+                                <option value="{{industry.pkid}}">{{industry.industryType|upper}}</option>
+                            {%endfor%}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">Opportunity</td>
+                    <td class="td-white-bg">
+                        <select name="selOpportunity" id="selOpportunity"> 
+                            {%for opp in oppArr%}
+                                <option value="{{opp.pkid}}">{{opp.opportunityType}}</option>
+                                {#<option value="New" {%if opp.pkid==2 and isexist==0%}selected{%endif%}>{{opp.opportunityType}}</option>#}
+                            {%endfor%}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">Select Site Coordinator<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg">
+                        <select name="selCoordinator" id="selCoordinator">
+                            <option value="">--select--</option>
+                            {%for emp in empArr%}
+                                <option value="{{emp.employeePk}}">{{emp.personFk.personName|upper}} 
+                                    {%if emp.empJobTitleFk is not null%}
+                                        ({{emp.empJobTitleFk.jobTitleName}})
+                                        {%endif%}
+                                </option>
+                            {%endfor%}
+                        </select>
+                    </td>
+                </tr>                
+                <tr>
+                    <td class="td-gray-bg" width="150px">Project Dimension<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg">                        
+                        <input type="text" class="cmnWidth" id="txtdimension" name="txtdimension" placeholder="e.g. 100x100 sq. ft.">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">Select Status<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg">                        
+                        <select name="selProjectStatus" id="selProjectStatus">
+                            <option value="">--select--</option>
+                            {%for status in projStatusArr%}
+                                <option value="{{status.pkid}}">{{status.statusName}}</option>
+                            {%endfor%}
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">Execution Date<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg">
+                        <input type="date" name="txtStartDate" id="txtStartDate" value="{{"now"|date('Y-m-d')}}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">Tentative Completion Date<span class="mandatoryField">*</span></td>
+                    <td class="td-white-bg">
+                        <input type="date" name="txtCompleteDate" id="txtCompleteDate" value="{{"now"|date('Y-m-d')}}">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg">Project Description</td>
+                    <td class="td-white-bg">
+                        <textarea name="txtProjDesc" cols="70" rows="6"></textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" align="left">Notify to <a href="javascript:;" title="Notify about this project to the selected employees."><img alt="info" src="{{asset("bundles/common/images/help16x16.png")}}" style="margin-bottom:-4px;"></a></td>
+                    <td class="td-white-bg">
+                        <select id="userlist" name="userlist" size="10" multiple>
+                            <option value="">--select--</option>
+                            {%for emp in empArr%}
+                                {%set person=emp.personFk%}
+                                {%if person is not null%}
+                                    {%if person.middleName|default('')!=''%}
+                                        {%set name= person.firstName ~ ' '~person.middleName~' '~person.lastName%}
+                                    {%else%}
+                                        {%set name= person.firstName~' '~person.lastName%}
+                                    {%endif%}
+                                    <option value="{{emp.employeePk}}">{{name|upper}}({{emp.empJobTitleFk.jobTitleName|default('')}})</option>
+                                {%endif%}
+                            {%endfor%}
+                        </select>
+                        <p style="color:#08C; margin:3px 0;">Press and hold 'Ctrl' key to select multiple employees.</p>
+                        {#<div class="tableElementEmulation">
+                            <ul class="trElementEmulation">
+                                {%for group in groupArr%}
+                                    <li class="tdElementEmulation" style="width:auto;">
+                                        <div class="example">
+                                            <div style="float:left;">
+                                                <input id="chkSup{{group.pkid}}" type="checkbox" name="chkGroup" value="{{group.groupName}}">
+                                                <label for="chkSup{{group.pkid}}" style="font-weight:bold;"><span><span></span></span>{{group.groupName}}</label>
+                                            </div>                                   
+                                        </div>                                                            
+                                    </li>
+                                {%endfor%}
+                            </ul>
+                        </div>#}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin-top: 5px;">
+    <tr>
+        <td class="td-label-title" colspan="3">Project Referrer Detail</td>
+    </tr>
+    <tr>
+        <td>
+            <table>
+                <tr>
+                    <td class="td-gray-bg">Name</td>
+                    <td class="td-white-bg" >
+                        <input type="text" name="txtReferrerName" id="txtReferrerName" class="cmnWidth">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">Contact Number</td>
+                    <td class="td-white-bg">
+                        <input type="text" name="txtReferrerNo" id="txtReferrerNo" onkeypress="return isValidNumber(event);" maxLength="10">
+                    </td>
+                </tr>
+                <tr>
+                    <td class="td-gray-bg" width="150px">About</td>
+                    <td class="td-white-bg">
+                        <textarea name="txtAboutRef" id="txtAboutRef" cols="70" rows="6" placeholder="Enter few words about the Project Referrer"></textarea>
+                    </td>
+                </tr>                
+                <tr>
+                    <td class="td-gray-bg">
+                    <td class="td-white-bg" align="left;">
+                        <input type="button" class="button"  value="Back" onclick="stepper('Select Customer','1');"/>
+                            &nbsp;
+                        <input type="button" class="button"  value="Create Project & Proceed" onclick="CreateProjectAndProceedToStep3('{{path("_createproject_step3")}}');"/>
+                    </td>
+                </tr>                
+            </table>
+        </td>
+    </tr>
+</table>
+                   

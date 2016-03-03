@@ -1,0 +1,17 @@
+<td class="td-gray-bg">Select Project Items:</td>
+<td class="td-white-bg">
+    <select name="selectlist1" id="ddlb_itemselectlist" class="cmnWidth">
+        <option value="">--Select--</option>
+                   {%for it in item %}
+                   {%if it.itemFk is not null %}
+                   <option value="{{it.pkid | default('')}}">{{it.itemFk.productName | default('')}}</option>
+                   {%endif%}
+                   {%endfor%}
+
+    </select>
+</td>
+
+
+
+
+

@@ -1,0 +1,132 @@
+
+<div class="dependent_detials">
+    <div id="emp_dependent_details_list">
+    {#this hidden input is hide/show key#}
+    <input type="hidden" value="0" class="emp_dependent_detail_hide_show_key"/>
+    <table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">   
+        {#paramer: project_item => class name of table row (tr) to hide or show #}
+        <tr onclick="fnHideShow('emp_dependent_detail');">
+            <td class="td-label-title">
+                  {# div is hide/show icon#}
+                Address Details List: <div class="emp_dependent_detail_hide_show_icon floatRight plus"></div>
+            </td>
+        </tr>
+        <tr class="emp_dependent_detail displayNone">
+            <td>                    
+                <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                    <thead class="">
+                        <tr>
+                            <th class="tbl-th-grid-view-row-no-bg">Sl No.</th>
+                            <th class="tbl-th-grid-view-row-no-bg">Dependent Name</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">DOB</th>     
+                            <th class="tbl-th-grid-view-row-no-bg">Relationship</th> 
+                            <th class="tbl-th-grid-view-row-no-bg">Phone No.</th>                            
+                            <th class="tbl-th-grid-view-row-no-bg">Mobile No </th> 
+                            <th class="tbl-th-grid-view-row-no-bg">Address</th>                                                     
+                            <th class="tbl-th-grid-view-row-no-bg">Action</th> 
+                        </tr>
+                    </thead>
+                    <tbody>                           
+
+                  {%for key,d in dependentDetails|default('') %}
+                        <tr>                                   
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ loop.index }}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ d.dependent.personName | default('')}}</td>                       
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ d.dependent.dateOfBirth | date('d-m-Y')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ d.dependent.relationshipType | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ d.dependent.telephoneNo | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                            {%for m in d.mobile|default('')%}
+                                {{ m.mobileNoFk.mobileNo|default('') }} <br/>   
+                            {%endfor%}
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">{{ d.dependent.shortAddress | default('')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                <a href="javascript:void();" onclick="retriveEmpDependentRecord('#frmEmpDependentDetails','{{ path('_retrive_emp_dependent_details',{'dependentID': d.dependent.personPk | default('') }) }}');">Edit</a> | 
+                                <a href="javascript:void();"  style="color:#ff0000;" onclick="deleteEmpDependentRecord(this,'#frmEmpDependentDetails', '{{ path('_delete_emp_dependent_details', {'dependentID':d.dependent.personPk | default('') })}}');">Delete</a>
+                            </td>                                                 
+                        </tr>                    
+                  {%endfor%}
+
+                    </tbody>
+                </table>
+            </td>
+        </tr>                                 
+    </table>
+    </div> 
+    <div id="add_dependent_btn_div" style="margin-left: 5px;margin-top: 10px;"> 
+        <input type="button" class="button blue" id="add_contact_btn" value="Add Dependent" onclick="showHideBtnOrForm(this,'emp_dependent_form_div');"/> 
+    </div>
+    <div id="emp_dependent_form_div" style="margin-top: 10px; display: none;">
+       <form id="frmEmpDependentDetails">
+        <input type="hidden" value="0" class="emp_dependent_form_hide_show_key"/>
+        <table width="99%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" style="margin: 0 auto;">               
+            <tr onclick="fnHideShow('emp_dependent_form');">
+                <td class="td-label-title">                      
+                     Dependent Form: <div class="emp_dependent_form_hide_show_icon floatRight plus"></div>
+                </td>
+            </tr>
+            <tr class="emp_dependent_form displayNone">
+                <td>
+                    <table width="100%" align="center" cellpadding="0" cellspacing="0">                                                                                                                                                   
+                        <tr>
+                            <td class="td-gray-bg">First Name<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">  <input class="cmnWidth cmnField" type="text" id="first_name" name="txt_first_name">  </td>
+                            <td class="td-gray-bg">Last Name<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg"><input class="cmnWidth cmnField" type="text" id="last_name" name="txt_last_name">  </td>                                       
+                        </tr> 
+                        <tr>
+                            <td class="td-gray-bg">Middle Name</td>
+                            <td class="td-white-bg">  <input class="cmnWidth cmnField" type="text" id="middle_name" name="txt_middle_name">  </td>
+                            <td class="td-gray-bg">Occupation</td>
+                            <td class="td-white-bg"><input class="cmnWidth cmnField" type="text" id="occupation" name="txt_occupation">  </td>                                       
+                        </tr> 
+                        <tr>
+                            <td class="td-gray-bg">Relationship<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg">  <input class="cmnWidth cmnField" type="text" id="relation" name="txt_relation">  </td>
+                            <td class="td-gray-bg">Phone No</td>
+                            <td class="td-white-bg"><input class="cmnWidth cmnField" type="text" id="phone_no" name="txt_phone_no" onKeypress="return validationDigit('#phone_no');">  </td>                                       
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg" valign="top">Mobile No</td>
+                            <td class="td-white-bg" style="width: 500px;">
+                                {#this hidden detect whose contact no is ie.employee or dependent#}
+                                <input type="hidden" class="cmnField" id="keyToDetectWhoseNos" name="txt_keyToDetectWhoseNos" value="D" />
+                                <div id="contact_mobiles">                               
+                                    <table>
+                                        <tr>
+                                            <td> <input class="cmnWidth cmnField" type="text" id="emp_contact_mobile" name="txt_emp_contact_mobile" onKeypress="return validationDigit('#emp_contact_mobile');"/>  </td>
+                                            <td><input type="button" class="button blue cmnField" value="Add" onclick="addFieldDynamic(this,'txt_emp_contact_mobile');"/></td>
+                                        </tr> 
+                                    </table> 
+                                </div>
+                            </td>
+                            <td class="td-gray-bg" valign="top">DOB</td>
+                            <td class="td-white-bg" valign="top"><input class="cmnWidth cmnField" type="date" id="dob" name="txt_dob">  </td>                                       
+                        </tr>
+                        <tr>
+                            <td class="td-gray-bg">Address<span class="necessary-field">*</span></td>
+                            <td class="td-white-bg" colspan="3"> <textarea class="cmnField" id="address" name="txt_address" cols="50" rows="4"></textarea> </td>                                                
+                        </tr>                     
+                        <tr>
+                            <td class="td-separator" colspan="4" style="text-align: center;">
+                                <input type="button" class="button blue" id="btn_save" value="Save" onclick="saveEmpDependentDetails('{{ path('_add_emp_dependent_details') }}', this);"/>
+                                <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="ediDependentDetail(this);" style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_update" value="Update" onclick="saveEmpDependentDetails('{{ path('_add_emp_dependent_details') }}', this);"  style="display: none;"/>
+                                <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="showHideBtnOrForm(this,'add_dependent_btn_div'); cancelContactDetailFields(this);" />
+                            </td>  
+                        </tr>
+                    </table>
+                   </td>  
+               </tr>
+           </table>
+            <input type="hidden" class="cmnField" id="dependentID" name="txn_dependentID" value="{{ dependentID | default('') }}" /> 
+        </form>
+    </div>
+        {# firstly show table #}
+       <script type="text/javascript">
+         fnHideShow('emp_dependent_detail'); 
+         fnHideShow('emp_dependent_form'); 
+      </script>
+</div>

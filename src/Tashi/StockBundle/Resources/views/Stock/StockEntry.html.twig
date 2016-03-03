@@ -1,0 +1,119 @@
+<div class='sub-menu'>
+    <ul>
+        <li class='active'><a href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_gotostockentry')}}', 'stock_master','Stock', 'Manage Stock', 'New Stock Entry');">New Stock Entry</a></li>
+        <li id="searchStk_li"><a  href="javascript:void();" onclick="fnSubMenuNavigation('{{path('_gotosearchstock')}}','searchStk_li','Stock', 'Manage Stock', 'Search Stock','' );">View Stock Status</a></li>
+    </ul>
+    
+</div>
+<div class="newdashboard">
+    <div class="application-form"> 
+        <form id="StockMainFrm">            
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+                <tr>
+                    <td class="td-label-title" width="200px" >
+                        Add Products in stock 
+                    </td>
+                    <td class="td-gray-bg">
+                        <div class="example">
+                            <div style="float:left;">
+                                <input id="radio2" type="radio" name="radio" value="1" onchange="PORadioChange(this.id,'txtSearchcust');"><label for="radio2"><span><span></span></span>With PO Number</label>
+                            </div>                                                         
+                            <div style="float:left;">
+                                <input id="radio3" type="radio" name="radio" value="0" onchange="PORadioChange(this.id,'txtSearchcust');"><label for="radio3"><span><span></span></span>Without PO Number</label>
+                            </div>                                                                    
+                            <input type="hidden" id="inputPOselection" name="inputCriteria" value="">
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <br/>
+            <div id="divPrdWithPO" style="display:none;">
+                <table width="100%" align="center" border="0"  cellpadding="0" cellspacing="0" class="tbl-border">
+                    <tr>
+                        <td class="td-gray-bg" width="200px">Purchase Order Number</td>
+                        <td class="td-white-bg" width="170px">
+                            <input type="text" name="txtPoNumber" id="txtPoNumber" placeholder="Enter PO number here" onkeypress="txtPOKeypress(event);"/>
+                        </td>
+                        <td class="td-white-bg" align="left">
+                            <input type="hidden" id="inputPOProductsUrl" value="{{path("_searchproductbypo")}}"/>
+                            <input type="button" class="button" value="Get Product" onclick="loadPOProducts();"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+            <div id="divPrdWithoutPO" style="display:none;">
+                <table width="100%" align="center" border="0"  cellpadding="0" cellspacing="0" class="tbl-border">
+                    <tbody>
+                        <tr>
+                            <td class="td-label-title" style="background-color: #fff;" colspan="2">
+                                Select Product using Category/Sub-Category
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td width="200px" class="td-gray-bg">Select Product Category</td>
+                            <td class="td-white-bg" align="left" colspan="2">
+                                <select id="pkid"  class="normal_select cmnWidth" onchange="stkLoadSubCategory(this.id);">
+                                    <option value="">--Select--</option>
+                                            {%for cat in category%}
+                                    <option value="{{path('_stk_appendprdsubcat',
+                                            {'pkid':cat.pkid})}}">{{cat.categoryName}}</option>
+                                            {%endfor%}
+                                </select>   
+                                <input type="hidden" name="searchvalue" value="" id="searchvalue"/>
+                            </td>
+                       </tr>
+                    </tbody>
+                    <tbody id="tbodyDynamic">
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td width="200px" class="td-gray-bg">Select Product</td>
+                            <td class="td-white-bg" align="left" id="prdproductList" width="200px">
+                                <select id="selStkPrdList" name="selStkPrdList"  class="normal_select cmnWidth">
+                                    <option value="">--Select--</option>                                    
+                                </select>
+                            </td>
+                            <td class="td-white-bg" align="left">
+                                <input type="button" class="button" value="Select" onclick="SelectProductIdforStockEntry();">
+                                &nbsp;<span id="spanErronSel" class="necessary-field"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td class="td-label-title" width="200px"></td>
+                            <td class="td-label-title" colspan="2">
+                                ---------------OR---------------
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tbody>
+                        <tr>
+                            <td class="td-label-title" style="background-color: #fff;" colspan="2">
+                                Select Product by Product Code or Bar Code directly
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody>
+                        <tr>
+                            <td width="200px" class="td-gray-bg">Enter Product Code/Bar Code</td>
+                            <td class="td-white-bg" align="left" colspan="2">                                
+                                <input type="text" name="txtPrdcode" id="txtPrdcode" placeholder="Enter Product Code/ Bar Code and press enter" class="cmnWidth" onkeypress="SelectProductIdforStockEntryOnKeyPress(event);"/>
+                                &nbsp;<span id="spanErronEnter" class="necessary-field"></span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>                
+            </div>
+                <input type="hidden" id="inputstkdetailUrl" value="{{path("_gotostkstockentrydetail")}}"/>
+                <input type="hidden" id="inputProductCode" name="inputProductCode">
+            <br/>
+            <div id="divPOProdList"></div>
+            <div id="divStockEntryDetail">
+            </div>
+        </form>
+    </div>
+</div>

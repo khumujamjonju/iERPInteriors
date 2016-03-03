@@ -1,0 +1,80 @@
+{%set serviceid=''%}
+{%set servicename=''%}
+{%set servicedesc=''%}
+{%set unit=''%}
+{%set price=''%}
+{%set quantity=''%}
+{%if mode=='EDT'%}
+    {%set serviceid=service.pkid%}
+    {%set servicename=service.serviceFk.serviceName%}
+    {%set servicepkid=service.serviceFk.pkid%}
+    {%set servicedesc=service.servicedescription%}
+    {%set unit=service.unit%}
+    {%set price=service.unitPrice%}
+    {%set quantity=service.quantity%}
+{%endif%}
+<input type="hidden" name="inputServicepkid" value="{{serviceid}}"/>
+<input type="hidden" name="inputprojectid" value="{{itemtxn.projectFk.pkid}}"/>
+<input type="hidden" name="inputitemtxnid" value="{{itemtxn.pkid}}"/>
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        {%if mode=='EDT'%}
+            <td class="td-label-title" colspan="2">Edit Service Detail: {{servicename|upper}}</td>
+        {%else%}
+            <td class="td-label-title" colspan="2">Add New Service</td>
+        {%endif%}
+    </tr>
+    <tr>
+        <td class="td-gray-bg" width="200px">Service Name <span class="mandatoryField">*</span></td>
+        <td class="td-white-bg">
+            {%if mode=='EDT'%}
+                {{servicename|upper}}
+                <input type="hidden" name="serviceid" value="{{serviceid}}"/>
+            {%else%}
+                <select name="selServicelist" id="selServicelist">
+                    <option value="select">--select--</option>
+                    {%for srv in serviceArr%}
+                        <option value="{{srv.pkid}}">{{srv.serviceName|upper}}</option>
+                    {%endfor%}
+                </select>
+            {%endif%}
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg">Description</td>
+        <td class="td-white-bg">
+            <textarea name="txtDesc" cols="50" rows="5">{{servicedesc}}</textarea>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg">Unit</td>
+        <td class="td-white-bg">
+            <input type="text" name="txtUnit" value="{{unit}}" placeholder="eg. sq.ft., hole etc."/>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg">Quantity<span class="mandatoryField">*</span></td>
+        <td class="td-white-bg">
+            <input type="text" name="txtQty" id="txtQty" value="{{quantity}}" style="width:70px;" onkeypress="return IntegerOnly(event);"/>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg">Unit Charge<span class="mandatoryField">*</span></td>
+        <td class="td-white-bg">
+            <input type="text" name="txtCharge" id="txtCharge" value="{{price|number_format(2,'.','')}}" class="money" style="width:70px;" onkeypress="return isValidNumber(event);" onblur="DefaultDecimalValue(this);"/>
+        </td>
+    </tr>
+    <tr>
+        <td class="td-gray-bg"></td>
+        <td class="td-white-bg" align="left">
+            {%if mode=='EDT'%}
+                <input type="button" class="button" value="Submit" onclick="ManageItemService('{{path("_updateitemservice")}}','edt');">
+                &nbsp;&nbsp;
+                <input type="button" class="button" value="Cancel" onclick="CancelItemService();">
+            {%else%}
+                <input type="button" class="button" value="Submit" onclick="ManageItemService('{{path("_insertnewitemservice")}}','ins');">
+            {%endif%}
+            
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,100 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border">                       
+    <tr>
+        <input id="spanCloseOpenHandlerTranList" value="0" type="hidden">
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('TranList');" style="cursor: pointer;">
+            List of Transactions
+            <span style="float: right;" id="spanIdTranList" class="span_open" >&nbsp;</span>
+        </td>                
+    </tr>
+    <tr id="trAddressTranList">
+        <td>
+            <table id="example" width="100%" border="0" cellpadding="0" cellspacing="0" class="display">   
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg">Sl. No.</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Transaction Date</th>                                
+                        <th class="tbl-th-grid-view-row-no-bg" style="text-align:left;">Description</th>
+                        <th class="tbl-th-grid-view-row-no-bg" style="width:150px; text-align: left">Related Project</th>
+                        <th class="tbl-th-grid-view-row-no-bg" style="width:70px;">Deposit</th>
+                        <th class="tbl-th-grid-view-row-no-bg" style="width:70px;">Expense</th>
+                        <th class="tbl-th-grid-view-row-no-bg" style="width:80px;">Status</th>
+                        <th class="tbl-th-grid-view-row-no-bg" >Transaction Proof</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%if trans['Date']|length>0%}
+                        {%set slno=1%}
+                        {%set totDep=0%}
+                        {%set totExp=0%}
+                        {%for i in range(0,trans['Date']|length-1)%}                            
+                            <tr>
+                                <td class="tbl-grid-view-row-no-bg" width="70px" align="center">{{slno}}</td>
+                                <td class="tbl-grid-view-row-no-bg" width="150px" align="center">{{trans["Date"][i]|date('d-M-Y h:i a')}}</td>
+                                <td class="tbl-grid-view-row-no-bg" style="text-align:justify;">{{trans["Desc"][i]|default('')}}</td>  
+                                <td class="tbl-grid-view-row-no-bg" >
+                                    {%if trans['Project'][i]!=''%}
+                                        {{trans['Project'][i].orderNo|default('')}}<br>
+                                        {{trans['Project'][i].areaFk.Area|default('')}}                                    
+                                    {%endif%}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" width="100px" align="right">
+                                    {%if trans['Type'][i]=='D'%}
+                                        {{trans['Dep'][i]|default('')|number_format('2','.','')}}
+                                        {%set totDep=totDep+trans['Dep'][i]%}
+                                    {%endif%}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" width="100px" align="right">
+                                    {%if trans['Type'][i]=='E'%}
+                                        {{trans['Exp'][i]|default('')|number_format('2','.','')}}
+                                        {%set totExp=totExp+trans['Exp'][i]%}
+                                    {%endif%}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" width="80px" align="center">
+                                    {%if trans['Status'][i]=='0'%}
+                                        <span style="color:#ff0000;">Pending</span>
+                                    {%elseif trans['Status'][i]=='1'%}
+                                        <span style="color:#009900;">Approved</span>
+                                    {%elseif trans['Status'][i]=='2'%}
+                                        <span style="color:#ff0000;">Rejected</span>
+                                    {%endif%}
+                                </td>
+                                <td class="tbl-grid-view-row-no-bg" align="center">
+                                    {%if (trans['Proof'][i] is not null or trans['Proof'][i]!='') and trans['Type'][i]=='E'%}
+                                        <a href="{{asset(trans['Proof'][i].path|default(''))}}" target="_blank">View</a>
+                                    {%endif%}
+                                </td>                                
+                                <td class="tbl-grid-view-row-no-bg" align="center" style="width:150px;">
+                                    {%if trans['Type'][i]=='E'%}
+                                 <select id="TYPEID{{trans['ExpID'][i]}}"  style="width:100px;">
+                                               {%if  trans['Status'][i]==0 and trans['ExpensesType'][i]==1%}
+                                                <option value="{{path('_retreivexpenses',{'id': trans['ExpID'][i]})}}&edit">Edit</option>
+                                               {%endif%}
+                                                <option value="{{path('_viewmyexpensedetail',{'pkid': trans['ExpID'][i]})}}&view">View</option>
+                                              {#  <option value="{{path('_approve_exp',{'id': e.pkid})}}&aprv">Approve</option>
+                                                <option value="{{path('_cancleapprove_exp',{'id':e.pkid})}}&cancel">Cancel</option>#}
+                                            </select>
+                                  <input type="button" value="Go" class="button blue" onclick="viewexpensedetail({{trans['ExpID'][i]}});"/>
+                                   {%endif%}
+                                  {#{%if trans['Type'][i]=='E'%}
+                                        <a href="javascript:void(0);" 
+                                           onclick="viewexpensedetail('{{path("_viewmyexpensedetail",{'pkid':trans['ExpID'][i]})}}');">View Detail</a>
+                                  {%endif%} #}
+                                </td>
+                            </tr>
+                            {%set slno=slno+1%}
+                        {%endfor%}
+                        <tr>
+                            <td class="tbl-grid-view-row-no-bg" colspan="4" align="right">
+                                <b>Total</b>
+                            </td>
+                            <td class="tbl-grid-view-row-no-bg" align="right">{{totDep|number_format('2','.','')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align="right">{{totExp|number_format('2','.','')}}</td>
+                            <td class="tbl-grid-view-row-no-bg" align=""></td>
+                        </tr>
+                    {%endif%}
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,126 @@
+<table id="tbCreateInvoice" width="100%" border="0" class="tbl-border" cellpadding="0" cellspacing="0" >           
+    <tr>
+        <input id="spanCloseOpenHandlerCreateInvoice" value="0" type="hidden">
+        <td class="td-label-title" onclick="lmsShowHideAddressResult('CreateInvoice');">Create Invoice
+            <span style="float: right;" id="spanIdCreateInvoice" class="span_open" >&nbsp;</span>        
+        </td>
+    </tr>
+    <tr id="trAddressCreateInvoice">
+        <td>
+            <table width="100%" border="0" cellpadding="0" cellspacing="0" >
+                <thead></thead>
+                <tbody>
+                     <tr>
+                        <td class="td-gray-bg" width="150px">Project</td>
+                        <td class="td-white-bg">
+                            <b>{{proj.areaFk.area|upper}}</b>
+                            <input type="hidden" name="inputprojid" value="{{proj.pkid}}"/>
+                        </td>
+                        <td class="td-gray-bg" width="150px">Order Number</td>
+                        <td class="td-white-bg">
+                            <b>{{proj.orderNo|upper}}</b>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg" width="150px" valign="top">Customer</td>
+                        <td class="td-white-bg" valign="top">
+                            <div style="padding-top:3px; margin:0;"><b>ID:</b> {{proj.customerFk.customerId|upper|upper|default('')}}</div>                                
+                            <div style="padding-top:3px; margin:0;"><b>Name:</b> {{proj.customerFk.customerName|upper|upper|default('')}}</div>
+                            <div style="padding-top:3px; margin:0;"><b>Contact Person:</b> {{cperson.personName|upper|upper|default('')}}</div>
+                            <div style="padding-top:3px; margin:0;"><b>Number:</b> {{mobno}}</div>
+                        </td> 
+                        <td class="td-gray-bg">Ship to</td>
+                        <td class="td-white-bg" style="text-align: justify;">{{shipAdd|raw}}</td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Bill to<span class="mandatoryField">*</span></td>
+                        <td class="td-white-bg" colspan="3">
+                            <select id="selBillAddress" name="selBillAddress" style="max-width:600px;">
+                                <option value="">--select--</option>
+                                {%for add in addressArr%}
+                                    {%set addMaster=add.addressFk%}
+                                        {%if add.customerFk.customerIdPk==proj.customerFk.customerIdPk%}
+                                            {%set address=addMaster.address1%}
+                                            {%if addMaster.address2!=''%}
+                                                 {%set address=address ~ ","~addMaster.address2%}
+                                            {%endif%}
+                                            {%if addMaster.cityCodeFk!=null%}
+                                                 {%set address=address ~ ","~addMaster.cityCodeFk.cityName%}
+                                            {%endif%}
+                                            {%if addMaster.stateCodeFk!=null%}
+                                                 {%set address=address ~ ","~addMaster.stateCodeFk.stateName%}
+                                            {%endif%}
+                                            {%if addMaster.countryCodeFk!=null%}
+                                                  {%set address=address ~ ","~addMaster.countryCodeFk.countryName%}
+                                            {%endif%}
+                                             {%if addMaster.pinNumber!=''%}
+                                                 {%set address=address ~"-"~addMaster.pinNumber%}
+                                            {%endif%}
+                                            <option value="{{add.pkid}}" {%if add.isPrimaryAddress==1%}selected{%endif%}>{{address}}</option>
+                                        {%endif%}
+                                {%endfor%}
+                            </select>
+                        </td>                            
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg" width="150px">Invoice Date<span class="mandatoryField">*</span></td>
+                        <td class="td-white-bg">
+                            <input type="date" name="txtInvDate" id="txtInvDate" value="{{"now"|date('Y-m-d')}}"/>
+                        </td>
+                        <td class="td-gray-bg" width="150px">Sales Rep.</td>
+                        <td class="td-white-bg">
+                            <select id="selSalesRep" name="selSalesRep">
+                                <option value="">--select--</option>
+                                {%for emp in empArr%}
+                                    <option value="{{emp.employeePk}}">{{emp.personFk.personName|upper}} 
+                                    {%if emp.empJobTitleFk!=null%}
+                                        ({{emp.empJobTitleFk.jobTitleName|upper}})
+                                    {%endif%}
+                                </option>
+                                {%endfor%}
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>                                   
+                        <td class="td-gray-bg" width="150px">Shipping Date</td>
+                        <td class="td-white-bg">
+                           <input type="date" name="txtShipDate" id="txtShipDate" value="{{"now"|date('Y-m-d')}}"/>
+                        </td>
+                        <td class="td-gray-bg" width="150px">Shipping Term</td>
+                        <td class="td-white-bg">
+                            <input type="text" name="txtShipTerm" id="txtShipTerm" class="cmnWidth" />
+                        </td>
+                    </tr>
+                    <tr>                      
+                        <td class="td-gray-bg" width="150px">Payment Term</td>
+                        <td class="td-white-bg" colspan="3">
+                            {#<select id="listPayMode" name="listPayMode" size="5" multiple>
+                                {%for paymode in payModeArr%}
+                                    <option {%if paymode.pkid==1%}selected{%endif%}>{{paymode.paymentModeName|upper}}</option>
+                                {%endfor%}
+                            </select>#}
+                            <div class="example">
+                                {%for paymode in payModeArr%}
+                                    <div style="float:left;">
+                                        <input type="checkbox" name="chkboxPay" id="chkboxPay{{paymode.pkid}}" value="{{paymode.pkid|upper}}"/>
+                                        <label for="chkboxPay{{paymode.pkid}}">{{paymode.paymentModeName|upper}}</label>        
+                                    </div>
+                                {%endfor%}
+                            </div>
+                        </td> 
+                    </tr>                        
+                    <tr>
+                        <td class="td-gray-bg">Notes</td>
+                        <td class="td-white-bg" colspan="3">
+                            <textarea name="txtNote" cols="120" rows="5"></textarea>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </td>
+    </tr>
+</table>
+<br/>
+<div id="divinvitemlist"></div>
+                
+

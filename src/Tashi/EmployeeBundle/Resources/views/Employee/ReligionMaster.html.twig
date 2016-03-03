@@ -1,0 +1,61 @@
+<div class="newdashboard">
+    <div class="application-form"> 
+        <table width="100%" cellspacing="0" cellspadding="0" class="tbl-border">         
+            <tr>
+                <td class="td-label-title" colspan="2">Religion Master</td>
+            </tr>
+            <tr>
+                <td> <form id="frmEmpReligion" style="margin: 0px;">
+                        <table width="100%" cellspacing="0" cellspadding="0">                       
+                            <tr>
+                                <td class="td-gray-bg">Name<span class="necessary-field">*</span></td>
+                                <td class="td-white-bg">
+                                    <input type="hidden" id="religionId" name="religionId"/>
+                                    <input type="text" class="cmnWidth" id="religion_name" name="religion_name" onkeypress="return NullonEnterKey(event);">
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="td-separator" colspan="4" style="text-align: center;">
+                                    <input type="button" class="button blue" id="btn_save" value="Save" onclick="return addUpdateReligionMaster('{{ path('_add_update_emp_religion')}}', this);"/>
+                                    <!--input type="button" class="button blue" id="btn_update" value="Update" onclick="return addUpdateJobTitleMaster('{{ path('_add_update_emp_religion')}}', this);" style="display: none;"/-->
+                                    <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="onCancleClick('frmEmpJobTitle');" style="display: none;"/>
+                                    <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/>  
+                                </td>
+                            </tr>
+                        </table>
+                    </form>
+                </td>
+            </tr>
+        </table>
+        <div id="display-list" class="stylecommonborder" style="margin-top: 10px;">
+                <table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >           
+                    <tr>
+                        <td class="td-label-title">Religion List:</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display"  >  
+                                <thead>
+                                    <tr> 
+                                        <th class="tbl-th-grid-view-row-no-bg">Name</th>
+                                        <th class="tbl-th-grid-view-row-no-bg">Action</th>                                               
+                                    </tr>
+                                </thead>
+                                <tbody>
+                             {% for jt in allRecord%}
+                                        <tr>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">{{jt.religionName | default('')}}</td>
+                                            <td class="tbl-grid-view-row-no-bg" align="center">
+                                                <a href="javascript:void();" onclick="retrieveEmpReligion('{{ path('_retrieve_emp_religion',{ 'religionId': jt.pkid | default('')})}}');">Edit</a> |
+                                                <a href="javascript:void();"  style="color:#ff0000;" onclick="deleteEmpReligionModule('{{ path('_delete_emp_religion',{ 'religionId': jt.pkid | default('')})}}','Religion', 'frmEmpReligion');">Delete</a>
+                                            </td>                                                 
+                                        </tr>
+                                  {%endfor%}
+                                    </tbody>
+                                </table>
+                            </td>
+                        </tr>                                 
+                    </table>
+                </div>   
+            </div>
+        </div>

@@ -1,0 +1,84 @@
+<!--Module Name :
+Purpose or objective of the  page :Search Customer by PanCard No.
+Links :
+Created By :
+Created Date :
+Last Modified Date :
+Last Modified By :
+Test Carried Out :
+Test Carried By :
+Version :       -->
+<table width="100%" align=center border="0" cellpadding="0" cellspacing="0" class="tbl-border">
+    <tr>
+        <td colspan="5" class="td-label-title">Address Details</td>
+    </tr>
+    {#<tr>
+        <td class="tbl-grid-view-left-header-rounded" width="25%">Address Type</td>
+        <td class="tbl-grid-view-header">Address Id</td>
+        <td class="tbl-grid-view-header">Address</td>
+        <td class="tbl-grid-view-header" width="10%">Status</td>
+        <td class="tbl-grid-view-header" width="15%">Action</td>
+    </tr>#}
+    <tr>
+        <td class="tbl-grid-view-left-header-rounded" align="center">Address Code</td>
+        <td class="tbl-grid-view-header" align="center">Address</td>
+        <td class="tbl-grid-view-header" align="center">Is Primary Address</td>
+        {#<td class="tbl-grid-view-header" width="10%">Status</td>#}
+        <td class="tbl-grid-view-header" align="center">Action</td>
+    </tr>
+    
+{#{% for address in addressinfo %}
+    <tr>
+        <td class="tbl-grid-view-row" >{{address.addressFk.addressTypeFk.addressTypeName}}</td>
+        <td class="tbl-grid-view-row" >{{address.addressFk.addressPk}}</td>
+        <td class="tbl-grid-view-row" >
+             {{address.addressFk.address1|replace({',':' '})}}
+             {% if address.addressFk.address2!=''%},{% endif %}
+               {{address.addressFk.address2|replace({',':' '})}}
+             {% if(address.addressFk.cityCode!='')%},{{address.addressFk.cityCode.cityName}}{% else %}{% endif %}
+             {% if(address.addressFk.stateCode!='') %},{{address.addressFk.stateCode.stateName}}{% else %}{% endif %}
+             {% if address.addressFk.pinNumber!=''%},{% endif %}
+              {{address.addressFk.pinNumber}}.
+            </td>
+            <td class="tbl-grid-view-row" >{% if address.addressFk.recordActiveFlag==1 %}Active{% else %}Inactive{% endif %}</td>
+        <td class="tbl-grid-view-row" ><input type="button" class="button" value="View Details" {#onclick="fnloadAddressDetail('{{entityMaster}}','{{counter}}');"></td>
+    </tr>
+{% endfor %}#}
+{%set i=0%}
+{% for address in addressinfo %}
+    <tr>
+        <td class="tbl-grid-view-row" align="center">{{address.addressCode}}</td>
+        {#<td class="tbl-grid-view-row" >{{address.addressFk.addressTypeFk.addressTypeName}}</td>
+        <td class="tbl-grid-view-row" >{{address.addressFk.addressPk}}</td>#}
+        <td class="tbl-grid-view-row" align="center">
+             {{address.addressFk.address1|replace({',':' '})}}
+             {% if address.addressFk.address2!=''%},{% endif %}
+               {{address.addressFk.address2|replace({',':' '})}}
+             {% if(address.addressFk.cityCodeFk!='')%},{{address.addressFk.cityCodeFk.cityName}}{% else %}{% endif %}
+             {% if(address.addressFk.stateCodeFk!='') %},{{address.addressFk.stateCodeFk.stateName}}{% else %}{% endif %}
+             {% if address.addressFk.pinNumber!=''%},{% endif %}
+              {{address.addressFk.pinNumber}}.
+        </td>
+        <td class="tbl-grid-view-row" align="center">
+            {%if address.isPrimaryAddress==1%}Yes{%else%}No{%endif%}
+        </td>
+        {#<td class="tbl-grid-view-row" >{% if address.addressFk.recordActiveFlag==1 %}Active{% else %}Inactive{% endif %}</td>#}
+        <td class="tbl-grid-view-row" align="center">
+            <select id="selcimAddrAction{{i}}" style="width:120px;">
+                <option value="">--select--</option>
+                <option value="{{path("_supviewaddress",{'addtxnid':address.supAddPk,'supid':address.supplierFk.supplierPk})}}&view">View & Edit</option>
+                <option value="{{path("_sup_del_sup_address",{'addtxnid':address.supAddPk,'supid':address.supplierFk.supplierPk})}}&del">Remove Address</option>
+           </select>
+           <input type="button" class="button" value="Go" onclick="FnViewCimAddress('selcimAddrAction{{i}}');">
+        </td>
+    </tr>
+    {%set i=i+1%}
+{% endfor %}
+    <tr>
+        <td> &nbsp; </td>
+        <td> &nbsp; </td>
+        <td> &nbsp; </td>
+        <td> &nbsp; </td>
+        <td> &nbsp; </td>
+    </tr>
+</table>

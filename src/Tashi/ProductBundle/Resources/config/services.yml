@@ -1,0 +1,7 @@
+parameters:
+    tashi.service.product.class : Tashi\ProductBundle\Service\ProductService
+
+services:
+    tashi.product.service:
+        class:     "%tashi.service.product.class%"
+        arguments: ["@doctrine.orm.entity_manager","@session","%kernel.root_dir%","@tashi.common.service"]

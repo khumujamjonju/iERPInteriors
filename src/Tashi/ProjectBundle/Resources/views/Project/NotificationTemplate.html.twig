@@ -1,0 +1,73 @@
+<!Doctype html>
+<html>
+    <head>
+        <link href='http://fonts.googleapis.com/css?family=Lato' rel='stylesheet'  type='text/css'>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    </head>
+    <body style="font-family: 'Lato','Helvetica'; color:#444; font-size: .9em;">
+        <p style="padding:0;font-weight: bold;">Hi! {{person.firstName|default('')}}{%if person.middleName|default('')!=''%} {{person.middleName|default('')}}{%endif%} {{person.lastName|default('')}},</p>
+        <p style="line-height:20px;">
+            This is to inform you that a new project has been created and the detail is given below:
+        </p>
+        <br>
+        <b>Customer Detail</b>
+        <hr style="margin:5px 0; width:100%; border:none; border-top:1px solid #E19B04;">
+        <table>      
+            <tr>
+                <td width='150px' align="left"><b>Customer ID :</b></td><td>{{project.customerFk.customerId|default('')|upper}}</td>
+            </tr>
+            <tr>
+                <td width='150px' align="left"><b>Customer Name :</b></td><td>{{project.customerFk.customerName|default('')|upper}}</td>
+            </tr>
+            <tr>
+                <td width='150px' align="left" valign="top"><b>Address :</b></td><td>{{address|raw}}</td>
+            </tr>
+            <tr>
+                <td width='150px' align="left"><b>Contant Detail :</b></td><td>{%set contactPerson=mob.contact.personFk%}
+                    {%if contactPerson is not null%}
+                        {{contactPerson.personName}} - 
+                    {%endif%}
+                    {{mob.mobileNo.mobileNo|default('')}}
+                </td>
+            </tr>            
+        </table>
+        <br>
+        <hr style="margin:5px 0; width:100%; border:none; border-top:1px solid #ccc;">
+        <br>
+        <b>Project Detail</b>
+        <hr style="margin:5px 0; width:100%; border:none; border-top:1px solid #E19B04;">
+        <table>
+            <tr>
+                <td width='150px' align="left"><b>Project ID/Order Number :</b></td>
+                <td align="left">{{project.orderNo}}</td>
+            </tr>
+            <tr>
+                <td align="left"><b>Project Area :</b></td>
+                <td align="left">{{project.areaFk.area|default('')|upper}}</td>
+            </tr>
+            <tr>
+                <td align="left"><b>Site Co-ordinator :</b></td>
+                {%set person=project.siteCoordinator.personFk%}
+                <td align="left">
+                    {%if person is not null%}
+                        {{person.firstName|upper}}{%if person.middleName|default('')!=''%} {{person.middleName|upper}}{%endif%} {{person.lastName|upper}}
+                    {%endif%}
+                </td>
+            </tr>
+            <tr>
+                <td align="left"><b>Execution Date :</b></td>
+                <td align="left">{{project.startDate|date('d-M-Y')|default('')|upper}}</td>
+            </tr>
+            <tr>
+                <td align="left"><b>Tentative Completion Date :</b></td>
+                <td align="left">{{project.expectedCompletionDate|date('d-M-Y')|default('')|upper}}</td>
+            </tr>
+            <tr>
+                <td align="left"><b>Created By :</b></td>
+                <td align="left">{{user.personFk.personName|default('')|upper}}</td>
+            </tr>
+        </table>
+            <br>
+            <hr style="margin:5px 0; width:100%; border:none; border-top:1px solid #ccc;">
+    </body>
+</html>

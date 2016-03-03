@@ -1,0 +1,56 @@
+<script type="text/javascript" src="{{ asset('bundles/common/js/Navigation/script.js') }}"></script>
+<div id="left-menu">
+    <div id ="left-menu1sidebar">
+        <h3 class="headertext">Employee Management</h3>
+        <div id="newmenu">
+            <ul>
+                <li class="active" id="dashboard" onclick="fnMainMenuNavigation('{{path('_emp_master_dashboard')}}', 'employee_master', 'Employee', 'Employee Dashboard');"><a  href="javascript:void();" > Dashboard</a></li>
+                <li id="employee_master_setting" onclick="fnLeftMenuNavigation('{{path('_emp_master_setting')}}', 'employee_master_setting', 'Employee','Master Setting');"><a  href="javascript:void();" >Master Setting</a></li>  
+                <li id="add_new_employee" onclick="fnLeftMenuNavigation('{{path('_add_new_employee')}}', 'add_new_employee', 'Employee','Add Employee');"><a  href="javascript:void();" >Create </a></li>
+                <li id="search_employee" onclick="fnLeftMenuNavigation('{{path('_search_employee')}}', 'search_employee', 'Employee','Search Employee');"><a href="javascript:void();" >Search Employee</a></li>
+                <li id="search_worker" onclick="fnLeftMenuNavigation('{{path('_search_worker')}}', 'search_worker', 'Employee','Search Worker');"><a href="javascript:void();" >Search Worker</a></li>
+              {#  <li id="wallet" onclick="fnLeftMenuNavigation('{{path('_createexpenses')}}', 'wallet', 'Employee','Add Expenses');"><a  href="javascript:void();" >Add Wallet Expenses</a></li>
+                <li id="viewwallet" onclick="fnLeftMenuNavigation('{{path('_view_my_wallet')}}', 'viewwallet', 'Employee','View My Wallet');"><a  href="javascript:void();" >View Wallet History</a></li>
+          {#      <li id="leave" onclick="fnLeftMenuNavigation('{{path('_emp_leave_creation')}}', 'leave', 'Employee','Leave');"><a  href="javascript:void();" >Leave</a></li> #}
+{# <li><a id="emp_salary" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_emp_salary_master')}}', 'emp_salary', 'Employee', 'Create Salary');"><span>Create Salary</span></a></li>#}               
+{#   <li><a id="assign_asset" href="javascript:void();" onclick="fnLeftMenuNavigation('{{path('_emp_asset_details')}}', 'assign_asset', 'Employee', 'Asset Asssignment');">Assign Asset</a></li> #}
+            </ul> 
+        </div>       
+    </div>         
+</div>
+ 
+<div id="right-content">   
+    <div class='sub-menu'>
+        <ul>
+            <li class='active'><a href='#'><span>Employee Dashboard</span></a></li>
+        </ul>
+    </div>  
+     <div class="newdashboard">      
+        <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_emp_master_setting')}}', 'employee_master_setting', 'Employee Master','Master Setting');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/master.png') }}">
+          <span style="color:#000; font-size: 12px; font-family: arial; text-decoration: underline;font-weight: bold;"> 
+          Master Setting</span> <br/>
+          Capturing details information on Job Title , Profile , Expert , Working type etc. </p></div>
+       <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_add_new_employee')}}', 'add_new_employee', 'Employee Master','Add Employee');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/emp3.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+            Employee</span><br/>
+            Capturing Employee and its personal details information. 
+            </p>
+               </div>
+                <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_search_employee')}}', 'search_employee', 'Employee Master','Search Employee');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/search_128x128.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+            Search Employee</span><br/>
+            Capturing Employee and its personal details information. 
+            </p></div>
+             
+             <div class="newdashboard1" onclick="fnLeftMenuNavigation('{{path('_search_worker')}}', 'search_worker', 'Employee','Search Worker');"><p class="newdashparatext"><img src="{{ asset('bundles/common/images/search_128x128.png') }}">
+            <span style="color:#000; font-size: 12px; font-family: arial;text-decoration: underline;font-weight: bold;">
+            Search Worker</span><br/>
+            Capturing worker details information. 
+            </p></div>
+        <div class="clear"></div><br/>
+    <div class="clear"></div> 
+    </div> 
+    
+    
+        
+</div>

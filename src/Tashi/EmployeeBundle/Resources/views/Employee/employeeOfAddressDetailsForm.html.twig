@@ -1,0 +1,106 @@
+    {#this hidden input is hide/show key#}
+    <input type="hidden" value="0" class="emp_add_detail_form_hide_show_key"/>
+    <table width="99%" class="tbl-border" cellpadding="0" cellspacing="0" style=" margin: 0 auto;"> 
+        <tr onclick="fnHideShow('emp_add_detail_form');">
+            <td class="td-label-title">
+                         {# div is hide/show icon#}
+                    Address Details List: <div class="emp_add_detail_form_hide_show_icon floatRight plus"></div>
+                </td>
+            </tr>
+           <tr class="emp_add_detail_form displayNone">
+               <td>                    
+                  <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                    <tr>
+                        <td class="td-gray-bg">Address Street 1: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg" colspan="3">
+                            <textarea  type="text" id="address1" name="txt_address1" cols="100" rows="3"></textarea>                                    
+                        </td>                                                                                       
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">Address Street 2:</td>
+                        <td class="td-white-bg" colspan="3">
+                            <textarea  type="text" id="address2" name="txt_address2" cols="100" rows="3"></textarea>                                    
+                        </td>                                                                                       
+                    </tr>
+                    <tr>           
+                        <td class="td-gray-bg">Country: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_country" id="country" onchange="cmnLoadLocationList(this, '{{path('_cmn_load_list', {'key': 'S'})}}', 'state');">
+                                    <option value="">--Select--</option>
+                                {%for c in country|default('') %}
+                                    <option value="{{ c.countryPk|default('') }}">{{ c.countryName|default('') }}</option>
+                                {%endfor%}
+                           </Select>                                        
+                        </td>  
+                        <td class="td-gray-bg">State: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_state" id="state" onchange="cmnLoadLocationList(this, '{{path('_cmn_load_list', {'key': 'D'})}}', 'district');">
+                                    <option value="">--Select--</option> 
+                                {%if state is defined%}
+                                    {% for s in state.loadList|default('') %}
+                                        <option value="{{ s.statePk|default('') }}"> {{s.stateName | default('')}} </option>
+                                    {% endfor %}
+                                {%endif%}  
+                            </Select>                                        
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td-gray-bg">District: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_district" id="district" onchange="cmnLoadLocationList(this, '{{path('_cmn_load_list', {'key': 'C'})}}', 'city');">
+                                <option value="">--Select--</option> 
+                              {%if district is defined%}
+                                    {% for d in district.loadList|default('') %}
+                                        <option value="{{ d.pkid|default('') }}">{{d.districtName | default('')}}</option>
+                                    {% endfor %}
+                              {%endif%} 
+                            </Select>                                         
+                        </td> 
+                        <td class="td-gray-bg">City/Town: <span class="necessary-field">*</span></td>
+                        <td class="td-white-bg">
+                            <Select class="cmnWidth" name="txt_city" id="city">
+                                <option value="">--Select--</option>    
+                               {%if city is defined%}
+                                    {% for c in city.loadList|default('') %}
+                                        <option value="{{ c.cityPk|default('') }}">{{c.cityName | default('')}}</option> 
+                                    {% endfor %}
+                              {%endif%} 
+                            </Select> 
+                        </td>                                                                    
+                    </tr>
+                    
+                    <tr>
+                        <td class="td-gray-bg">Block/Village: </td>
+                        <td class="td-white-bg">
+                            <input class="cmnWidth" type="text" id="block_village" name="txt_block_village"/>                                        
+                        </td> 
+                        <td class="td-gray-bg">Postal Code: </td>
+                        <td class="td-white-bg">
+                            <input class="cmnWidth" type="text" id="postal_code" name="txt_postal_code"/> 
+                        </td>                                                                    
+                    </tr>
+                    <tr>                        
+                        <td class="td-gray-bg">Is Primary Address:</td>
+                        <td class="td-white-bg">
+                            <input type="checkbox" id="check_primary" name="txt_check_primary" value="1"/>                                        
+                        </td>
+                        <td class="td-gray-bg">Landmark Details: </td>
+                        <td class="td-white-bg">
+                            <textarea id="landmark" name="txt_landmark" cols="40" rows="4"></textarea>                                       
+                        </td>
+                    </tr>   
+                    
+                    <tr>
+                        <td class="td-separator td-white-bg" colspan="4" style="text-align: center;">
+                            <input type="button" class="button blue" id="btn_save" value="Save" onclick="saveAddressDetails('{{ path('_save_addres_details') }}', this);"/>
+                            <input type="button" class="button blue" id="btn_edit" value="Edit" onclick="editAddressDetails(this);" style="display: none;"/>
+                            <input type="button" class="button blue" id="btn_update" value="Update" onclick="saveAddressDetails('{{ path('_save_addres_details') }}', this);"  style="display: none;"/>
+                            <input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/> 
+                            <input type="button" class="button blue" id="btn_cancel" value="Cancel" onclick="cancelAddressForm(this,'#empAddressDetailDiv');"/>                
+                        </td>  
+                    </tr>
+                </table> 
+              </td>
+            </tr>
+        </table>
+  

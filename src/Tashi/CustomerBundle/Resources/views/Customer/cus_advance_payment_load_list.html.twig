@@ -1,0 +1,60 @@
+<table width="100%" border="0" cellpadding="0" cellspacing="0" class="tbl-border" >      
+    {#paramer: project_item => class name of table row (tr) to hide or show #}
+    <tr onclick="fnHideShow('created_advance_payment');">      
+        <td class="td-label-title">
+             List Of Pending Approval For Collected Payment Of Customer :
+            <div class="created_advance_payment_hide_show_icon floatRight plus"></div>
+        </td>
+    </tr>
+    <tr class="created_advance_payment displayNone">
+        <td>                    
+            <table width="100%" align="center" border="0" cellpadding="0" id="example" cellspacing="0"  class="display">  
+                <thead>
+                    <tr>
+                        <th class="tbl-th-grid-view-row-no-bg"><input type="checkbox" class="checkAll" onclick="checkUncheckAll(this);" /></th>
+                        <th class="tbl-th-grid-view-row-no-bg">Customer Id</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Customer Name</th> 
+                        <th class="tbl-th-grid-view-row-no-bg">Payment Type</th>
+                        <th class="tbl-th-grid-view-row-no-bg">Created On</th>                       
+                        <th class="tbl-th-grid-view-row-no-bg"> Amount</th>  
+                        <th class="tbl-th-grid-view-row-no-bg"> Action</th>  
+                    </tr>
+                </thead>
+                <tbody>                           
+                       
+                 {%for a in pendingApprovalCusAdvPayment|default('') %} 
+                    <tr>
+                        <td class="tbl-grid-view-row-no-bg" align="center"><input type="checkbox" class="select_adv_pay" name="txt_selected_advance_payment" value="{{ a.advancePaymentPk|default('') }}" /></td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.customerFk.customerId|default('') }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.customerFk.customerName | default('')}}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.paymentModeFk.paymentModeName|default('') }}</td>
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.createdDate | date('d-m-Y')}}</td>                     
+                        <td class="tbl-grid-view-row-no-bg" align="center">{{ a.advanceAmount|default('') }}</td>  
+                        <td class="tbl-grid-view-row-no-bg" align="center">                        
+                            <select class="normal_select" id="cusAdvPayAction{{a.advancePaymentPk|default('')}}" name="txt_cusAdvPayAction" >
+                                <option value="">Select</option>   
+                                <option value="{{path('_edit_cus_advance_payment',{'advPayID': a.advancePaymentPk|default(''), 'key' : 'V'})}}&cusAdvPayEditView">View</option>
+                                <option value="{{path('_edit_cus_advance_payment',{'advPayID': a.advancePaymentPk|default(''), 'key' : 'E'})}}&cusAdvPayEditView">Edit</option>                           
+                            </select> 
+                            <input class="button" name="commit" type="button" value="Go" onclick="employeeAdvancePaymentAction(this,'{{a.advancePaymentPk|default('')}}','#cusAdvPayAction');" />
+                        </td>
+                    </tr>                    
+                {%endfor%}
+                       
+                </tbody>
+            </table>
+        </td>
+    </tr>
+    <tr class="created_advance_payment displayNone">
+        <td align="center" style="padding: 6px;">
+             Approve or Reject Date: &nbsp;&nbsp;&nbsp;
+             <input type="date" class="cmnWidth" id="rapproved_or_rejected_date" name="txt_approved_or_rejected_date"/>
+        </td>
+    </tr>
+    <tr class="created_advance_payment displayNone">
+        <td align="center" style="padding: 6px;">
+             <input type="button" class="button blue" id="approve_btn" value="Approve" onclick="return cmnCusApprovedOrRejectCreatedAdvancePayment(this,'{{path('_save_approved_cus_advance_payment')}}', 'A');"/>
+             <input type="button" class="button blue" id="reject_btn" value="Reject" onclick="return cmnCusApprovedOrRejectCreatedAdvancePayment(this,'{{path('_save_approved_cus_advance_payment')}}', 'R');"/>
+        </td>
+    </tr>
+</table>

@@ -1,0 +1,30 @@
+{%set name=industry.industryType%}
+{%set desc=industry.description%}
+{%set pkid=industry.pkid%}
+
+<form id="FormIndustry" style="margin: 0px;">
+    <table width="100%" align="center" border="0" cellpadding="0" cellspacing="0">  
+        <tr>
+            <td class="td-gray-bg">Type Name<span class="mandatoryField">*</span></td>
+            <td class="td-white-bg"colspan="1">
+                <input class="cmnWidth" type="text" value="{{name}}" id="txtname" name="txtname" onkeypress="return NullonEnterKey(event);">                                     
+            </td>
+        </tr>
+        <tr>
+            <td class="td-gray-bg">Description</td>
+            <td class="td-white-bg"colspan="1">
+                {#<input class="cmnWidth" type="text" value="{{catDesc}}" id="txt_Description" name="txt_Description"> #}
+                <textarea id="txtDescription" name="txtDescription" rows="5" cols="50">{{desc}}</textarea>
+                 <input type="hidden" value="{{pkid}}" name="pkid">   
+            </td> 
+        </tr>
+        <tr>
+            <td class="td-gray-bg"></td>
+            <td class="td-white-bg" colspan="5">
+                <input type="button" class="button blue" id="btn_save" value="Update" onclick="ManageIndustryType('{{path('_manageindustrytype',{'mode':'EDT'})}}', 'FormIndustry','upd');"/>
+                {#<input type="button" class="button blue" id="btn_clear" value="Reset" onclick="formReset();"/> #}
+                <input type="button" class="button blue" id="btn_clear" value="Cancel" onclick="CancelIndustryUpdate('{{path("_addindustry")}}');"/>
+            </td>  
+        </tr>
+    </table>
+</form> 
